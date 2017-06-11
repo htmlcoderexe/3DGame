@@ -66,7 +66,7 @@ namespace Terrain
         public void BorderEvent(int X, int Y)
         {
             // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());
-            int rd = 3;
+            int rd = 8;
             for (int x = X - rd; x < X + rd + 1; x++)
             {
 

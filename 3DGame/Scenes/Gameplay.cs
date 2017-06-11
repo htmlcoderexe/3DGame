@@ -98,7 +98,7 @@ namespace _3DGame.Scenes
             TerrainEffect = content.Load<Effect>("legacy");
             Map.Terrain.TerrainEffect = TerrainEffect;
             Cam = new GameObjects.Camera();
-            Cam.Position= new Vector3(1032, 32, 10032);
+            Cam.Position= new Vector3(32, 32, 32);
             Map.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             Map.Terrain.QThread.Start();
             ScreenResized(device);
@@ -175,7 +175,7 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xRefractionMap"].SetValue(RefractionMap);
 
 
-            TerrainEffect.Parameters["xWaveLength"].SetValue(0.25f);
+            TerrainEffect.Parameters["xWaveLength"].SetValue(2.0f);
             TerrainEffect.Parameters["xWaveHeight"].SetValue(0.4f);
             TerrainEffect.Parameters["xWaterBumpMap"].SetValue(Textures["waterbump"]);
 

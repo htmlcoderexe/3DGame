@@ -49,5 +49,10 @@ namespace _3DGame.Interfaces
 
             return result;
         }
+
+        public static implicit operator Vector3(WorldPosition a)
+        {
+            return new Vector3(a.X, a.Y, a.Z);
+        }
     }
 }

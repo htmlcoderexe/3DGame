@@ -153,7 +153,7 @@ namespace Terrain
             Hills /= 16;
             //*/
             v.Position.Y = H;
-            float Temp = Simplex.CalcPixel2D(MapX, MapY, 1f /16024f);
+            float Temp = Simplex.CalcPixel2D(MapX, MapY, 1f /4024f);
             int Blend1 = Math.Min((int)(Temp * 2), 160);
             int Blend2 = Math.Min((510-(int)(Temp * 2)), 200);
 
@@ -168,33 +168,37 @@ namespace Terrain
             float BeachRange = 12;
             float SnowRange = 185;
             float GroundBaseline = WaterHeight + BeachRange;
-            if (H > SnowRange)
-            {
-                v.Color = Snow;
-                v.Position.Y += Hills;
-            }
+            
             if (H < WaterHeight)
                 v.Color =sea;
             if (H > WaterHeight && H <GroundBaseline)
             {
                 float dif = H - WaterHeight;
                 dif /= BeachRange;
-                dif = (float)Math.Pow(dif, 8.3);
+                dif = (float)Math.Pow(dif, 7.3);
                 v.Position.Y = WaterHeight + dif*BeachRange;
                 v.Color = sand;
             }
 
-            if(H>GroundBaseline&& H<SnowRange)
+            if(H>GroundBaseline)
             {
-                float ground = H - (WaterHeight + BeachRange);
-                float beachdist = ground;
-                ground /= (SnowRange - (WaterHeight + BeachRange));
+                Simplex.Seed = 4;
+                float ground = Simplex.CalcPixel2D(MapX+1112, MapY+13123, 0.0006125f);
+                float beachdist= H - GroundBaseline;
+                float evenness = 16f;
+                ground /= 256f;
                 ground = (float)(Math.Pow(ground, 4.4));
-                ground*= (SnowRange - (WaterHeight + BeachRange));
-                ground += (WaterHeight + BeachRange);
-                beachdist /= 16f;
+                ground *= 256f;
+                beachdist /= evenness;
                 beachdist = MathHelper.Clamp(beachdist, 0.0f, 1.0f);
-                v.Position.Y = ground+Hills*beachdist;
+                float finalground= GroundBaseline + ground * beachdist + Hills * beachdist;
+
+                if (finalground > SnowRange)
+                {
+                    v.Color = Snow;
+                }
+
+                v.Position.Y = finalground;
 
             }
           //  v.Color = new Color(Math.Min(255, (int)H), 0, 0);
