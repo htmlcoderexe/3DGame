@@ -1,0 +1,208 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Terrain.WorldGen;
+
+namespace Terrain
+{
+    class WorldGenerator
+    {
+        private TerrainVertex[] _vertices;
+        private int[] _indices;
+        private int[] _indices2;
+        private int BlockSize;
+        public float WaterHeight = 65f;
+        public WorldGenerator(int BlockSize)
+        {
+            this.BlockSize = BlockSize;
+        }
+        public void CreateGrid()
+        {
+            //width +1_vertices + 2_vertices padding all sides for lighting
+            _vertices = new TerrainVertex[(BlockSize + 1 + 2) * (BlockSize + 1 + 2)];
+        }
+        public void SetHeights(int X, int Y)
+        {
+            for (int x = 0; x < (BlockSize + 1+2); x++)
+                for (int y = 0; y < (BlockSize  +1+2); y++)
+                {
+                    
+                    TerrainVertex v = GainVertex(x-1, y-1, X, Y);
+                    _vertices[(x) + (y * (BlockSize + 1 + 2))] = v;
+                }
+        }
+        public void SetColours()
+        {
+
+        }
+        public void CalculateNormals()
+        {
+            for (int i = 0; i < _indices2.Length / 3; i++)
+            {
+                int index3 = _indices2[i * 3 + 2];
+                int index1 = _indices2[i * 3];
+                int index2 = _indices2[i * 3 + 1];
+
+                Vector3 side1 =_vertices[index1].Position -_vertices[index3].Position;
+                Vector3 side2 =_vertices[index1].Position -_vertices[index2].Position;
+                Vector3 normal = Vector3.Cross(side1, side2);
+                
+               _vertices[index1].Normal += normal;
+               _vertices[index2].Normal += normal;
+               _vertices[index3].Normal += normal;
+            }
+        }
+        public void CreateIndices()
+        {
+            _indices = new int[(BlockSize) * (BlockSize) * 6];
+            _indices2 = new int[(BlockSize+2) * (BlockSize+2) * 6];
+            int counter = 0;
+            for (int y = 0; y < (BlockSize); y++)
+            {
+                for (int x = 0; x < (BlockSize); x++)
+                {
+
+                    int lowerLeft = x + (y + 1) * (BlockSize + 1);
+                    int lowerRight = (x + 1) + (y + 1) * (BlockSize + 1);
+                    int topLeft = x + y * (BlockSize + 1);
+                    int topRight = (x + 1) + y * (BlockSize + 1);
+
+                    _indices[counter++] = topLeft;
+                    _indices[counter++] = lowerRight;
+                    _indices[counter++] = lowerLeft;
+
+                    _indices[counter++] = topLeft;
+                    _indices[counter++] = topRight;
+                    _indices[counter++] = lowerRight;
+                }
+            }
+            counter = 0;
+            for (int y = 0; y < (BlockSize+2); y++)
+            {
+                for (int x = 0; x < (BlockSize+2); x++)
+                {
+
+                    int lowerLeft = x + (y + 1) * (BlockSize + 1+2);
+                    int lowerRight = (x + 1) + (y + 1) * (BlockSize + 1+2);
+                    int topLeft = x + y * (BlockSize + 1 + 2);
+                    int topRight = (x + 1) + y * (BlockSize + 1 + 2);
+
+                    _indices2[counter++] = topLeft;
+                    _indices2[counter++] = lowerRight;
+                    _indices2[counter++] = lowerLeft;
+                            
+                    _indices2[counter++] = topLeft;
+                    _indices2[counter++] = topRight;
+                    _indices2[counter++] = lowerRight;
+                }
+            }
+        }
+        public void FinalizeGrid()
+        {
+
+        }
+        public Unit GenerateBlock(int X, int Y)
+        {
+            Unit block = new Unit();
+            block.X = X;
+            block.Y = Y;
+            CreateGrid();
+            SetHeights(X,Y);
+            CreateIndices();
+            CalculateNormals();
+            block.indices = _indices;
+            block.vertices = new TerrainVertex[(BlockSize + 1 ) * (BlockSize + 1 )];
+            int x, y;
+            for (x = 0; x < BlockSize+1; x++)
+                for (y = 0; y < BlockSize+1; y++)
+                {
+                    block.vertices[x + y * (BlockSize+1)] = _vertices[(x + 1) + ((y + 1) * (BlockSize+1+2))];
+                   // block.vertices[x + y * BlockSize].Position.X = x;
+                    //block.vertices[x + y * BlockSize].Position.Z = y;
+
+                }
+            return block;
+        }
+
+        TerrainVertex GainVertex(int X, int Y, int DX, int DY, int Seed=0)
+        {
+            TerrainVertex v = new TerrainVertex();
+
+            float One32nd = 1.0f / 64.0f;
+            v.Position.X = X;
+            v.Position.Z = Y;
+            int MapX = X + DX * (BlockSize );
+            int MapY = Y + DY * (BlockSize );
+            // Z = 0;
+            // v.Position.Y= noise.PerlinNoise3F(MapX, MapY, Z, 1, One32nd / 1, One32nd / 1, One32nd / 1);
+            //*
+            //  v.Position.Y *= 10;
+            //v.Position.Y += 6;
+            // v.Position.Y *= 10;
+            float to256 = 1 / 256;
+            float H = 0.0f;
+            Simplex.Seed = 3;
+            MapY += 65535;
+            MapX += 65535;
+            H = Simplex.CalcPixel2D(MapX, MapY, 0.0006125f)-35f;
+            H +=( Simplex.CalcPixel2D(MapX, MapY , 1f/256)/16 );
+            float Hills = Simplex.CalcPixel2D(MapX, MapY, 1f / 256)-128;
+            Hills /= 16;
+            //*/
+            v.Position.Y = H;
+            float Temp = Simplex.CalcPixel2D(MapX, MapY, 1f /16024f);
+            int Blend1 = Math.Min((int)(Temp * 2), 160);
+            int Blend2 = Math.Min((510-(int)(Temp * 2)), 200);
+
+            Color grass= new Color(Blend1, Blend2, 0);
+            Color sea = new Color(0, 50, 255);
+            Color Snow= new Color(245, 245, 255);
+            Color sand = new Color(200, 200, 100);
+            Color sand2 = new Color(150, 150, 50);
+            sea = sand;
+            v.Color = grass;
+            // v.Color = 
+            float BeachRange = 12;
+            float SnowRange = 185;
+            float GroundBaseline = WaterHeight + BeachRange;
+            if (H > SnowRange)
+            {
+                v.Color = Snow;
+                v.Position.Y += Hills;
+            }
+            if (H < WaterHeight)
+                v.Color =sea;
+            if (H > WaterHeight && H <GroundBaseline)
+            {
+                float dif = H - WaterHeight;
+                dif /= BeachRange;
+                dif = (float)Math.Pow(dif, 8.3);
+                v.Position.Y = WaterHeight + dif*BeachRange;
+                v.Color = sand;
+            }
+
+            if(H>GroundBaseline&& H<SnowRange)
+            {
+                float ground = H - (WaterHeight + BeachRange);
+                float beachdist = ground;
+                ground /= (SnowRange - (WaterHeight + BeachRange));
+                ground = (float)(Math.Pow(ground, 4.4));
+                ground*= (SnowRange - (WaterHeight + BeachRange));
+                ground += (WaterHeight + BeachRange);
+                beachdist /= 16f;
+                beachdist = MathHelper.Clamp(beachdist, 0.0f, 1.0f);
+                v.Position.Y = ground+Hills*beachdist;
+
+            }
+          //  v.Color = new Color(Math.Min(255, (int)H), 0, 0);
+            v.TextureCoordinate.X = X*2;
+            v.TextureCoordinate.Y = Y*2;
+            v.Normal = new Vector3(0, 0, 0);
+           // v.Position.Y = 6;
+            return v;
+        }
+    }
+}

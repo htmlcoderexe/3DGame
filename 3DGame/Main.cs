@@ -7,17 +7,33 @@ namespace _3DGame
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Main : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        public Game1()
+        Interfaces.IGameScene CurrentScene;
+        public Main()
         {
+            this.IsFixedTimeStep = false;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            CurrentScene = new Scenes.Gameplay();
+            graphics.PreparingDeviceSettings += new System.EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
+            Window.ClientSizeChanged += new System.EventHandler<System.EventArgs>(Window_ClientSizeChanged);
+            Window.AllowUserResizing = true;
+        }
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
+        void Window_ClientSizeChanged(object sender, System.EventArgs e)
+        {
+            // Make changes to handle the new window size.   
+            GraphicsDevice.Viewport = new Viewport(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
+            CurrentScene.ScreenResized(GraphicsDevice);
+            // Mouse.SetPosition(device.Viewport.Width / 2, device.Viewport.Height / 2);
+        }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -39,7 +55,7 @@ namespace _3DGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            CurrentScene.Init(GraphicsDevice,Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -59,8 +75,11 @@ namespace _3DGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            float seconds = (float)gameTime.ElapsedGameTime.Milliseconds/1000f;
+            MouseState ms = Mouse.GetState();
+            KeyboardState kb = Keyboard.GetState();
+            CurrentScene.HandleInput(GraphicsDevice, ms, kb, seconds);
+            CurrentScene.Update( seconds);
 
             // TODO: Add your update logic here
 
@@ -74,7 +93,8 @@ namespace _3DGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            float seconds = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            CurrentScene.Render(GraphicsDevice, seconds);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

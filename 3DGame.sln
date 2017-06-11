@@ -5,16 +5,30 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DGame", "3DGame\3DGame.csproj", "{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrain", "Terrain\Terrain.csproj", "{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}.Debug|x86.ActiveCfg = Debug|x86
 		{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}.Debug|x86.Build.0 = Debug|x86
+		{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}.Release|Any CPU.ActiveCfg = Release|x86
 		{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}.Release|x86.ActiveCfg = Release|x86
 		{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}.Release|x86.Build.0 = Release|x86
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Debug|x86.Build.0 = Debug|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Release|x86.ActiveCfg = Release|Any CPU
+		{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
