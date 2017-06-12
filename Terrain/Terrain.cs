@@ -125,8 +125,12 @@ namespace Terrain
         {
             if (_water == null)
                 SetUpWaterVertices(device);
-            Unit[] cpy = new Unit[this.Blocks.Count];
-            Blocks.CopyTo(0, cpy, 0, cpy.Length);
+            Unit[] cpy;
+            lock (_water)
+            {
+                cpy = new Unit[this.Blocks.Count];
+                Blocks.CopyTo(0, cpy, 0, cpy.Length);
+            }
             for (int i = 0; i < cpy.Length; i++)
             {
                 Unit block = cpy[i];

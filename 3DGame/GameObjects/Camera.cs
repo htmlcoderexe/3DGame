@@ -10,6 +10,7 @@ namespace _3DGame.GameObjects
 {
     public class Camera
     {
+       // public Interfaces.WorldPosition Position;
         public Vector3 Position;
         public float Pitch;
         public float Yaw;
@@ -27,6 +28,7 @@ namespace _3DGame.GameObjects
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);
             Vector3 CamUp = new Vector3(0, 1, 0);
             CamVector = Vector3.Transform(CamVector, Rotation);
+           // CamVector += this.Position.Truncate();
             CamVector += this.Position;
             return Matrix.CreateLookAt(CamVector, this.Position, CamUp);
 
@@ -37,6 +39,7 @@ namespace _3DGame.GameObjects
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);
             Vector3 CamUp = new Vector3(0, 1, 0);
             CamVector = Vector3.Transform(CamVector, Rotation);
+            // CamVector += this.Position.Truncate();
             CamVector += this.Position;
             Vector3 RCV = CamVector;
             Vector3 RPV = this.Position;
@@ -62,6 +65,7 @@ namespace _3DGame.GameObjects
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);
             Vector3 CamUp = new Vector3(0, 1, 0);
             CamVector = Vector3.Transform(CamVector, Rotation);
+            // CamVector += this.Position.Truncate();
             CamVector += this.Position;
             return CamVector;
 

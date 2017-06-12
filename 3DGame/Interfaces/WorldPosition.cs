@@ -23,6 +23,20 @@ namespace _3DGame.Interfaces
             this.BY += ((int)Math.Floor(Z / (float)Stride));
             this.Z = this.Z % (float)Stride;
         }
+        //returns only local coordinates
+        public Vector3 Truncate()
+        {
+            return new Vector3(X, Y, Z);
+        }
+
+        public WorldPosition WRT(WorldPosition a)
+        {
+
+            a.BX = this.BX - a.BX;
+            a.BY = this.BY - a.BY;
+            return a;
+        }
+
         public static WorldPosition operator +(WorldPosition a, WorldPosition b)
         {
             WorldPosition result = new WorldPosition();
@@ -50,9 +64,21 @@ namespace _3DGame.Interfaces
             return result;
         }
 
+        //conversion from and to Vector3 maps it to real coordinates. Use Truncate to get only the local coordinates.
+
         public static implicit operator Vector3(WorldPosition a)
         {
-            return new Vector3(a.X, a.Y, a.Z);
+            return new Vector3(a.X+a.BX*Stride, a.Y, a.Z+a.BY*Stride);
+        }
+
+        public static implicit operator WorldPosition(Vector3 a)
+        {
+            WorldPosition result = new WorldPosition();
+            result.X = a.X;
+            result.Y = a.Y;
+            result.Z = a.Z;
+            result.Normalize();
+            return result;
         }
     }
 }

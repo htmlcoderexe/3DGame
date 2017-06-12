@@ -75,6 +75,9 @@ namespace _3DGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+
+
             float seconds = (float)gameTime.ElapsedGameTime.Milliseconds/1000f;
             MouseState ms = Mouse.GetState();
             KeyboardState kb = Keyboard.GetState();

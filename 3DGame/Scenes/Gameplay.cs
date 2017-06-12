@@ -24,14 +24,33 @@ namespace _3DGame.Scenes
         public GameObjects.Map Map;
         public GameObjects.Camera Cam;
         public Effect TerrainEffect;
+        public SpriteBatch b;
+        private int counter;
+        public RenderTarget2D Screen { get; set; }
         public Vector3 CamPosition;
         public float Accel = 0;
         private RenderTarget2D RefractionMap { get; set; }
         private RenderTarget2D ReflectionMap { get; set; }
         //  public System.Threading.Thread QThread;
+
+            private void TakeScreenshot(GraphicsDevice device)
+        {
+            string fn = "screenshots\\";
+            DateTime now = DateTime.Now;
+            
+            fn += now.ToShortDateString() + "-" + now.ToShortTimeString() + counter + ".png";
+            System.IO.FileStream s = new System.IO.FileStream(fn, System.IO.FileMode.Create);
+            Screen.SaveAsPng(s,device.PresentationParameters.BackBufferWidth,device.PresentationParameters.BackBufferHeight);
+            s.Close();
+            counter++;
+        }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
-           
+
+            if(kb.IsKeyDown(Keys.F12) && PreviousKbState.IsKeyUp(Keys.F12))
+            {
+                TakeScreenshot(device);
+            }
             if (kb.IsKeyDown(Keys.W))
             {
                 
@@ -85,7 +104,8 @@ namespace _3DGame.Scenes
             int ScreenHeight = device.PresentationParameters.BackBufferHeight;
             ReflectionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             RefractionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
-
+            Screen = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
+            b = new SpriteBatch(device);
         }
 
         public void Init(GraphicsDevice device, ContentManager content)
@@ -149,7 +169,7 @@ namespace _3DGame.Scenes
             Map.Render(device, dT);
            // device.Clear(Color.CornflowerBlue);
 
-            device.SetRenderTarget(null);
+            device.SetRenderTarget(Screen);
 
             TerrainEffect.Parameters["xView"].SetValue(viewMatrix);
             refractionplane = CreatePlane(-Map.Terrain.WaterHeight-0.2f, new Vector3(0, 1, 0), Matrix.Identity, true, projectionMatrix);
@@ -162,12 +182,12 @@ namespace _3DGame.Scenes
             Map.Render(device, dT);
             //device.Clear(Color.CornflowerBlue);
 
-            device.SetRenderTarget(null);
+            device.SetRenderTarget(Screen);
             device.Clear(skyColor);
 
             TerrainEffect.Parameters["Clipping"].SetValue(false);
             TerrainEffect.Parameters["xFog"].SetValue(false);
-            device.SetRenderTarget(null);
+            device.SetRenderTarget(Screen);
             Map.Render(device, dT);
 
 
@@ -184,6 +204,14 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xWindDirection"].SetValue(new Vector3(0, 1, 0));
             TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["Water"];
             Map.Terrain.DrawWater(device, dT);
+
+
+            device.SetRenderTarget(null);
+            b.Begin();
+            b.Draw(Screen, Vector2.Zero, Color.White);
+            b.End();
+            device.BlendState = BlendState.Opaque;
+            device.DepthStencilState = DepthStencilState.Default;
         }
 
         public void Update(float dT)
