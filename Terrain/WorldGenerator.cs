@@ -14,7 +14,7 @@ namespace Terrain
         private int[] _indices;
         private int[] _indices2;
         private int BlockSize;
-        public float WaterHeight = 65f;
+        public float WaterHeight = 80f;
         public WorldGenerator(int BlockSize)
         {
             this.BlockSize = BlockSize;
@@ -202,8 +202,8 @@ namespace Terrain
 
             }
           //  v.Color = new Color(Math.Min(255, (int)H), 0, 0);
-            v.TextureCoordinate.X = X*2;
-            v.TextureCoordinate.Y = Y*2;
+            v.TextureCoordinate.X = X/4f;
+            v.TextureCoordinate.Y = Y/4f;
             v.Normal = new Vector3(0, 0, 0);
            // v.Position.Y = 6;
             return v;

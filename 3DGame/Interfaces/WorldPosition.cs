@@ -9,7 +9,7 @@ namespace _3DGame.Interfaces
 {
     public struct WorldPosition
     {
-       public const int Stride=64;
+       public const int Stride=32;
        public float X;
        public float Y;
        public float Z;
@@ -19,22 +19,41 @@ namespace _3DGame.Interfaces
         {
 
             this.BX += ((int)Math.Floor(X / (float)Stride));
-            this.X = this.X % (float)Stride;
+            this.X = ((this.X % (float)Stride+(float)Stride)% (float)Stride);
             this.BY += ((int)Math.Floor(Z / (float)Stride));
-            this.Z = this.Z % (float)Stride;
+            this.Z = ((this.Z % (float)Stride+ (float)Stride)% (float)Stride);
+
+           
         }
         //returns only local coordinates
         public Vector3 Truncate()
         {
             return new Vector3(X, Y, Z);
         }
-
+        public Vector2 Reference()
+        {
+            return new Vector2(BX, BY);
+        }
         public WorldPosition WRT(WorldPosition a)
         {
-
-            a.BX = this.BX - a.BX;
-            a.BY = this.BY - a.BY;
-            return a;
+            WorldPosition w = new WorldPosition();
+            w.X = this.X;
+            w.Y = this.Y;
+            w.Z = this.Z;
+            w.BX = this.BX - a.BX;
+            w.BY = this.BY - a.BY;
+            return w;
+        }
+        public Matrix CreateWorld(WorldPosition a)
+        {
+            return Matrix.CreateTranslation(this.WRT(a));
+        }
+        public Matrix CreateWorld(Vector2 Reference)
+        {
+            WorldPosition a = new WorldPosition();
+            a.BX = (int)Reference.X;
+            a.BY = (int)Reference.Y;
+            return Matrix.CreateTranslation((Vector3)this.WRT(a));
         }
 
         public static WorldPosition operator +(WorldPosition a, WorldPosition b)

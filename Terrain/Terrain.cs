@@ -121,7 +121,7 @@ namespace Terrain
             //*/
         }
 
-        public void DrawWater(GraphicsDevice device, float dT)
+        public void DrawWater(GraphicsDevice device, float dT, Vector2 Reference)
         {
             if (_water == null)
                 SetUpWaterVertices(device);
@@ -137,7 +137,7 @@ namespace Terrain
                 if (block == null)
                     continue;
               
-                Matrix worldMatrix = Matrix.CreateTranslation(block.X * BlockSize, 0, block.Y * BlockSize);
+                Matrix worldMatrix = Matrix.CreateTranslation((block.X - Reference.X) * BlockSize, 0, (block.Y - Reference.Y) * BlockSize);
 
 
                 Vector3 Light = new Vector3(0.0f, -1.0f, 0.0f);
@@ -153,20 +153,19 @@ namespace Terrain
 
         }
 
-        public void Render(GraphicsDevice device, float dT)
+        public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
-            
 
-            Unit[] cpy = new Unit[this.Blocks.Count];
-            Blocks.CopyTo(0, cpy, 0, cpy.Length);
-            for(int i=0;i<cpy.Length;i++)
+
+            
+            for(int i=0;i<this.Blocks.Count;i++)
             {
-                Unit block = cpy[i];
+                Unit block =this.Blocks[i];
                 if (block == null)
                     continue;
                 TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["TexturedTinted"];
 
-                Matrix worldMatrix = Matrix.CreateTranslation(block.X*BlockSize, 0, block.Y * BlockSize);
+                Matrix worldMatrix = Matrix.CreateTranslation((block.X-Reference.X)*BlockSize, 0, (block.Y - Reference.Y) * BlockSize);
 
 
                 Vector3 Light = new Vector3(0.0f, -1.0f, 0.0f);

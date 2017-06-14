@@ -21,9 +21,9 @@ namespace _3DGame.Scenes
 
         float RenderTime = 0.0f;
 
-        public GameObjects.Map Map;
-        public GameObjects.Camera Cam;
+        public GameObjects.World World;
         public Effect TerrainEffect;
+        public BasicEffect ModelEffect;
         public SpriteBatch b;
         private int counter;
         public RenderTarget2D Screen { get; set; }
@@ -47,9 +47,15 @@ namespace _3DGame.Scenes
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
 
-            if(kb.IsKeyDown(Keys.F12) && PreviousKbState.IsKeyUp(Keys.F12))
+            if (kb.IsKeyDown(Keys.F12) && PreviousKbState.IsKeyUp(Keys.F12))
             {
                 TakeScreenshot(device);
+            }
+            if (kb.IsKeyDown(Keys.Space) && PreviousKbState.IsKeyUp(Keys.Space))
+            {
+                GameObjects.MapEntity e = new GameObjects.MapEntity();
+                e.Position = World.Camera.Position;
+                World.Entities.Add(e);
             }
             if (kb.IsKeyDown(Keys.W))
             {
@@ -65,8 +71,16 @@ namespace _3DGame.Scenes
 
             if (kb.IsKeyUp(Keys.W) && kb.IsKeyUp(Keys.S))
                 Accel -=0.25f*(Accel>=0?1:-1);
-
-            Cam.Position += -Cam.GetMoveVector()*dT * Accel;
+            Vector3 mv= -World.Camera.GetMoveVector() * dT * Accel;
+            if (mv.Length() > 1f)
+            {
+                mv.X += 0.0f;
+            }
+            else if(Accel>20f)
+            {
+                mv.Y += 0.0f;
+            }
+            World.Camera.Position += mv;
 
 
 
@@ -78,9 +92,9 @@ namespace _3DGame.Scenes
                 //mouselook
                 float DX = mouse.X - PreviousMouseState.X;
                 float DY = mouse.Y - PreviousMouseState.Y;
-                Cam.Yaw += DX * dT*3.0f;
-                Cam.Pitch -= DY * dT*3.0f;
-                Cam.Pitch = MathHelper.Clamp(Cam.Pitch, -89.0f, 89.0f);
+                World.Camera.Yaw += DX * dT*3.0f;
+                World.Camera.Pitch -= DY * dT*3.0f;
+                World.Camera.Pitch = MathHelper.Clamp(World.Camera.Pitch, -89.0f, 89.0f);
 
                
                 Mouse.SetPosition(device.Viewport.Width / 2, device.Viewport.Height / 2);
@@ -110,17 +124,17 @@ namespace _3DGame.Scenes
 
         public void Init(GraphicsDevice device, ContentManager content)
         {
-            Map = new GameObjects.Map();
+            World = new GameObjects.World();
             Textures = new Dictionary<string, Texture2D>();
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
-            Map.Terrain.TerrainEffect = TerrainEffect;
-            Cam = new GameObjects.Camera();
-            Cam.Position= new Vector3(32, 32, 32);
-            Map.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
-            Map.Terrain.QThread.Start();
+            World.Terrain.TerrainEffect = TerrainEffect;
+            World.Camera = new GameObjects.Camera();
+            World.Camera.Position= new Vector3(32, 32, 32);
+            World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
+            World.Terrain.QThread.Start();
             ScreenResized(device);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
@@ -147,39 +161,39 @@ namespace _3DGame.Scenes
         //   rs.FillMode = FillMode.WireFrame;
             device.RasterizerState = rs;
             Color skyColor = new Color(40, 100, 255);
-            Matrix viewMatrix = Cam.GetView();
-            Matrix projectionMatrix = Cam.GetProjection(device);
-            Matrix reflectedView = Cam.GetReflectedView(device, Map.Terrain.WaterHeight - 0.2f);
+            Matrix viewMatrix = World.Camera.GetView();
+            Matrix projectionMatrix = World.Camera.GetProjection(device);
+            Matrix reflectedView = World.Camera.GetReflectedView(device, World.Terrain.WaterHeight - 0.2f);
             TerrainEffect.Parameters["xGrass"].SetValue(Textures["grass_overworld"]);
             TerrainEffect.Parameters["xRock"].SetValue(Textures["rock"]);
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xProjection"].SetValue(projectionMatrix);
-            TerrainEffect.Parameters["xCamPos"].SetValue((Vector3)Cam.Position);
+            TerrainEffect.Parameters["xCamPos"].SetValue((Vector3)World.Camera.Position.Truncate());
             TerrainEffect.Parameters["xFog"].SetValue(false);
 
 
-            Plane refractionplane = CreatePlane(Map.Terrain.WaterHeight -0.2f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
+            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight -0.2f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
 
             TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);
 
             device.SetRenderTarget(ReflectionMap);
             device.Clear(skyColor);
-            Map.Render(device, dT);
+            World.Render(device, dT,Vector2.Zero);
            // device.Clear(Color.CornflowerBlue);
 
             device.SetRenderTarget(Screen);
 
             TerrainEffect.Parameters["xView"].SetValue(viewMatrix);
-            refractionplane = CreatePlane(-Map.Terrain.WaterHeight-0.2f, new Vector3(0, 1, 0), Matrix.Identity, true, projectionMatrix);
+            refractionplane = CreatePlane(-World.Terrain.WaterHeight-0.2f, new Vector3(0, 1, 0), Matrix.Identity, true, projectionMatrix);
 
             TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);
              TerrainEffect.Parameters["xFog"].SetValue(true);
             device.SetRenderTarget(RefractionMap);
             device.Clear(skyColor);
-            Map.Render(device, dT);
+            World.Render(device, dT, Vector2.Zero);
             //device.Clear(Color.CornflowerBlue);
 
             device.SetRenderTarget(Screen);
@@ -188,7 +202,7 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["Clipping"].SetValue(false);
             TerrainEffect.Parameters["xFog"].SetValue(false);
             device.SetRenderTarget(Screen);
-            Map.Render(device, dT);
+            World.Render(device, dT, Vector2.Zero);
 
 
             TerrainEffect.Parameters["xReflectionMap"].SetValue(ReflectionMap);
@@ -203,7 +217,7 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xWindForce"].SetValue(2.0f);
             TerrainEffect.Parameters["xWindDirection"].SetValue(new Vector3(0, 1, 0));
             TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["Water"];
-            Map.Terrain.DrawWater(device, dT);
+            World.Terrain.DrawWater(device, dT,World.Camera.Position.Reference());
 
 
             device.SetRenderTarget(null);
@@ -217,7 +231,7 @@ namespace _3DGame.Scenes
         public void Update(float dT)
         {
      
-            Map.Update(dT);
+            World.Update(dT);
         }
 
 
@@ -226,10 +240,8 @@ namespace _3DGame.Scenes
             while (true)
             {
                 //World.Player.UpdateRenderPos();
-                int DX = (int)Math.Floor(Cam.Position.X / Map.Terrain.BlockSize);
-                int DY = (int)Math.Floor(Cam.Position.Z / Map.Terrain.BlockSize);
-                Map.Terrain.BorderEvent(DX, DY);
-                Map.Terrain.ProcessQueue();
+                World.Terrain.BorderEvent(World.Camera.Position.BX, World.Camera.Position.BY);
+                World.Terrain.ProcessQueue();
                 System.Threading.Thread.Sleep(1);
                 //  Utility.Trace(World.Player.
 
