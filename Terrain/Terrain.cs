@@ -62,7 +62,28 @@ namespace Terrain
             return found;
 
         }
+        public Unit GetBlock(int X, int Y)
+        {
+         
+            foreach (Unit blk in this.Blocks)
+            {
+                if (blk.X == X && blk.Y == Y)
+                {
+                    return blk;
 
+                }
+
+            }
+            return null;
+
+        }
+        public float GetHeight(Vector3 position, Vector2 Block)
+        {
+            Unit blk = GetBlock((int)Block.X, (int)Block.Y);
+            if (blk == null)
+                return -1;
+            return blk.GetHeight(position.X, position.Z);
+        }
         public void BorderEvent(int X, int Y)
         {
             // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());

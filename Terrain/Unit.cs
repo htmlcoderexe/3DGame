@@ -15,6 +15,7 @@ namespace Terrain
         public int[] indices;
         public VertexBuffer buffer;
         public IndexBuffer ibuffer;
+        public float[,] heightmap;
         public void Render(GraphicsDevice device, float dT)
         {
             //set buffer if it doesn't exist
@@ -34,6 +35,23 @@ namespace Terrain
         public Unit()
         {
 
+        }
+        public float GetHeight(float X, float Y)
+        {
+            float height = 0.0f;
+
+            float A = heightmap[(int)X, (int)Y];
+            float B = heightmap[(int)X+1, (int)Y];
+            float C = heightmap[(int)X, (int)Y+1];
+            float D = heightmap[(int)X+1, (int)Y+1];
+
+            float dX = X - (int)X;
+            float dY = Y - (int)Y;
+            height += (1 - dX) * (1 - dY) * A;
+            height += dX * (1 - dY) * B;
+            height += (1 - dX) * dY * C;
+            height += dX * dY * D;
+            return height;
         }
     }
 }

@@ -115,11 +115,14 @@ namespace Terrain
             CalculateNormals();
             block.indices = _indices;
             block.vertices = new TerrainVertex[(BlockSize + 1 ) * (BlockSize + 1 )];
+            TerrainVertex current;
             int x, y;
             for (x = 0; x < BlockSize+1; x++)
                 for (y = 0; y < BlockSize+1; y++)
                 {
-                    block.vertices[x + y * (BlockSize+1)] = _vertices[(x + 1) + ((y + 1) * (BlockSize+1+2))];
+                    current = _vertices[(x + 1) + ((y + 1) * (BlockSize + 1 + 2))];
+                    block.vertices[x + y * (BlockSize+1)] = current;
+                    block.heightmap[x, y] = current.Position.Y;
                    // block.vertices[x + y * BlockSize].Position.X = x;
                     //block.vertices[x + y * BlockSize].Position.Z = y;
 
