@@ -115,6 +115,7 @@ namespace Terrain
             CalculateNormals();
             block.indices = _indices;
             block.vertices = new TerrainVertex[(BlockSize + 1 ) * (BlockSize + 1 )];
+            block.heightmap = new float[BlockSize+1, BlockSize+1];
             TerrainVertex current;
             int x, y;
             for (x = 0; x < BlockSize+1; x++)

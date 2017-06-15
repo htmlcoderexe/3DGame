@@ -53,8 +53,11 @@ namespace _3DGame.GameObjects
         }
         private void UpdateEntities(float dT)
         {
+            float h = 0.0f;
             foreach (MapEntity e in this.Entities)
             {
+                h = Terrain.GetHeight(e.Position.Truncate(), e.Position.Reference());
+                e.Position.Y = h;
                 e.Update(dT);
             }
 

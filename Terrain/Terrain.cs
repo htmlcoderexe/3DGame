@@ -40,8 +40,10 @@ namespace Terrain
                 {
                     //  Volatile.Console.Write("^00FF00 Loaded " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
                 }
-                this.Blocks.Add(blk);
-
+                lock (blk)
+                {
+                    this.Blocks.Add(blk);
+                }
 
             }
 
@@ -64,9 +66,18 @@ namespace Terrain
         }
         public Unit GetBlock(int X, int Y)
         {
-         
-            foreach (Unit blk in this.Blocks)
+            Unit blk = new Unit() ;
+            Unit[] cpy;
+            lock (blk)
             {
+                cpy = this.Blocks.ToArray();
+              //  Blocks.CopyTo(0, cpy, 0, (Math.Min(cpy.Length,this.Blocks.Count)));
+            }
+            for ( int i=0;i< cpy.Length;i++)
+            {
+                blk = cpy[i];
+                if (blk == null)
+                    continue;
                 if (blk.X == X && blk.Y == Y)
                 {
                     return blk;
@@ -109,13 +120,15 @@ namespace Terrain
                     }
 
                 }
-                foreach (Unit blk in tmp)
+                lock (tmp)
                 {
-                    //WorldLoader.Save(blk, blk.X, blk.Y);
-                    this.Blocks.Remove(blk);
+                    foreach (Unit blk in tmp)
+                    {
+                        //WorldLoader.Save(blk, blk.X, blk.Y);
+                        this.Blocks.Remove(blk);
 
+                    }
                 }
-
             }
 
         }
@@ -123,12 +136,13 @@ namespace Terrain
         public Terrain(int BlockSize)
         {
             this.BlockSize = BlockSize;
-           
+
             this.Blocks = new List<Unit>();
             this.Queue = new Queue<Vector2>();
             WorldGenerator = new WorldGenerator(BlockSize);
             this.WaterHeight = WorldGenerator.WaterHeight;
-            this.Blocks.Add(WorldGenerator.GenerateBlock(0, 0));
+            lock (this.Queue) { 
+                this.Blocks.Add(WorldGenerator.GenerateBlock(0, 0));
             this.Blocks.Add(WorldGenerator.GenerateBlock(0, 1));
             this.Blocks.Add(WorldGenerator.GenerateBlock(1, 0));
             this.Blocks.Add(WorldGenerator.GenerateBlock(1, 1));
@@ -139,6 +153,7 @@ namespace Terrain
 
             this.Blocks.Add(WorldGenerator.GenerateBlock(1, -1));
             this.Blocks.Add(WorldGenerator.GenerateBlock(-1, 1));
+        }
             //*/
         }
 
