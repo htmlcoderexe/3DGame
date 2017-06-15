@@ -29,7 +29,7 @@ namespace _3DGame.GameObjects
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
             Matrix W = this.Position.CreateWorld(Reference);
-            this.Model.Render(device, dT, W);
+            this.Model.Render(device, dT, W,GameObjects.World.ModelEffect);
         }
 
         public void Update(float dT)

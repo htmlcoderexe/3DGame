@@ -12,10 +12,9 @@ namespace GameModel
     {
         private VertexBuffer _vertices;
         private IndexBuffer _indices;
-        public BasicEffect fx;
         private void Prepare(GraphicsDevice device)
         {
-            fx = new BasicEffect(device);
+            
             _indices = new IndexBuffer(device, IndexElementSize.ThirtyTwoBits, 36, BufferUsage.WriteOnly);
             _indices.SetData<int>(new int[] { //--,++,-+/--,+-,++
                  0, 1, 2, 0, 3, 1 
@@ -49,7 +48,6 @@ namespace GameModel
             if (this._indices == null)
                 Prepare(device);
             fx.World = World;
-            fx.VertexColorEnabled = true;
             fx.CurrentTechnique.Passes[0].Apply();
             device.SetVertexBuffer(_vertices);
             device.Indices = _indices;

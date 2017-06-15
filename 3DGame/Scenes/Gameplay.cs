@@ -51,7 +51,7 @@ namespace _3DGame.Scenes
             {
                 TakeScreenshot(device);
             }
-            if (kb.IsKeyDown(Keys.Space) && PreviousKbState.IsKeyUp(Keys.Space))
+            if (kb.IsKeyDown(Keys.Space) )//Diarrhea mode!! && PreviousKbState.IsKeyUp(Keys.Space))
             {
                 GameObjects.MapEntity e = new GameObjects.MapEntity();
                 e.Position = World.Camera.Position;
@@ -124,7 +124,7 @@ namespace _3DGame.Scenes
 
         public void Init(GraphicsDevice device, ContentManager content)
         {
-            World = new GameObjects.World();
+            World = new GameObjects.World(device);
             Textures = new Dictionary<string, Texture2D>();
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
