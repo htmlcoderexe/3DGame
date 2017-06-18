@@ -51,10 +51,11 @@ namespace _3DGame.Scenes
             {
                 TakeScreenshot(device);
             }
-            if (kb.IsKeyDown(Keys.Space) )//Diarrhea mode!! && PreviousKbState.IsKeyUp(Keys.Space))
+            if (kb.IsKeyDown(Keys.Space) /* )//Diarrhea mode!!*/ && (PreviousKbState.IsKeyUp(Keys.Space) || kb.IsKeyDown(Keys.LeftShift)))
             {
                 GameObjects.MapEntity e = new GameObjects.MapEntity();
                 e.Position = World.Camera.Position;
+                e.Heading = World.Camera.Yaw+90f;
                 World.Entities.Add(e);
             }
             if (kb.IsKeyDown(Keys.W))

@@ -67,15 +67,15 @@ namespace Terrain
         public Unit GetBlock(int X, int Y)
         {
             Unit blk = new Unit() ;
-            Unit[] cpy;
-            lock (blk)
+            Unit[] cpy= new Unit[1];
+            lock (cpy)
             {
-                cpy = this.Blocks.ToArray();
+              //  cpy = this.Blocks.ToArray();
               //  Blocks.CopyTo(0, cpy, 0, (Math.Min(cpy.Length,this.Blocks.Count)));
-            }
-            for ( int i=0;i< cpy.Length;i++)
+           
+            for ( int i=0;i< this.Blocks.Count;i++)
             {
-                blk = cpy[i];
+                blk = this.Blocks[i];
                 if (blk == null)
                     continue;
                 if (blk.X == X && blk.Y == Y)
@@ -84,6 +84,7 @@ namespace Terrain
 
                 }
 
+            }
             }
             return null;
 
@@ -112,7 +113,9 @@ namespace Terrain
 
                 }
                 List<Unit> tmp = new List<Unit>();
-                foreach (Unit blk in this.Blocks)
+                lock (tmp)
+                {
+                    foreach (Unit blk in this.Blocks)
                 {
                     if (Math.Abs(blk.X - X) > rd || Math.Abs(blk.Y - Y) > rd)
                     {
@@ -120,8 +123,6 @@ namespace Terrain
                     }
 
                 }
-                lock (tmp)
-                {
                     foreach (Unit blk in tmp)
                     {
                         //WorldLoader.Save(blk, blk.X, blk.Y);

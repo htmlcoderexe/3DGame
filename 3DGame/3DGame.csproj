@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="GameObjects\Camera.cs" />
     <Compile Include="GameObjects\Map.cs" />
+    <Compile Include="GameObjects\MapEntities\Actor.cs" />
     <Compile Include="GameObjects\MapEntity.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IGameScene.cs" />

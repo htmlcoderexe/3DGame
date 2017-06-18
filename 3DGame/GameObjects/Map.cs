@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _3DGame.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -51,13 +52,33 @@ namespace _3DGame.GameObjects
             Terrain.Update(dT);
             
         }
-        private void UpdateEntities(float dT)
+        private void SetGravity(MapEntity e)
         {
             float h = 0.0f;
+            float len = 0.2f;
+            Matrix yaw = Matrix.CreateRotationY(-e.Heading * (float)Math.PI / 180f);
+            h = Terrain.GetHeight(e.Position.Truncate(), e.Position.Reference());
+            e.Position.Y = h+0.5f;
+
+            WorldPosition fp = e.Position+Vector3.Transform(new Vector3(0.1f, 0, 0), yaw);
+            WorldPosition bp = e.Position + Vector3.Transform(new Vector3(-0.1f, 0, 0), yaw);
+            WorldPosition lp = e.Position + Vector3.Transform(new Vector3(0, 0, -0.1f), yaw);
+            WorldPosition rp = e.Position + Vector3.Transform(new Vector3(0, 0, 0.1f),  yaw);
+            float f, b, l, r;
+
+            f = Terrain.GetHeight(fp.Truncate(), fp.Reference());
+            b = Terrain.GetHeight(bp.Truncate(), bp.Reference());
+            l = Terrain.GetHeight(lp.Truncate(), lp.Reference());
+            r = Terrain.GetHeight(rp.Truncate(), rp.Reference());
+            e.Pitch = MathHelper.ToDegrees((float)Math.Atan2((f - b),len));
+            e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r),len));
+        }
+        private void UpdateEntities(float dT)
+        {
+            
             foreach (MapEntity e in this.Entities)
             {
-                h = Terrain.GetHeight(e.Position.Truncate(), e.Position.Reference());
-                e.Position.Y = h;
+                SetGravity(e);
                 e.Update(dT);
             }
 

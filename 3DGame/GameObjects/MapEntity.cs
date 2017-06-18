@@ -10,7 +10,25 @@ namespace _3DGame.GameObjects
 {
     public class MapEntity : Interfaces.IGameObject
     {
+        private float AnimationTimer;
+        public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
+        public float Heading;
+        public float Roll;
+        private float _pitch;
+        public float DefaultSpeed=5.0f; //m/s
+        public float Speed;
+        public float Pitch
+        {
+            set
+            {
+                _pitch= MathHelper.Clamp(value, -89f, 89f);
+            }
+           get
+            {
+                return MathHelper.Clamp(_pitch, -89f, 89f);
+            }
+        }
         private Matrix World;
         private bool _isDead;
         public GameModel.Model Model;
@@ -28,13 +46,18 @@ namespace _3DGame.GameObjects
 
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
-            Matrix W = this.Position.CreateWorld(Reference);
+            Matrix W = Matrix.Identity;
+            //   W *= Matrix.CreateRotationZ(MathHelper.ToRadians(this.Pitch));
+            W *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(-this.Heading), MathHelper.ToRadians(this.Roll), MathHelper.ToRadians(this.Pitch));
+            W *= this.Position.CreateWorld(Reference);
             this.Model.Render(device, dT, W,GameObjects.World.ModelEffect);
         }
 
         public void Update(float dT)
         {
-          
+           // this.Heading += dT*10;
+            Vector3 advance = Vector3.Transform(new Vector3(dT, 0, 0),Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
+            this.Position += advance;
         }
     }
 }

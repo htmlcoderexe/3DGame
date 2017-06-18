@@ -30,10 +30,10 @@ namespace GameModel
             vertices[2] = new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0.5f), Color.Blue);
             vertices[3] = new VertexPositionColor(new Vector3(0.5f, 0.5f, -0.5f), Color.Blue);
 
-            vertices[4] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, -0.5f), Color.Blue);
-            vertices[5] = new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.5f), Color.Blue);
-            vertices[6] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.5f), Color.Blue);
-            vertices[7] = new VertexPositionColor(new Vector3(0.5f, -0.5f, -0.5f), Color.Blue);
+            vertices[4] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, -0.5f), Color.Green);
+            vertices[5] = new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.5f), Color.Yellow);
+            vertices[6] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.5f), Color.Red);
+            vertices[7] = new VertexPositionColor(new Vector3(0.5f, -0.5f, -0.5f), Color.Green);
             VertexDeclaration dd = VertexPositionColor.VertexDeclaration;
             _vertices = new VertexBuffer(device, dd, 8, BufferUsage.WriteOnly);
             _vertices.SetData<VertexPositionColor>(vertices);
