@@ -133,7 +133,7 @@ namespace _3DGame.Scenes
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
             World.Camera = new GameObjects.Camera();
-            World.Camera.Position= new Vector3(32, 32, 32);
+            World.Camera.Position= new Vector3(0, 0, 0);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
             ScreenResized(device);
@@ -159,7 +159,8 @@ namespace _3DGame.Scenes
             RenderTime += dT;
             RasterizerState rs = new RasterizerState();
             rs.CullMode = CullMode.CullCounterClockwiseFace;
-        //   rs.FillMode = FillMode.WireFrame;
+            //rs.CullMode = CullMode.None;
+           // rs.FillMode = FillMode.WireFrame;
             device.RasterizerState = rs;
             Color skyColor = new Color(40, 100, 255);
             Matrix viewMatrix = World.Camera.GetView();

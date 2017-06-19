@@ -35,6 +35,7 @@ namespace _3DGame.GameObjects
         public MapEntity()
         {
             this.Model = new GameModel.Model();
+            
         }
         public  bool IsDead
         {
