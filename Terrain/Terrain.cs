@@ -43,7 +43,7 @@ namespace Terrain
                 }
                 lock (blk)
                 {
-                    this.Blocks.Add(blk);
+                    this.Blocks.GetOrAdd(blk.X+blk.Y*BlockSize,blk);
                 }
 
             }
@@ -53,8 +53,9 @@ namespace Terrain
         public bool BlockLoaded(int X, int Y)
         {
             bool found = false;
-            foreach (Unit blk in this.Blocks)
+            foreach (KeyValuePair<int,Unit> bv in this.Blocks)
             {
+                Unit blk = bv.Value;
                 if (blk.X == X && blk.Y == Y)
                 {
                     return true;
@@ -67,16 +68,10 @@ namespace Terrain
         }
         public Unit GetBlock(int X, int Y)
         {
-            Unit blk = new Unit() ;
-            Unit[] cpy= new Unit[1];
-            lock (cpy)
+            Unit blk; 
+            foreach(KeyValuePair<int,Unit> bv in this.Blocks)
             {
-              //  cpy = this.Blocks.ToArray();
-              //  Blocks.CopyTo(0, cpy, 0, (Math.Min(cpy.Length,this.Blocks.Count)));
-           
-            for ( int i=0;i< this.Blocks.Count;i++)
-            {
-                blk = this.Blocks[i];
+                    blk = bv.Value;
                 if (blk == null)
                     continue;
                 if (blk.X == X && blk.Y == Y)
@@ -86,7 +81,7 @@ namespace Terrain
                 }
 
             }
-            }
+            
             return null;
 
         }
@@ -114,11 +109,12 @@ namespace Terrain
 
                 }
                 List<KeyValuePair<int, Unit>> tmp = new List<KeyValuePair<int, Unit>>();
+                Unit d;
                 lock (tmp)
                 {
                     foreach (KeyValuePair<int, Unit> blk in this.Blocks)
                 {
-                    if (Math.Abs(blk.X - X) > rd || Math.Abs(blk.Y - Y) > rd)
+                    if (Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd)
                     {
                         tmp.Add(blk);
                     }
@@ -127,7 +123,7 @@ namespace Terrain
                     foreach (KeyValuePair<int,Unit> blk in tmp)
                     {
                         //WorldLoader.Save(blk, blk.X, blk.Y);
-                        this.Blocks.TryRemove()
+                        this.Blocks.TryRemove(blk.Key, out d);
 
                     }
                 }
@@ -139,22 +135,11 @@ namespace Terrain
         {
             this.BlockSize = BlockSize;
 
-            this.Blocks = new ConcurrentBag<Unit>();
+            this.Blocks = new ConcurrentDictionary<int,Unit>();
             this.Queue = new Queue<Vector2>();
             WorldGenerator = new WorldGenerator(BlockSize);
             this.WaterHeight = WorldGenerator.WaterHeight;
             lock (this.Queue) { 
-                this.Blocks.Add(WorldGenerator.GenerateBlock(0, 0));
-            this.Blocks.Add(WorldGenerator.GenerateBlock(0, 1));
-            this.Blocks.Add(WorldGenerator.GenerateBlock(1, 0));
-            this.Blocks.Add(WorldGenerator.GenerateBlock(1, 1));
-            //*//
-            this.Blocks.Add(WorldGenerator.GenerateBlock(0, -1));
-            this.Blocks.Add(WorldGenerator.GenerateBlock(-1, 0));
-            this.Blocks.Add(WorldGenerator.GenerateBlock(-1, -1));
-
-            this.Blocks.Add(WorldGenerator.GenerateBlock(1, -1));
-            this.Blocks.Add(WorldGenerator.GenerateBlock(-1, 1));
         }
             //*/
         }
@@ -163,15 +148,10 @@ namespace Terrain
         {
             if (_water == null)
                 SetUpWaterVertices(device);
-            Unit[] cpy;
-            lock (_water)
+            foreach(KeyValuePair<int,Unit> bv in this.Blocks)
             {
-                cpy = new Unit[this.Blocks.Count];
-                Blocks.CopyTo(0, cpy, 0, cpy.Length);
-            }
-            for (int i = 0; i < cpy.Length; i++)
-            {
-                Unit block = cpy[i];
+
+                Unit block = bv.Value;
                 if (block == null)
                     continue;
               
@@ -194,9 +174,9 @@ namespace Terrain
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
 
-            foreach(Unit block in this.Blocks)
+            foreach(KeyValuePair<int,Unit> bv in this.Blocks)
             {
-
+                Unit block = bv.Value;
                 if (block == null)
                     continue;
                 TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["TexturedTinted"];
