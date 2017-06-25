@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Terrain
 {
     public class Terrain
     {
-        public List<Unit> Blocks;
+        public ConcurrentDictionary<int,Unit> Blocks;
         public Effect TerrainEffect;
         public int BlockSize;
         public Queue<Vector2> Queue;
@@ -112,10 +113,10 @@ namespace Terrain
 
 
                 }
-                List<Unit> tmp = new List<Unit>();
+                List<KeyValuePair<int, Unit>> tmp = new List<KeyValuePair<int, Unit>>();
                 lock (tmp)
                 {
-                    foreach (Unit blk in this.Blocks)
+                    foreach (KeyValuePair<int, Unit> blk in this.Blocks)
                 {
                     if (Math.Abs(blk.X - X) > rd || Math.Abs(blk.Y - Y) > rd)
                     {
@@ -123,10 +124,10 @@ namespace Terrain
                     }
 
                 }
-                    foreach (Unit blk in tmp)
+                    foreach (KeyValuePair<int,Unit> blk in tmp)
                     {
                         //WorldLoader.Save(blk, blk.X, blk.Y);
-                        this.Blocks.Remove(blk);
+                        this.Blocks.TryRemove()
 
                     }
                 }
@@ -138,7 +139,7 @@ namespace Terrain
         {
             this.BlockSize = BlockSize;
 
-            this.Blocks = new List<Unit>();
+            this.Blocks = new ConcurrentBag<Unit>();
             this.Queue = new Queue<Vector2>();
             WorldGenerator = new WorldGenerator(BlockSize);
             this.WaterHeight = WorldGenerator.WaterHeight;
@@ -193,11 +194,9 @@ namespace Terrain
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
 
-
-            
-            for(int i=0;i<this.Blocks.Count;i++)
+            foreach(Unit block in this.Blocks)
             {
-                Unit block =this.Blocks[i];
+
                 if (block == null)
                     continue;
                 TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["TexturedTinted"];
