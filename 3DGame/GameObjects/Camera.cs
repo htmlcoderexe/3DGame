@@ -91,7 +91,7 @@ namespace _3DGame.GameObjects
            MathHelper.ToRadians(60),
             (float)GraphicsDevice.Viewport.Width /
             (float)GraphicsDevice.Viewport.Height,
-            0.1f,
+            0.5f,
             1000f);
         }
     }
