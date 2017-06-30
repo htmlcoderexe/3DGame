@@ -84,7 +84,7 @@ namespace GameModel
             leg = new TestParts.PartBugLeg(true);
             leg.Animation.SetPhase(0.5f);
             Root.Append(leg, Matrix.CreateRotationY((float)Math.PI * 1.3f) * Matrix.CreateTranslation(new Vector3(-0.4f, 0, 0.5f)));
-
+             
 
             this.Children.Add(Root);
 

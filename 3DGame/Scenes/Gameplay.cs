@@ -31,6 +31,7 @@ namespace _3DGame.Scenes
         public float Accel = 0;
         private RenderTarget2D RefractionMap { get; set; }
         private RenderTarget2D ReflectionMap { get; set; }
+        public GUI.Renderer GUIRenderer;
         //  public System.Threading.Thread QThread;
 
             private void TakeScreenshot(GraphicsDevice device)
@@ -136,6 +137,12 @@ namespace _3DGame.Scenes
             World.Camera.Position= new Vector3(0, 0, 0);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
+            GUIRenderer = new GUI.Renderer(device);
+            GUIRenderer.WindowSkin = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\winskin.png", System.IO.FileMode.Open));
+            GUIRenderer.InventoryPartsMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\itemparts.png", System.IO.FileMode.Open));
+            GUIRenderer.AbilityMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\icons.png", System.IO.FileMode.Open));
+            GUIRenderer.GUIEffect = content.Load<Effect>("GUI");
+            GUIRenderer.UIFont = content.Load<SpriteFont>("Consolefont");
             ScreenResized(device);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
@@ -226,6 +233,9 @@ namespace _3DGame.Scenes
             b.Begin();
             b.Draw(Screen, Vector2.Zero, Color.White);
             b.End();
+            GUIRenderer.RenderFrame(device, 32, 32, 256, 128);
+            GUIRenderer.RenderBigIcon(device, 0, 0, 2, GUIRenderer.AbilityMap);
+            GUIRenderer.RenderSmallText(device, 35, 56, World.Camera.Position.Y.ToString(), Color.Red, false, true);
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
         }

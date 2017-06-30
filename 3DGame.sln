@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrain", "Terrain\Terrain.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameModel", "GameModel\GameModel.csproj", "{A3377DE7-8E2E-456D-8120-61C21730EAC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{1416F2FF-B454-45AB-92BE-811BFC66F6AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,14 @@ Global
 		{A3377DE7-8E2E-456D-8120-61C21730EAC5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3377DE7-8E2E-456D-8120-61C21730EAC5}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3377DE7-8E2E-456D-8120-61C21730EAC5}.Release|x86.Build.0 = Release|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Debug|x86.Build.0 = Debug|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{1416F2FF-B454-45AB-92BE-811BFC66F6AD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
