@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GUI
 {
@@ -20,14 +21,18 @@ namespace GUI
         public int MouseX;
         public int MouseY;
         public Vector2 Screen;
-        public Interfaces.ITextInput FocusedText;
-        public ToolTip ToolTip;
+      //  public Interfaces.ITextInput FocusedText;
+       // public ToolTip ToolTip;
         public float MouseStillSeconds;
         public IAction MouseGrab;
         public Control LastClickedControl;
         public string NotificationText;
         public float NotificationTimeout;
         float NotificationTime = 100;
+        public Renderer Renderer;
+        public KeyboardState PreviousKbState { get; set; }
+
+        public MouseState PreviousMouseState { get; set; }
         public WindowManager()
         {
             this.Windows = new List<Window>();
@@ -61,8 +66,9 @@ namespace GUI
         {
             foreach (Window Window in this.Windows)
             {
-                Window.Render(device, 0, 0);
+                Window.Render(device, Renderer, 0, 0);
             }
+            /*
             if (this.ToolTip != null)
             {
                 if (MouseStillSeconds >= 70f)
@@ -80,6 +86,8 @@ namespace GUI
                     this.ToolTip.Visible = false;
                 }
             }
+
+            //*/
             if (this.MouseGrab != null)
             {
                 this.MouseGrab.Render(device, MouseX - 16, MouseY - 16);
@@ -92,7 +100,7 @@ namespace GUI
                 float scale = NotificationTime / 2.0f;
                 float A = Math.Min(1.0f, this.NotificationTimeout / this.NotificationTime);
                 Color c = new Color(1.0f, 1.0f, 0.9f, A);
-                GUIDraw.RenderBigText(device, CX, CY, this.NotificationText, c, true);
+              //TODO  GUIDraw.RenderBigText(device, CX, CY, this.NotificationText, c, true);
             }
         }
         public void Add(Window Window)
@@ -107,32 +115,39 @@ namespace GUI
             if (Window == null)
             {
                 if (this.MovingWindow != null)
+                {
+
+                    PreviousMouseState = Mouse;
                     return true;
+                }
                 if (this.MouseGrab != null)
+                {
+
+                    PreviousMouseState = Mouse;
                     return true;
+                }
+                PreviousMouseState = Mouse;
                 return false;
             }
             Window.MouseMove(MouseX - Window.X, MouseY - Window.Y);
             bool MouseIsDown = Mouse.LeftButton == ButtonState.Pressed;
             if (MouseIsDown)
             {
-                if (Volatile.KeyMask[64000] == false) //the mouse was up last time
+                if (PreviousMouseState.LeftButton== ButtonState.Released) //the mouse was up last time
                 {
                     Window.MouseDown(MouseX - Window.X, MouseY - Window.Y);
                 }
-                Volatile.KeyMask[64000] = true;
 
             }
             else
             {
-                if (Volatile.KeyMask[64000] == true) //the mouse was down last time
+                if (PreviousMouseState.LeftButton == ButtonState.Pressed) //the mouse was down last time
                 {
                     Window.MouseUp(MouseX - Window.X, MouseY - Window.Y);
                 }
-                Volatile.KeyMask[64000] = false;
 
             }
-
+            PreviousMouseState = Mouse;
 
             return true;
         }
@@ -156,18 +171,19 @@ namespace GUI
             }
             this.Windows[this.Windows.Count - 1] = Window;
         }
-        /*
+        
         public void MouseMove(float X, float Y)
         {
             Window Window = this.GetWindow(X, Y);
+            /*
             if (Window == null)
             {
                 this.ToolTip = null;
                 return;
             }
+        //*/
             Window.MouseMove(X - Window.X, Y - Window.Y);
         }
-        //*/
         public Window GetWindow(float X, float Y)
         {
             Window wnd = null;
@@ -184,7 +200,7 @@ namespace GUI
 
     public static class WindowSettings
     {
-        public static Color WindowColour = new Color(102, 26, 0);
+        public static Color WindowColour = new Color(102, 102, 102);
 
     }
 

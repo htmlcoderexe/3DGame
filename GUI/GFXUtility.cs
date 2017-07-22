@@ -23,8 +23,8 @@ namespace GUI
         /// <returns></returns>
         public static Vector3 PixelToScreen(GraphicsDevice device, float X, float Y)
         {
-            X -= 0.5f;
-            Y -= 0.5f;
+           // X -= 0.5f;
+            //Y -= 0.5f;
             float xscale = (float)device.Viewport.Width / 2;
             float yscale = (float)device.Viewport.Height / 2;
             return new Vector3((X / xscale) - 1f, 1f - (Y / yscale), 0);
@@ -35,8 +35,8 @@ namespace GUI
             float xscale = (float)device.Viewport.Width / 2;
             float yscale = (float)device.Viewport.Height / 2;
             val = new Vector2(((1 + Coord.X) * xscale), ((1 - Coord.Y) * xscale));
-            val.X += 0.5f;
-            val.Y += 0.5f;
+          //  val.X += 0.5f;
+          //  val.Y += 0.5f;
             val.X = (int)val.X;
             val.Y = (int)val.Y;
             return val;
@@ -700,6 +700,11 @@ namespace GUI
             c[13].Position = M; c[13].TextureCoordinate = TLt;
             c[14].Position = Vector3.Lerp(TC, TR, Progress); c[14].TextureCoordinate = TLt;
             return c;
+        }
+        public static float StrW(string str, SpriteFont font)
+        {
+            return font.MeasureString(str).X;
+
         }
     }
 }

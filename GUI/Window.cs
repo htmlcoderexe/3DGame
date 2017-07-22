@@ -13,7 +13,7 @@ namespace GUI
 
 
         private bool CloseHot;
-
+        public Rectangle Margin;
 
         public override void MouseDown(float X, float Y)
         {
@@ -37,7 +37,7 @@ namespace GUI
             {
                 Y -= 16;
 
-                base.MouseDown(X, Y);
+                base.MouseDown(X - Margin.X, Y - Margin.Y);
             }
         }
 
@@ -57,9 +57,9 @@ namespace GUI
             }
             else
             {
-                Y -= 16;
+                
 
-                base.MouseUp(X, Y);
+                base.MouseUp(X-Margin.X, Y-Margin.Y);
             }
 
         }
@@ -70,7 +70,7 @@ namespace GUI
             {
                 if (X < (this.Width - 16))
                 {
-                    Volatile.WindowManager.MovingWindow = this;
+                    WM.MovingWindow = this;
                 }
                 else
                 {
@@ -80,9 +80,8 @@ namespace GUI
             }
             else
             {
-                Y -= 16;
 
-                base.Click(X, Y);
+                base.Click(X - Margin.X, Y - Margin.Y);
             }
 
 
@@ -109,9 +108,8 @@ namespace GUI
             }
             else
             {
-                Y -= 16;
                 this.CloseHot = false;
-                base.MouseMove(X, Y);
+                base.MouseMove(X - Margin.X, Y - Margin.Y); 
             }
         }
 
@@ -120,14 +118,14 @@ namespace GUI
             Renderer.RenderFrame(device, this.X, this.Y, this.Width, this.Height);
             Renderer.RenderSmallText(device, this.X + 9, this.Y + 4, this.Title, Color.White);
             Renderer.RenderCloseButton(device, this.X + this.Width - 16, this.Y, this.CloseHot);
-            base.Render(device, Renderer, 0, 16);
+            base.Render(device, Renderer, Margin.X, Margin.Y);
         }
 
         public Window()
         {
             this.Controls = new List<Control>();
             this.Title = "GUIWindow";
-
+            this.Margin = new Rectangle(3+3, 16 + 3, 3+3, 3+3);
 
         }
     }

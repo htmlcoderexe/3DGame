@@ -32,6 +32,7 @@ namespace _3DGame.Scenes
         private RenderTarget2D RefractionMap { get; set; }
         private RenderTarget2D ReflectionMap { get; set; }
         public GUI.Renderer GUIRenderer;
+        public GUI.WindowManager WindowManager;
         //  public System.Threading.Thread QThread;
 
             private void TakeScreenshot(GraphicsDevice device)
@@ -85,9 +86,12 @@ namespace _3DGame.Scenes
             World.Camera.Position += mv;
 
 
+            WindowManager.MouseX = mouse.X;
+            WindowManager.MouseY = mouse.Y;
+            bool MouseHandled =
+            WindowManager.HandleMouse(mouse);
 
-
-            if (mouse.RightButton == ButtonState.Pressed)
+            if (mouse.RightButton == ButtonState.Pressed && !MouseHandled)
             {
                // this.IsMouseVisible = false;
               //  Volatile.WindowManager.MovingWindow = null;
@@ -122,6 +126,8 @@ namespace _3DGame.Scenes
             RefractionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             Screen = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             b = new SpriteBatch(device);
+            WindowManager.Screen.X = ScreenWidth;
+            WindowManager.Screen.Y = ScreenHeight;
         }
 
         public void Init(GraphicsDevice device, ContentManager content)
@@ -143,6 +149,14 @@ namespace _3DGame.Scenes
             GUIRenderer.AbilityMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\icons.png", System.IO.FileMode.Open));
             GUIRenderer.GUIEffect = content.Load<Effect>("GUI");
             GUIRenderer.UIFont = content.Load<SpriteFont>("Consolefont");
+            WindowManager = new GUI.WindowManager();
+            GUI.Window w = new GUI.Window();
+            w.Width = 512;
+            w.Height = 256;
+            w.Title = "Sex";
+            w = new GameplayAssets.StatusWindow();
+            WindowManager.Add(w);
+            WindowManager.Renderer = GUIRenderer;
             ScreenResized(device);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
@@ -236,13 +250,14 @@ namespace _3DGame.Scenes
             GUIRenderer.RenderFrame(device, 32, 32, 256, 128);
             GUIRenderer.RenderBigIcon(device, 0, 0, 2, GUIRenderer.AbilityMap);
             GUIRenderer.RenderSmallText(device, 35, 56, World.Camera.Position.Y.ToString(), Color.Red, false, true);
+            WindowManager.Render(device);
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
         }
 
         public void Update(float dT)
         {
-     
+            WindowManager.Update(dT);
             World.Update(dT);
         }
 
