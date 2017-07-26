@@ -14,7 +14,7 @@ namespace GUI
     /// </summary>
     public class WindowManager
     {
-        List<Window> Windows;
+        public List<Window> Windows;
         public Window MovingWindow;
         public float MoveX;
         public float MoveY;

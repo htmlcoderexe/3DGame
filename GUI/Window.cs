@@ -116,9 +116,9 @@ namespace GUI
         public override void Render(GraphicsDevice device, Renderer Renderer, int X, int Y)
         {
             Renderer.RenderFrame(device, this.X, this.Y, this.Width, this.Height);
-            Renderer.RenderSmallText(device, this.X + 9, this.Y + 4, this.Title, Color.White);
+            Renderer.RenderSmallText(device, this.X + 5, this.Y, this.Title, Color.White);
             Renderer.RenderCloseButton(device, this.X + this.Width - 16, this.Y, this.CloseHot);
-            base.Render(device, Renderer, Margin.X, Margin.Y);
+            base.Render(device, Renderer, Margin.X+X, Margin.Y+Y);
         }
 
         public Window()
@@ -126,7 +126,7 @@ namespace GUI
             this.Controls = new List<Control>();
             this.Title = "GUIWindow";
             this.Margin = new Rectangle(3+3, 16 + 3, 3+3, 3+3);
-
+           // this.WM.GetType();
         }
     }
 

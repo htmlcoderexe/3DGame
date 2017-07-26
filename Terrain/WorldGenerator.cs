@@ -128,6 +128,7 @@ namespace Terrain
                     //block.vertices[x + y * BlockSize].Position.Z = y;
 
                 }
+            Console.Write("^00A000 Generated block at " + X.ToString() + "," + Y.ToString() + ".");
             return block;
         }
 

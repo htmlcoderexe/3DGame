@@ -415,16 +415,14 @@ namespace GUI
             int offset = 0;
             float dX = 0;
             string s = "";
-            //  SpriteFont tf = Outline ? OutlinedUIFont : UIFont;'
+            string cstring;
             batch.Begin();
             while (offset < Text.Length)
             {
                 int o2 = 0;
                 s = ReadToSymbol(Text, "^", offset, out o2);
-                // Volatile.Console.Write("\"" + s + "\" ");
                 offset = o2;
-                string cstring = ReadToSymbol(Text, " ", offset, out offset);
-                //Volatile.Console.Write("Color changed to: \"" + cstring + "\"");
+                cstring = ReadToSymbol(Text, " ", offset, out offset);
 
                 batch.DrawString(UIFont, s, new Vector2(X + dX, Y), Colour);
                 if (cstring.Length == 6)

@@ -46,6 +46,24 @@ namespace _3DGame.Scenes
             s.Close();
             counter++;
         }
+
+        public void ConsoleWrite(string Text)
+        {
+            if (WindowManager == null)
+                return;
+            GameplayAssets.ConsoleWindow cosole = null;
+            foreach (GUI.Window w in WindowManager.Windows)
+            {
+                if ((w as GameplayAssets.ConsoleWindow) != null)
+                { 
+                    cosole = w as GameplayAssets.ConsoleWindow;
+                    break;
+                }
+            }
+            if (cosole == null)
+                return;
+            cosole.AppendMessage(Text);
+        }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
 
@@ -148,16 +166,15 @@ namespace _3DGame.Scenes
             GUIRenderer.InventoryPartsMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\itemparts.png", System.IO.FileMode.Open));
             GUIRenderer.AbilityMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\icons.png", System.IO.FileMode.Open));
             GUIRenderer.GUIEffect = content.Load<Effect>("GUI");
-            GUIRenderer.UIFont = content.Load<SpriteFont>("Consolefont");
+            GUIRenderer.UIFont = content.Load<SpriteFont>("font1");
             WindowManager = new GUI.WindowManager();
-            GUI.Window w = new GUI.Window();
-            w.Width = 512;
-            w.Height = 256;
-            w.Title = "Sex";
-            w = new GameplayAssets.StatusWindow();
-            WindowManager.Add(w);
             WindowManager.Renderer = GUIRenderer;
+            GUI.Window w;
+            w = new GameplayAssets.StatusWindow(WindowManager);
+            WindowManager.Add(w);
+            WindowManager.Add(new GameplayAssets.ConsoleWindow(WindowManager));
             ScreenResized(device);
+            Terrain.Console.WriteCallback = new Action<string>(ConsoleWrite);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {

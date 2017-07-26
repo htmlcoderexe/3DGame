@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Control.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\RichTextDisplay.cs" />
+    <Compile Include="Controls\RichText\RichTextMultiLine.cs" />
     <Compile Include="GFXUtility.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="Renderer.cs" />

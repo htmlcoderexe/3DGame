@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="TerrainVertex.cs" />
     <Compile Include="Unit.cs" />
