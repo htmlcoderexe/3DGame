@@ -99,5 +99,21 @@ namespace _3DGame.Interfaces
             result.Normalize();
             return result;
         }
+        public override string ToString()
+        {
+            string s = "";
+            s += "[";
+            s += this.BX.ToString();
+            s += ",";
+            s += this.BY.ToString();
+            s += "]{";
+            s += this.X.ToString();
+            s += ", ";
+            s += this.Y.ToString();
+            s += ", ";
+            s += this.Z.ToString();
+            s += "}";
+            return s;
+        }
     }
 }

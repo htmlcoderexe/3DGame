@@ -51,18 +51,18 @@ namespace _3DGame.Scenes
         {
             if (WindowManager == null)
                 return;
-            GameplayAssets.ConsoleWindow cosole = null;
+            GameplayAssets.ConsoleWindow console = null;
             foreach (GUI.Window w in WindowManager.Windows)
             {
                 if ((w as GameplayAssets.ConsoleWindow) != null)
                 { 
-                    cosole = w as GameplayAssets.ConsoleWindow;
+                    console = w as GameplayAssets.ConsoleWindow;
                     break;
                 }
             }
-            if (cosole == null)
+            if (console == null)
                 return;
-            cosole.AppendMessage(Text);
+            console.AppendMessage(Text);
         }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
@@ -77,6 +77,7 @@ namespace _3DGame.Scenes
                 e.Position = World.Camera.Position;
                 e.Heading = World.Camera.Yaw+90f;
                 World.Entities.Add(e);
+                Console.Write("Spawned entity at " + e.Position.ToString());
             }
             if (kb.IsKeyDown(Keys.W))
             {
@@ -175,6 +176,7 @@ namespace _3DGame.Scenes
             WindowManager.Add(new GameplayAssets.ConsoleWindow(WindowManager));
             ScreenResized(device);
             Terrain.Console.WriteCallback = new Action<string>(ConsoleWrite);
+            _3DGame.Console.WriteCallback = new Action<string>(ConsoleWrite);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {

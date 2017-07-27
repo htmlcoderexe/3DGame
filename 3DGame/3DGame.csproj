@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Console.cs" />
     <Compile Include="GameObjects\Camera.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapEntities\Actor.cs" />

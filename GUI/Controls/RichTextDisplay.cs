@@ -16,6 +16,7 @@ namespace GUI.Controls
             get;
             set;
         }
+        float LineHeight = 0;
         public void AddText(string Text)
         {
             this.RenderText.AppendText(Text);
@@ -24,24 +25,25 @@ namespace GUI.Controls
         {
             this.RenderText.AppendText(Text, false);
         }
-        public RichTextDisplay(string Text, int Width, int Height,WindowManager WM)
+        public RichTextDisplay(string Text, int Width, int Height, WindowManager WM)
         {
             this.WM = WM;
             this.RenderText = new RichText.RichTextMultiLine(Text, this.WM.Renderer.UIFont, Width);
             this.Width = Width;
             this.Height = Height;
+            LineHeight = this.WM.Renderer.UIFont.MeasureString(" ").Y;
+
+            this.RenderText.MaxCount = (int)(this.Height / LineHeight);
         }
         public override void Render(GraphicsDevice device, Renderer Renderer, int X, int Y)
         {
             string line;
             float lineoffset = 0;
             float Yoffset = 0;
-            float LineHeight = 0;
             Renderer.RenderFrame(device, X + this.X, Y + this.Y, this.Width, this.Height);
             for (int i = 0; i < RenderText.Lines.Count; i++)
             {
                 line = RenderText.Lines[Flip ? RenderText.Lines.Count - 1 - i : i];
-                LineHeight = Renderer.UIFont.MeasureString(line).Y;
                 Yoffset = LineHeight * lineoffset;
                 if (Flip)
                     Yoffset = this.Height - Yoffset-LineHeight;
@@ -49,6 +51,31 @@ namespace GUI.Controls
                 lineoffset++;
             }
             base.Render(device, Renderer, X, Y);
+        }
+        public int LineID(int Y)
+        {
+            int ID = -1;
+
+            
+                ID = (int)( Y/ LineHeight);
+            if(Flip)
+            {
+                ID -= (this.RenderText.MaxCount - this.RenderText.Lines.Count);
+            }
+
+            if (ID >= this.RenderText.Lines.Count)
+                return -1;
+            return ID;
+        }
+        public override void Click(float X, float Y)
+        {
+            int ID = LineID((int)Y);
+            if (ID != -1)
+            {
+                string line = this.RenderText.Lines[ID];
+                this.AddLine(((int)Y).ToString()+"="+ID.ToString());
+            }
+            base.Click(X, Y);
         }
     }
 }

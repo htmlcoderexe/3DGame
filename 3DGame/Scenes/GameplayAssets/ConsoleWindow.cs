@@ -15,7 +15,6 @@ namespace _3DGame.Scenes.GameplayAssets
             this.Width = 320;
             this.Height = 436;
            messages = new GUI.Controls.RichTextDisplay("", this.Width - this.Margin.X - this.Margin.Width, 420, WM);
-            messages.RenderText.MaxCount = 20;
            messages.Flip = true;
            AddControl(messages);
         }

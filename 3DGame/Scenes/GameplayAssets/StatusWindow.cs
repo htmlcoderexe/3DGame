@@ -34,6 +34,10 @@ namespace _3DGame.Scenes.GameplayAssets
         private void OKButton_Clicked(object sender, EventArgs e)
         {
             this.Title = "Sex";
+
+            OKButton.Title = e.ToString();
+
+            return;
             System.Random r = new Random();
             if (r.NextDouble()>0.5)
                 this.Texst.AddText(" ^00FF00 green text ");

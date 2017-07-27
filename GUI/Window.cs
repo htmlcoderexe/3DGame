@@ -35,8 +35,6 @@ namespace GUI
             }
             else
             {
-                Y -= 16;
-
                 base.MouseDown(X - Margin.X, Y - Margin.Y);
             }
         }
