@@ -33,9 +33,11 @@ namespace GUI
         public KeyboardState PreviousKbState { get; set; }
 
         public MouseState PreviousMouseState { get; set; }
+        private List<Window> closedwindows;
         public WindowManager()
         {
             this.Windows = new List<Window>();
+            this.closedwindows = new List<Window>();
           //  this.ToolTip = new ToolTip(); fuck tooltips!
         }
         /// <summary>
@@ -52,6 +54,14 @@ namespace GUI
 
             }
             this.NotificationTimeout = Math.Max(0, this.NotificationTimeout - seconds);
+            closedwindows.Clear();
+            foreach (Window w in this.Windows)
+            {
+                if (w.Closed)
+                    closedwindows.Add(w);
+            }
+            foreach (Window w in closedwindows)
+                this.Windows.Remove(w);
         }
         public void Notify(string Text, bool Override = false)
         {
