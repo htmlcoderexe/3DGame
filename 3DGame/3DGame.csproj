@@ -43,9 +43,13 @@
   <ItemGroup>
     <Compile Include="Console.cs" />
     <Compile Include="GameObjects\Camera.cs" />
+    <Compile Include="GameObjects\Item.cs" />
+    <Compile Include="GameObjects\Items\ItemMaterial.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapEntities\Actor.cs" />
     <Compile Include="GameObjects\MapEntity.cs" />
+    <Compile Include="GameObjects\RNG.cs" />
+    <Compile Include="Interfaces\IActionIcon.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IGameScene.cs" />
     <Compile Include="Interfaces\WorldPosition.cs" />
@@ -54,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\Gameplay.cs" />
     <Compile Include="Scenes\GameplayAssets\ConsoleWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\ItemSlot.cs" />
     <Compile Include="Scenes\GameplayAssets\StatusWindow.cs" />
   </ItemGroup>
   <ItemGroup>

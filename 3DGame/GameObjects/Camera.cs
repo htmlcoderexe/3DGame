@@ -88,7 +88,7 @@ namespace _3DGame.GameObjects
         {
             return Matrix.CreatePerspectiveFieldOfView(
            // MathHelper.ToRadians(_3drpg.Terrain.GameSettings.FOV),
-           MathHelper.ToRadians(60),
+           MathHelper.ToRadians(45),
             (float)GraphicsDevice.Viewport.Width /
             (float)GraphicsDevice.Viewport.Height,
             0.5f,

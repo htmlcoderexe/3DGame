@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\RichTextDisplay.cs" />
+    <Compile Include="Controls\RichText\ActionLink.cs" />
     <Compile Include="Controls\RichText\RichTextMultiLine.cs" />
     <Compile Include="GFXUtility.cs" />
     <Compile Include="IAction.cs" />

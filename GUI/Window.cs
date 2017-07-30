@@ -14,7 +14,8 @@ namespace GUI
 
         private bool CloseHot;
         public Rectangle Margin;
-
+        private bool _closed;
+        public bool Closed { get { return _closed; } }
         public override void MouseDown(float X, float Y)
         {
             WM.Top(this);
@@ -29,6 +30,7 @@ namespace GUI
                 }
                 else
                 {
+                    this._closed = true;
                     //  this.CloseButton.Action();
                 }
 

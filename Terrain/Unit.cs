@@ -39,19 +39,26 @@ namespace Terrain
         public float GetHeight(float X, float Y)
         {
             float height = 0.0f;
+            try
+            {
+                float A = heightmap[(int)X, (int)Y];
+                float B = heightmap[(int)X + 1, (int)Y];
+                float C = heightmap[(int)X, (int)Y + 1];
+                float D = heightmap[(int)X + 1, (int)Y + 1];
 
-            float A = heightmap[(int)X, (int)Y];
-            float B = heightmap[(int)X+1, (int)Y];
-            float C = heightmap[(int)X, (int)Y+1];
-            float D = heightmap[(int)X+1, (int)Y+1];
+                float dX = X - (int)X;
+                float dY = Y - (int)Y;
+                height += (1 - dX) * (1 - dY) * A;
+                height += dX * (1 - dY) * B;
+                height += (1 - dX) * dY * C;
+                height += dX * dY * D;
+            }
+            catch (Exception e)
+            {
 
-            float dX = X - (int)X;
-            float dY = Y - (int)Y;
-            height += (1 - dX) * (1 - dY) * A;
-            height += dX * (1 - dY) * B;
-            height += (1 - dX) * dY * C;
-            height += dX * dY * D;
-            return height;
+            }
+                return height;
+            
         }
     }
 }

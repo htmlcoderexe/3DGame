@@ -19,11 +19,11 @@ namespace GUI.Controls
         float LineHeight = 0;
         public void AddText(string Text)
         {
-            this.RenderText.AppendText(Text);
+            this.RenderText.AppendText(Text,true);
         }
-        public void AddLine(string Text)
+        public void AddLine(string Text,List<System.Action> Links=null)
         {
-            this.RenderText.AppendText(Text, false);
+            this.RenderText.AppendText(Text, false,Links);
         }
         public RichTextDisplay(string Text, int Width, int Height, WindowManager WM)
         {
@@ -40,7 +40,7 @@ namespace GUI.Controls
             string line;
             float lineoffset = 0;
             float Yoffset = 0;
-            Renderer.RenderFrame(device, X + this.X, Y + this.Y, this.Width, this.Height);
+           // Renderer.RenderFrame(device, X + this.X, Y + this.Y, this.Width, this.Height);
             for (int i = 0; i < RenderText.Lines.Count; i++)
             {
                 line = RenderText.Lines[Flip ? RenderText.Lines.Count - 1 - i : i];
@@ -72,8 +72,7 @@ namespace GUI.Controls
             int ID = LineID((int)Y);
             if (ID != -1)
             {
-                string line = this.RenderText.Lines[ID];
-                this.AddLine(((int)Y).ToString()+"="+ID.ToString());
+                this.RenderText.TryAction(ID, (int)X);
             }
             base.Click(X, Y);
         }

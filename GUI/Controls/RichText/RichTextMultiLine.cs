@@ -11,6 +11,7 @@ namespace GUI.Controls.RichText
     public class RichTextMultiLine
     {
         public List<string> Lines;
+        public List<ActionLink> Links;
         public int MaxCount = 10;
         public int MaxWidth = 128;
         private SpriteFont Font;
@@ -25,17 +26,23 @@ namespace GUI.Controls.RichText
         private void AddLine(string Line)
         {
             this.Lines.Add(Line);
-            if (this.Lines.Count > MaxCount)
+            while (this.Lines.Count > MaxCount)
+            {
+                foreach(ActionLink l in this.Links)
+                {
+                    l.LineID--;
+                }
                 this.Lines.RemoveAt(0);
+            }
+            
         }
         private void Clear()
         {
             this.Lines.Clear();
             this.LastControlWord = "";
         }
-        public void AppendText(string Text, bool ContinueLine = true)
+        public void AppendText(string Text, bool ContinueLine = false, List<System.Action> LinkAction=null)
         {
-
             string[] l = Text.Split(' ');
             string CurrentWord = "";
             string CurrentLine = "";
@@ -48,8 +55,13 @@ namespace GUI.Controls.RichText
                 string CurrentLinePure = regex.Replace(CurrentLine, "");
                 Xoffset = GFXUtility.StrW(CurrentLinePure + " ", Font);
             }
+            else
+            {
+                LastControlWord = "";
+            }
             float CurrentLength;
             float spacewidth = GFXUtility.StrW(" ", Font);
+            ActionLink currentlink = null;
             for (int i = 0; i < l.Length; i++)
             {
                 CurrentWord = l[i];
@@ -60,6 +72,24 @@ namespace GUI.Controls.RichText
                 {
                     CurrentLine += CurrentWord + " ";
                     LastControlWord = CurrentWord;
+                    if(CurrentWord=="^BEGINLINK")
+                    {
+                        currentlink = new ActionLink();
+                        
+                        if(LinkAction!=null && LinkAction.Count>0)
+                        {
+                            currentlink.ClickHandler = LinkAction.First();
+                            LinkAction.Remove(LinkAction.First());
+                        }
+                        currentlink.LinkStart = (int)Xoffset;
+                        currentlink.LineID = this.Lines.Count;
+                    }
+                    if(CurrentWord=="^ENDLINK")
+                    {
+
+                        currentlink.LinkEnd = (int)Xoffset;
+                        this.Links.Add(currentlink);
+                    }
                     continue;
                 }
                 CurrentLength = GFXUtility.StrW(CurrentWord + " ", Font);
@@ -70,6 +100,17 @@ namespace GUI.Controls.RichText
                 }
                 else
                 {
+                    if (LastControlWord == "^BEGINLINK" || (currentlink!=null && currentlink.LinkEnd==0))
+                    {
+                        CurrentLine+= "^ENDLINK";
+                        currentlink.LinkEnd = (int)Xoffset;
+                        this.Links.Add(currentlink);
+                        System.Action tmp = currentlink.ClickHandler;
+                        currentlink = new ActionLink();
+                        currentlink.ClickHandler = tmp;
+                        currentlink.LinkStart = 0;
+                        currentlink.LineID = this.Lines.Count + 1;
+                    }
                     AddLine(CurrentLine);
                     CurrentLine = "";
                     if (LastControlWord != "")
@@ -84,6 +125,7 @@ namespace GUI.Controls.RichText
         public RichTextMultiLine(string Text, SpriteFont Font, int MaxWidth)
         {
             this.Lines = new List<string>();
+            this.Links = new List<ActionLink>();
             this.MaxWidth = MaxWidth;
             this.Font = Font;
             this.AppendText(Text, false);
@@ -92,6 +134,21 @@ namespace GUI.Controls.RichText
         {
             this.Clear();
             this.AppendText(Text, false);
+        }
+        public bool TryAction(int Line, int X)
+        {
+            List<ActionLink> a = Links.FindAll(l => l.LineID == Line);
+            if (a == null)
+                return false;
+            foreach(ActionLink l in a)
+            {
+                if(l.Check(X))
+                {
+                    l.Click();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

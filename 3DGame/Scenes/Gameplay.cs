@@ -122,7 +122,8 @@ namespace _3DGame.Scenes
                 World.Camera.Pitch = MathHelper.Clamp(World.Camera.Pitch, -89.0f, 89.0f);
 
                
-                Mouse.SetPosition(device.Viewport.Width / 2, device.Viewport.Height / 2);
+                Mouse.SetPosition(PreviousMouseState.X, PreviousMouseState.Y);
+               // Mouse.SetPosition(device.Viewport.Width / 2, device.Viewport.Height / 2);
             }
 
 
@@ -170,13 +171,16 @@ namespace _3DGame.Scenes
             GUIRenderer.UIFont = content.Load<SpriteFont>("font1");
             WindowManager = new GUI.WindowManager();
             WindowManager.Renderer = GUIRenderer;
-            GUI.Window w;
-            w = new GameplayAssets.StatusWindow(WindowManager);
-            WindowManager.Add(w);
             WindowManager.Add(new GameplayAssets.ConsoleWindow(WindowManager));
             ScreenResized(device);
             Terrain.Console.WriteCallback = new Action<string>(ConsoleWrite);
             _3DGame.Console.WriteCallback = new Action<string>(ConsoleWrite);
+            GUI.Console.WriteCallback = new Action<string>(ConsoleWrite);
+            GameObjects.Items.Material.MaterialTemplates.Load();
+
+            GUI.Window w;
+            w = new GameplayAssets.StatusWindow(WindowManager);
+            WindowManager.Add(w);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {

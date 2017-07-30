@@ -294,19 +294,19 @@ namespace GUI
 
         #region Colours
 
-        public Color ColourBlue = new Color(0, 189, 255);
-        // public Color ColourGreen = new Color(0, 255, 100);
-        public Color ColourGreen = new Color(0, 206, 0);
-        public Color ColourGold = new Color(255, 200, 12);
-        public Color ColourViolet = new Color(255, 12, 200);
-        public Color ColourOrange = new Color(255, 100, 0);
-        public Color ColourGray = new Color(200, 200, 200);
-        public Color ColourYellow = new Color(255, 255, 0);
-        public Color ColourRed = new Color(255, 20, 50);
-        public Color ColourNeon = new Color(0, 240, 255);
+        public static Color ColourBlue = new Color(0, 189, 255);
+        // publstatic ic Color ColourGreen = new Color(0, 255, 100);
+        public static Color ColourGreen = new Color(0, 206, 0);
+        public static Color ColourGold = new Color(255, 200, 12);
+        public static Color ColourViolet = new Color(255, 12, 200);
+        public static Color ColourOrange = new Color(255, 100, 0);
+        public static Color ColourGray = new Color(200, 200, 200);
+        public static Color ColourYellow = new Color(255, 255, 0);
+        public static Color ColourRed = new Color(255, 20, 50);
+        public static Color ColourNeon = new Color(0, 240, 255);
 
 
-        public string ColourToCode(Color Colour)
+        public static string ColourToCode(Color Colour)
         {
             string s = "";
             int r = Colour.R;
