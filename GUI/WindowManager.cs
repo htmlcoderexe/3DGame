@@ -154,6 +154,8 @@ namespace GUI
                 {
                     Window.MouseUp(MouseX - Window.X, MouseY - Window.Y);
                 }
+                if (this.MovingWindow != null)
+                    this.MovingWindow = null;
 
             }
             PreviousMouseState = Mouse;

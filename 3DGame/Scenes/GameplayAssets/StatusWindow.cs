@@ -42,6 +42,7 @@ namespace _3DGame.Scenes.GameplayAssets
         {
             this.slot.Item = GameObjects.Items.Material.MaterialTemplates.GetRandomMaterial();
             this.slot.Item.SubType = GameObjects.RNG.Next(GameObjects.Items.Material.MaterialType.Max);
+            this.slot.Item.Description= "A " + GameObjects.Items.Material.MaterialType.GetTypeName(this.slot.Item.SubType) +" made from "+this.slot.Item.Name+". Used in crafting equipment.";
             this.OKButton.Title = this.slot.Item.GetName();
             List<string> ToolTip = this.slot.Item.GetTooltip();
             Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(this.slot.Item.NameColour)+ "["+this.slot.Item.GetName()+"] ^ENDLINK .^FFFFFF Click name to see more.",new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);

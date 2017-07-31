@@ -39,6 +39,16 @@ namespace GUI.Controls
 
             this.RenderText.MaxCount = (int)(this.Height / LineHeight);
         }
+        public RichTextDisplay(int Width, int Height, WindowManager WM)
+        {
+            this.WM = WM;
+            this.RenderText = new RichText.RichTextMultiLine(this.WM.Renderer.UIFont, Width);
+            this.Width = Width;
+            this.Height = Height;
+            LineHeight = this.WM.Renderer.UIFont.MeasureString(" ").Y;
+
+            this.RenderText.MaxCount = (int)(this.Height / LineHeight);
+        }
         public override void Render(GraphicsDevice device, Renderer Renderer, int X, int Y)
         {
             string line;

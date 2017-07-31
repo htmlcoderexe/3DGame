@@ -138,6 +138,13 @@ namespace GUI.Controls.RichText
             this.Font = Font;
             this.AppendText(Text, false);
         }
+        public RichTextMultiLine(SpriteFont Font, int MaxWidth)
+        {
+            this.Lines = new List<string>();
+            this.Links = new List<ActionLink>();
+            this.MaxWidth = MaxWidth;
+            this.Font = Font;
+        }
         public void SetText(string Text)
         {
             this.Clear();

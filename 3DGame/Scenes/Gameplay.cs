@@ -270,7 +270,9 @@ namespace _3DGame.Scenes
             TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["Water"];
             World.Terrain.DrawWater(device, dT,World.Camera.Position.Reference());
 
-
+            WindowManager.Render(device);
+            device.BlendState = BlendState.Opaque;
+            device.DepthStencilState = DepthStencilState.Default;
             device.SetRenderTarget(null);
             b.Begin();
             b.Draw(Screen, Vector2.Zero, Color.White);
@@ -278,9 +280,7 @@ namespace _3DGame.Scenes
             GUIRenderer.RenderFrame(device, 32, 32, 256, 128);
             GUIRenderer.RenderBigIcon(device, 0, 0, 2, GUIRenderer.AbilityMap);
             GUIRenderer.RenderSmallText(device, 35, 56, World.Camera.Position.Y.ToString(), Color.Red, false, true);
-            WindowManager.Render(device);
-            device.BlendState = BlendState.Opaque;
-            device.DepthStencilState = DepthStencilState.Default;
+           
         }
 
         public void Update(float dT)
