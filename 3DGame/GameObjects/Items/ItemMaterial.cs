@@ -179,12 +179,11 @@ namespace _3DGame.GameObjects.Items
         {
 
 
-            List<string> tip = new List<string>();                                     //  string TypeName = ItemWeaponType.Names[this.SubType];
+            List<string> tip = base.GetTooltip();                                   //  string TypeName = ItemWeaponType.Names[this.SubType];
                                                  //  tip+=Rendering.GUIDraw.ColourToCode(GUIDraw.ColourGray) + TypeName);
             tip.Add("Density:           ^7F7FFF " + this.Density);
             tip.Add("Hardness:           ^7F7FFF " + this.Hardness);
             tip.Add("Price:         " + GUI.Renderer.ColourToCode(GUI.Renderer.ColourGreen) + this.SellPrice);
-            tip.AddRange(base.GetTooltip());
             return tip;
         }
     }

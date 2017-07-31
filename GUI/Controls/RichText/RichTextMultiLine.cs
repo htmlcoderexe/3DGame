@@ -41,6 +41,14 @@ namespace GUI.Controls.RichText
             this.Lines.Clear();
             this.LastControlWord = "";
         }
+        public void AppendMultiline(string Text,List<System.Action> LinkAction=null)
+        {
+            string[] ss = Text.Split('\n');
+            foreach(string s in ss)
+            {
+                this.AppendText(s, false, LinkAction);
+            }
+        }
         public void AppendText(string Text, bool ContinueLine = false, List<System.Action> LinkAction=null)
         {
             string[] l = Text.Split(' ');
