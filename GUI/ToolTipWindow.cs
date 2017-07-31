@@ -27,7 +27,8 @@ namespace GUI
         public ToolTipWindow(WindowManager WM, List<string> Text, int X, int Y, bool SelfDismissing = true)
         {
             this.Width = 256;
-
+            this.X = X;
+            this.Y = Y;
             this.SelfDismissing = SelfDismissing;
             TextDisplay = new GUI.Controls.RichTextDisplay("", this.Width - this.Margin.X - this.Margin.Width, (int)WM.Screen.Y, WM);
             foreach (string line in Text)

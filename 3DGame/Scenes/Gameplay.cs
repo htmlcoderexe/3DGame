@@ -49,6 +49,10 @@ namespace _3DGame.Scenes
 
         public void ConsoleWrite(string Text)
         {
+            ConsoleWriteEx(Text);
+        }
+        public void ConsoleWriteEx(string Text,List<System.Action> Links=null)
+        {
             if (WindowManager == null)
                 return;
             GameplayAssets.ConsoleWindow console = null;
@@ -62,7 +66,7 @@ namespace _3DGame.Scenes
             }
             if (console == null)
                 return;
-            console.AppendMessage(Text);
+            console.AppendMessage(Text,Links);
         }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
@@ -175,6 +179,7 @@ namespace _3DGame.Scenes
             ScreenResized(device);
             Terrain.Console.WriteCallback = new Action<string>(ConsoleWrite);
             _3DGame.Console.WriteCallback = new Action<string>(ConsoleWrite);
+            _3DGame.Console.WriteCallbackEx = new Action<string,List<Action>>(ConsoleWriteEx);
             GUI.Console.WriteCallback = new Action<string>(ConsoleWrite);
             GameObjects.Items.Material.MaterialTemplates.Load();
 

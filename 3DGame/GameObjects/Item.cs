@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DGame.GameObjects
 {
-    public class Item : Interfaces.IActionIcon
+    public class Item : Interfaces.IActionIcon,ICloneable
     {
         public class Types
         {
@@ -27,18 +27,22 @@ namespace _3DGame.GameObjects
         public int SubType;
         public int StackSize;
         public float CooldownPercentage { get; set; }
+        public virtual object Clone()
+        {
+            return this; 
+        }
         public virtual List<string> GetTooltip()
         {
             List<string> tip = new List<string>();
 
             string code = GUI.Renderer.ColourToCode(this.NameColour);
-            tip.Add(code + this.GetName());//+ "G" + this.Grade);
+            tip.Add(code+ this.GetName());//+ "G" + this.Grade);
 
             tip.Add(GUI.Renderer.ColourToCode(GUI.Renderer.ColourYellow) + this.Description);
 
             return tip;
         }
-
+        
         public virtual string GetName()
         {
             return GUI.Renderer.ColourToCode(this.NameColour) + this.Name;

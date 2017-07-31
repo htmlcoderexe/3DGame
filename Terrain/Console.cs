@@ -15,5 +15,13 @@ namespace Terrain
                 return;
             WriteCallback(Text);
         }
+
+        public static System.Action<string, List<System.Action>> WriteCallbackEx;
+        public static void WriteEx(string Text,List<System.Action> Links)
+        {
+            if (WriteCallbackEx == null)
+                return;
+            WriteCallbackEx(Text,Links);
+        }
     }
 }
