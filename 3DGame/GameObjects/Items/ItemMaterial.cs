@@ -175,18 +175,16 @@ namespace _3DGame.GameObjects.Items
             m.Colour = this.Colour;
             return m;
         }
-        public string GetTip()
+        public override List<string> GetTooltip()
         {
 
-            string tip="";
-            string code = GUI.Renderer.ColourToCode(this.NameColour);
-            tip+=code + this.GetName();//+ "G" + this.Grade);
-                                                 //  string TypeName = ItemWeaponType.Names[this.SubType];
+
+            List<string> tip = new List<string>();                                     //  string TypeName = ItemWeaponType.Names[this.SubType];
                                                  //  tip+=Rendering.GUIDraw.ColourToCode(GUIDraw.ColourGray) + TypeName);
-            tip+="Density:           ^7F7FFF " + this.Density;
-            tip+="Hardness:           ^7F7FFF " + this.Hardness;
-            tip+=GUI.Renderer.ColourToCode(GUI.Renderer.ColourYellow) + this.Description;
-            tip+="Price:         " + GUI.Renderer.ColourToCode(GUI.Renderer.ColourGreen) + this.SellPrice;
+            tip.Add("Density:           ^7F7FFF " + this.Density);
+            tip.Add("Hardness:           ^7F7FFF " + this.Hardness);
+            tip.Add("Price:         " + GUI.Renderer.ColourToCode(GUI.Renderer.ColourGreen) + this.SellPrice);
+            tip.AddRange(base.GetTooltip());
             return tip;
         }
     }

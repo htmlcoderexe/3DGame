@@ -437,12 +437,13 @@ namespace GUI
             }
             batch.End();
         }
-        public void RenderFrame(GraphicsDevice device, float X, float Y, float Width, float Height)
+        public void RenderFrame(GraphicsDevice device, float X, float Y, float Width, float Height, Slice9? slice=null)
         {
             SetTexture(WindowSkin);
             SetColour(Color.LightGray);
-            Slice9 slice = new Slice9(0, 0, 48, 48, 5, 5, 17, 5);
-            VertexPositionTexture[] frame = GFXUtility.SlicedQuad(device, X, Y, Width, Height, slice, WindowSkin);// GFXUtility.Frame(device, X, Y, Width, Height);
+            if(!slice.HasValue)
+            slice = new Slice9(0, 0, 48, 48, 5, 5, 17, 5);
+            VertexPositionTexture[] frame = GFXUtility.SlicedQuad(device, X, Y, Width, Height, slice.GetValueOrDefault(), WindowSkin);// GFXUtility.Frame(device, X, Y, Width, Height);
             device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, frame, 0, 18);
             SetColour(Color.Gray);
 

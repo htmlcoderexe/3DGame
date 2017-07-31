@@ -27,9 +27,16 @@ namespace _3DGame.GameObjects
         public int SubType;
         public int StackSize;
         public float CooldownPercentage { get; set; }
-        public virtual string GetTooltip()
+        public virtual List<string> GetTooltip()
         {
-            return "";
+            List<string> tip = new List<string>();
+
+            string code = GUI.Renderer.ColourToCode(this.NameColour);
+            tip.Add(code + this.GetName());//+ "G" + this.Grade);
+
+            tip.Add(GUI.Renderer.ColourToCode(GUI.Renderer.ColourYellow) + this.Description);
+
+            return tip;
         }
 
         public virtual string GetName()

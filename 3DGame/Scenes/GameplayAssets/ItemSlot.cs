@@ -28,5 +28,14 @@ namespace _3DGame.Scenes.GameplayAssets
             Item.Render(X+4, Y+4, device, Renderer, false, false);
             base.Render(device, Renderer, X, Y);
         }
+        public override void Click(float X, float Y)
+        {
+            if(this.Item!=null)
+            {
+                ToolTipWindow tip = new ToolTipWindow(this.WM,this.Item.GetTooltip(), (int)this.X+(int)X, this.Y+(int)Y, false);
+                WM.Add(tip);
+            }
+            base.Click(X, Y);
+        }
     }
 }

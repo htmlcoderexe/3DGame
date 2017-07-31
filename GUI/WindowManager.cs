@@ -115,8 +115,7 @@ namespace GUI
         }
         public void Add(Window Window)
         {
-            Window.WM = (WindowManager)this;
-            Window.WM.GetType();
+            Window.WM = this;
             this.Windows.Add(Window);
         }
         public bool HandleMouse(MouseState Mouse)
@@ -210,7 +209,7 @@ namespace GUI
 
     public static class WindowSettings
     {
-        public static Color WindowColour = new Color(102, 102, 102);
+        public static Color WindowColour = new Color(102, 102, 202);
 
     }
 

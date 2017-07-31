@@ -51,6 +51,7 @@
     <Compile Include="IAction.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolTipWindow.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowManager.cs" />
   </ItemGroup>

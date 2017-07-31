@@ -16,10 +16,14 @@ namespace GUI.Controls
             get;
             set;
         }
-        float LineHeight = 0;
+        public float LineHeight = 0;
         public void AddText(string Text)
         {
             this.RenderText.AppendText(Text,true);
+        }
+        public void SetText(string Text)
+        {
+            this.RenderText.SetText(Text);
         }
         public void AddLine(string Text,List<System.Action> Links=null)
         {

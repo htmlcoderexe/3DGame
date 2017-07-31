@@ -13,6 +13,6 @@ namespace _3DGame.Interfaces
         void PrimaryAction();
         void SecondaryAction();
         void Render(int X, int Y, GraphicsDevice device, GUI.Renderer Renderer, bool RenderCooldown = false, bool RenderEXP = false);
-        string GetTooltip();
+        List<string> GetTooltip();
     }
 }
