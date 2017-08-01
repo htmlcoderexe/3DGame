@@ -11,9 +11,13 @@ namespace _3DGame.GameObjects
 {
     public class World : Interfaces.IGameObject
     {
+        /// <summary>
+        /// List of all entities int the world
+        /// </summary>
         public List<MapEntity> Entities;
         private List<MapEntity> _deadEntities;
-        public GameObjects.Camera Camera;
+        public Camera Camera;
+        public GameObjects.MapEntities.Actos.Player Player;
         public Terrain.Terrain Terrain; //terrain.
         public static BasicEffect ModelEffect;
         public World(GraphicsDevice device)
@@ -44,13 +48,19 @@ namespace _3DGame.GameObjects
                 ModelEffect.VertexColorEnabled = true;
                 e.Render(device, dT, Camera.Position.Reference());
             }
+
+            ModelEffect.View = Camera.GetView();
+            ModelEffect.Projection = Camera.GetProjection(device);
+            ModelEffect.VertexColorEnabled = true;
+            Player.Render(device, dT, Camera.Position.Reference());
         }
 
         public void Update(float dT)
         {
             UpdateEntities(dT);
             Terrain.Update(dT);
-            
+            SetGravity(Player);
+            Player.Update(dT);
         }
         private void SetGravity(MapEntity e)
         {

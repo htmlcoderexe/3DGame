@@ -15,8 +15,10 @@ namespace Terrain
         private int[] _indices2;
         private int BlockSize;
         public float WaterHeight = 80f;
+        public int Seed;
         public WorldGenerator(int BlockSize)
         {
+            this.Seed = 4;
             this.BlockSize = BlockSize;
         }
         public void CreateGrid()
@@ -149,7 +151,7 @@ namespace Terrain
             // v.Position.Y *= 10;
             float to256 = 1 / 256;
             float H = 0.0f;
-            Simplex.Seed = 3;
+            Simplex.Seed = this.Seed;
             MapY += 65535;
             MapX += 65535;
             H = Simplex.CalcPixel2D(MapX, MapY, 0.0006125f)-35f;

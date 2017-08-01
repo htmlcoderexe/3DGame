@@ -79,21 +79,40 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.Space) /* )//Diarrhea mode!!*/ && (PreviousKbState.IsKeyUp(Keys.Space) || kb.IsKeyDown(Keys.LeftShift)))
             {
                 GameObjects.MapEntity e = new GameObjects.MapEntity();
-                e.Position = World.Camera.Position;
-                e.Heading = World.Camera.Yaw+90f;
+                e.Position = World.Player.Position;
+                e.Heading = World.Player.Heading;
                 World.Entities.Add(e);
                 Console.Write("Spawned entity at " + e.Position.ToString());
             }
             if (kb.IsKeyDown(Keys.W))
             {
                 
-                Accel += 0.5f;
+                World.Player.Speed =5f;
+
+                World.Player.Heading = World.Camera.Yaw + 90f;
             }
 
-            if (kb.IsKeyDown(Keys.S))
+            else if (kb.IsKeyDown(Keys.S))
             {
-                
-                Accel -= 0.5f;
+                World.Player.Speed = 5f;
+
+                World.Player.Heading = World.Camera.Yaw - 90f;
+            }
+            else if (kb.IsKeyDown(Keys.D))
+            {
+                World.Player.Speed = 5f;
+
+                World.Player.Heading = World.Camera.Yaw - 180f;
+            }
+            else if (kb.IsKeyDown(Keys.A))
+            {
+                World.Player.Speed = 5f;
+
+                World.Player.Heading = World.Camera.Yaw - 0f;
+            }
+            else
+            {
+                World.Player.Speed = 0;
             }
 
             if (kb.IsKeyUp(Keys.W) && kb.IsKeyUp(Keys.S))
@@ -107,7 +126,12 @@ namespace _3DGame.Scenes
             {
                 mv.Y += 0.0f;
             }
-            World.Camera.Position += mv;
+            if (kb.IsKeyDown(Keys.Up))
+                World.Camera.Distance -= 0.10f;
+            if (kb.IsKeyDown(Keys.Down))
+                World.Camera.Distance += 0.10f;
+            World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 10f);
+            //World.Player.Position += mv;
 
 
             WindowManager.MouseX = mouse.X;
@@ -158,14 +182,15 @@ namespace _3DGame.Scenes
         public void Init(GraphicsDevice device, ContentManager content)
         {
             World = new GameObjects.World(device);
+            World.Player = new GameObjects.MapEntities.Actos.Player();
             Textures = new Dictionary<string, Texture2D>();
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
-            World.Camera = new GameObjects.Camera();
-            World.Camera.Position= new Vector3(0, 0, 0);
+            World.Camera = World.Player.GetTheCamera();
+            World.Player.Position= new Vector3(0, 0, 0);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
             GUIRenderer = new GUI.Renderer(device);

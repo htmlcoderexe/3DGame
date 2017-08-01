@@ -35,7 +35,7 @@ namespace _3DGame.GameObjects
         public MapEntity()
         {
             this.Model = new GameModel.Model();
-            this.Speed = 1.0f;
+            this.Speed = 0.0f;
             
         }
         public  bool IsDead
@@ -52,7 +52,7 @@ namespace _3DGame.GameObjects
             //   W *= Matrix.CreateRotationZ(MathHelper.ToRadians(this.Pitch));
             W *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(-this.Heading), MathHelper.ToRadians(this.Roll), MathHelper.ToRadians(this.Pitch));
             W *= this.Position.CreateWorld(Reference);
-            this.Model.Render(device, dT*Speed, W,GameObjects.World.ModelEffect);
+            this.Model.Render(device, dT*(Speed), W,GameObjects.World.ModelEffect);
         }
 
         public virtual void Update(float dT)

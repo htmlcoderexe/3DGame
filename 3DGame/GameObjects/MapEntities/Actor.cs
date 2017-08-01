@@ -14,9 +14,11 @@ namespace _3DGame.GameObjects.MapEntities
         public float CurrentMPBuffer;
         public string Name { get; set; }
         public List<StatBonus> StatBonuses;
+        public GameObjects.Camera Camera;
         public Actor()
         {
             this.StatBonuses = new List<StatBonus>();
+            this.Camera = new Camera();
         }
         public float CalculateStage(float input,List<StatBonus> Bonuses,StatBonus.StatOrder Stage)
         {
@@ -42,8 +44,13 @@ namespace _3DGame.GameObjects.MapEntities
 
         public override void Update(float dT)
         {
-            
+            this.Camera.Position = this.Position;
             base.Update(dT);
+        }
+
+        public Camera GetTheCamera()
+        {
+            return this.Camera;
         }
     }
 }

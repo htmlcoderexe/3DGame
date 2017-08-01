@@ -19,9 +19,9 @@ namespace GameModel.TestParts
             Matrix Center = Matrix.CreateRotationY(MathHelper.ToRadians(1f));
             this.Animation = new PartAnimation();
             this.Animation.Add(Down * Backward, 0);
-            this.Animation.Add(Up * Center, 1.2f);
-            this.Animation.Add(Down * Forward, 1.2f);
-            this.Animation.Add(Down * Backward, 2.4f);
+            this.Animation.Add(Up * Center, 1.2f*2.0f);
+            this.Animation.Add(Down * Forward, 1.2f * 2.0f);
+            this.Animation.Add(Down * Backward, 2.4f * 2.0f);
             this.Animation.Loop = true;
             _vertices = new VertexPositionColor[8];
             _vertices[0] = new VertexPositionColor(new Vector3( 0.0f,    0.02f,   -0.02f),   Color.Black);
