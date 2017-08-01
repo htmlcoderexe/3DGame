@@ -7,10 +7,23 @@ using System.Threading.Tasks;
 
 namespace _3DGame.GameObjects.Items
 {
-    class BonusPool
+    /// <summary>
+    /// Represents possible choices for item add-ons during random generation
+    /// </summary>
+    public class BonusPool
     {
+        /// <summary>
+        /// List of possible choices
+        /// </summary>
         public List<BonusTemplate> Bonuses;
+        /// <summary>
+        /// Globally accessible, fixed list of all pools
+        /// </summary>
         public static Dictionary<string, BonusPool> Pools;
+        /// <summary>
+        /// Selects specific add-on from possible options
+        /// </summary>
+        /// <returns>A template which contains possible ranges for the specific add-on</returns>
         private BonusTemplate PickTemplate()
         {
             int Total = Bonuses.Sum(b => b.Weight);
@@ -23,18 +36,28 @@ namespace _3DGame.GameObjects.Items
             }
             return null;
         }
+        /// <summary>
+        /// Initializes the pool
+        /// </summary>
         public BonusPool()
         {
             this.Bonuses = new List<BonusTemplate>();
         }
+
+        /// <summary>
+        /// Create an item add-on from the pool and pick values for it
+        /// </summary>
+        /// <returns>An ItemBonus with specific values</returns>
         public ItemBonus PickBonus()
         {
             BonusTemplate t = PickTemplate();
-            float Flat = RNG.Next(t.FlatMin, t.FlatMax);
-            float Multi = RNG.Next(t.MultiMin, t.MultiMax)/100.0f;
-            ItemBonus b = new ItemBonus() { FlatValue = Flat, Multiplier = Multi, Effecttext = t.Effectstring, LineColour = GUI.Renderer.ColourBlue ,Type=t.Type};
-            return b;
+            return t.Generate();
         }
+        /// <summary>
+        /// Loads a specific addon pool on demand
+        /// </summary>
+        /// <param name="Name">The name of the pool to be loaded, located in gamedata/itemtemplates</param>
+        /// <returns>An addon pool or null on failure</returns>
         public static BonusPool Load(string Name)
         {
             if (Pools == null)
