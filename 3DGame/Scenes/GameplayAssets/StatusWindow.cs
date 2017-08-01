@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _3DGame.GameObjects.Items;
 using GUI;
+using Microsoft.Xna.Framework;
 
 namespace _3DGame.Scenes.GameplayAssets
 {
@@ -44,8 +46,27 @@ namespace _3DGame.Scenes.GameplayAssets
             this.slot.Item.SubType = GameObjects.RNG.Next(GameObjects.Items.Material.MaterialType.Max);
             this.slot.Item.Description= "A " + GameObjects.Items.Material.MaterialType.GetTypeName(this.slot.Item.SubType) +" made from "+this.slot.Item.Name+". Used in crafting equipment.";
             this.OKButton.Title = this.slot.Item.GetName();
-            List<string> ToolTip = this.slot.Item.GetTooltip();
-            Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(this.slot.Item.NameColour)+ "["+this.slot.Item.GetName()+"] ^ENDLINK .^FFFFFF Click name to see more.",new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
+
+            ItemEquip eq = new ItemEquip();
+            ItemBonus b1 = new ItemBonus() { Effecttext="Physical attack +{0}", Type="p_atk"};
+            BonusPool p=BonusPool.Load("heavy_0_10");
+            eq.Bonuses.Add(p.PickBonus());
+            eq.Bonuses.Add(p.PickBonus());
+            b1.FlatValue = 15;
+           // eq.Bonuses.Add(b1);
+            ItemBonus b2 = new ItemBonus() { Effecttext = "HP +{0}%", Type="HP" };
+            b2.Multiplier = 0.02f;
+           // eq.Bonuses.Add(b2);
+            Enchantment enc = new Enchantment() { Effecttext = "Fire damage +{0}%", Type = "dmg_scale_fire" };
+            enc.LineColour = new Color(255, 50, 30);
+            enc.Multiplier = 0.15f;
+            eq.Enchant = enc;
+            eq.SubType = GameObjects.RNG.Next(0, 5);
+            eq.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
+            eq.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
+            List<string> ToolTip = eq.GetTooltip();
+            this.slot.Item = eq;
+            Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(eq.NameColour)+ "["+eq.GetName()+"] ^ENDLINK .^FFFFFF Click name to see more.",new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
                 WM.Add(tip); })});
         }
     }
