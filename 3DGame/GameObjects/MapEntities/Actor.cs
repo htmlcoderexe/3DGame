@@ -8,13 +8,16 @@ namespace _3DGame.GameObjects.MapEntities
 {
     public class Actor : MapEntity
     {
-        public float CurrentHP;
-        public float CurrentMP;
+        public virtual float CurrentHP { get; set; }
+        public virtual float CurrentMP { get; set; }
         public float CurrentHPBuffer;
         public float CurrentMPBuffer;
         public string Name { get; set; }
         public List<StatBonus> StatBonuses;
-
+        public Actor()
+        {
+            this.StatBonuses = new List<StatBonus>();
+        }
         public float CalculateStage(float input,List<StatBonus> Bonuses,StatBonus.StatOrder Stage)
         {
             float result = 0;
@@ -26,7 +29,7 @@ namespace _3DGame.GameObjects.MapEntities
             return result;
         }
 
-        public float CalculateAll(string statname)
+        public float CalculateStat(string statname)
         {
             float result = 0;
             List<StatBonus> stats = StatBonuses.FindAll(s => s.Type == statname).ToList();

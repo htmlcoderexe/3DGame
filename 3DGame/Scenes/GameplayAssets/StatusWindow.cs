@@ -14,8 +14,11 @@ namespace _3DGame.Scenes.GameplayAssets
         public GUI.Controls.Button OKButton;
         public GUI.Controls.RichTextDisplay Texst;
         public GameplayAssets.ItemSlot slot;
+        public GameObjects.MapEntities.Actos.Player Player;
+
         public StatusWindow(WindowManager WM)
             {
+            this.Player = new GameObjects.MapEntities.Actos.Player();
             this.WM = WM;
             this.Width = 360;
             this.Height = 200;
@@ -62,6 +65,8 @@ namespace _3DGame.Scenes.GameplayAssets
             this.slot.Item = eq;
             Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(eq.NameColour)+ "["+eq.GetName()+"] ^ENDLINK .^FFFFFF Click name to see more.",new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
                 WM.Add(tip); })});
+            this.Player.EquipItem(eq);
+            this.Title = this.Player.CalculateStat("HP").ToString();
         }
     }
 }

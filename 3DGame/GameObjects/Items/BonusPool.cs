@@ -32,7 +32,7 @@ namespace _3DGame.GameObjects.Items
             BonusTemplate t = PickTemplate();
             float Flat = RNG.Next(t.FlatMin, t.FlatMax);
             float Multi = RNG.Next(t.MultiMin, t.MultiMax)/100.0f;
-            ItemBonus b = new ItemBonus() { FlatValue = Flat, Multiplier = Multi, Effecttext = t.Effectstring, LineColour = GUI.Renderer.ColourBlue };
+            ItemBonus b = new ItemBonus() { FlatValue = Flat, Multiplier = Multi, Effecttext = t.Effectstring, LineColour = GUI.Renderer.ColourBlue ,Type=t.Type};
             return b;
         }
         public static BonusPool Load(string Name)
