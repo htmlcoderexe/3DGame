@@ -45,6 +45,7 @@ namespace _3DGame.Scenes
             Screen.SaveAsPng(s,device.PresentationParameters.BackBufferWidth,device.PresentationParameters.BackBufferHeight);
             s.Close();
             counter++;
+            Console.WriteEx("^00FF00 Screenshot saved. Click ^BEGINLINK ^3030FF here ^ENDLINK ^00FF00 to view.", new List<System.Action>() { new System.Action(() => System.Diagnostics.Process.Start(fn)) });
         }
 
         public void ConsoleWrite(string Text)
