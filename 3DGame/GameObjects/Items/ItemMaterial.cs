@@ -85,6 +85,33 @@ namespace _3DGame.GameObjects.Items
                 }
 
             }
+            public static Color GradeToColour(string Grade)
+            {
+                switch (Grade)
+                {
+                    case "Uncommon":
+                        {
+                            return new Color(120, 100, 255);
+                        }
+                    case "Common":
+                        {
+                            return  Color.White;
+                        }
+                    case "Rare":
+                        {
+                            return new Color(192, 0, 255);
+                            
+                        }
+                    case "Epic":
+                        {
+                            return new Color(255, 140, 20);
+                        }
+                    default:
+                        {
+                            return Color.Gray;
+                        }
+                }
+            }
             static Material MaterialFromLine(string Line)
             {
                 string[] parts = Line.Split(':');
@@ -99,33 +126,7 @@ namespace _3DGame.GameObjects.Items
                 int g = Int32.Parse(rgb[1]);
                 int b = Int32.Parse(rgb[2]);
                 m.Colour = new Color(r, g, b);
-                switch (parts[6])
-                {
-                    case "Uncommon":
-                        {
-                            m.NameColour = new Color(120, 100, 255);
-                            break;
-                        }
-                    case "Common":
-                        {
-                            m.NameColour = Color.White;
-                            break;
-                        }
-                    case "Rare":
-                        {
-                            m.NameColour=new Color(192, 0, 255);
-                            break;
-                        }
-                    case "Epic":
-                        {
-                            m.NameColour = new Color(255, 140, 20);
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                }
+                m.NameColour = GradeToColour(parts[6]);
                 return m;
             }
             public static void Load()

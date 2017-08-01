@@ -48,15 +48,9 @@ namespace _3DGame.Scenes.GameplayAssets
             this.OKButton.Title = this.slot.Item.GetName();
 
             ItemEquip eq = new ItemEquip();
-            ItemBonus b1 = new ItemBonus() { Effecttext="Physical attack +{0}", Type="p_atk"};
             BonusPool p=BonusPool.Load("heavy_0_10");
             eq.Bonuses.Add(p.PickBonus());
             eq.Bonuses.Add(p.PickBonus());
-            b1.FlatValue = 15;
-           // eq.Bonuses.Add(b1);
-            ItemBonus b2 = new ItemBonus() { Effecttext = "HP +{0}%", Type="HP" };
-            b2.Multiplier = 0.02f;
-           // eq.Bonuses.Add(b2);
             Enchantment enc = new Enchantment() { Effecttext = "Fire damage +{0}%", Type = "dmg_scale_fire" };
             enc.LineColour = new Color(255, 50, 30);
             enc.Multiplier = 0.15f;
