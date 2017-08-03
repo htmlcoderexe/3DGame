@@ -8,17 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameModel
 {
-    public class ModelPart
+    public class ModelPart : ICloneable
     {
         public int VertexOffset;
         public int VertexLength;
         public int IndexOffset;
         public int IndexLength;
+        public PartAnimation Animation;
         protected VertexPositionColor[] _vertices;
         protected int[] _indices;
-        private Matrix Dislocation;
-        public PartAnimation Animation;
         protected List<ModelPart> Children;
+        private Matrix Dislocation;
+
+
         public ModelPart()
         {
             this.Dislocation = Matrix.Identity;
@@ -97,6 +99,17 @@ namespace GameModel
         {
             this._indices = indices;
             this.IndexLength = indices.Length;
+        }
+
+        public virtual object Clone()
+        {
+            ModelPart p = (ModelPart)this.MemberwiseClone();
+            p.Animation = (PartAnimation)this.Animation.Clone();
+            List<ModelPart> c = new List<ModelPart>();
+            foreach (ModelPart part in this.Children)
+                c.Add((ModelPart)part.Clone());
+
+            return p;
         }
     }
 }

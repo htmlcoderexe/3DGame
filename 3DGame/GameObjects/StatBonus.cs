@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _3DGame.GameObjects
 {
-    public class StatBonus
+    public class StatBonus : ICloneable
     {
         public float FlatValue;
         public float Multiplier;
@@ -18,5 +18,9 @@ namespace _3DGame.GameObjects
             Template,Character,Equip,Effect,Count
         }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

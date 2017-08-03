@@ -8,30 +8,30 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DGame.GameObjects
 {
-    public class MapEntity : Interfaces.IGameObject
+    public class MapEntity : Interfaces.IGameObject,ICloneable
     {
-        private float AnimationTimer;
-        public string DisplayName { get; set; }
+       public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
         public float Heading;
         public float Roll;
-        private float _pitch;
-        public float DefaultSpeed=5.0f; //m/s
-        public virtual float Speed { get; set; }
         public float Pitch
         {
             set
             {
-                _pitch= MathHelper.Clamp(value, -89f, 89f);
+                _pitch = MathHelper.Clamp(value, -89f, 89f);
             }
-           get
+            get
             {
                 return MathHelper.Clamp(_pitch, -89f, 89f);
             }
         }
+        public float DefaultSpeed=5.0f; //m/s
+        public GameModel.Model Model;
+        public virtual float Speed { get; set;}
+        private float AnimationTimer;
+        private float _pitch;
         private Matrix World;
         private bool _isDead;
-        public GameModel.Model Model;
         public MapEntity()
         {
             this.Model = new GameModel.Model();
@@ -60,6 +60,13 @@ namespace _3DGame.GameObjects
            // this.Heading += dT*10;
             Vector3 advance = Vector3.Transform(new Vector3(dT, 0, 0),Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
             this.Position += advance*Speed;
+        }
+
+        public virtual object Clone()
+        {
+            MapEntity e = (MapEntity)this.MemberwiseClone();
+            e.Model = (GameModel.Model)this.Model.Clone();
+            return e;
         }
     }
 }

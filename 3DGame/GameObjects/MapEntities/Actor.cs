@@ -15,6 +15,7 @@ namespace _3DGame.GameObjects.MapEntities
         public string Name { get; set; }
         public List<StatBonus> StatBonuses;
         public GameObjects.Camera Camera;
+
         public Actor()
         {
             this.StatBonuses = new List<StatBonus>();
@@ -57,6 +58,16 @@ namespace _3DGame.GameObjects.MapEntities
         public Camera GetTheCamera()
         {
             return this.Camera;
+        }
+
+        public override object Clone()
+        {
+            Actor a = (Actor)base.Clone();
+            List<StatBonus> bb = new List<StatBonus>();
+            foreach (StatBonus b in this.StatBonuses)
+                bb.Add((StatBonus)b.Clone());
+            a.Camera = (Camera)this.Camera.Clone();
+            return a;
         }
     }
 }

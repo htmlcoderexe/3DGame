@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameModel
 {
-    public class PartAnimation
+    public class PartAnimation : ICloneable
     {
         private SortedDictionary<float, Matrix> _keyframes;
         public float Time;
@@ -80,5 +80,9 @@ namespace GameModel
             return A;
         }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

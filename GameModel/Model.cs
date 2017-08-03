@@ -101,6 +101,13 @@ namespace GameModel
             }
 
         }
+        public override object Clone()
+        {
+            Model m = (Model)base.Clone();
+            m._IB = this._IB;
+            m._VB = this._VB;
+            return m;
+        }
 
     }
 }

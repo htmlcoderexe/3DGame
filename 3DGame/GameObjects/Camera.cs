@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DGame.GameObjects
 {
-    public class Camera
+    public class Camera: ICloneable
     {
         public Interfaces.WorldPosition Position;
        // public Vector3 Position;
@@ -93,6 +93,11 @@ namespace _3DGame.GameObjects
             (float)GraphicsDevice.Viewport.Height,
             0.5f,
             1000f);
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
