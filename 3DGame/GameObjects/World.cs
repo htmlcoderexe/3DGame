@@ -107,7 +107,11 @@ namespace _3DGame.GameObjects
                 this.Entities.Remove(e);
             }
         }
-
+        public List<MapEntity> LocateNearby(MapEntity Target)
+        {
+            List<MapEntity> results = this.Entities.FindAll(e => e.Position.BX > Target.Position.BX - 2 && e.Position.BX < Target.Position.BX + 2 && e.Position.BY > Target.Position.BY - 2 && e.Position.BY < Target.Position.BY + 2).ToList();
+            return results;
+        }
 
     }
 }

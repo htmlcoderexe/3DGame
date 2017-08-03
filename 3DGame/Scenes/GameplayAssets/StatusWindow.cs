@@ -16,9 +16,9 @@ namespace _3DGame.Scenes.GameplayAssets
         public GameplayAssets.ItemSlot slot;
         public GameObjects.MapEntities.Actos.Player Player;
 
-        public StatusWindow(WindowManager WM)
+        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actos.Player Player)
             {
-            this.Player = new GameObjects.MapEntities.Actos.Player();
+            this.Player = Player;
             this.WM = WM;
             this.Width = 360;
             this.Height = 200;

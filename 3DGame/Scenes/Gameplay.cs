@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using _3DGame.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,6 +34,7 @@ namespace _3DGame.Scenes
         private RenderTarget2D ReflectionMap { get; set; }
         public GUI.Renderer GUIRenderer;
         public GUI.WindowManager WindowManager;
+        public MapEntity HoverTarget;
         //  public System.Threading.Thread QThread;
 
             private void TakeScreenshot(GraphicsDevice device)
@@ -69,6 +71,12 @@ namespace _3DGame.Scenes
                 return;
             console.AppendMessage(Text,Links);
         }
+        public void TerrainClick(Interfaces.WorldPosition Position)
+        {
+            MapEntity e = new MapEntity();
+            e.Position = Position;
+            World.Entities.Add(e);
+        }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
 
@@ -87,26 +95,26 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.W))
             {
                 
-                World.Player.Speed =5f;
+                World.Player.Speed =World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw + 90f;
             }
 
             else if (kb.IsKeyDown(Keys.S))
             {
-                World.Player.Speed = 5f;
+                World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 90f;
             }
             else if (kb.IsKeyDown(Keys.D))
             {
-                World.Player.Speed = 5f;
+                World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 180f;
             }
             else if (kb.IsKeyDown(Keys.A))
             {
-                World.Player.Speed = 5f;
+                World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 0f;
             }
@@ -138,6 +146,52 @@ namespace _3DGame.Scenes
             WindowManager.MouseY = mouse.Y;
             bool MouseHandled =
             WindowManager.HandleMouse(mouse);
+
+            Vector3 r0 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 0), World.Camera.GetProjection(device), World.Camera.GetView(), World.Camera.GetWorld());
+
+            Vector3 r1 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 1), World.Camera.GetProjection(device), World.Camera.GetView(), World.Camera.GetWorld());
+            Vector3 vc = (r0 - r1);
+
+            vc.Normalize();
+
+            Ray MouseRay = new Ray(r0, -vc);
+
+            BoundingSphere bs;
+
+            if (!MouseHandled)
+            {
+                List<MapEntity> targets = World.LocateNearby(World.Player);
+                float closest = 9999;
+                float? intersect = null;
+                MapEntity Target = null;
+                foreach(MapEntity t in targets)
+                {
+                    bs = new BoundingSphere(t.Position.WRT(World.Player.Position),1);
+                    intersect = bs.Intersects(MouseRay);
+                    if (intersect.HasValue && intersect.GetValueOrDefault(0) < closest)
+                        Target = t;
+                }
+                HoverTarget = Target;
+
+
+                Interfaces.WorldPosition check = MouseRay.Position;
+                check.BX = World.Player.Position.BX;
+                check.BY = World.Player.Position.BY;
+                if (mouse.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton==ButtonState.Released)
+                {
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        check += MouseRay.Direction / 1;
+                        float th = World.Terrain.GetHeight(check.Truncate(),check.Reference()) == 0 ? -127f : (float)World.Terrain.GetHeight(check.Truncate(),check.Reference());
+                        if (check.Y - 0 < th)
+                        {
+                            TerrainClick(check);
+                            break;
+                        }
+                    }
+                }
+            }
+
 
             if (mouse.RightButton == ButtonState.Pressed && !MouseHandled)
             {
@@ -210,7 +264,7 @@ namespace _3DGame.Scenes
             GameObjects.Items.Material.MaterialTemplates.Load();
 
             GUI.Window w;
-            w = new GameplayAssets.StatusWindow(WindowManager);
+            w = new GameplayAssets.StatusWindow(WindowManager, World.Player);
             WindowManager.Add(w);
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)

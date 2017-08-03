@@ -115,5 +115,15 @@ namespace _3DGame.Interfaces
             s += "}";
             return s;
         }
+        public static List<Vector2> GetAdjacent(Vector2 input)
+        {
+            List<Vector2> output = new List<Vector2>();
+            for(int x=-1;x<2;x++)
+                for(int y=-1;y<2;y++)
+                {
+                    output.Add(input + new Vector2(x, y));
+                }
+            return output;
+        }
     }
 }

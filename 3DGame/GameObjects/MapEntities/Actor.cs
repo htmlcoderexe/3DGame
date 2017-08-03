@@ -20,6 +20,10 @@ namespace _3DGame.GameObjects.MapEntities
             this.StatBonuses = new List<StatBonus>();
             this.Camera = new Camera();
         }
+        public float GetMovementSpeed()
+        {
+            return 5 + CalculateStat("movement_speed");
+        }
         public float CalculateStage(float input,List<StatBonus> Bonuses,StatBonus.StatOrder Stage)
         {
             float result = 0;
@@ -35,6 +39,8 @@ namespace _3DGame.GameObjects.MapEntities
         {
             float result = 0;
             List<StatBonus> stats = StatBonuses.FindAll(s => s.Type == statname).ToList();
+            if (stats.Count < 1)
+                return 0;
             for(int i=0;i<(int)StatBonus.StatOrder.Count;i++)
             {
                 result=CalculateStage(result,stats,(StatBonus.StatOrder)i);

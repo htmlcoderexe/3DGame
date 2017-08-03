@@ -17,7 +17,7 @@ namespace _3DGame.GameObjects
         public float Roll;
         private float _pitch;
         public float DefaultSpeed=5.0f; //m/s
-        public float Speed;
+        public virtual float Speed { get; set; }
         public float Pitch
         {
             set
