@@ -146,10 +146,10 @@ namespace _3DGame.Scenes
                 mv.Y += 0.0f;
             }
             if (kb.IsKeyDown(Keys.Up))
-                World.Camera.Distance -= 0.10f;
+                World.Camera.Distance -= 1.10f;
             if (kb.IsKeyDown(Keys.Down))
-                World.Camera.Distance += 0.10f;
-            World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 10f);
+                World.Camera.Distance += 1.10f;
+            World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 110f);
             //World.Player.Position += mv;
 
 
@@ -303,6 +303,7 @@ namespace _3DGame.Scenes
            // rs.FillMode = FillMode.WireFrame;
             device.RasterizerState = rs;
             Color skyColor = new Color(40, 100, 255);
+            skyColor = Color.Red;
             Matrix viewMatrix = World.Camera.GetView();
             Matrix projectionMatrix = World.Camera.GetProjection(device);
             Matrix reflectedView = World.Camera.GetReflectedView(device, World.Terrain.WaterHeight - 0.2f);
@@ -311,11 +312,11 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xProjection"].SetValue(projectionMatrix);
-            TerrainEffect.Parameters["xCamPos"].SetValue((Vector3)World.Camera.Position.Truncate());
+            TerrainEffect.Parameters["xCamPos"].SetValue(World.Camera.GetCamVector());
             TerrainEffect.Parameters["xFog"].SetValue(false);
 
 
-            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight -0.2f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
+            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.2f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
 
             TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);

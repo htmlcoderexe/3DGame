@@ -59,6 +59,7 @@ namespace _3DGame.GameObjects
         {
             UpdateEntities(dT);
             Terrain.Update(dT);
+           // if(Player.Gravity)
             SetGravity(Player);
             Player.Update(dT);
         }
@@ -90,6 +91,7 @@ namespace _3DGame.GameObjects
             while(i<this.Entities.Count)
             {
                 e = this.Entities[i];
+                if(e.Gravity)
                 SetGravity(e);
                 e.Update(dT);
                 i++;

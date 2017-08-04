@@ -12,6 +12,7 @@ namespace _3DGame.GameObjects
     {
         public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
+        public bool Gravity;
         public float Heading;
         public float Roll;
         public float Pitch
@@ -36,7 +37,7 @@ namespace _3DGame.GameObjects
         {
             this.Model = new GameModel.Model();
             this.Speed = 0.0f;
-            
+            this.Gravity = true;
         }
         public  bool IsDead
         {

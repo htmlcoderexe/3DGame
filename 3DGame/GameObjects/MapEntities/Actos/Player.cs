@@ -13,6 +13,7 @@ namespace _3DGame.GameObjects.MapEntities.Actos
         {
             this.Equipment = new List<Items.ItemEquip>();
             this.StatBonuses.Add(new StatBonus() {FlatValue=100,Type="HP",Order= StatBonus.StatOrder.Template });
+            this.Gravity = false;
         }
         public override float CurrentHP
         {

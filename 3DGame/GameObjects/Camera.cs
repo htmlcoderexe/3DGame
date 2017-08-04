@@ -24,12 +24,9 @@ namespace _3DGame.GameObjects
         }
         public Matrix GetView()
         {
-            Matrix Rotation = Matrix.CreateRotationX(MathHelper.ToRadians(-this.Pitch)) * Matrix.CreateRotationY(MathHelper.ToRadians(-this.Yaw));
-            Vector3 CamVector = new Vector3(0, 0, -this.Distance);
             Vector3 CamUp = new Vector3(0, 1, 0);
-            CamVector = Vector3.Transform(CamVector, Rotation);
-            CamVector += this.Position.Truncate();
-            //CamVector += this.Position;
+            Vector3 CamVector = this.GetCamVector();
+            //CamVector += this.Position.Truncate();
             return Matrix.CreateLookAt(CamVector, this.Position.Truncate(), CamUp);
 
         }
@@ -39,8 +36,8 @@ namespace _3DGame.GameObjects
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);
             Vector3 CamUp = new Vector3(0, 1, 0);
             CamVector = Vector3.Transform(CamVector, Rotation);
-             CamVector += this.Position.Truncate();
-            //CamVector += this.Position;
+             CamVector += (Vector3)this.Position.Truncate();
+            //CamVector += this.Position.Truncate();
             Vector3 RCV = CamVector;
             Vector3 RPV = this.Position.Truncate();
             RCV.Y = -RCV.Y + WaterHeight * 2;
@@ -52,7 +49,6 @@ namespace _3DGame.GameObjects
         {
             Matrix Rotation = Matrix.CreateRotationX(MathHelper.ToRadians(-this.Pitch)) * Matrix.CreateRotationY(MathHelper.ToRadians(-this.Yaw));
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);
-            Vector3 CamUp = new Vector3(0, 1, 0);
             CamVector = Vector3.Transform(CamVector, Rotation);
             CamVector.Normalize();
             return CamVector;
@@ -63,10 +59,8 @@ namespace _3DGame.GameObjects
         {
             Matrix Rotation = Matrix.CreateRotationX(MathHelper.ToRadians(-this.Pitch)) * Matrix.CreateRotationY(MathHelper.ToRadians(-this.Yaw));
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);
-            Vector3 CamUp = new Vector3(0, 1, 0);
             CamVector = Vector3.Transform(CamVector, Rotation);
-             CamVector += this.Position.Truncate();
-         //   CamVector += this.Position;
+            CamVector += (Vector3)this.Position.Truncate();
             return CamVector;
 
         }
