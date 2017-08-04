@@ -10,7 +10,7 @@ namespace _3DGame.GameObjects
 {
     public class MapEntity : Interfaces.IGameObject,ICloneable
     {
-       public string DisplayName { get; set; }
+        public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
         public float Heading;
         public float Roll;

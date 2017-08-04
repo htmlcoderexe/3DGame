@@ -51,6 +51,7 @@
     <Compile Include="GameObjects\Items\ItemBonus.cs" />
     <Compile Include="GameObjects\Items\ItemEquip.cs" />
     <Compile Include="GameObjects\Items\ItemMaterial.cs" />
+    <Compile Include="GameObjects\MapEntities\EntitySpawner.cs" />
     <Compile Include="GameObjects\StatBonus.cs" />
     <Compile Include="GameObjects\World.cs" />
     <Compile Include="GameObjects\MapEntities\Actor.cs" />

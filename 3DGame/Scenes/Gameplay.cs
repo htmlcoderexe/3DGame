@@ -73,9 +73,19 @@ namespace _3DGame.Scenes
         }
         public void TerrainClick(Interfaces.WorldPosition Position)
         {
-            MapEntity e = new MapEntity();
-            e.Position = Position;
-            World.Entities.Add(e);
+            GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
+            s.Entity = new MapEntity();
+            s.Interval = 5;
+            s.CountDown = 5;
+            s.SpawnCallback = new Action<MapEntity>(e => World.Entities.Add(e));
+            s.Position = Position;
+            s.SpawningVolume = new BoundingBox(new Vector3(-5, 0, -5), new Vector3(5, 0, 5));
+            /* Do not uncomment the following, left for posterity
+            s.Entity = s;//VERY EVIL REMOVE IT WAS JUST FOR FUN
+            s.Entity = (MapEntity)s.Clone();//oh fuck
+            //   forget about this */
+            World.Entities.Add(s);
+
         }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
@@ -89,6 +99,7 @@ namespace _3DGame.Scenes
                 GameObjects.MapEntity e = new GameObjects.MapEntity();
                 e.Position = World.Player.Position;
                 e.Heading = World.Player.Heading;
+               
                 World.Entities.Add(e);
                 Console.Write("Spawned entity at " + e.Position.ToString());
             }

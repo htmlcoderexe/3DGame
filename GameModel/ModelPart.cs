@@ -104,11 +104,14 @@ namespace GameModel
         public virtual object Clone()
         {
             ModelPart p = (ModelPart)this.MemberwiseClone();
-            p.Animation = (PartAnimation)this.Animation.Clone();
-            List<ModelPart> c = new List<ModelPart>();
-            foreach (ModelPart part in this.Children)
-                c.Add((ModelPart)part.Clone());
-
+            if (this.Animation != null)
+                p.Animation = (PartAnimation)this.Animation.Clone();
+            if(this.Children!=null)
+            { 
+                List<ModelPart> c = new List<ModelPart>();
+                foreach (ModelPart part in this.Children)
+                    c.Add((ModelPart)part.Clone());
+            }
             return p;
         }
     }

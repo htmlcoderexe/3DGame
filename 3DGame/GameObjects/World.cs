@@ -85,11 +85,14 @@ namespace _3DGame.GameObjects
         }
         private void UpdateEntities(float dT)
         {
-            
-            foreach (MapEntity e in this.Entities)
+            MapEntity e;
+            int i = 0;
+            while(i<this.Entities.Count)
             {
+                e = this.Entities[i];
                 SetGravity(e);
                 e.Update(dT);
+                i++;
             }
 
             RemoveDeadEntities();
