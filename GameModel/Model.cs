@@ -18,9 +18,9 @@ namespace GameModel
 
 
             _IB = new IndexBuffer(device, IndexElementSize.ThirtyTwoBits, (int)TotalSizes.Y, BufferUsage.WriteOnly);
-            _VB = new VertexBuffer(device, VertexPositionColor.VertexDeclaration, (int)TotalSizes.X, BufferUsage.WriteOnly);
+            _VB = new VertexBuffer(device, ModelVertex.VertexDeclaration, (int)TotalSizes.X, BufferUsage.WriteOnly);
             int[] indices = new int[(int)TotalSizes.Y];
-            VertexPositionColor[] vertices = new VertexPositionColor[(int)TotalSizes.X];
+            ModelVertex[] vertices = new ModelVertex[(int)TotalSizes.X];
             //current vertex/index offset
             int cIo = 0;
             int cVo = 0;
@@ -39,7 +39,7 @@ namespace GameModel
 
 
             _IB.SetData<int>(indices);
-            _VB.SetData<VertexPositionColor>(vertices);
+            _VB.SetData<ModelVertex>(vertices);
 
         }
         public Model()
@@ -47,16 +47,16 @@ namespace GameModel
             this.Children = new List<ModelPart>();
             ModelPart Root = new ModelPart();
 
-            VertexPositionColor[] vertices = new VertexPositionColor[8];
-            vertices[0] = new VertexPositionColor(new Vector3(-1.5f,  0.5f, -0.5f), Color.DarkGray );
-            vertices[1] = new VertexPositionColor(new Vector3( 0.5f,  0.2f,  0.2f), Color.DarkGray );
-            vertices[2] = new VertexPositionColor(new Vector3(-1.5f,  0.5f,  0.5f), Color.DarkGray );
-            vertices[3] = new VertexPositionColor(new Vector3( 0.5f,  0.2f, -0.2f), Color.DarkGray );
+            ModelVertex[] vertices = new ModelVertex[8];
+            vertices[0] = new ModelVertex(new Vector3(-1.5f,  0.5f, -0.5f), Color.DarkGray );
+            vertices[1] = new ModelVertex(new Vector3( 0.5f,  0.2f,  0.2f), Color.DarkGray );
+            vertices[2] = new ModelVertex(new Vector3(-1.5f,  0.5f,  0.5f), Color.DarkGray );
+            vertices[3] = new ModelVertex(new Vector3( 0.5f,  0.2f, -0.2f), Color.DarkGray );
                                                                                          
-            vertices[4] = new VertexPositionColor(new Vector3(-1.5f, -0.5f, -0.5f), Color.DarkGray );
-            vertices[5] = new VertexPositionColor(new Vector3( 0.5f, -0.2f,  0.2f), Color.DarkGray );
-            vertices[6] = new VertexPositionColor(new Vector3(-1.5f, -0.5f,  0.5f), Color.DarkGray );
-            vertices[7] = new VertexPositionColor(new Vector3( 0.5f, -0.2f, -0.2f), Color.DarkGray );
+            vertices[4] = new ModelVertex(new Vector3(-1.5f, -0.5f, -0.5f), Color.DarkGray );
+            vertices[5] = new ModelVertex(new Vector3( 0.5f, -0.2f,  0.2f), Color.DarkGray );
+            vertices[6] = new ModelVertex(new Vector3(-1.5f, -0.5f,  0.5f), Color.DarkGray );
+            vertices[7] = new ModelVertex(new Vector3( 0.5f, -0.2f, -0.2f), Color.DarkGray );
             Root.SetVertices(vertices);
             Root.SetIndices(new int[] { //--,++,-+/--,+-,++
                  0, 1, 2, 0, 3, 1
@@ -89,7 +89,7 @@ namespace GameModel
             this.Children.Add(Root);
 
         }
-        public override void Render(GraphicsDevice device, float dT, Matrix World, BasicEffect fx)
+        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
         {
             if (this._IB == null)
                 Prepare(device);

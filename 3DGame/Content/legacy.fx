@@ -15,6 +15,8 @@ float4x4 xProjection;
 float4x4 xWorld;
 float4x4 xWorld2;
 float4x4 xReflectionView;
+float4x4 xBone;
+float4x4 xOrigin;
 
 float4 ClipPlane0;
 
@@ -573,12 +575,28 @@ VertexToPixel GameModelVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOOR
 	VertexToPixel Output = (VertexToPixel)0;
 	float4x4 preViewProjection = mul (xView, xProjection);
 	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection); 
-	Output.Position = mul(inPos, preWorldViewProjection);	
+	Output.Position=mul(inPos,lerp(xOrigin,xBone,inWeights.x));
+	Output.Position = mul(Output.Position, preWorldViewProjection);	
 	Output.TextureCoords = inTexCoords;
     Output.Color = inColor;
 	Output.clipDistances = dot(inPos, ClipPlane0);
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
 	float4 fogColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	Output.Fog=pow(Output.Position.z,1.0f)/100;//Output.Position.z*Output.Position.z/1000;
+	Output.Fog=pow(Output.Position.z,1.0f)/100;
+	//Output.Position.z*Output.Position.z/1000;
+	Output.Fog=pow(Output.clipDistances/25.0f,1.0f);
 	//Output.TW=inWeights;
 	return Output;    
 }
@@ -591,7 +609,27 @@ PixelToFrame GameModelPS(VertexToPixel PSIn)
 	//middle gray gives 0, resulting in vertex colour, white doubles the colour (in most cases whiting out) and black results in black.
 	if (Clipping)
     clip(PSIn.clipDistances);
+	
+	
+	if(PSIn.Fog>1.0f)
+	PSIn.Fog=1.0f;
+	float4 watercolor=float4(0.0f,0.4f,0.1f,1.0f);
 	Output.Color =PSIn.Color;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	if(xFog)
+		Output.Color=lerp(Output.Color,watercolor,(PSIn.Fog));
+		
 		
 
 	return Output;

@@ -146,9 +146,9 @@ namespace _3DGame.Scenes
                 mv.Y += 0.0f;
             }
             if (kb.IsKeyDown(Keys.Up))
-                World.Camera.Distance -= 1.10f;
+                World.Camera.Distance -= 0.20f;
             if (kb.IsKeyDown(Keys.Down))
-                World.Camera.Distance += 1.10f;
+                World.Camera.Distance += 0.20f;
             World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 110f);
             //World.Player.Position += mv;
 
@@ -254,6 +254,7 @@ namespace _3DGame.Scenes
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
+            World.ModelEffect = TerrainEffect;
             World.Camera = World.Player.GetTheCamera();
             World.Player.Position= new Vector3(0, 0, 0);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
@@ -303,20 +304,21 @@ namespace _3DGame.Scenes
            // rs.FillMode = FillMode.WireFrame;
             device.RasterizerState = rs;
             Color skyColor = new Color(40, 100, 255);
-            skyColor = Color.Red;
+          //  skyColor = Color.Red;
             Matrix viewMatrix = World.Camera.GetView();
             Matrix projectionMatrix = World.Camera.GetProjection(device);
             Matrix reflectedView = World.Camera.GetReflectedView(device, World.Terrain.WaterHeight - 0.2f);
             TerrainEffect.Parameters["xGrass"].SetValue(Textures["grass_overworld"]);
             TerrainEffect.Parameters["xRock"].SetValue(Textures["rock"]);
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
+            World.View = reflectedView;
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xProjection"].SetValue(projectionMatrix);
             TerrainEffect.Parameters["xCamPos"].SetValue(World.Camera.GetCamVector());
             TerrainEffect.Parameters["xFog"].SetValue(false);
 
 
-            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.2f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
+            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.0f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
 
             TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);
@@ -329,7 +331,8 @@ namespace _3DGame.Scenes
             device.SetRenderTarget(Screen);
 
             TerrainEffect.Parameters["xView"].SetValue(viewMatrix);
-            refractionplane = CreatePlane(-World.Terrain.WaterHeight-0.2f, new Vector3(0, 1, 0), Matrix.Identity, true, projectionMatrix);
+            World.View = viewMatrix;
+            refractionplane = CreatePlane(-World.Terrain.WaterHeight-0.0f, new Vector3(0, 1, 0), Matrix.Identity, true, projectionMatrix);
 
             TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);
@@ -352,8 +355,8 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xRefractionMap"].SetValue(RefractionMap);
 
 
-            TerrainEffect.Parameters["xWaveLength"].SetValue(2.0f);
-            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.4f);
+            TerrainEffect.Parameters["xWaveLength"].SetValue(100.1f);
+            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.1f);
             TerrainEffect.Parameters["xWaterBumpMap"].SetValue(Textures["waterbump"]);
 
             TerrainEffect.Parameters["xTime"].SetValue(RenderTime / 100.0f);

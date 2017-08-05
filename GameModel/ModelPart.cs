@@ -15,7 +15,7 @@ namespace GameModel
         public int IndexOffset;
         public int IndexLength;
         public PartAnimation Animation;
-        protected VertexPositionColor[] _vertices;
+        protected ModelVertex[] _vertices;
         protected int[] _indices;
         protected List<ModelPart> Children;
         private Matrix Dislocation;
@@ -32,18 +32,21 @@ namespace GameModel
                 this.Children = new List<ModelPart>();
             this.Children.Add(part);
         }
-        public virtual void Render(GraphicsDevice device, float dT, Matrix World, BasicEffect fx)
+        public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
         {
             Matrix m = Dislocation;
             Matrix a = Animation==null?Matrix.Identity:Animation.GetTransform(dT);
             //a = Matrix.Identity;
-            World = a * m * World;
+            World = m * World;
             if(this.Children!=null)
             foreach(ModelPart c in this.Children)
             {
                 c.Render(device, dT, World, fx);
-            }
-            fx.World = World;
+                }
+            fx.Parameters["xWorld"].SetValue(World);
+            fx.Parameters["xBone"].SetValue(a);
+            fx.Parameters["xOrigin"].SetValue(Matrix.Identity);
+            fx.CurrentTechnique = fx.Techniques["GameModel"];
             fx.CurrentTechnique.Passes[0].Apply();
             device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, IndexOffset, (int)(IndexLength/3.0f));
         }
@@ -75,12 +78,12 @@ namespace GameModel
             return counts;
         }
 
-        public VertexPositionColor[] GetVertices()
+        public ModelVertex[] GetVertices()
         {
             return this._vertices;
         }
 
-        public void SetVertices(VertexPositionColor[] vertices)
+        public void SetVertices(ModelVertex[] vertices)
         {
             this._vertices = vertices;
             this.VertexLength = vertices.Length;

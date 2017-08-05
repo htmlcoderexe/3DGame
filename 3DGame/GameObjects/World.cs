@@ -19,13 +19,14 @@ namespace _3DGame.GameObjects
         public Camera Camera;
         public GameObjects.MapEntities.Actos.Player Player;
         public Terrain.Terrain Terrain; //terrain.
-        public static BasicEffect ModelEffect;
+        public static Effect ModelEffect;
+        public Matrix View = Matrix.Identity;
         public World(GraphicsDevice device)
         {
             this.Entities = new List<MapEntity>();
             this._deadEntities = new List<MapEntity>();
             this.Terrain = new Terrain.Terrain(Interfaces.WorldPosition.Stride);
-            ModelEffect = new BasicEffect(device);
+           // ModelEffect = new BasicEffect(device);
         }
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
@@ -43,15 +44,9 @@ namespace _3DGame.GameObjects
                 if (e == null)
                     continue;
                 
-                ModelEffect.View = Camera.GetView();
-                ModelEffect.Projection = Camera.GetProjection(device);
-                ModelEffect.VertexColorEnabled = true;
                 e.Render(device, dT, Camera.Position.Reference());
             }
-
-            ModelEffect.View = Camera.GetView();
-            ModelEffect.Projection = Camera.GetProjection(device);
-            ModelEffect.VertexColorEnabled = true;
+            
             Player.Render(device, dT, Camera.Position.Reference());
         }
 
