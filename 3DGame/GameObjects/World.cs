@@ -21,11 +21,13 @@ namespace _3DGame.GameObjects
         public Terrain.Terrain Terrain; //terrain.
         public static Effect ModelEffect;
         public Matrix View = Matrix.Identity;
+        public float GravityAcceleration = 9.81f;
         public World(GraphicsDevice device)
         {
             this.Entities = new List<MapEntity>();
             this._deadEntities = new List<MapEntity>();
             this.Terrain = new Terrain.Terrain(Interfaces.WorldPosition.Stride);
+            
            // ModelEffect = new BasicEffect(device);
         }
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
@@ -55,17 +57,20 @@ namespace _3DGame.GameObjects
             UpdateEntities(dT);
             Terrain.Update(dT);
            if(Player.Gravity)
-            SetGravity(Player);
+            SetGravity(Player,dT);
             Player.Update(dT);
         }
-        private void SetGravity(MapEntity e)
+        private void SetGravity(MapEntity e, float dT)
         {
+            if(e.Gravity && !e.OnGround)
+            {
+                e.VerticalSpeed -= GravityAcceleration * dT;
+            }
             float h = 0.0f;
             float len = 0.2f;
             Matrix yaw = Matrix.CreateRotationY(-e.Heading * (float)Math.PI / 180f);
             h = Terrain.GetHeight(e.Position.Truncate(), e.Position.Reference());
-            e.Position.Y = h+0.5f;
-
+           
             WorldPosition fp = e.Position+Vector3.Transform(new Vector3(0.1f, 0, 0), yaw);
             WorldPosition bp = e.Position + Vector3.Transform(new Vector3(-0.1f, 0, 0), yaw);
             WorldPosition lp = e.Position + Vector3.Transform(new Vector3(0, 0, -0.1f), yaw);
@@ -76,8 +81,18 @@ namespace _3DGame.GameObjects
             b = Terrain.GetHeight(bp.Truncate(), bp.Reference());
             l = Terrain.GetHeight(lp.Truncate(), lp.Reference());
             r = Terrain.GetHeight(rp.Truncate(), rp.Reference());
-            e.Pitch = MathHelper.ToDegrees((float)Math.Atan2((f - b),len));
-            e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r),len));
+
+            if (e.Position.Y < h)
+            {
+                e.Position.Y = h;
+                e.Pitch = MathHelper.ToDegrees((float)Math.Atan2((f - b), len));
+                e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r), len));
+                e.OnGround = true;
+            }
+            else
+            {
+                e.OnGround = false;
+            }
         }
         private void UpdateEntities(float dT)
         {
@@ -87,7 +102,7 @@ namespace _3DGame.GameObjects
             {
                 e = this.Entities[i];
                 if(e.Gravity)
-                SetGravity(e);
+                SetGravity(e,dT);
                 e.Update(dT);
                 i++;
             }

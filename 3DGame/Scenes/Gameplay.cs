@@ -109,7 +109,16 @@ namespace _3DGame.Scenes
                 Console.Write("Spawned entity at " + e.Position.ToString());
 
                 //*/
-                World.Player.Position.Y += 1.1f;
+                if (!World.Player.Gravity)
+                {
+                    World.Player.Position.Y += 1.1f;
+                }
+                else
+                {
+                    
+                        World.Player.Jump();
+                    
+                }
             }
             if (kb.IsKeyDown(Keys.W))
             {

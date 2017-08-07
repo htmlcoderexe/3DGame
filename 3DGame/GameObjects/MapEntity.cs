@@ -28,7 +28,25 @@ namespace _3DGame.GameObjects
         }
         public float DefaultSpeed=5.0f; //m/s
         public GameModel.Model Model;
-        public virtual float Speed { get; set;}
+        public virtual float Speed { get; set; }
+        public float VerticalSpeed;
+        private bool _onGround;
+        public bool OnGround
+        {
+            get
+            {
+                return _onGround;
+            }
+            set
+            {
+                _onGround = value;
+                if (value)
+                    JumpCount = 0;
+            }
+        }
+        public float JumpStrength=5;
+        public int MaxJumps;
+        private int JumpCount;
         private float AnimationTimer;
         private float _pitch;
         private Matrix World;
@@ -38,6 +56,16 @@ namespace _3DGame.GameObjects
             this.Model = new GameModel.Model();
             this.Speed = 0.0f;
             this.Gravity = true;
+            this.MaxJumps = 2;
+        }
+        public void Jump()
+        {
+            if(this.JumpCount<this.MaxJumps-1)
+            {
+                this.VerticalSpeed = this.JumpStrength;
+                this.OnGround = false;
+                JumpCount++;
+            }
         }
         public  bool IsDead
         {
@@ -66,6 +94,7 @@ namespace _3DGame.GameObjects
            // this.Heading += dT*10;
             Vector3 advance = Vector3.Transform(new Vector3(dT, 0, 0),Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
             this.Position += advance*Speed;
+            this.Position.Y+= this.VerticalSpeed*dT;
         }
 
         public virtual object Clone()
