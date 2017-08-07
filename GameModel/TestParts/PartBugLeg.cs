@@ -66,9 +66,9 @@ namespace GameModel.TestParts
             SetIndices(_indices);
             SetVertices(_vertices);
         }
-        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx, Matrix W2)
+        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
         {
-            base.Render(device, dT, World, fx,W2);
+            base.Render(device, dT, World, fx);
         }
     }
 }

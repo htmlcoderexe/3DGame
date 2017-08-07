@@ -580,7 +580,7 @@ VertexToPixel GameModelVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOOR
 	Output.Position=mul(inPos,lerp(xOrigin,xBone,inWeights.x));
 	Output.TextureCoords = inTexCoords;
     Output.Color = inColor;
-	Output.clipDistances = dot(mul(inPos,xWorld2), ClipPlane0);
+	Output.clipDistances = dot(mul(inPos,xWorld), ClipPlane0);
 	Output.Position = mul(Output.Position, preWorldViewProjection);	
 	
 	

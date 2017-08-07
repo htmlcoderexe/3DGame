@@ -32,7 +32,7 @@ namespace GameModel
                 this.Children = new List<ModelPart>();
             this.Children.Add(part);
         }
-        public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx, Matrix W2)
+        public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
         {
             Matrix m = Dislocation;
             Matrix a = Animation==null?Matrix.Identity:Animation.GetTransform(dT);
@@ -41,10 +41,9 @@ namespace GameModel
             if(this.Children!=null)
             foreach(ModelPart c in this.Children)
             {
-                c.Render(device, dT, World, fx,W2);
+                c.Render(device, dT, World, fx);
                 }
             //fx.Parameters["xWorld2"].SetValue(Matrix.CreateTranslation(0, Y, 0));
-            fx.Parameters["xWorld2"].SetValue(W2);
             fx.Parameters["xWorld"].SetValue(World);
             fx.Parameters["xBone"].SetValue(a);
             fx.Parameters["xOrigin"].SetValue(Matrix.Identity);
