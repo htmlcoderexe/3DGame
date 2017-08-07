@@ -27,7 +27,7 @@ namespace _3DGame.GameObjects
             Vector3 CamUp = new Vector3(0, 1, 0);
             Vector3 CamVector = this.GetCamVector();
             //CamVector += this.Position.Truncate();
-            return Matrix.CreateLookAt(CamVector, this.Position.Truncate(), CamUp);
+            return Matrix.CreateLookAt(CamVector, this.Position.Truncate(), GetUpVector());
 
         }
         public Matrix GetReflectedView(GraphicsDevice device, float WaterHeight)
@@ -38,12 +38,13 @@ namespace _3DGame.GameObjects
             CamVector = Vector3.Transform(CamVector, Rotation);
              CamVector += (Vector3)this.Position.Truncate();
             //CamVector += this.Position.Truncate();
+            CamVector = this.GetCamVector();
             Vector3 RCV = CamVector;
             Vector3 RPV = this.Position.Truncate();
             RCV.Y = -RCV.Y + WaterHeight * 2;
             RPV.Y = -RPV.Y + WaterHeight * 2;
 
-            return Matrix.CreateLookAt(RCV, RPV, CamUp);
+            return Matrix.CreateLookAt(RCV, RPV, GetUpVector());
         }
         public Vector3 GetMoveVector()
         {
@@ -82,7 +83,7 @@ namespace _3DGame.GameObjects
         {
             return Matrix.CreatePerspectiveFieldOfView(
            // MathHelper.ToRadians(_3drpg.Terrain.GameSettings.FOV),
-           MathHelper.ToRadians(45),
+           MathHelper.ToRadians(30),
             (float)GraphicsDevice.Viewport.Width /
             (float)GraphicsDevice.Viewport.Height,
             0.5f,

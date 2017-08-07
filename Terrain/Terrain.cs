@@ -148,6 +148,7 @@ namespace Terrain
         {
             if (_water == null)
                 SetUpWaterVertices(device);
+            /*
             foreach(KeyValuePair<int,Unit> bv in this.Blocks)
             {
 
@@ -160,13 +161,14 @@ namespace Terrain
 
                 Vector3 Light = new Vector3(0.0f, -1.0f, 0.0f);
                 Vector3.Transform(Light, Matrix.CreateRotationX(MathHelper.ToRadians(30)));
-                TerrainEffect.Parameters["xWorld"].SetValue(worldMatrix);
-                TerrainEffect.Parameters["xLightDirection"].SetValue(Light);
-                TerrainEffect.CurrentTechnique.Passes[0].Apply();
-                device.SetVertexBuffer(_water);
-                device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
+                
             }
-
+            //*/
+            TerrainEffect.Parameters["xWorld"].SetValue(Matrix.Identity);
+           // TerrainEffect.Parameters["xLightDirection"].SetValue(Light);
+            TerrainEffect.CurrentTechnique.Passes[0].Apply();
+            device.SetVertexBuffer(_water);
+            device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
 
 
         }
@@ -197,14 +199,14 @@ namespace Terrain
         public void SetUpWaterVertices(GraphicsDevice device)
         {
             VertexPositionTexture[] waterVertices = new VertexPositionTexture[6];
-            float WH = WorldGenerator.WaterHeight - 0.2f;
-            waterVertices[0] = new VertexPositionTexture(new Vector3(0, WH, 0), new Vector2(0, 0));//10
-            waterVertices[1] = new VertexPositionTexture(new Vector3(BlockSize, WH, BlockSize), new Vector2(1, 1)); //01
-            waterVertices[2] = new VertexPositionTexture(new Vector3(0, WH, BlockSize), new Vector2(0, 1));//00
-
-            waterVertices[3] = new VertexPositionTexture(new Vector3(0, WH, 0), new Vector2(0, 0));//01
-            waterVertices[4] = new VertexPositionTexture(new Vector3(BlockSize, WH, 0), new Vector2(1, 0));//11
-            waterVertices[5] = new VertexPositionTexture(new Vector3(BlockSize, WH, BlockSize), new Vector2(1, 1));//01
+            float WH = WorldGenerator.WaterHeight-0.2f;
+            waterVertices[0] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * -10), new Vector2(0, 0));//10
+            waterVertices[1] = new VertexPositionTexture(new Vector3(BlockSize*10, WH, BlockSize * 10), new Vector2(1, 1)); //01
+            waterVertices[2] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * 10), new Vector2(0, 1));//00
+                
+            waterVertices[3] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * -10), new Vector2(0, 0));//01
+            waterVertices[4] = new VertexPositionTexture(new Vector3(BlockSize * 10, WH, BlockSize * -10), new Vector2(1, 0));//11
+            waterVertices[5] = new VertexPositionTexture(new Vector3(BlockSize * 10, WH, BlockSize * 10), new Vector2(1, 1));//01
 
             //waterVertexBuffer = new VertexBuffer(device, waterVertices.Length * VertexPositionTexture.SizeInBytes, BufferUsage.WriteOnly);
             VertexDeclaration vertexDeclaration = VertexPositionTexture.VertexDeclaration;

@@ -50,10 +50,15 @@ namespace _3DGame.GameObjects
         public virtual void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
             Matrix W = Matrix.Identity;
+            Matrix W2 = Matrix.CreateTranslation(0, this.Position.Y, 0);
+
             //   W *= Matrix.CreateRotationZ(MathHelper.ToRadians(this.Pitch));
             W *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(-this.Heading), MathHelper.ToRadians(this.Roll), MathHelper.ToRadians(this.Pitch));
+            W2 = W*W2;
             W *= this.Position.CreateWorld(Reference);
-            this.Model.Render(device, dT*(Speed), W,GameObjects.World.ModelEffect);
+           
+           // W = Matrix.CreateTranslation((this.Position.BX - Reference.X) * Interfaces.WorldPosition.Stride, this.Position.Y, (this.Position.BY - Reference.Y) * Interfaces.WorldPosition.Stride);
+            this.Model.Render(device, dT*(Speed), W,GameObjects.World.ModelEffect, W2);
         }
 
         public virtual void Update(float dT)

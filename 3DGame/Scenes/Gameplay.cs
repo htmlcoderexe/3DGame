@@ -94,14 +94,22 @@ namespace _3DGame.Scenes
             {
                 TakeScreenshot(device);
             }
+            if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
+            {
+                World.Player.Gravity = !World.Player.Gravity;
+            }
             if (kb.IsKeyDown(Keys.Space) /* )//Diarrhea mode!!*/ && (PreviousKbState.IsKeyUp(Keys.Space) || kb.IsKeyDown(Keys.LeftShift)))
             {
+                /*
                 GameObjects.MapEntity e = new GameObjects.MapEntity();
                 e.Position = World.Player.Position;
                 e.Heading = World.Player.Heading;
-               
+                e.Speed = 3.0f;
                 World.Entities.Add(e);
                 Console.Write("Spawned entity at " + e.Position.ToString());
+
+                //*/
+                World.Player.Position.Y += 1.1f;
             }
             if (kb.IsKeyDown(Keys.W))
             {
@@ -146,10 +154,10 @@ namespace _3DGame.Scenes
                 mv.Y += 0.0f;
             }
             if (kb.IsKeyDown(Keys.Up))
-                World.Camera.Distance -= 0.20f;
+                World.Camera.Distance *= 0.99f;
             if (kb.IsKeyDown(Keys.Down))
-                World.Camera.Distance += 0.20f;
-            World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 110f);
+                World.Camera.Distance /= 0.99f;
+            World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 1010f);
             //World.Player.Position += mv;
 
 
@@ -281,6 +289,7 @@ namespace _3DGame.Scenes
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {
+            //return new Plane(planeNormalDirection * (clipSide ? -1f : 1f), height * (clipSide ? -1f : 1f)) ;
             planeNormalDirection.Normalize();
             Vector4 planeCoeffs = new Vector4(planeNormalDirection, height);
             if (clipSide)
@@ -311,18 +320,19 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xGrass"].SetValue(Textures["grass_overworld"]);
             TerrainEffect.Parameters["xRock"].SetValue(Textures["rock"]);
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
-            World.View = reflectedView;
+            //World.View = reflectedView;
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xProjection"].SetValue(projectionMatrix);
             TerrainEffect.Parameters["xCamPos"].SetValue(World.Camera.GetCamVector());
             TerrainEffect.Parameters["xFog"].SetValue(false);
 
 
-            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.0f, new Vector3(0, 1, 0), viewMatrix, false, projectionMatrix);
+           Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.3f, new Vector3(0, -1, 0), viewMatrix, true, projectionMatrix);
 
+            TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(new Vector3(0, 1, 0),-World.Terrain.WaterHeight+0.1f));
             TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);
-
+                
             device.SetRenderTarget(ReflectionMap);
             device.Clear(skyColor);
             World.Render(device, dT,Vector2.Zero);
@@ -331,10 +341,11 @@ namespace _3DGame.Scenes
             device.SetRenderTarget(Screen);
 
             TerrainEffect.Parameters["xView"].SetValue(viewMatrix);
-            World.View = viewMatrix;
-            refractionplane = CreatePlane(-World.Terrain.WaterHeight-0.0f, new Vector3(0, 1, 0), Matrix.Identity, true, projectionMatrix);
+           // World.View = viewMatrix;
+            refractionplane = CreatePlane(World.Terrain.WaterHeight +0.3f, new Vector3(0, -1, 0), viewMatrix, false, projectionMatrix);
 
-            TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
+            TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(new Vector3(0, -1, 0), World.Terrain.WaterHeight + 0.3f));
+            TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal,refractionplane.D));
             TerrainEffect.Parameters["Clipping"].SetValue(true);
              TerrainEffect.Parameters["xFog"].SetValue(true);
             device.SetRenderTarget(RefractionMap);
@@ -346,6 +357,7 @@ namespace _3DGame.Scenes
             device.Clear(skyColor);
 
             TerrainEffect.Parameters["Clipping"].SetValue(false);
+            //TerrainEffect.Parameters["Clipping"].SetValue(true);
             TerrainEffect.Parameters["xFog"].SetValue(false);
             device.SetRenderTarget(Screen);
             World.Render(device, dT, Vector2.Zero);
@@ -355,19 +367,22 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xRefractionMap"].SetValue(RefractionMap);
 
 
-            TerrainEffect.Parameters["xWaveLength"].SetValue(100.1f);
-            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.1f);
+            TerrainEffect.Parameters["xWaveLength"].SetValue(0.2f);
+            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.05f);
             TerrainEffect.Parameters["xWaterBumpMap"].SetValue(Textures["waterbump"]);
-
-            TerrainEffect.Parameters["xTime"].SetValue(RenderTime / 100.0f);
-            TerrainEffect.Parameters["xWindForce"].SetValue(2.0f);
-            TerrainEffect.Parameters["xWindDirection"].SetValue(new Vector3(0, 1, 0));
+                
+            TerrainEffect.Parameters["xTime"].SetValue(RenderTime / 6.0f);
+            TerrainEffect.Parameters["xWindForce"].SetValue(0.2f);
+            TerrainEffect.Parameters["xWindDirection"].SetValue(new Vector3(1, 1, 0));
             TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["Water"];
-            World.Terrain.DrawWater(device, dT,World.Camera.Position.Reference());
+            //World.Terrain.DrawWater(device, dT, (World.Camera.Position ).Reference());
+            World.Terrain.DrawWater(device, dT, (World.Camera.Position + World.Camera.GetCamVector()).Reference());
 
             WindowManager.Render(device);
             device.SetRenderTarget(null);
             b.Begin();
+            //b.Draw(RefractionMap, Vector2.Zero, Color.White);
+            //b.Draw(Screen, new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), Color.White);
             b.Draw(Screen, Vector2.Zero, Color.White);
             b.End();
             GUIRenderer.RenderFrame(device, 32, 32, 256, 128);

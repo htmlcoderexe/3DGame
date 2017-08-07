@@ -89,7 +89,7 @@ namespace GameModel
             this.Children.Add(Root);
 
         }
-        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
+        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx, Matrix W2)
         {
             if (this._IB == null)
                 Prepare(device);
@@ -97,7 +97,7 @@ namespace GameModel
             device.Indices = _IB;
             foreach(ModelPart c in this.Children)
             {
-                c.Render(device, dT, World, fx);
+                c.Render(device, dT, World, fx, W2);
             }
 
         }

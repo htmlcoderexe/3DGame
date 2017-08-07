@@ -92,7 +92,7 @@ VertexToPixel TexturedTintedVS( float4 inPos : POSITION,  float2 inTexCoords: TE
 	VertexToPixel Output = (VertexToPixel)0;
 	float4x4 preViewProjection = mul (xView, xProjection);
 	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-    
+
 	Output.Position = mul(inPos, preWorldViewProjection);	
 	Output.TextureCoords = inTexCoords;
     Output.Color = inColor;
@@ -106,8 +106,7 @@ VertexToPixel TexturedTintedVS( float4 inPos : POSITION,  float2 inTexCoords: TE
 		Output.MoonLight = dot(outNormal, -xMoonDirection);
 		float4 fogColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	
-		//Output.Color=lerp(Output.Color,fogColor,((Output.Position.z/40)*(Output.Position.z/50)));
-	Output.Fog=pow(Output.Position.z,1.0f)/100;//Output.Position.z*Output.Position.z/1000;
+		//Output.Color=lerp(Output.Color,fogColor,((Output.Position.z/40)*(Output.Position.z/50)));	//Output.Fog=pow(Output.Position.z,1.0f)/100;//Output.Position.z*Output.Position.z/1000;
 	Output.Fog=pow(Output.clipDistances/25.0f,1.0f);
 	Output.TW=inWeights;
 	return Output;    
@@ -535,8 +534,10 @@ WPixelToFrame WaterPS(WVertexToPixel PSIn)
      WPixelToFrame Output = (WPixelToFrame)0;   
 	// xWaveHeight=1;     
 	float4 bumpColor = tex2D(WaterBumpMapSampler, PSIn.BumpMapSamplingPos);
-     float2 perturbation = xWaveHeight*(bumpColor.rg - 0.5f)*2.0f;
+     float2 perturbation =xWaveHeight*(bumpColor.rg - 0.5f)*2.0f;
+	//perturbation = float2(0, 0);
      float2 ProjectedTexCoords;
+	 //PSIn.ReflectionMapSamplingPos.w = 1.0f;
      ProjectedTexCoords.x = PSIn.ReflectionMapSamplingPos.x/PSIn.ReflectionMapSamplingPos.w/2.0f + 0.5f;
      ProjectedTexCoords.y = -PSIn.ReflectionMapSamplingPos.y/PSIn.ReflectionMapSamplingPos.w/2.0f + 0.5f;    
 float2 ProjectedTexCoords2;
@@ -544,9 +545,10 @@ float2 ProjectedTexCoords2;
      ProjectedTexCoords2.y = -PSIn.RefractionMapSamplingPos.y/PSIn.RefractionMapSamplingPos.w/2.0f + 0.5f;    
 
 	 float3 eyeVector = normalize(xCamPos - PSIn.Position3D);
+	 //eyeVector = normalize( PSIn.Position3D- xCamPos);
 	 float3 normalVector = float3(0,1,0);
 	 float fresnelTerm = dot(eyeVector, normalVector);
-	 Output.Color = lerp( tex2D(ReflectionSampler, ProjectedTexCoords+perturbation), tex2D(RefractionSampler,ProjectedTexCoords2+perturbation), fresnelTerm);
+	 Output.Color = lerp(tex2D(RefractionSampler, ProjectedTexCoords2 + perturbation), tex2D(ReflectionSampler, ProjectedTexCoords+perturbation), 1.0f-fresnelTerm);
     // Output.Color =/2 + /2;    
     //Output.Color.Alpha=0.5f;
 	//float4 dullColor = float4(0.3f, 0.3f, 0.5f, 1.0f);
@@ -563,8 +565,8 @@ technique Water
 {
      pass Pass0
      {
-         VertexShader = compile vs_4_0_level_9_1 WaterVS();
-         PixelShader = compile ps_4_0_level_9_1 WaterPS();
+         VertexShader = compile vs_4_0_level_9_3 WaterVS();
+         PixelShader = compile ps_4_0_level_9_3 WaterPS();
      }
 }
 
@@ -576,20 +578,14 @@ VertexToPixel GameModelVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOOR
 	float4x4 preViewProjection = mul (xView, xProjection);
 	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection); 
 	Output.Position=mul(inPos,lerp(xOrigin,xBone,inWeights.x));
-	Output.Position = mul(Output.Position, preWorldViewProjection);	
 	Output.TextureCoords = inTexCoords;
     Output.Color = inColor;
-	Output.clipDistances = dot(inPos, ClipPlane0);
+	Output.clipDistances = dot(mul(inPos,xWorld2), ClipPlane0);
+	Output.Position = mul(Output.Position, preWorldViewProjection);	
 	
 	
 	
 	
-
-
-
-
-
-
 
 
 
@@ -628,7 +624,7 @@ PixelToFrame GameModelPS(VertexToPixel PSIn)
 	
 	
 	if(xFog)
-		Output.Color=lerp(Output.Color,watercolor,(PSIn.Fog));
+		Output.Color=lerp(Output.Color,watercolor,(PSIn.Fog/1.0f));
 		
 		
 

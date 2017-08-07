@@ -30,7 +30,6 @@ namespace _3DGame.GameObjects
         }
         public void Render(GraphicsDevice device, float dT, Vector2 Reference)
         {
-            Terrain.Render(device, dT,Camera.Position.Reference());
             MapEntity[] cpy;
             
             lock(_deadEntities)
@@ -48,13 +47,14 @@ namespace _3DGame.GameObjects
             }
             
             Player.Render(device, dT, Camera.Position.Reference());
+            Terrain.Render(device, dT, Camera.Position.Reference());
         }
 
         public void Update(float dT)
         {
             UpdateEntities(dT);
             Terrain.Update(dT);
-           // if(Player.Gravity)
+           if(Player.Gravity)
             SetGravity(Player);
             Player.Update(dT);
         }
