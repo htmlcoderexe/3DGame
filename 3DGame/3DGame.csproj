@@ -67,9 +67,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\Gameplay.cs" />
-    <Compile Include="Scenes\GameplayAssets\ConsoleWindow.cs" />
-    <Compile Include="Scenes\GameplayAssets\ItemSlot.cs" />
-    <Compile Include="Scenes\GameplayAssets\StatusWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\ConsoleWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\EquipWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\InventoryControl.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\InventoryWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\ItemSlot.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\TargetWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Inventory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

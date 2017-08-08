@@ -17,7 +17,27 @@ namespace _3DGame.GameObjects.Items
         public string Adjective;
         public string Subject;
         public Enchantment Enchant;
+        public int EquipmentSlot;
+        public class EquipSlot
+        {
+            public const int RightArm = 0;
+            public const int LeftArm = 1;
+            public const int Chest = 2;
+            public const int Legs = 3;
+            public const int Arms = 4;
+            public const int Feet = 5;
+            public const int Ring0 = 6;
+            public const int Ring1 = 7;
+            public const int Ring2 = 8;
+            public const int Head = 9;
+            public const int Gloves = 10;
+            public const int Scarf = 11;
+            public const int Necklase = 12;
+            public const int Spirit = 13;
+            public const int Bonus = 14;
 
+            public const int Max = 15;
+        }
 
         public class EquipType
         {

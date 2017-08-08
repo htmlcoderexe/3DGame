@@ -8,49 +8,59 @@ namespace _3DGame.GameObjects.MapEntities.Actos
 {
     public class Player : Actor
     {
-        public List<Items.ItemEquip> Equipment;
+        public Items.ItemEquip[] Equipment;
+        public Scenes.GameplayAssets.Inventory Inventory;
         public Player()
         {
-            this.Equipment = new List<Items.ItemEquip>();
-            this.StatBonuses.Add(new StatBonus() {FlatValue=100,Type="HP",Order= StatBonus.StatOrder.Template });
+            this.Equipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max];
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.Gravity = false;
             this.JumpStrength = 15;
             this.MaxJumps = 3;
+            this.Inventory = new Scenes.GameplayAssets.Inventory(64);
         }
-        public override float CurrentHP
-        {
-            get
-            {
-                return CalculateStat("HP");
-            }
-
-            set
-            {
-                base.CurrentHP = value;
-            }
-        }
+        
         public bool CanEquip(Items.ItemEquip Item)
         {
             //TODO actual requirement checking
             return true;
         }
-        public bool EquipItem(Items.ItemEquip Item)
+        
+        public void EquipItem(Items.ItemEquip Item,int slot)
+        {
+            if (slot >= 0 && slot < this.Equipment.Length)
+            {
+                this.Equipment[slot] = Item;
+                this.EquipItem(Item);
+            }
+        }
+
+        public void EquipItem(Items.ItemEquip Item)
         {
             if (!CanEquip(Item))
-                return false;
-            foreach (Items.ItemBonus b in Item.Bonuses)
-                StatBonuses.Add(b);
-            this.Equipment.Add(Item);
-            return true;
+                return;
+            if (Item != null && Item.Bonuses!=null)
+                foreach (Items.ItemBonus b in Item.Bonuses)
+                    StatBonuses.Add(b);
+            
         }
-        public bool UnequipItem(Items.ItemEquip Item)
+        public void UnequipItem(Items.ItemEquip Item,int slot)
         {
-            if (!this.Equipment.Contains(Item))
-                return false;
+            if (slot >= 0 && slot < this.Equipment.Length)
+            {
+                this.Equipment[slot] = null;
+                this.UnequipItem(Item);
+            }
+        }
+        public void UnequipItem(Items.ItemEquip Item)
+        {
+           
+            if (Item == null)
+                return;
+            if(Item.Bonuses!=null)
             foreach (Items.ItemBonus b in Item.Bonuses)
                 StatBonuses.Remove(b);
-            this.Equipment.Remove(Item);
-            return true;
         }
     }
 }

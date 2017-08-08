@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DGame.GameObjects
 {
-    public class Item : Interfaces.IActionIcon,ICloneable
+    public class Item : GUI.IActionIcon,ICloneable
     {
         public class Types
         {
@@ -25,8 +25,17 @@ namespace _3DGame.GameObjects
         public int SellPrice;
         public int Type;
         public int SubType;
-        public int StackSize;
-        public float CooldownPercentage { get; set; }
+        public int StackSize { get; set; }
+
+        public float CoolDown { get; set; }
+
+        public float MaxCoolDown { get; set; }
+
+        public int Icon { get; set; }
+
+
+        string IActionIcon.Name { get; set; }
+
         public virtual object Clone()
         {
             return this; 
@@ -52,16 +61,11 @@ namespace _3DGame.GameObjects
         {
 
         }
+        
 
-        public void SecondaryAction()
+        public void Use()
         {
-
+            
         }
-        public void PrimaryAction()
-        {
-
-        }
-
-
     }
 }

@@ -24,7 +24,7 @@ namespace GUI
       //  public Interfaces.ITextInput FocusedText;
        // public ToolTip ToolTip;
         public float MouseStillSeconds;
-        public IAction MouseGrab;
+        public IActionIcon MouseGrab;
         public Control LastClickedControl;
         public string NotificationText;
         public float NotificationTimeout;
@@ -49,8 +49,8 @@ namespace GUI
             if (this.MovingWindow != null)
             {
 
-                this.MovingWindow.X = (int)MathHelper.Clamp(this.MouseX - this.MoveX, 0, Screen.X - this.MovingWindow.Width);
-                this.MovingWindow.Y = (int)MathHelper.Clamp(this.MouseY - this.MoveY, 0, Screen.Y - this.MovingWindow.Height);
+                this.MovingWindow.X = (int)(this.MouseX - this.MoveX);
+                this.MovingWindow.Y = (int)(this.MouseY - this.MoveY);
 
             }
             this.NotificationTimeout = Math.Max(0, this.NotificationTimeout - seconds);
@@ -59,6 +59,8 @@ namespace GUI
             {
                 if (w.Closed)
                     closedwindows.Add(w);
+                else
+                    w.Update(seconds);
             }
             foreach (Window w in closedwindows)
                 this.Windows.Remove(w);
@@ -72,10 +74,29 @@ namespace GUI
 
             }
         }
+        public void UpdateAnchors(int dX, int dY)
+        {
+            foreach(Window w in this.Windows)
+            {
+                if (w.AnchorRight)
+                    w.X += dX;
+                if (w.AnchorBottom)
+                    w.Y += dY;
+            }
+        }
+        public void ScreenResized(int W, int H)
+        {
+            int dX = W - (int)this.Screen.X;
+            int dY = H - (int)this.Screen.Y;
+            this.Screen.X = W;
+            this.Screen.Y = H;
+            UpdateAnchors(dX, dY);
+        }
         public void Render(GraphicsDevice device)
         {
             foreach (Window Window in this.Windows)
             {
+                if(Window.Visible)
                 Window.Render(device, Renderer, 0, 0);
             }
             /*
@@ -100,7 +121,7 @@ namespace GUI
             //*/
             if (this.MouseGrab != null)
             {
-                this.MouseGrab.Render(device, MouseX - 16, MouseY - 16);
+                this.MouseGrab.Render(MouseX - 16, MouseY - 16,device, this.Renderer, false,false);
 
             }
             if (this.NotificationText != null && this.NotificationTimeout > 0)
@@ -118,8 +139,18 @@ namespace GUI
             Window.WM = this;
             this.Windows.Add(Window);
         }
-        public bool HandleMouse(MouseState Mouse)
+        public bool HandleMouse(MouseState Mouse, float dT)
         {
+            int stillness = (Math.Abs(Mouse.X - PreviousMouseState.X)) + (Math.Abs(Mouse.Y - PreviousMouseState.Y));
+            int mousethreshold = 1;
+            if (stillness > mousethreshold)
+            {
+                MouseStillSeconds = 0;
+            }
+            else
+            {
+                MouseStillSeconds+=dT;
+            }
             Window Window = GetWindow(Mouse.X, Mouse.Y);
             if (Window == null)
             {

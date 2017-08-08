@@ -46,11 +46,13 @@ namespace _3DGame.GameObjects
         }
         public float JumpStrength=5;
         public int MaxJumps;
+
         private int JumpCount;
         private float AnimationTimer;
         private float _pitch;
         private Matrix World;
         private bool _isDead;
+
         public MapEntity()
         {
             this.Model = new GameModel.Model();
@@ -102,6 +104,10 @@ namespace _3DGame.GameObjects
             MapEntity e = (MapEntity)this.MemberwiseClone();
             e.Model = (GameModel.Model)this.Model.Clone();
             return e;
+        }
+        public virtual void Click(_3DGame.GameObjects.MapEntities.Actor Target)
+        {
+
         }
     }
 }

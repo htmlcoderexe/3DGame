@@ -10,6 +10,7 @@ namespace GUI
     public class ToolTipWindow : Window
     {
         private Controls.RichTextDisplay TextDisplay;
+        
         public void SetText(string Text)
         {
             TextDisplay.SetText(Text);
@@ -49,6 +50,11 @@ namespace GUI
             {
                 c.Render(device, Renderer, this.X + X+this.Margin.X, this.Y + Y+this.Margin.Y);
             }
+        }
+        public override void Update(float dT)
+        {
+            if (WM.MouseStillSeconds == 0 && SelfDismissing)
+                this.Close();
         }
     }
 }

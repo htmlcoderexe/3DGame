@@ -74,7 +74,7 @@ namespace _3DGame.Scenes
         public void TerrainClick(Interfaces.WorldPosition Position)
         {
             GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
-            s.Entity = new MapEntity();
+            s.Entity = new GameObjects.MapEntities.Actor();
             s.Interval = 5;
             s.CountDown = 5;
             s.SpawnCallback = new Action<MapEntity>(e => World.Entities.Add(e));
@@ -94,10 +94,19 @@ namespace _3DGame.Scenes
             {
                 TakeScreenshot(device);
             }
+
+            if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
+            {
+                World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 10),true,0);
+            }
+
             if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
             {
                 World.Player.Gravity = !World.Player.Gravity;
             }
+
+
+
             if (kb.IsKeyDown(Keys.Space) /* )//Diarrhea mode!!*/ && (PreviousKbState.IsKeyUp(Keys.Space) || kb.IsKeyDown(Keys.LeftShift)))
             {
                 /*
@@ -172,8 +181,7 @@ namespace _3DGame.Scenes
 
             WindowManager.MouseX = mouse.X;
             WindowManager.MouseY = mouse.Y;
-            bool MouseHandled =
-            WindowManager.HandleMouse(mouse);
+            bool MouseHandled = WindowManager.HandleMouse(mouse,dT);
 
             Vector3 r0 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 0), World.Camera.GetProjection(device), World.Camera.GetView(), World.Camera.GetWorld());
 
@@ -205,16 +213,23 @@ namespace _3DGame.Scenes
                 Interfaces.WorldPosition check = MouseRay.Position;
                 check.BX = World.Player.Position.BX;
                 check.BY = World.Player.Position.BY;
-                if (mouse.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton==ButtonState.Released)
+                if (mouse.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton == ButtonState.Released)
                 {
-                    for (int i = 0; i < 1000; i++)
+                    if(HoverTarget!=null)
                     {
-                        check += MouseRay.Direction / 1;
-                        float th = World.Terrain.GetHeight(check.Truncate(),check.Reference()) == 0 ? -127f : (float)World.Terrain.GetHeight(check.Truncate(),check.Reference());
-                        if (check.Y - 0 < th)
+                        HoverTarget.Click(World.Player);
+                    }
+                    else
+                    { 
+                    for (int i = 0; i < 1000; i++)
                         {
-                            TerrainClick(check);
-                            break;
+                            check += MouseRay.Direction / 1;
+                            float th = World.Terrain.GetHeight(check.Truncate(), check.Reference()) == 0 ? -127f : (float)World.Terrain.GetHeight(check.Truncate(), check.Reference());
+                            if (check.Y - 0 < th)
+                            {
+                                TerrainClick(check);
+                                break;
+                            }
                         }
                     }
                 }
@@ -257,8 +272,7 @@ namespace _3DGame.Scenes
             RefractionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             Screen = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             b = new SpriteBatch(device);
-            WindowManager.Screen.X = ScreenWidth;
-            WindowManager.Screen.Y = ScreenHeight;
+            WindowManager.ScreenResized(ScreenWidth, ScreenHeight);
         }
 
         public void Init(GraphicsDevice device, ContentManager content)
@@ -295,6 +309,9 @@ namespace _3DGame.Scenes
             GUI.Window w;
             w = new GameplayAssets.StatusWindow(WindowManager, World.Player);
             WindowManager.Add(w);
+            WindowManager.Add(new GameplayAssets.Windows.TargetWindow(WindowManager, World.Player));
+            WindowManager.Add(new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
+            WindowManager.Add(new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player));
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {

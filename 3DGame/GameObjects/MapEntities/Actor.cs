@@ -15,10 +15,16 @@ namespace _3DGame.GameObjects.MapEntities
         public string Name { get; set; }
         public List<StatBonus> StatBonuses;
         public GameObjects.Camera Camera;
+        public Actor Target;
+
+        private float _TickLength=0.9f;
+        private float _TickTime;
 
         public Actor()
         {
             this.StatBonuses = new List<StatBonus>();
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.Camera = new Camera();
         }
         public float GetMovementSpeed()
@@ -48,10 +54,36 @@ namespace _3DGame.GameObjects.MapEntities
             }
             return result;
         }
+        public void UpdateBuffers(float dT)
+        {
+            float dHP = CalculateStat("hpdelta")+CalculateStat("hpregen");
+            float dMP = CalculateStat("mpdelta") + CalculateStat("mpregen");
+            float MaxHP = CalculateStat("HP");
+            float MaxMP = CalculateStat("MP");
+            CurrentHPBuffer += dHP*dT;
+            CurrentMPBuffer += dMP*dT;
+            _TickTime += dT;
+            if(_TickTime>=_TickLength)
+            {
+                CurrentHP += CurrentHPBuffer;
+                if (CurrentHP > MaxHP)
+                    CurrentHP = MaxHP;
+                CurrentHPBuffer = 0.0f;
+
+                CurrentMP += CurrentMPBuffer;
+                if (CurrentMP > MaxMP)
+                    CurrentMP = MaxMP;
+                CurrentMPBuffer = 0.0f;
+
+                _TickTime-=_TickLength;
+            }
+        }
+
 
         public override void Update(float dT)
         {
             this.Camera.Position = this.Position;
+            UpdateBuffers(dT);
             base.Update(dT);
         }
 
@@ -68,6 +100,15 @@ namespace _3DGame.GameObjects.MapEntities
                 bb.Add((StatBonus)b.Clone());
             a.Camera = (Camera)this.Camera.Clone();
             return a;
+        }
+        public override void Click(Actor Target)
+        {
+            Target.Target = this;
+        }
+
+        public virtual void Hit(float amount, bool Magic, int Type)
+        {
+            this.CurrentHPBuffer -= amount;
         }
     }
 }

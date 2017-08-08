@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DGame.Interfaces
 {
-    public interface IActionIcon
+    public interface IActionIconDeprecated
     {
         float CooldownPercentage { get; set; }
         void PrimaryAction();

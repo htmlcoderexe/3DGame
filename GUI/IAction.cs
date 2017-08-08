@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GUI
 {
-    public interface IAction
+    public interface IActionIcon
     {
         float CoolDown { get; set; }
         float MaxCoolDown { get; set; }
@@ -15,7 +15,7 @@ namespace GUI
         int Icon { get; set; }
         int StackSize { get; set; }
         string Name { get; set; }
-        void Render(GraphicsDevice device, int X, int Y, bool RenderCooldown = false, bool RenderProgress = false);
-        string GetTip();
+        void Render(int X, int Y, GraphicsDevice device, GUI.Renderer Renderer, bool RenderCooldown = false, bool RenderEXP = false);
+        List<string> GetTooltip();
     }
 }

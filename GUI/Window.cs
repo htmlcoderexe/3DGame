@@ -11,11 +11,44 @@ namespace GUI
     public class Window : Control//, Interfaces.IWindow
     {
 
-
+        public bool AnchorRight;
+        public bool AnchorBottom;
         private bool CloseHot;
         public Rectangle Margin;
         private bool _closed;
         public bool Closed { get { return _closed; } }
+        public virtual void Close()
+        {
+            this._closed = true;
+        }
+        public override int X
+        {
+            get
+            {
+                return base.X;
+            }
+
+            set
+            {
+                base.X = value;
+                if(this.WM!=null)
+                base.X = MathHelper.Clamp(value, 0, (int)this.WM.Screen.X - this.Width);
+            }
+        }
+        public override int Y
+        {
+            get
+            {
+                return base.Y;
+            }
+
+            set
+            {
+                base.Y = value;
+                if (this.WM != null)
+                    base.Y =  MathHelper.Clamp(value, 0, (int)this.WM.Screen.Y - this.Height);
+            }
+        }
         public override void MouseDown(float X, float Y)
         {
             WM.Top(this);
@@ -30,7 +63,7 @@ namespace GUI
                 }
                 else
                 {
-                    this._closed = true;
+                    this.Close();
                     //  this.CloseButton.Action();
                 }
 
@@ -121,6 +154,11 @@ namespace GUI
             base.Render(device, Renderer, Margin.X+X, Margin.Y+Y);
         }
 
+        public virtual void Update(float dT)
+        {
+
+        }
+
         public Window()
         {
             this.Controls = new List<Control>();
@@ -128,6 +166,7 @@ namespace GUI
             this.Margin = new Rectangle(3+3, 16 + 3, 3+3, 3+3);
            // this.WM.GetType();
         }
+
     }
 
 }

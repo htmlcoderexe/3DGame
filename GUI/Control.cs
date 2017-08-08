@@ -92,11 +92,11 @@ namespace GUI
         /// <summary>
         /// Position from left in pixels.
         /// </summary>
-        public int X { get; set; }
+        public virtual int X { get; set; }
         /// <summary>
         /// Position from top in pixels.
         /// </summary>
-        public int Y { get; set; }
+        public virtual int Y { get; set; }
         /// <summary>
         /// Width in pixels.
         /// </summary>
@@ -208,8 +208,10 @@ namespace GUI
         /// <param name="Y">Y in pixels.</param>
         public virtual void Render(Microsoft.Xna.Framework.Graphics.GraphicsDevice device, Renderer Renderer, int X, int Y)
         {
+            
             foreach (Control c in this.Controls)
             {
+                if(c.Visible)
                 c.Render(device, Renderer, this.X + X, this.Y + Y);
             }
 
