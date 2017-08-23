@@ -26,7 +26,7 @@ namespace _3DGame.Scenes.GameplayAssets
         public event ItemEventHandler ItemOut;
         public event ItemEventHandler ItemIn;
         public event ItemEventHandler BeforeItemChanged;
-        public ItemSlot(GameObjects.Item Item)
+        public ItemSlot(GUI.IActionIcon Item)
         {
             this.Item = Item;
             this.Width = 40;

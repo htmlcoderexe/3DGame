@@ -66,6 +66,10 @@ namespace _3DGame.GameObjects
             {
                 e.VerticalSpeed -= GravityAcceleration * dT;
             }
+            else
+            {
+                e.VerticalSpeed = 0;
+            }
             float h = 0.0f;
             float len = 0.2f;
             Matrix yaw = Matrix.CreateRotationY(-e.Heading * (float)Math.PI / 180f);
@@ -82,12 +86,19 @@ namespace _3DGame.GameObjects
             l = Terrain.GetHeight(lp.Truncate(), lp.Reference());
             r = Terrain.GetHeight(rp.Truncate(), rp.Reference());
 
-            if (e.Position.Y < h)
+            if (e.Position.Y < h )
             {
                 e.Position.Y = h;
                 e.Pitch = MathHelper.ToDegrees((float)Math.Atan2((f - b), len));
                 e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r), len));
                 e.OnGround = true;
+            }
+            else if(e.OnGround)
+            {
+                e.Position.Y = h;
+                e.Pitch = MathHelper.ToDegrees((float)Math.Atan2((f - b), len));
+                e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r), len));
+
             }
             else
             {

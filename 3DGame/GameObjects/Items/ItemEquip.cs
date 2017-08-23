@@ -49,6 +49,28 @@ namespace _3DGame.GameObjects.Items
             public const int Staff = 5;
             public const int Wand = 6;
             public const int SpellRing = 7;
+            public const int Spear = 8;
+            public const int SpellBlade = 9;
+            public const int Fists = 10;
+            public const int Knuckles = 11;
+            public const int Claws = 12;
+            public const int Saber = 13;
+            public const int MagicSphere = 14;
+            public const int HeavyHelmet = 15;
+            public const int LightHelmet = 16;
+            public const int Cap = 17;
+            public const int ChestPlate = 18;
+            public const int LightArmor = 19;
+            public const int Robe = 20;
+            public const int Greaves = 21;
+            public const int Cuisses = 22;
+            public const int Leggings = 23;
+            public const int Gauntlets = 24;
+            public const int Gloves = 25;
+            public const int Mitts = 26;
+            public const int Vambraces = 27;
+            public const int Bracers = 28;
+            public const int Sleeves = 29;
             public static string GetTypeName(int Type)
             {
                 switch (Type)
@@ -67,6 +89,8 @@ namespace _3DGame.GameObjects.Items
                         return "Staff";
                     case Wand:
                         return "Wand";
+                    case ChestPlate:
+                        return "Chestplate";
                     default:
                         return "Weapon";
                 }
@@ -94,15 +118,15 @@ namespace _3DGame.GameObjects.Items
             Color PrimaryColour=this.PrimaryMaterial==null?Color.Gray:this.PrimaryMaterial.Colour;
             Color SecondaryColour=this.SecondaryMaterial==null?PrimaryColour:this.SecondaryMaterial.Colour;
             Color GlowColour=this.Enchant==null?PrimaryColour:this.Enchant.LineColour;
-
+            int iconindex = (this.SubType%16) + (64 * (int)(this.SubType / 16));
             Renderer.SetTexture(Renderer.InventoryPartsMap);
             Renderer.SetColour(PrimaryColour);
-            Renderer.RenderIconEx(device, X, Y, 32 + this.SubType);
-            Renderer.RenderIconEx(device, X, Y, 0 + this.SubType);
+            Renderer.RenderIconEx(device, X, Y, 32 + iconindex);
+            Renderer.RenderIconEx(device, X, Y, 0 + iconindex);
             Renderer.SetColour(SecondaryColour);
-            Renderer.RenderIconEx(device, X, Y, 48 + this.SubType);
+            Renderer.RenderIconEx(device, X, Y, 48 + iconindex);
             Renderer.SetColour(GlowColour);
-            Renderer.RenderIconEx(device, X, Y, 16 + this.SubType);
+            Renderer.RenderIconEx(device, X, Y, 16 + iconindex);
 
             base.Render(X, Y, device, Renderer, RenderCooldown, RenderEXP);
         }

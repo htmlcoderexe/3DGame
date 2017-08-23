@@ -42,7 +42,7 @@ namespace _3DGame.Scenes
             string fn = "screenshots\\";
             DateTime now = DateTime.Now;
             
-            fn += now.ToShortDateString() + "-" + now.ToShortTimeString() + counter + ".png";
+            fn += now.ToString("yyyyMMddhhmmss") + counter + ".png";
             System.IO.FileStream s = new System.IO.FileStream(fn, System.IO.FileMode.Create);
             Screen.SaveAsPng(s,device.PresentationParameters.BackBufferWidth,device.PresentationParameters.BackBufferHeight);
             s.Close();
@@ -74,12 +74,14 @@ namespace _3DGame.Scenes
         public void TerrainClick(Interfaces.WorldPosition Position)
         {
             GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
-            s.Entity = new GameObjects.MapEntities.Actor();
+            s.Entity = new GameObjects.MapEntities.Actos.Hostile();
             s.Interval = 5;
             s.CountDown = 5;
+            s.MaxCount = 5;
             s.SpawnCallback = new Action<MapEntity>(e => World.Entities.Add(e));
             s.Position = Position;
             s.SpawningVolume = new BoundingBox(new Vector3(-5, 0, -5), new Vector3(5, 0, 5));
+            s.Entity.Parent = s;
             /* Do not uncomment the following, left for posterity
             s.Entity = s;//VERY EVIL REMOVE IT WAS JUST FOR FUN
             s.Entity = (MapEntity)s.Clone();//oh fuck
@@ -129,21 +131,7 @@ namespace _3DGame.Scenes
                     
                 }
             }
-            if (kb.IsKeyDown(Keys.W))
-            {
-                
-                World.Player.Speed =World.Player.GetMovementSpeed();
-
-                World.Player.Heading = World.Camera.Yaw + 90f;
-            }
-
-            else if (kb.IsKeyDown(Keys.S))
-            {
-                World.Player.Speed = World.Player.GetMovementSpeed();
-
-                World.Player.Heading = World.Camera.Yaw - 90f;
-            }
-            else if (kb.IsKeyDown(Keys.D))
+            if (kb.IsKeyDown(Keys.D))
             {
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
@@ -154,6 +142,25 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 0f;
+            }
+            
+
+            else if (kb.IsKeyDown(Keys.S))
+            {
+                World.Player.Speed = World.Player.GetMovementSpeed();
+
+                World.Player.Heading = World.Camera.Yaw - 90f;
+            }
+            else if (kb.IsKeyDown(Keys.W))
+            {
+
+                World.Player.Speed = World.Player.GetMovementSpeed();
+
+                World.Player.Heading = World.Camera.Yaw + 90f;
+            }
+            else if(World.Player.Walking)
+            {
+                World.Player.Speed = World.Player.GetMovementSpeed() ;
             }
             else
             {
@@ -211,15 +218,21 @@ namespace _3DGame.Scenes
 
 
                 Interfaces.WorldPosition check = MouseRay.Position;
+                check.Normalize();
+                Interfaces.WorldPosition campos = World.Player.Position+((Vector3)World.Player.Camera.GetCamVector() - World.Camera.Position.Truncate());
                 check.BX = World.Player.Position.BX;
                 check.BY = World.Player.Position.BY;
+                //*
+                check.BX = campos.BX;
+                check.BY = campos.BY;
+                //*/
                 if (mouse.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton == ButtonState.Released)
                 {
                     if(HoverTarget!=null)
                     {
                         HoverTarget.Click(World.Player);
                     }
-                    else
+                    else if(kb.IsKeyDown(Keys.LeftShift))
                     { 
                     for (int i = 0; i < 1000; i++)
                         {
@@ -305,6 +318,9 @@ namespace _3DGame.Scenes
             _3DGame.Console.WriteCallbackEx = new Action<string,List<Action>>(ConsoleWriteEx);
             GUI.Console.WriteCallback = new Action<string>(ConsoleWrite);
             GameObjects.Items.Material.MaterialTemplates.Load();
+            GameObjects.AbilityLogic.AbilityLoader l = new GameObjects.AbilityLogic.AbilityLoader("Mage");
+
+            World.Player.Abilities = l.LoadAbilities();
 
             GUI.Window w;
             w = new GameplayAssets.StatusWindow(WindowManager, World.Player);
@@ -312,6 +328,8 @@ namespace _3DGame.Scenes
             WindowManager.Add(new GameplayAssets.Windows.TargetWindow(WindowManager, World.Player));
             WindowManager.Add(new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
             WindowManager.Add(new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player));
+            WindowManager.Add(new GameplayAssets.Windows.SkillWindow(WindowManager, World.Player));
+
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {

@@ -9,7 +9,7 @@ namespace _3DGame.Interfaces
 {
     public struct WorldPosition
     {
-       public const int Stride=64;
+       public const int Stride=128;
        public float X;
        public float Y;
        public float Z;
@@ -64,6 +64,20 @@ namespace _3DGame.Interfaces
             result.X = a.X + b.X;
             result.Y = a.Y + b.Y;
             result.Z = a.Z + b.Z;
+
+            result.Normalize();
+
+            return result;
+        }
+
+        public static WorldPosition operator -(WorldPosition a, WorldPosition b)
+        {
+            WorldPosition result = new WorldPosition();
+            result.BX = a.BX - b.BX;
+            result.BY = a.BY - b.BY;
+            result.X = a.X - b.X;
+            result.Y = a.Y - b.Y;
+            result.Z = a.Z - b.Z;
 
             result.Normalize();
 

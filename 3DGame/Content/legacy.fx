@@ -107,7 +107,7 @@ VertexToPixel TexturedTintedVS( float4 inPos : POSITION,  float2 inTexCoords: TE
 		float4 fogColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	
 		//Output.Color=lerp(Output.Color,fogColor,((Output.Position.z/40)*(Output.Position.z/50)));	//Output.Fog=pow(Output.Position.z,1.0f)/100;//Output.Position.z*Output.Position.z/1000;
-	Output.Fog=pow(Output.clipDistances/25.0f,1.0f);
+	Output.Fog=pow(Output.clipDistances/125.0f,1.0f);
 	Output.TW=inWeights;
 	return Output;    
 }
@@ -548,7 +548,7 @@ float2 ProjectedTexCoords2;
 	 //eyeVector = normalize( PSIn.Position3D- xCamPos);
 	 float3 normalVector = float3(0,1,0);
 	 float fresnelTerm = dot(eyeVector, normalVector);
-	 Output.Color = lerp(tex2D(RefractionSampler, ProjectedTexCoords2 + perturbation), tex2D(ReflectionSampler, ProjectedTexCoords+perturbation), 1.0f-fresnelTerm);
+	 Output.Color = lerp(tex2D(RefractionSampler, ProjectedTexCoords2 + perturbation), tex2D(ReflectionSampler, ProjectedTexCoords+perturbation), clamp(0.7f-fresnelTerm,0,1));
     // Output.Color =/2 + /2;    
     //Output.Color.Alpha=0.5f;
 	//float4 dullColor = float4(0.3f, 0.3f, 0.5f, 1.0f);
@@ -592,7 +592,7 @@ VertexToPixel GameModelVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOOR
 	float4 fogColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	Output.Fog=pow(Output.Position.z,1.0f)/100;
 	//Output.Position.z*Output.Position.z/1000;
-	Output.Fog=pow(Output.clipDistances/25.0f,1.0f);
+	Output.Fog=pow(Output.clipDistances/125.0f,1.0f);
 	//Output.TW=inWeights;
 	return Output;    
 }

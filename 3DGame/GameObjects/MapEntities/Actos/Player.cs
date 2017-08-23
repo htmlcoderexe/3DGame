@@ -16,8 +16,8 @@ namespace _3DGame.GameObjects.MapEntities.Actos
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.Gravity = false;
-            this.JumpStrength = 15;
-            this.MaxJumps = 3;
+            this.JumpStrength = 50;
+            this.MaxJumps = 5;
             this.Inventory = new Scenes.GameplayAssets.Inventory(64);
         }
         

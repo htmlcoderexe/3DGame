@@ -12,14 +12,18 @@ namespace _3DGame.GameObjects.MapEntities
         public MapEntity Entity;
         public float Interval;
         public float CountDown;
+        public int MaxCount;
+        public int Count;
         public System.Action<MapEntity> SpawnCallback;
         public Microsoft.Xna.Framework.BoundingBox SpawningVolume;
 
         public override void Update(float dT)
         {
+            if (this.Count >= MaxCount)
+                return;
             base.Update(dT);
             this.CountDown -= dT;
-            if(this.CountDown<0f)
+            if(this.CountDown<0f )
             {
                 DoSpawn();
                 this.CountDown += this.Interval;
@@ -36,8 +40,12 @@ namespace _3DGame.GameObjects.MapEntities
             p += new Vector3(X, Y, Z);
             e.Position = p+this.Position;
             e.Heading = RNG.Next(359);
-            if (SpawnCallback != null)
-                SpawnCallback(e);
+            SpawnCallback?.Invoke(e);
+            Count++;
+        }
+        private void DeathNotify()
+        {
+            Count--;
         }
     }
 }

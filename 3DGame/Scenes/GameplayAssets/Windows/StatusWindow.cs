@@ -73,7 +73,9 @@ namespace _3DGame.Scenes.GameplayAssets
             enc.LineColour = new Color(255, 50, 30);
             enc.Multiplier = 0.15f;
             eq.Enchant = enc;
-            eq.SubType = GameObjects.RNG.Next(0, 5);
+            eq.SubType = GameObjects.RNG.Next(0, 6);
+            //if (eq.SubType == 5)
+                eq.SubType = 18;
             eq.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             eq.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             List<string> ToolTip = eq.GetTooltip();

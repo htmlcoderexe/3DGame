@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace _3DGame.GameObjects.MapEntities
 {
@@ -14,11 +15,14 @@ namespace _3DGame.GameObjects.MapEntities
         public float CurrentMPBuffer;
         public string Name { get; set; }
         public List<StatBonus> StatBonuses;
+        public List<Ability> Abilities;
         public GameObjects.Camera Camera;
         public Actor Target;
+        public bool Walking;
 
         private float _TickLength=0.9f;
         private float _TickTime;
+        private Interfaces.WorldPosition WalkTarget;
 
         public Actor()
         {
@@ -26,6 +30,7 @@ namespace _3DGame.GameObjects.MapEntities
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.Camera = new Camera();
+            this.Abilities = new List<Ability>();
         }
         public float GetMovementSpeed()
         {
@@ -87,6 +92,29 @@ namespace _3DGame.GameObjects.MapEntities
             base.Update(dT);
         }
 
+        public void WalkTo(Interfaces.WorldPosition Target)
+        {
+            this.WalkTarget = Target;
+            this.Walking = true;
+        }
+
+        public void StepToTarget(float dT)
+        {
+            Interfaces.WorldPosition diff = this.WalkTarget - this.Position;
+            Vector3 v = diff;
+            if (v.Length() < 0.5f)
+            {
+                Walking = false;
+                return;
+                    }
+            v.Normalize();
+            v *= dT;
+            this.Position += v * Speed;
+            if (!OnGround && Gravity)
+                this.Position.Y += this.VerticalSpeed * dT;
+
+        }
+
         public Camera GetTheCamera()
         {
             return this.Camera;
@@ -110,5 +138,6 @@ namespace _3DGame.GameObjects.MapEntities
         {
             this.CurrentHPBuffer -= amount;
         }
+      
     }
 }

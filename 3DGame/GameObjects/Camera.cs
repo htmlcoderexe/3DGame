@@ -77,7 +77,13 @@ namespace _3DGame.GameObjects
         }
         public Matrix GetWorld()
         {
+            Matrix Rotation = Matrix.CreateRotationX(MathHelper.ToRadians(-this.Pitch)) * Matrix.CreateRotationY(MathHelper.ToRadians(this.Yaw));
+            Vector3 CamVector = new Vector3(0, 0, -this.Distance);
+            CamVector = Vector3.Transform(CamVector, Rotation);
+            Matrix result = Matrix.CreateTranslation(CamVector);
+            //CamVector = Vector3.Transform(CamVector, Rotation);
             return Matrix.Identity;
+            return result;
         }
         internal Matrix GetProjection(GraphicsDevice GraphicsDevice)
         {
@@ -87,7 +93,7 @@ namespace _3DGame.GameObjects
             (float)GraphicsDevice.Viewport.Width /
             (float)GraphicsDevice.Viewport.Height,
             0.5f,
-            1000f);
+            3000f);
         }
 
         public object Clone()

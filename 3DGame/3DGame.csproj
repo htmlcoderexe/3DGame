@@ -43,6 +43,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Console.cs" />
+    <Compile Include="GameObjects\AbilityLogic\AbilityAnimation.cs" />
+    <Compile Include="GameObjects\AbilityLogic\AbilityEffect.cs" />
+    <Compile Include="GameObjects\AbilityLogic\AbilityLoader.cs" />
+    <Compile Include="GameObjects\Ability.cs" />
+    <Compile Include="GameObjects\AbilityLogic\Effects\Effect_damage_bmd_full.cs" />
+    <Compile Include="GameObjects\AbilityLogic\Effects\Effect_dot_mwp.cs" />
+    <Compile Include="GameObjects\AbilityLogic\EffectTemplate.cs" />
     <Compile Include="GameObjects\Camera.cs" />
     <Compile Include="GameObjects\Item.cs" />
     <Compile Include="GameObjects\Items\BonusPool.cs" />
@@ -51,6 +58,7 @@
     <Compile Include="GameObjects\Items\ItemBonus.cs" />
     <Compile Include="GameObjects\Items\ItemEquip.cs" />
     <Compile Include="GameObjects\Items\ItemMaterial.cs" />
+    <Compile Include="GameObjects\MapEntities\Actos\Hostile.cs" />
     <Compile Include="GameObjects\MapEntities\EntitySpawner.cs" />
     <Compile Include="GameObjects\StatBonus.cs" />
     <Compile Include="GameObjects\World.cs" />
@@ -72,9 +80,11 @@
     <Compile Include="Scenes\GameplayAssets\Windows\InventoryControl.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\InventoryWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\ItemSlot.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\SkillWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\TargetWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Inventory.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -104,6 +114,7 @@
       <Name>Terrain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

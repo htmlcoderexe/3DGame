@@ -51,7 +51,7 @@ namespace GUI
         public static Vector2 GetXYFromInt(int Width, int Height, int ID)
         {
             int X = ID % Width;
-            int Y = (int)(ID / Height);
+            int Y = (int)(ID / Width);
             Vector2 v = new Vector2(X, Y);
             return v;
         }

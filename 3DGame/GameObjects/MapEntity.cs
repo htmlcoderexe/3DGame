@@ -10,6 +10,7 @@ namespace _3DGame.GameObjects
 {
     public class MapEntity : Interfaces.IGameObject,ICloneable
     {
+        public MapEntities.EntitySpawner Parent;
         public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
         public bool Gravity;
@@ -62,7 +63,7 @@ namespace _3DGame.GameObjects
         }
         public void Jump()
         {
-            if(this.JumpCount<this.MaxJumps-1)
+            if(this.JumpCount<this.MaxJumps)
             {
                 this.VerticalSpeed = this.JumpStrength;
                 this.OnGround = false;
@@ -96,6 +97,7 @@ namespace _3DGame.GameObjects
            // this.Heading += dT*10;
             Vector3 advance = Vector3.Transform(new Vector3(dT, 0, 0),Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
             this.Position += advance*Speed;
+            if(!OnGround && Gravity)
             this.Position.Y+= this.VerticalSpeed*dT;
         }
 
