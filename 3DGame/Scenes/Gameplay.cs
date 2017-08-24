@@ -74,14 +74,17 @@ namespace _3DGame.Scenes
         public void TerrainClick(Interfaces.WorldPosition Position)
         {
             GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
-            s.Entity = new GameObjects.MapEntities.Actos.Hostile();
+            GameObjects.MapEntities.Actos.Hostile tpl=new GameObjects.MapEntities.Actos.Hostile();
+            tpl.LeashRadius = 35;
+            s.Entity = tpl;
             s.Interval = 5;
-            s.CountDown = 5;
-            s.MaxCount = 5;
+            s.CountDown = 2;
+            s.MaxCount = 20;
             s.SpawnCallback = new Action<MapEntity>(e => World.Entities.Add(e));
             s.Position = Position;
             s.SpawningVolume = new BoundingBox(new Vector3(-5, 0, -5), new Vector3(5, 0, 5));
             s.Entity.Parent = s;
+            
             /* Do not uncomment the following, left for posterity
             s.Entity = s;//VERY EVIL REMOVE IT WAS JUST FOR FUN
             s.Entity = (MapEntity)s.Clone();//oh fuck
@@ -190,9 +193,9 @@ namespace _3DGame.Scenes
             WindowManager.MouseY = mouse.Y;
             bool MouseHandled = WindowManager.HandleMouse(mouse,dT);
 
-            Vector3 r0 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 0), World.Camera.GetProjection(device), World.Camera.GetView(), World.Camera.GetWorld());
+            Vector3 r0 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 0), World.Camera.GetProjection(device), World.Camera.GetView(), Matrix.Identity);
 
-            Vector3 r1 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 1), World.Camera.GetProjection(device), World.Camera.GetView(), World.Camera.GetWorld());
+            Vector3 r1 = device.Viewport.Unproject(new Vector3(mouse.X, mouse.Y, 1), World.Camera.GetProjection(device), World.Camera.GetView(), Matrix.Identity);
             Vector3 vc = (r0 - r1);
 
             vc.Normalize();
@@ -411,12 +414,12 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xRefractionMap"].SetValue(RefractionMap);
 
 
-            TerrainEffect.Parameters["xWaveLength"].SetValue(0.2f);
-            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.05f);
+            TerrainEffect.Parameters["xWaveLength"].SetValue(0.005f);
+            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.005f);
             TerrainEffect.Parameters["xWaterBumpMap"].SetValue(Textures["waterbump"]);
                 
             TerrainEffect.Parameters["xTime"].SetValue(RenderTime / 6.0f);
-            TerrainEffect.Parameters["xWindForce"].SetValue(0.2f);
+            TerrainEffect.Parameters["xWindForce"].SetValue(0.02f);
             TerrainEffect.Parameters["xWindDirection"].SetValue(new Vector3(1, 1, 0));
             TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["Water"];
             //World.Terrain.DrawWater(device, dT, (World.Camera.Position ).Reference());

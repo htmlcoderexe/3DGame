@@ -12,22 +12,30 @@ namespace _3DGame.GameObjects.MapEntities.Actos
         public float LeashRadius { get; set; }
         public override void Update(float dT)
         {
+            this.Speed = 0;
             base.Update(dT);
             DoIdle(dT);
         }
         public void DoIdle(float dT)
         {
             if (Walking)
+            {
+                this.Speed=this.GetMovementSpeed();
+
                 StepToTarget(dT);
+            }
             else
+            {
+                this.Speed = 0.0f;
                 SetWalk();
+            }
         }
 
         public void SetWalk()
         {
             float r = (float)RNG.NextDouble() * LeashRadius;
             float a = (float)RNG.Next(0, 359);
-            Vector3 v = new Vector3(1, 0, 0);
+            Vector3 v = new Vector3(r, 0, 0);
             v = Vector3.Transform(v,Matrix.CreateRotationY(MathHelper.ToRadians(a)));
             WalkTo(this.Parent.Position + v);
         }

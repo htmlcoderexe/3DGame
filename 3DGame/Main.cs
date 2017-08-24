@@ -18,6 +18,9 @@ namespace _3DGame
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             CurrentScene = new Scenes.Gameplay();
+            graphics.PreferredBackBufferHeight = 960;
+            graphics.PreferredBackBufferWidth = 1600;
+
             graphics.PreparingDeviceSettings += new System.EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
             Window.ClientSizeChanged += new System.EventHandler<System.EventArgs>(Window_ClientSizeChanged);
             Window.AllowUserResizing = true;
@@ -25,6 +28,7 @@ namespace _3DGame
         }
         void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {
+
             e.GraphicsDeviceInformation.GraphicsProfile = GraphicsProfile.HiDef;
         }
 

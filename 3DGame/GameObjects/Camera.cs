@@ -75,7 +75,7 @@ namespace _3DGame.GameObjects
 
 
         }
-        public Matrix GetWorld()
+        public Matrix GetWorldDeprecated()
         {
             Matrix Rotation = Matrix.CreateRotationX(MathHelper.ToRadians(-this.Pitch)) * Matrix.CreateRotationY(MathHelper.ToRadians(this.Yaw));
             Vector3 CamVector = new Vector3(0, 0, -this.Distance);

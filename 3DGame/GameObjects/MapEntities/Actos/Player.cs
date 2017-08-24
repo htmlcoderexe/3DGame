@@ -19,6 +19,7 @@ namespace _3DGame.GameObjects.MapEntities.Actos
             this.JumpStrength = 50;
             this.MaxJumps = 5;
             this.Inventory = new Scenes.GameplayAssets.Inventory(64);
+            this.Camera.Distance = 15;
         }
         
         public bool CanEquip(Items.ItemEquip Item)

@@ -82,7 +82,15 @@ namespace GameModel
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            object o = this.MemberwiseClone();
+            //(o as PartAnimation).Reset();
+            SortedDictionary<float, Matrix> cd = new SortedDictionary<float, Matrix>();
+            foreach(KeyValuePair<float,Matrix> kvp in _keyframes)
+            {
+                cd.Add(kvp.Key, kvp.Value);
+            }
+            (o as PartAnimation)._keyframes = cd;
+            return o;
         }
     }
 }

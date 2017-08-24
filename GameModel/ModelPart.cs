@@ -35,7 +35,7 @@ namespace GameModel
         public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
         {
             Matrix m = Dislocation;
-            Matrix a = Animation==null?Matrix.Identity:Animation.GetTransform(dT);
+            Matrix a = Animation==null?Matrix.Identity:this.Animation.GetTransform(dT);
             //a = Matrix.Identity;
             World = m * World;
             if(this.Children!=null)
@@ -115,6 +115,8 @@ namespace GameModel
                 List<ModelPart> c = new List<ModelPart>();
                 foreach (ModelPart part in this.Children)
                     c.Add((ModelPart)part.Clone());
+
+                p.Children = c;
             }
             return p;
         }
