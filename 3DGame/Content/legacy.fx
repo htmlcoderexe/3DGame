@@ -418,7 +418,7 @@ technique TexturedNoShading
 
 //------- Technique: PointSprites --------
 
-VertexToPixel PointSpriteVS(float3 inPos: POSITION0, float2 inTexCoord: TEXCOORD0)
+VertexToPixel PointSpriteVS( float4 inPos : POSITION,  float2 inTexCoord: TEXCOORD0,float4 inColor: COLOR, float2 inWeights: TEXCOORD1)
 {
     VertexToPixel Output = (VertexToPixel)0;
 
@@ -441,13 +441,25 @@ VertexToPixel PointSpriteVS(float3 inPos: POSITION0, float2 inTexCoord: TEXCOORD
 
     Output.TextureCoords = inTexCoord;
 
+	Output.Color=inColor;
+	
     return Output;
 }
 
 PixelToFrame PointSpritePS(VertexToPixel PSIn) : COLOR0
 {
     PixelToFrame Output = (PixelToFrame)0;
-    Output.Color = tex2D(TextureSampler, PSIn.TextureCoords);
+    float4 texcolor = tex2D(TextureSampler, PSIn.TextureCoords);
+	float4 shade=float4(0.5f,0.5f,0.5f,0.5f);
+	
+	Output.Color=texcolor;
+	if(texcolor.r==texcolor.g && texcolor.g==texcolor.b)
+	{
+	Output.Color=PSIn.Color+(texcolor-shade)*2;
+	if(texcolor.r<0.5f)
+	 Output.Color=texcolor*PSIn.Color*2;
+	}
+	
     return Output;
 }
 

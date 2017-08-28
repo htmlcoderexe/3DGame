@@ -299,6 +299,7 @@ namespace _3DGame.Scenes
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
+            Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sphere.png", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
             World.ModelEffect = TerrainEffect;
@@ -366,13 +367,16 @@ namespace _3DGame.Scenes
             Matrix reflectedView = World.Camera.GetReflectedView(device, World.Terrain.WaterHeight - 0.2f);
             TerrainEffect.Parameters["xGrass"].SetValue(Textures["grass_overworld"]);
             TerrainEffect.Parameters["xRock"].SetValue(Textures["rock"]);
+            TerrainEffect.Parameters["xTexture"].SetValue(Textures["point_sphere"]);
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
             //World.View = reflectedView;
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xProjection"].SetValue(projectionMatrix);
             TerrainEffect.Parameters["xCamPos"].SetValue(World.Camera.GetCamVector());
+            TerrainEffect.Parameters["xCamUp"].SetValue(World.Camera.GetUpVector());
             TerrainEffect.Parameters["xFog"].SetValue(false);
-
+            TerrainEffect.Parameters["xPointSpriteSize"].SetValue(1.0f);
+           
 
            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.3f, new Vector3(0, -1, 0), viewMatrix, true, projectionMatrix);
 
@@ -382,7 +386,7 @@ namespace _3DGame.Scenes
                 
             device.SetRenderTarget(ReflectionMap);
             device.Clear(skyColor);
-            World.Render(device, dT,Vector2.Zero);
+            World.Render(device, dT,Vector2.Zero,false);
            // device.Clear(Color.CornflowerBlue);
 
             device.SetRenderTarget(Screen);
@@ -397,7 +401,7 @@ namespace _3DGame.Scenes
              TerrainEffect.Parameters["xFog"].SetValue(true);
             device.SetRenderTarget(RefractionMap);
             device.Clear(skyColor);
-            World.Render(device, dT, Vector2.Zero);
+            World.Render(device, dT, Vector2.Zero,false);
             //device.Clear(Color.CornflowerBlue);
 
             device.SetRenderTarget(Screen);
@@ -407,7 +411,7 @@ namespace _3DGame.Scenes
             //TerrainEffect.Parameters["Clipping"].SetValue(true);
             TerrainEffect.Parameters["xFog"].SetValue(false);
             device.SetRenderTarget(Screen);
-            World.Render(device, dT, Vector2.Zero);
+            World.Render(device, dT, Vector2.Zero,false);
 
 
             TerrainEffect.Parameters["xReflectionMap"].SetValue(ReflectionMap);

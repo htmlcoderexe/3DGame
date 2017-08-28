@@ -11,7 +11,7 @@ namespace _3DGame.Interfaces
     public interface IGameObject
     {
 
-        void Render(GraphicsDevice device, float dT, Vector2 Reference);
+        void Render(GraphicsDevice device, float dT, Vector2 Reference,bool Alpha);
         void Update(float dT);
     }
 }

@@ -30,7 +30,7 @@ namespace _3DGame.GameObjects
             
            // ModelEffect = new BasicEffect(device);
         }
-        public void Render(GraphicsDevice device, float dT, Vector2 Reference)
+        public void Render(GraphicsDevice device, float dT, Vector2 Reference,bool Alpha)
         {
             MapEntity[] cpy;
             
@@ -44,12 +44,27 @@ namespace _3DGame.GameObjects
                 MapEntity e = cpy[i];
                 if (e == null)
                     continue;
-                
-                e.Render(device, dT, Camera.Position.Reference());
+
+                e.Render(device, dT, Camera.Position.Reference(),false);
             }
-            
-            Player.Render(device, dT, Camera.Position.Reference());
+
+            Player.Render(device, dT, Camera.Position.Reference(),false);
             Terrain.Render(device, dT, Camera.Position.Reference());
+            device.DepthStencilState = DepthStencilState.DepthRead;
+            device.BlendState = BlendState.AlphaBlend;
+            device.BlendState = BlendState.Additive;
+            for (int i = 0; i < cpy.Length; i++)
+            {
+                MapEntity e = cpy[i];
+                if (e == null)
+                    continue;
+
+                e.Render(device, dT, Camera.Position.Reference(),true);
+            }
+            Player.Render(device, dT, Camera.Position.Reference(), true);
+
+            device.DepthStencilState = DepthStencilState.Default;
+            device.BlendState = BlendState.Opaque;
         }
 
         public void Update(float dT)

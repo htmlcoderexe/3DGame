@@ -18,7 +18,8 @@ namespace GameModel
         protected ModelVertex[] _vertices;
         protected int[] _indices;
         protected List<ModelPart> Children;
-        private Matrix Dislocation;
+        public Matrix Dislocation;
+        public float BoneFactor;
 
 
         public ModelPart()
@@ -32,17 +33,22 @@ namespace GameModel
                 this.Children = new List<ModelPart>();
             this.Children.Add(part);
         }
-        public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
+        public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx,bool Alpha)
         {
             Matrix m = Dislocation;
             Matrix a = Animation==null?Matrix.Identity:this.Animation.GetTransform(dT);
+            Matrix b;
             //a = Matrix.Identity;
-            World = m * World;
             if(this.Children!=null)
             foreach(ModelPart c in this.Children)
             {
-                c.Render(device, dT, World, fx);
+                    b = Matrix.Lerp(Dislocation, Dislocation * a, c.BoneFactor);
+                    c.Render(device, dT, b*World, fx,Alpha);
                 }
+            if (Alpha)
+                return;
+            World = m * World;
+
             //fx.Parameters["xWorld2"].SetValue(Matrix.CreateTranslation(0, Y, 0));
             fx.Parameters["xWorld"].SetValue(World);
             fx.Parameters["xBone"].SetValue(a);

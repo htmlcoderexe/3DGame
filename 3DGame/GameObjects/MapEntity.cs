@@ -78,7 +78,7 @@ namespace _3DGame.GameObjects
             }
         }
 
-        public virtual void Render(GraphicsDevice device, float dT, Vector2 Reference)
+        public virtual void Render(GraphicsDevice device, float dT, Vector2 Reference,bool Alpha)
         {
             Matrix W = Matrix.Identity;
             Matrix W2 = Matrix.CreateTranslation(0, this.Position.Y, 0);
@@ -89,7 +89,7 @@ namespace _3DGame.GameObjects
             W *= this.Position.CreateWorld(Reference);
            
            // W = Matrix.CreateTranslation((this.Position.BX - Reference.X) * Interfaces.WorldPosition.Stride, this.Position.Y, (this.Position.BY - Reference.Y) * Interfaces.WorldPosition.Stride);
-            this.Model.Render(device, dT*(Speed), W,GameObjects.World.ModelEffect);
+            this.Model.Render(device, dT*(Speed), W,GameObjects.World.ModelEffect,Alpha);
         }
 
         public virtual void Update(float dT)

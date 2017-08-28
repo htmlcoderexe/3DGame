@@ -68,7 +68,11 @@ namespace GameModel
             });
 
             ModelPart leg;
+            ModelPart eye;
             leg = new TestParts.PartBugLeg();
+            eye = new TestParts.PartLight(Color.Blue);
+            eye.BoneFactor = 0.33f;
+            leg.Append(eye, Matrix.CreateTranslation(new Vector3(0.2f, 0.8f, 0.0f)));
             Root.Append(leg, Matrix.CreateRotationY((float)Math.PI * 0.3f) * Matrix.CreateTranslation(new Vector3(0.4f, 0, -0.5f)));
             leg = new TestParts.PartBugLeg();
             leg.Animation.SetPhase(0.5f);
@@ -78,18 +82,21 @@ namespace GameModel
 
             leg = new TestParts.PartBugLeg(true);
             leg.Animation.SetPhase(0.5f);
+            eye = new TestParts.PartLight(Color.Blue);
+            eye.BoneFactor = 0.33f;
+            leg.Append(eye, Matrix.CreateTranslation(new Vector3(0.2f, 0.8f, 0.0f)));
+
             Root.Append(leg, Matrix.CreateRotationY((float)Math.PI * 1.8f) * Matrix.CreateTranslation(new Vector3(0.4f, 0, 0.5f)));
             leg = new TestParts.PartBugLeg(true);
             Root.Append(leg, Matrix.CreateRotationY((float)Math.PI * 1.5f) * Matrix.CreateTranslation(new Vector3(0, 0, 0.5f)));
             leg = new TestParts.PartBugLeg(true);
             leg.Animation.SetPhase(0.5f);
             Root.Append(leg, Matrix.CreateRotationY((float)Math.PI * 1.3f) * Matrix.CreateTranslation(new Vector3(-0.4f, 0, 0.5f)));
-             
-
+         
             this.Children.Add(Root);
 
         }
-        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx)
+        public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx, bool Alpha)
         {
             if (this._IB == null)
                 Prepare(device);
@@ -97,7 +104,7 @@ namespace GameModel
             device.Indices = _IB;
             foreach(ModelPart c in this.Children)
             {
-                c.Render(device, dT, World, fx);
+                c.Render(device, dT, World, fx,Alpha);
             }
 
         }

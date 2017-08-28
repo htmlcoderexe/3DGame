@@ -71,6 +71,7 @@ namespace _3DGame.GameObjects
             Vector3 CamUp = new Vector3(0, 1, 0);
             CamUp = Vector3.Transform(CamUp, Rotation);
             CamUp.Normalize();
+            return Vector3.Up;
             return CamUp;
 
 
