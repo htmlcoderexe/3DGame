@@ -205,15 +205,22 @@ namespace Terrain
                 beachdist = MathHelper.Clamp(beachdist, 0.0f, 1.0f);
                 float finalground= GroundBaseline + ground * beachdist + Hills * beachdist;
 
+               
+                v.Position.Y = finalground;
+
+                v.MultiTexData.Z = (float)MathHelper.Clamp(((Temp-100)/128f),0f,1f);
+                if(v.MultiTexData.Z<0.1f)
+                {
+                    v.MultiTexData.Z = 0f;
+                }
                 if (finalground > SnowRange)
                 {
                     v.Color = Snow;
+                    v.MultiTexData.Z = 0.20f;
                 }
 
-                v.Position.Y = finalground;
-
             }
-          //  v.Color = new Color(Math.Min(255, (int)H), 0, 0);
+            //  v.Color = new Color(Math.Min(255, (int)H), 0, 0);
             v.TextureCoordinate.X = X/4f;
             v.TextureCoordinate.Y = Y/4f;
             v.Normal = new Vector3(0, 0, 0);
