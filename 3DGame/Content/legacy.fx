@@ -449,7 +449,7 @@ PixelToFrame TexturedTintedPS(VertexToPixel PSIn)
 		float4 GrassColor= (tex2D(GrassSampler, PSIn.TextureCoords)*1*PSIn.Color)+(tex2D(GrassSampler, PSIn.TextureCoords*dividefactor)*1*PSIn.Color);
 		//GrassColor = (((tex2D(TextureSampler, PSIn.TextureCoords)*2)-1)*PSIn.Color+PSIn.Color/2)+(((tex2D(TextureSampler, PSIn.TextureCoords*4.0f)*2)-1)*PSIn.Color+PSIn.Color/2);
 		float4 RockColor=tex2D(RockSampler,PSIn.TextureCoords/8.0f);
-		float4 SandColor= (tex2D(SandSampler, PSIn.TextureCoords/16.0f));
+		float4 SandColor= (tex2D(SandSampler, PSIn.TextureCoords/4.0f));
 	/*
 	GrassColor =(tex2D(GrassSampler, PSIn.TextureCoords)*1*PSIn.Color);
 GrassColor +=(tex2D(GrassSampler, PSIn.TextureCoords*0.75f)*1*PSIn.Color)/2.0f;
@@ -460,8 +460,8 @@ GrassColor +=(tex2D(GrassSampler, PSIn.TextureCoords*0.5f)*1*PSIn.Color)/2.0f;
 		float Derp=PSIn.TW.z;
 
 		//fog
-		Output.Color=lerp(GrassColor,SandColor,Derp);
-		Output.Color=GrassColor;
+		GrassColor=lerp(GrassColor,SandColor,Derp);
+		//Output.Color=GrassColor;
 		
 		
 		float slope=abs(PSIn.Normal.x)+abs(PSIn.Normal.z);

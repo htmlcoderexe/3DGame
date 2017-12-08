@@ -134,15 +134,15 @@ namespace Terrain
             return block;
         }
 
-        TerrainVertex GainVertex(int X, int Y, int DX, int DY, int Seed=0)
+        TerrainVertex GainVertex(int X, int Y, int DX, int DY, int Seed = 0)
         {
             TerrainVertex v = new TerrainVertex();
 
             float One32nd = 1.0f / 64.0f;
             v.Position.X = X;
             v.Position.Z = Y;
-            int MapX = X + DX * (BlockSize );
-            int MapY = Y + DY * (BlockSize );
+            int MapX = X + DX * (BlockSize);
+            int MapY = Y + DY * (BlockSize);
             // Z = 0;
             // v.Position.Y= noise.PerlinNoise3F(MapX, MapY, Z, 1, One32nd / 1, One32nd / 1, One32nd / 1);
             //*
@@ -154,19 +154,19 @@ namespace Terrain
             Simplex.Seed = this.Seed;
             MapY += 65535;
             MapX += 65535;
-            H = Simplex.CalcPixel2D(MapX, MapY, 0.0006125f)-35f;
-            H +=( Simplex.CalcPixel2D(MapX, MapY , 1f/256)/16 );
-            float Hills = Simplex.CalcPixel2D(MapX, MapY, 1f / 256)-128;
+            H = Simplex.CalcPixel2D(MapX, MapY, 0.0006125f) - 35f;
+            H += (Simplex.CalcPixel2D(MapX, MapY, 1f / 256) / 16);
+            float Hills = Simplex.CalcPixel2D(MapX, MapY, 1f / 256) - 128;
             Hills /= 16;
             //*/
             v.Position.Y = H;
-            float Temp = Simplex.CalcPixel2D(MapX, MapY, 1f /4024f);
+            float Temp = Simplex.CalcPixel2D(MapX, MapY, 1f / 4024f);
             int Blend1 = Math.Min((int)(Temp * 2), 160);
-            int Blend2 = Math.Min((510-(int)(Temp * 2)), 200);
+            int Blend2 = Math.Min((510 - (int)(Temp * 2)), 200);
 
-            Color grass= new Color(Blend1, Blend2, 0);
+            Color grass = new Color(Blend1, Blend2, 0);
             Color sea = new Color(0, 50, 255);
-            Color Snow= new Color(245, 245, 255);
+            Color Snow = new Color(245, 245, 255);
             Color sand = new Color(200, 200, 100);
             Color sand2 = new Color(150, 150, 50);
             sea = sand;
@@ -175,9 +175,13 @@ namespace Terrain
             float BeachRange = 12;
             float SnowRange = 185;
             float GroundBaseline = WaterHeight + BeachRange;
-            
+
             if (H < WaterHeight)
-                v.Color =sea;
+            {
+
+                v.MultiTexData.Z = 1;
+                v.Color = sea;
+            }
             if (H > WaterHeight && H <GroundBaseline)
             {
                 float dif = H - WaterHeight;
@@ -185,6 +189,7 @@ namespace Terrain
                 dif = (float)Math.Pow(dif, 7.3);
                 v.Position.Y = WaterHeight + dif*BeachRange;
                 v.Color = sand;
+                v.MultiTexData.Z = 1;
             }
 
             if(H>GroundBaseline)

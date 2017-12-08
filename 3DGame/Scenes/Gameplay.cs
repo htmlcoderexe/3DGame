@@ -369,6 +369,7 @@ namespace _3DGame.Scenes
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
+            Textures["sand"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sand.png", System.IO.FileMode.Open));
             Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\ray.png", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
@@ -437,6 +438,7 @@ namespace _3DGame.Scenes
             Matrix reflectedView = World.Camera.GetReflectedView(device, World.Terrain.WaterHeight - 0.2f);
             TerrainEffect.Parameters["xGrass"].SetValue(Textures["grass_overworld"]);
             TerrainEffect.Parameters["xRock"].SetValue(Textures["rock"]);
+            TerrainEffect.Parameters["xSand"].SetValue(Textures["sand"]);
             TerrainEffect.Parameters["xTexture"].SetValue(Textures["point_sphere"]);
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
             //World.View = reflectedView;
