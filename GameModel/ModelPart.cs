@@ -35,19 +35,22 @@ namespace GameModel
         }
         public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx,bool Alpha)
         {
-            Matrix m = Dislocation;
+            //get bone animation
             Matrix a = Animation==null?Matrix.Identity:this.Animation.GetTransform(dT);
+           
             Matrix b;
             //a = Matrix.Identity;
-            if(this.Children!=null)
+            //if any children, render each in this part's frame
+            if (this.Children!=null)
             foreach(ModelPart c in this.Children)
             {
+                    //animate part's location
                     b = Matrix.Lerp(Dislocation, Dislocation * a, c.BoneFactor);
                     c.Render(device, dT, b*World, fx,Alpha);
                 }
             if (Alpha)
                 return;
-            World = m * World;
+            World = Dislocation * World;
 
             //fx.Parameters["xWorld2"].SetValue(Matrix.CreateTranslation(0, Y, 0));
             fx.Parameters["xWorld"].SetValue(World);

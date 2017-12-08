@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace _3DGame.Interfaces
 {
-    public interface IGameScene
+    public interface IGameScene : IDisposable
     {
         MouseState PreviousMouseState { get; set; }
         KeyboardState PreviousKbState { get; set; }

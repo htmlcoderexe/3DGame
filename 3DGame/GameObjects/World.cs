@@ -26,7 +26,7 @@ namespace _3DGame.GameObjects
         {
             this.Entities = new List<MapEntity>();
             this._deadEntities = new List<MapEntity>();
-            this.Terrain = new Terrain.Terrain(Interfaces.WorldPosition.Stride);
+            this.Terrain = new Terrain.Terrain(Interfaces.WorldPosition.Stride,7);
             
            // ModelEffect = new BasicEffect(device);
         }
@@ -34,11 +34,10 @@ namespace _3DGame.GameObjects
         {
             MapEntity[] cpy;
             
-            lock(_deadEntities)
-            {
+            
                 cpy = new MapEntity[Entities.Count];
                 Entities.CopyTo(0, cpy, 0, cpy.Length);
-            }
+            
             for (int i = 0; i < cpy.Length; i++)
             {
                 MapEntity e = cpy[i];
@@ -46,13 +45,22 @@ namespace _3DGame.GameObjects
                     continue;
 
                 e.Render(device, dT, Camera.Position.Reference(),false);
+                
             }
-
             Player.Render(device, dT, Camera.Position.Reference(),false);
             Terrain.Render(device, dT, Camera.Position.Reference());
+            /*
+            BlendState b = new BlendState();
+            b.AlphaBlendFunction = BlendFunction.Add;
+            b.AlphaDestinationBlend = Blend.One;
+            b.AlphaSourceBlend = Blend.SourceAlpha;
+            b.ColorBlendFunction = BlendFunction.Max;
+            //*/
             device.DepthStencilState = DepthStencilState.DepthRead;
-            device.BlendState = BlendState.AlphaBlend;
+            //device.BlendState = BlendState.AlphaBlend;
             device.BlendState = BlendState.Additive;
+            //device.BlendState = BlendState.NonPremultiplied;
+            //device.BlendState = b;
             for (int i = 0; i < cpy.Length; i++)
             {
                 MapEntity e = cpy[i];
@@ -65,6 +73,8 @@ namespace _3DGame.GameObjects
 
             device.DepthStencilState = DepthStencilState.Default;
             device.BlendState = BlendState.Opaque;
+            device = null;
+            cpy = null;
         }
 
         public void Update(float dT)
@@ -140,17 +150,24 @@ namespace _3DGame.GameObjects
             this._deadEntities.Clear();
             foreach (MapEntity e in this.Entities)
             {
-                if (e.IsDead)
-                    _deadEntities.Add(e);
+                MapEntity ed = e;
+                if (ed.IsDead)
+                    _deadEntities.Add(ed);
+                ed = null;
             }
             foreach (MapEntity e in this._deadEntities)
             {
-                this.Entities.Remove(e);
+                MapEntity ed = e;
+                this.Entities.Remove(ed);
+                ed = null;
+               
             }
+            this._deadEntities.Clear();
+
         }
         public List<MapEntity> LocateNearby(MapEntity Target)
         {
-            List<MapEntity> results = this.Entities.FindAll(e => e.Position.BX > Target.Position.BX - 2 && e.Position.BX < Target.Position.BX + 2 && e.Position.BY > Target.Position.BY - 2 && e.Position.BY < Target.Position.BY + 2).ToList();
+            List<MapEntity> results = this.Entities.FindAll(e => !e.IsDead && e.Position.BX > Target.Position.BX - 2 && e.Position.BX < Target.Position.BX + 2 && e.Position.BY > Target.Position.BY - 2 && e.Position.BY < Target.Position.BY + 2).ToList();
             return results;
         }
 

@@ -95,7 +95,7 @@ namespace _3DGame.GameObjects.MapEntities
 
         public void WalkTo(Interfaces.WorldPosition Target)
         {
-            Console.Write("^FFFFFF Walking to ^FFFF00 " + Target.ToString());
+           // Console.Write("^FFFFFF Walking to ^FFFF00 " + Target.ToString());
             this.WalkTarget = Target;
             this.Walking = true;
         }
@@ -108,7 +108,7 @@ namespace _3DGame.GameObjects.MapEntities
             if (v.Length() < 0.5f)
             {
                 Walking = false;
-                Console.Write("Arrived at ^FFFF00 " + this.WalkTarget.ToString());
+               // Console.Write("Arrived at ^FFFF00 " + this.WalkTarget.ToString());
                 return;
                     }
             v.Normalize();

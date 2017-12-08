@@ -35,6 +35,7 @@ namespace _3DGame.Scenes
         public GUI.Renderer GUIRenderer;
         public GUI.WindowManager WindowManager;
         public MapEntity HoverTarget;
+        private double spinner;
         //  public System.Threading.Thread QThread;
 
             private void TakeScreenshot(GraphicsDevice device)
@@ -102,12 +103,81 @@ namespace _3DGame.Scenes
 
             if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
+                Color c = new Color(255, 100, 20);
+                for (int i = 0; i < 1; i++)
+                {
+                    GameObjects.MapEntities.Particles.Homing p = new GameObjects.MapEntities.Particles.Homing(c, 2.0f);
+                    p.WorldSpawn = World;
+                    p.Parent = World.Player.Target;
+                    Vector3 v = new Vector3(0, 3.6f, -2.0f+(1.0f*(float)i));
+                    v = Vector3.Transform(v, Matrix.CreateRotationY((World.Player.Heading+90)*MathHelper.Pi/180f));
+                    p.Position = World.Player.Position + v;
+                   
+                    p.TTL = 100;
+                    p.Speed = 8f;
+                    p.Gravity = false;
+                    World.Entities.Add(p);
+                    p = null;
+                }
                 World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 10),true,0);
             }
 
+            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null)// && PreviousKbState.IsKeyUp(Keys.F3) )
+            {
+                Color c = new Color(100, 255, 200);
+                GameObjects.MapEntities.ParticleGroups.Ring r =
+                    new GameObjects.MapEntities.ParticleGroups.Ring(0.5f, 0.4f, c);
+                r.Speed = 8f;
+                r.Position = World.Player.Position;
+                r.Target = World.Player.Target;
+                r.WorldSpawn = World;
+                r.Gravity = false;
+                r.OnGround = false;
+              //  World.Entities.Add(r);
+
+                GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, Color.Green, 0.3f);
+                ray.Expires = false;
+                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup();
+                g.Speed = 1f ;
+                g.Position = World.Player.Position;
+                g.WorldSpawn = World;
+                g.Gravity = false;
+                g.OnGround = false;
+                g.Particles.Add(ray);
+                g.Model = null;
+                g.Target = World.Player;
+                World.Entities.Add(g);
+                r = null;
+                /*
+                Vector3 source = new Vector3(0, 0.5f, 0);
+                Vector3 fw = new Vector3(3.2f, 0, 0);
+                Matrix spinm = Matrix.CreateRotationX((float)spinner * 10f);
+                Matrix head = Matrix.CreateRotationY(MathHelper.ToRadians(-World.Player.Heading + 0));
+                fw = Vector3.Transform(fw, head);
+                source = Vector3.Transform(source, spinm*head);
+                //source = Vector3.Transform(source, );
+                GameObjects.MapEntities.Particles.Spiral p =
+                    new GameObjects.MapEntities.Particles.Spiral(c, 0.2f);
+               
+                p.WorldSpawn = World;
+                p.Parent = World.Player.Target;
+                p.Origin = World.Player.Position;// + source;
+                p.TTL = 100;
+                p.Speed = 0.3f;
+                p.Gravity = false;
+                World.Entities.Add(p);
+                World.Player.Target.Speed = 0;
+                p = null;
+                //*/
+            }
             if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
             {
                 World.Player.Gravity = !World.Player.Gravity;
+            }
+            if (kb.IsKeyDown(Keys.F5) && PreviousKbState.IsKeyUp(Keys.F5))
+            {
+                World.Entities.Clear();
+                World.Entities.Clear();
             }
 
 
@@ -218,7 +288,7 @@ namespace _3DGame.Scenes
                         Target = t;
                 }
                 HoverTarget = Target;
-
+                targets = null;
 
                 Interfaces.WorldPosition check = MouseRay.Position;
                 check.Normalize();
@@ -299,7 +369,7 @@ namespace _3DGame.Scenes
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
-            Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sphere.png", System.IO.FileMode.Open));
+            Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\ray.png", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
             World.ModelEffect = TerrainEffect;
@@ -373,10 +443,9 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
             TerrainEffect.Parameters["xProjection"].SetValue(projectionMatrix);
             TerrainEffect.Parameters["xCamPos"].SetValue(World.Camera.GetCamVector());
-            TerrainEffect.Parameters["xCamUp"].SetValue(World.Camera.GetUpVector());
+            //TerrainEffect.Parameters["xCamUp"].SetValue(World.Camera.GetUpVector());
             TerrainEffect.Parameters["xFog"].SetValue(false);
-            TerrainEffect.Parameters["xPointSpriteSize"].SetValue(1.0f);
-           
+            
 
            Plane refractionplane = CreatePlane(World.Terrain.WaterHeight-0.3f, new Vector3(0, -1, 0), viewMatrix, true, projectionMatrix);
 
@@ -411,23 +480,25 @@ namespace _3DGame.Scenes
             //TerrainEffect.Parameters["Clipping"].SetValue(true);
             TerrainEffect.Parameters["xFog"].SetValue(false);
             device.SetRenderTarget(Screen);
-            World.Render(device, dT, Vector2.Zero,false);
-
+           
 
             TerrainEffect.Parameters["xReflectionMap"].SetValue(ReflectionMap);
             TerrainEffect.Parameters["xRefractionMap"].SetValue(RefractionMap);
 
 
-            TerrainEffect.Parameters["xWaveLength"].SetValue(0.005f);
-            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.005f);
+            TerrainEffect.Parameters["xWaveLength"].SetValue(0.025f);
+            TerrainEffect.Parameters["xWaveHeight"].SetValue(0.025f);
             TerrainEffect.Parameters["xWaterBumpMap"].SetValue(Textures["waterbump"]);
                 
-            TerrainEffect.Parameters["xTime"].SetValue(RenderTime / 6.0f);
+            TerrainEffect.Parameters["xTime"].SetValue(RenderTime / 26.0f);
             TerrainEffect.Parameters["xWindForce"].SetValue(0.02f);
             TerrainEffect.Parameters["xWindDirection"].SetValue(new Vector3(1, 1, 0));
             TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["Water"];
             //World.Terrain.DrawWater(device, dT, (World.Camera.Position ).Reference());
             World.Terrain.DrawWater(device, dT, (World.Camera.Position + World.Camera.GetCamVector()).Reference());
+
+            World.Render(device, dT, Vector2.Zero, false);
+
 
             WindowManager.Render(device);
             device.SetRenderTarget(null);
@@ -436,10 +507,12 @@ namespace _3DGame.Scenes
             //b.Draw(Screen, new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), Color.White);
             b.Draw(Screen, Vector2.Zero, Color.White);
             b.End();
+            /*
             GUIRenderer.RenderFrame(device, 32, 32, 256, 128);
             GUIRenderer.RenderBigIcon(device, 0, 0, 2, GUIRenderer.AbilityMap);
             GUIRenderer.RenderSmallText(device, 35, 56, World.Camera.Position.Y.ToString(), Color.Red, false, true);
 
+            //*/
             device.BlendState = BlendState.Opaque;
             device.DepthStencilState = DepthStencilState.Default;
         }
@@ -448,6 +521,7 @@ namespace _3DGame.Scenes
         {
             WindowManager.Update(dT);
             World.Update(dT);
+            spinner += dT;
         }
 
 
@@ -467,6 +541,9 @@ namespace _3DGame.Scenes
 
         }
 
-        
+        public void Dispose()
+        {
+            World.Terrain.QThread.Abort();
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace _3DGame.Interfaces
 {
     public struct WorldPosition
     {
-       public const int Stride=32;
+       public const int Stride=16;
        public float X;
        public float Y;
        public float Z;
@@ -56,6 +56,21 @@ namespace _3DGame.Interfaces
             return Matrix.CreateTranslation((Vector3)this.WRT(a));
         }
 
+        public static WorldPosition operator *(WorldPosition a, float b)
+        {
+            WorldPosition result = new WorldPosition();
+            float rBX = a.BX * b;
+            float rBY = a.BY * b;
+            result.BX = (int)rBX;
+            result.BY = (int)rBY;
+            result.X  = a.X  * b+(Stride*(rBX-result.BX));
+            result.Y  = a.Y  * b;
+            result.Z  = a.Z  * b + (Stride * (rBY - result.BY));
+
+            result.Normalize();
+
+            return result;
+        }
         public static WorldPosition operator +(WorldPosition a, WorldPosition b)
         {
             WorldPosition result = new WorldPosition();

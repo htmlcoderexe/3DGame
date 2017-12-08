@@ -70,6 +70,7 @@ namespace _3DGame
         /// </summary>
         protected override void UnloadContent()
         {
+            CurrentScene.Dispose();
             // TODO: Unload any non ContentManager content here
         }
 

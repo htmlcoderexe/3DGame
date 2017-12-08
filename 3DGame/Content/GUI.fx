@@ -3,7 +3,7 @@ float4x4 View;
 float4x4 Projection;
 float4 Colour;
 Texture IconMap;
-sampler IconMapSampler = sampler_state { texture = <IconMap> ; magfilter = LINEAR; minfilter = LINEAR; mipfilter=LINEAR; AddressU = wrap; AddressV = wrap;};
+sampler IconMapSampler = sampler_state { texture = <IconMap> ; magfilter = POINT; minfilter = LINEAR; mipfilter=LINEAR; AddressU = wrap; AddressV = wrap;};
 
 struct VertexShaderInput
 {

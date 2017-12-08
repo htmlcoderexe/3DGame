@@ -55,7 +55,7 @@ namespace GUI
             Vector2 v = new Vector2(X, Y);
             return v;
         }
-        public static VertexPositionTexture[] Icon(GraphicsDevice device, float X, float Y, int i, int Size = 32)
+        public static VertexPositionTexture[] Icon(GraphicsDevice device, float X, float Y, int i, int Size = 64)
         {
             VertexPositionTexture[] f = new VertexPositionTexture[6];
             float stride = 0.0625f;

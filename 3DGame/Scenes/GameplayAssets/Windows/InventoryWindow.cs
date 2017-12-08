@@ -15,6 +15,8 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             this.Height = ic.Height + this.Margin.Y + this.Margin.Height;
             this.Title = "Inventory";
             this.AddControl(ic);
+            this.X = 600;
+            this.Y = 500;
         }
     }
 }

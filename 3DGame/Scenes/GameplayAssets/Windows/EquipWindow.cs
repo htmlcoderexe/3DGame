@@ -14,6 +14,8 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             this.Width = 128;
             this.Height = 64;
             this.Title = "Equipment";
+            this.X = 400;
+            this.Y = 400;
             int y = 0;
             int x = 0;
             int i = y * Width + x;

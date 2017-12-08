@@ -16,9 +16,9 @@ namespace Terrain
         private int BlockSize;
         public float WaterHeight = 80f;
         public int Seed;
-        public WorldGenerator(int BlockSize)
+        public WorldGenerator(int BlockSize,int Seed=4)
         {
-            this.Seed = 4;
+            this.Seed = Seed;
             this.BlockSize = BlockSize;
         }
         public void CreateGrid()

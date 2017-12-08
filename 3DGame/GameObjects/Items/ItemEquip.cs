@@ -32,7 +32,7 @@ namespace _3DGame.GameObjects.Items
             public const int Head = 9;
             public const int Gloves = 10;
             public const int Scarf = 11;
-            public const int Necklase = 12;
+            public const int Necklace = 12;
             public const int Spirit = 13;
             public const int Bonus = 14;
 
@@ -55,7 +55,7 @@ namespace _3DGame.GameObjects.Items
             public const int Knuckles = 11;
             public const int Claws = 12;
             public const int Saber = 13;
-            public const int MagicSphere = 14;
+            public const int MagicOrb = 14;
             public const int HeavyHelmet = 15;
             public const int LightHelmet = 16;
             public const int Cap = 17;
@@ -71,6 +71,9 @@ namespace _3DGame.GameObjects.Items
             public const int Vambraces = 27;
             public const int Bracers = 28;
             public const int Sleeves = 29;
+            public const int Sabatons = 30;
+            public const int Boots = 31;
+            public const int Shoes = 32;
             public static string GetTypeName(int Type)
             {
                 switch (Type)
@@ -89,8 +92,12 @@ namespace _3DGame.GameObjects.Items
                         return "Staff";
                     case Wand:
                         return "Wand";
+                    case HeavyHelmet:
+                        return "Helm";
                     case ChestPlate:
                         return "Chestplate";
+                    case Vambraces:
+                        return "Vambraces";
                     default:
                         return "Weapon";
                 }

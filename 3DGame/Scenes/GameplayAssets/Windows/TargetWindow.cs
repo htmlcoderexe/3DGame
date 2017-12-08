@@ -21,6 +21,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             this.Player = Player;
             this.Width = 200;
             this.Height = 50;
+            this.X = 500;
             this.HPBar = new GUI.Controls.ProgressBar();
             this.HPBar.DisplayLabel = true;
             this.HPBar.Style = 0;

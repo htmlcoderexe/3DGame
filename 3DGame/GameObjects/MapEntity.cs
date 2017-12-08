@@ -10,6 +10,7 @@ namespace _3DGame.GameObjects
 {
     public class MapEntity : Interfaces.IGameObject,ICloneable
     {
+        public World WorldSpawn;
         public MapEntities.EntitySpawner Parent;
         public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
@@ -77,9 +78,17 @@ namespace _3DGame.GameObjects
                 return this._isDead;
             }
         }
-
+        public virtual void Die()
+        {
+            this._isDead = true;
+            this.Model.Dispose();
+            this.Model = null;
+            this.WorldSpawn = null;
+        }
         public virtual void Render(GraphicsDevice device, float dT, Vector2 Reference,bool Alpha)
         {
+            if (this.Model == null)
+                return;
             Matrix W = Matrix.Identity;
             Matrix W2 = Matrix.CreateTranslation(0, this.Position.Y, 0);
             W2 = new Matrix();
@@ -110,6 +119,18 @@ namespace _3DGame.GameObjects
         public virtual void Click(_3DGame.GameObjects.MapEntities.Actor Target)
         {
 
+        }
+
+        public void Aim(MapEntity e)
+        {
+            Aim(e.Position);
+        }
+        public void Aim(Interfaces.WorldPosition Target)
+        {
+            Interfaces.WorldPosition diff = Target - this.Position;
+            Vector3 v = diff;
+            v.Normalize();
+            this.Heading = (float)(Math.Atan2(v.X, v.Z) / MathHelper.Pi * -180f) + 90f;
         }
     }
 }

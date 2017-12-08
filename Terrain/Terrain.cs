@@ -131,13 +131,13 @@ namespace Terrain
 
         }
 
-        public Terrain(int BlockSize)
+        public Terrain(int BlockSize, int Seed=4)
         {
             this.BlockSize = BlockSize;
 
             this.Blocks = new ConcurrentDictionary<int,Unit>();
             this.Queue = new Queue<Vector2>();
-            WorldGenerator = new WorldGenerator(BlockSize);
+            WorldGenerator = new WorldGenerator(BlockSize,Seed);
             this.WaterHeight = WorldGenerator.WaterHeight;
             lock (this.Queue) { 
         }

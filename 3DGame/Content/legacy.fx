@@ -24,10 +24,11 @@ float3 xLightDirection;
 float3 xMoonDirection;
 float3 xWindDirection;
 float3 xCamPos;
-float3 xCamUp;
+float3 xRayDirection;
 
 float xAmbient;
 float xPointSpriteSize;
+float xRayLength;
 
 bool xEnableLighting;
 bool xShowNormals;
@@ -85,336 +86,6 @@ sampler RefractionSampler = sampler_state { texture = <xRefractionMap> ; magfilt
 
 
 
-//------- Technique: TexturedTinted --------
-
-VertexToPixel TexturedTintedVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOORD0, float4 inNormal : NORMAL,float4 inColor: COLOR, float4 inWeights: TEXCOORD1)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	float4x4 preViewProjection = mul (xView, xProjection);
-	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-
-	Output.Position = mul(inPos, preWorldViewProjection);	
-	Output.TextureCoords = inTexCoords;
-    Output.Color = inColor;
-	Output.clipDistances = dot(inPos, ClipPlane0);
-	Output.Normal=normalize(inNormal);
-	float3 outNormal = normalize(mul(normalize(inNormal), xWorld));	
-	outNormal=normalize(inNormal);
-	//Output.LightingFactor = 0.5f;
-	//if (xEnableLighting)
-		Output.LightingFactor = dot(outNormal, -xLightDirection);
-		Output.MoonLight = dot(outNormal, -xMoonDirection);
-		float4 fogColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	
-		//Output.Color=lerp(Output.Color,fogColor,((Output.Position.z/40)*(Output.Position.z/50)));	//Output.Fog=pow(Output.Position.z,1.0f)/100;//Output.Position.z*Output.Position.z/1000;
-	Output.Fog=pow(Output.clipDistances/125.0f,1.0f);
-	Output.TW=inWeights;
-	return Output;    
-}
-
-PixelToFrame TexturedTintedPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-	//this takes the texture color(assumed grayscale), and puts it on a scale from -1 to 1.
-	//the value is multiplied by vertex colour to determine how much is added to the vertex colour.
-	//middle gray gives 0, resulting in vertex colour, white doubles the colour (in most cases whiting out) and black results in black.
-	if (Clipping)
-    clip(PSIn.clipDistances);
-	
-	
-	if(PSIn.Fog>1.0f)
-	PSIn.Fog=1.0f;
-	float dividefactor =1.0f/8.0f; //0.0078125f;
-		float4 waterColor = float4(0.0f, 0.400f, 0.10, 1.0f);
-		float4 GrassColor= (tex2D(GrassSampler, PSIn.TextureCoords)*1*PSIn.Color)+(tex2D(GrassSampler, PSIn.TextureCoords*dividefactor)*1*PSIn.Color);
-		//GrassColor = (((tex2D(TextureSampler, PSIn.TextureCoords)*2)-1)*PSIn.Color+PSIn.Color/2)+(((tex2D(TextureSampler, PSIn.TextureCoords*4.0f)*2)-1)*PSIn.Color+PSIn.Color/2);
-		float4 RockColor=tex2D(RockSampler,PSIn.TextureCoords/8.0f);
-		float4 SandColor= (tex2D(SandSampler, PSIn.TextureCoords/16.0f));
-	/*
-	GrassColor =(tex2D(GrassSampler, PSIn.TextureCoords)*1*PSIn.Color);
-GrassColor +=(tex2D(GrassSampler, PSIn.TextureCoords*0.75f)*1*PSIn.Color)/2.0f;
-GrassColor +=(tex2D(GrassSampler, PSIn.TextureCoords*0.5f)*1*PSIn.Color)/2.0f;
-//*/
-//float4 SandColor= ((tex2D(SandSampler, PSIn.TextureCoords)*2)-1)*PSIn.Color+PSIn.Color;
-
-		float Derp=PSIn.TW.z;
-
-		//fog
-		Output.Color=lerp(GrassColor,SandColor,Derp);
-		Output.Color=GrassColor;
-		
-		
-		float slope=abs(PSIn.Normal.x)+abs(PSIn.Normal.z);
-		//slope=1.0f-PSIn.Normal.y;
-		//slope=pow(slope, 0.5f);
-		Output.Color=lerp(GrassColor,RockColor,slope);
-		Output.Color=GrassColor;
-		if(slope>0.999f)
-		Output.Color=RockColor;
-		if(slope<0.999f && slope > 0.9f)
-		{
-			float slerp=(slope-0.9f)/10.0f*100.0f;
-			Output.Color=lerp(GrassColor,RockColor,slerp);
-		}
-	
-		if(xFog)
-		Output.Color= lerp(Output.Color,waterColor,(PSIn.Fog));
-		
-Output.Color.rgb*= saturate(PSIn.LightingFactor);
-
-	return Output;
-}
-
-technique TexturedTinted
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 TexturedTintedVS();
-		PixelShader  = compile ps_4_0_level_9_1 TexturedTintedPS();
-	}
-}
-
-
-
-
-
-
-
-
-
-//------- Technique: Pretransformed --------
-
-VertexToPixel PretransformedVS( float4 inPos : POSITION, float4 inColor: COLOR)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	
-	Output.Position = inPos;
-	Output.Color = inColor;
-    
-	return Output;    
-}
-
-PixelToFrame PretransformedPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-	
-	Output.Color = PSIn.Color;
-
-	return Output;
-}
-
-technique Pretransformed
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 PretransformedVS();
-		PixelShader  = compile ps_4_0_level_9_1 PretransformedPS();
-	}
-}
-
-//------- Technique: PretransformedTextured --------
-
-VertexToPixel PretransformedTexturedVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOORD0)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	
-	Output.Position = inPos;
-	//Output.Color = inColor;
-    
-	return Output;    
-}
-
-PixelToFrame PretransformedTexturedPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-	
-	Output.Color = tex2D(TextureSampler, PSIn.TextureCoords);
-
-	return Output;
-}
-
-technique PretransformedTextured
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 PretransformedTexturedVS();
-		PixelShader  = compile ps_4_0_level_9_1 PretransformedTexturedPS();
-	}
-}
-//------- Technique: Colored --------
-
-VertexToPixel ColoredVS( float4 inPos : POSITION, float3 inNormal: NORMAL, float4 inColor: COLOR)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	float4x4 preViewProjection = mul (xView, xProjection);
-	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-    
-	Output.Position = mul(inPos, preWorldViewProjection);
-	Output.Color = inColor;
-	
-	float3 Normal = normalize(mul(normalize(inNormal), xWorld));	
-	Output.LightingFactor = 1;
-	if (xEnableLighting)
-		Output.LightingFactor = dot(Normal, -xLightDirection);
-    
-	return Output;    
-}
-
-PixelToFrame ColoredPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-    
-	Output.Color = PSIn.Color;
-	Output.Color.rgb *= saturate(PSIn.LightingFactor) + xAmbient;
-
-	return Output;
-}
-
-technique Colored
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 ColoredVS();
-		PixelShader  = compile ps_4_0_level_9_1 ColoredPS();
-	}
-}
-
-//------- Technique: ColoredNoShading --------
-
-VertexToPixel ColoredNoShadingVS( float4 inPos : POSITION, float4 inColor: COLOR)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	float4x4 preViewProjection = mul (xView, xProjection);
-	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-    
-	Output.Position = mul(inPos, preWorldViewProjection);
-	Output.Color = inColor;
-    
-	Output.clipDistances = dot(inPos, ClipPlane0);
-	return Output;    
-}
-
-PixelToFrame ColoredNoShadingPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-    
-	Output.Color = PSIn.Color;
-	if (Clipping)
-    clip(PSIn.clipDistances);
-	return Output;
-}
-
-technique ColoredNoShading
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 ColoredNoShadingVS();
-		PixelShader  = compile ps_4_0_level_9_1 ColoredNoShadingPS();
-	}
-}
-//--instanced
-VertexToPixel ColoredNoShadingInstancedVS( float4 inPos : POSITION, float4 inColor: COLOR)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	float4x4 preViewProjection = mul (xView, xProjection);
-	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-    
-	Output.Position = mul(inPos, preWorldViewProjection);
-	Output.Color = inColor;
-    
-	Output.clipDistances = dot(inPos, ClipPlane0);
-	return Output;    
-}
-
-PixelToFrame ColoredNoShadingInstancedPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-    
-	Output.Color = PSIn.Color;
-	if (Clipping)
-    clip(PSIn.clipDistances);
-	return Output;
-}
-
-technique ColoredNoShadingInstanced
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 ColoredNoShadingInstancedVS();
-		PixelShader  = compile ps_4_0_level_9_1 ColoredNoShadingInstancedPS();
-	}
-}
-
-
-//------- Technique: Textured --------
-
-VertexToPixel TexturedVS( float4 inPos : POSITION, float3 inNormal: NORMAL, float2 inTexCoords: TEXCOORD0)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	float4x4 preViewProjection = mul (xView, xProjection);
-	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-    
-	Output.Position = mul(inPos, preWorldViewProjection);	
-	Output.TextureCoords = inTexCoords;
-	
-	float3 Normal = normalize(mul(normalize(inNormal), xWorld));	
-	Output.LightingFactor = 1;
-	if (xEnableLighting)
-		Output.LightingFactor = dot(Normal, -xLightDirection);
-    
-	return Output;    
-}
-
-PixelToFrame TexturedPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-	
-	Output.Color = tex2D(TextureSampler, PSIn.TextureCoords);
-	Output.Color.rgb *= saturate(PSIn.LightingFactor) + xAmbient;
-
-	return Output;
-}
-
-technique Textured
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 TexturedVS();
-		PixelShader  = compile ps_4_0_level_9_1 TexturedPS();
-	}
-}
-
-//------- Technique: TexturedNoShading --------
-
-VertexToPixel TexturedNoShadingVS( float4 inPos : POSITION, float3 inNormal: NORMAL, float2 inTexCoords: TEXCOORD0)
-{	
-	VertexToPixel Output = (VertexToPixel)0;
-	float4x4 preViewProjection = mul (xView, xProjection);
-	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
-    
-	Output.Position = mul(inPos, preWorldViewProjection);	
-	Output.TextureCoords = inTexCoords;
-    
-	return Output;    
-}
-
-PixelToFrame TexturedNoShadingPS(VertexToPixel PSIn) 
-{
-	PixelToFrame Output = (PixelToFrame)0;		
-	
-	Output.Color = tex2D(TextureSampler, PSIn.TextureCoords);
-
-	return Output;
-}
-
-technique TexturedNoShading
-{
-	pass Pass0
-	{   
-		VertexShader = compile vs_4_0_level_9_1 TexturedNoShadingVS();
-		PixelShader  = compile ps_4_0_level_9_1 TexturedNoShadingPS();
-	}
-}
 
 //------- Technique: PointSprites --------
 
@@ -423,16 +94,21 @@ VertexToPixel PointSpriteVS( float4 inPos : POSITION,  float2 inTexCoord: TEXCOO
     VertexToPixel Output = (VertexToPixel)0;
 
     float3 center = mul(inPos, xWorld);
+	center=mul(center,xBone);
+	
     float3 eyeVector = center - xCamPos;
-
-    float3 sideVector = cross(eyeVector,xCamUp);
-    sideVector = normalize(sideVector);
+Output.clipDistances = dot(mul(inPos,xWorld), ClipPlane0);
+	
+    float3 sideVectorRaw = cross(eyeVector,xRayDirection);
+    float3 sideVector = normalize(sideVectorRaw);
     float3 upVector = cross(sideVector,eyeVector);
     upVector = normalize(upVector);
-
+	upVector=xRayDirection;
     float3 finalPosition = center;
     finalPosition += (inTexCoord.x-0.5f)*sideVector*0.5f*xPointSpriteSize;
-    finalPosition += (0.5f-inTexCoord.y)*upVector*0.5f*xPointSpriteSize;
+	if(xRayLength==0)
+	xRayLength=xPointSpriteSize;
+    finalPosition += (0.5f-inTexCoord.y)*upVector*0.5f;
 
     float4 finalPosition4 = float4(finalPosition, 1);
 
@@ -449,6 +125,8 @@ VertexToPixel PointSpriteVS( float4 inPos : POSITION,  float2 inTexCoord: TEXCOO
 PixelToFrame PointSpritePS(VertexToPixel PSIn) : COLOR0
 {
     PixelToFrame Output = (PixelToFrame)0;
+	if (Clipping)
+    clip(PSIn.clipDistances);
     float4 texcolor = tex2D(TextureSampler, PSIn.TextureCoords);
 	float4 shade=float4(0.5f,0.5f,0.5f,0.5f);
 	
@@ -471,6 +149,74 @@ technique PointSprites
 		PixelShader  = compile ps_4_0_level_9_1 PointSpritePS();
 	}
 }
+
+
+
+//------- Technique: Rays --------
+
+VertexToPixel RayVS( float4 inPos : POSITION,  float2 inTexCoord: TEXCOORD0,float4 inColor: COLOR, float2 inWeights: TEXCOORD1)
+{
+    VertexToPixel Output = (VertexToPixel)0;
+
+    float3 center = mul(inPos, xWorld);
+	center=mul(center,xBone);
+	
+    float3 eyeVector = center - xCamPos;
+Output.clipDistances = dot(mul(inPos,xWorld), ClipPlane0);
+	
+    float3 sideVectorRaw = cross(eyeVector,xRayDirection);
+    float3 sideVector = normalize(sideVectorRaw);
+    float3 upVector = cross(sideVector,eyeVector);
+    upVector = normalize(upVector);
+	upVector=xRayDirection;
+    float3 finalPosition = center;
+    finalPosition += (inTexCoord.x-0.5f)*sideVector*0.5f*xPointSpriteSize;
+	if(xRayLength==0)
+	xRayLength=xPointSpriteSize;
+    finalPosition += (0.5f-inTexCoord.y)*upVector*0.5f;
+
+    float4 finalPosition4 = float4(finalPosition, 1);
+
+    float4x4 preViewProjection = mul (xView, xProjection);
+    Output.Position = mul(finalPosition4, preViewProjection);
+
+    Output.TextureCoords = inTexCoord;
+
+	Output.Color=inColor;
+	
+    return Output;
+}
+
+PixelToFrame RayPS(VertexToPixel PSIn) : COLOR0
+{
+    PixelToFrame Output = (PixelToFrame)0;
+	if (Clipping)
+    clip(PSIn.clipDistances);
+    float4 texcolor = tex2D(TextureSampler, PSIn.TextureCoords);
+	float4 shade=float4(0.5f,0.5f,0.5f,0.5f);
+	
+	Output.Color=texcolor;
+	if(texcolor.r==texcolor.g && texcolor.g==texcolor.b)
+	{
+	Output.Color=PSIn.Color+(texcolor-shade)*2;
+	if(texcolor.r<0.5f)
+	 Output.Color=texcolor*PSIn.Color*2;
+	}
+	
+    return Output;
+}
+
+technique Rays
+{
+	pass Pass0
+	{   
+		VertexShader = compile vs_4_0_level_9_1 PointSpriteVS();
+		PixelShader  = compile ps_4_0_level_9_1 PointSpritePS();
+	}
+}
+
+
+
 //tech: overviewmap
 VertexToPixel OverHeadMapVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOORD0, float4 inNormal : NORMAL,float4 inColor: COLOR)
 {
@@ -504,6 +250,10 @@ PixelToFrame OverHeadMapPS(VertexToPixel PSIn)
 		PixelShader  = compile ps_4_0_level_9_1 OverHeadMapPS();
 	}
 }
+
+
+
+
 //------- Technique: Water --------
 struct WVertexToPixel
 {
@@ -540,6 +290,7 @@ Output.BumpMapSamplingPos = (inTex + moveVector)/xWaveLength;
 	
      return Output;
 }
+
 
 WPixelToFrame WaterPS(WVertexToPixel PSIn)
 {
@@ -654,54 +405,91 @@ technique GameModel
 
 
 
+//------- Technique: TexturedTinted --------
 
+VertexToPixel TexturedTintedVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOORD0, float4 inNormal : NORMAL,float4 inColor: COLOR, float4 inWeights: TEXCOORD1)
+{	
+	VertexToPixel Output = (VertexToPixel)0;
+	float4x4 preViewProjection = mul (xView, xProjection);
+	float4x4 preWorldViewProjection = mul (xWorld, preViewProjection);
 
-// TODO: add effect parameters here.
-
-struct VertexShaderInput
-{
-    float4 Position : POSITION0;
-
-    // TODO: add input channels such as texture
-    // coordinates and vertex colors here.
-};
-
-struct VertexShaderOutput
-{
-    float4 Position : POSITION0;
-
-    // TODO: add vertex shader outputs such as colors and texture
-    // coordinates here. These values will automatically be interpolated
-    // over the triangle, and provided as input to your pixel shader.
-};
-
-VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
-{
-    VertexShaderOutput output;
-
-    float4 worldPosition = mul(input.Position, World);
-    float4 viewPosition = mul(worldPosition, View);
-    output.Position = mul(viewPosition, Projection);
-
-    // TODO: add your vertex shader code here.
-
-    return output;
+	Output.Position = mul(inPos, preWorldViewProjection);	
+	Output.TextureCoords = inTexCoords;
+    Output.Color = inColor;
+	Output.clipDistances = dot(inPos, ClipPlane0);
+	Output.Normal=normalize(inNormal);
+	float3 outNormal = normalize(mul(normalize(inNormal), xWorld));	
+	outNormal=normalize(inNormal);
+	//Output.LightingFactor = 0.5f;
+	//if (xEnableLighting)
+		Output.LightingFactor = dot(outNormal, -xLightDirection);
+		Output.MoonLight = dot(outNormal, -xMoonDirection);
+		float4 fogColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+		//Output.Color=lerp(Output.Color,fogColor,((Output.Position.z/40)*(Output.Position.z/50)));	//Output.Fog=pow(Output.Position.z,1.0f)/100;//Output.Position.z*Output.Position.z/1000;
+	Output.Fog=pow(Output.clipDistances/125.0f,1.0f);
+	Output.TW=inWeights;
+	return Output;    
 }
 
-float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
+PixelToFrame TexturedTintedPS(VertexToPixel PSIn) 
 {
-    // TODO: add your pixel shader code here.
+	PixelToFrame Output = (PixelToFrame)0;		
+	//this takes the texture color(assumed grayscale), and puts it on a scale from -1 to 1.
+	//the value is multiplied by vertex colour to determine how much is added to the vertex colour.
+	//middle gray gives 0, resulting in vertex colour, white doubles the colour (in most cases whiting out) and black results in black.
+	if (Clipping)
+    clip(PSIn.clipDistances);
+	
+	
+	if(PSIn.Fog>1.0f)
+	PSIn.Fog=1.0f;
+	float dividefactor =1.0f/8.0f; //0.0078125f;
+		float4 waterColor = float4(0.0f, 0.400f, 0.10, 1.0f);
+		float4 GrassColor= (tex2D(GrassSampler, PSIn.TextureCoords)*1*PSIn.Color)+(tex2D(GrassSampler, PSIn.TextureCoords*dividefactor)*1*PSIn.Color);
+		//GrassColor = (((tex2D(TextureSampler, PSIn.TextureCoords)*2)-1)*PSIn.Color+PSIn.Color/2)+(((tex2D(TextureSampler, PSIn.TextureCoords*4.0f)*2)-1)*PSIn.Color+PSIn.Color/2);
+		float4 RockColor=tex2D(RockSampler,PSIn.TextureCoords/8.0f);
+		float4 SandColor= (tex2D(SandSampler, PSIn.TextureCoords/16.0f));
+	/*
+	GrassColor =(tex2D(GrassSampler, PSIn.TextureCoords)*1*PSIn.Color);
+GrassColor +=(tex2D(GrassSampler, PSIn.TextureCoords*0.75f)*1*PSIn.Color)/2.0f;
+GrassColor +=(tex2D(GrassSampler, PSIn.TextureCoords*0.5f)*1*PSIn.Color)/2.0f;
+//*/
+//float4 SandColor= ((tex2D(SandSampler, PSIn.TextureCoords)*2)-1)*PSIn.Color+PSIn.Color;
 
-    return float4(1, 0, 0, 1);
+		float Derp=PSIn.TW.z;
+
+		//fog
+		Output.Color=lerp(GrassColor,SandColor,Derp);
+		Output.Color=GrassColor;
+		
+		
+		float slope=abs(PSIn.Normal.x)+abs(PSIn.Normal.z);
+		//slope=1.0f-PSIn.Normal.y;
+		//slope=pow(slope, 0.5f);
+		Output.Color=lerp(GrassColor,RockColor,slope);
+		Output.Color=GrassColor;
+		if(slope>0.999f)
+		Output.Color=RockColor;
+		if(slope<0.999f && slope > 0.9f)
+		{
+			float slerp=(slope-0.9f)/10.0f*100.0f;
+			Output.Color=lerp(GrassColor,RockColor,slerp);
+		}
+	
+		if(xFog)
+		Output.Color= lerp(Output.Color,waterColor,(PSIn.Fog));
+		
+Output.Color.rgb*= saturate(PSIn.LightingFactor);
+
+	return Output;
 }
 
-technique Technique1
+technique TexturedTinted
 {
-    pass Pass1
-    {
-        // TODO: set renderstates here.
-
-        VertexShader = compile vs_4_0_level_9_1 VertexShaderFunction();
-        PixelShader = compile ps_4_0_level_9_1 PixelShaderFunction();
-    }
+	pass Pass0
+	{   
+		VertexShader = compile vs_4_0_level_9_1 TexturedTintedVS();
+		PixelShader  = compile ps_4_0_level_9_1 TexturedTintedPS();
+	}
 }

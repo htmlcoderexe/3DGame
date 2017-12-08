@@ -26,7 +26,7 @@ namespace _3DGame.Scenes.GameplayAssets
             this.Width = 360;
             this.Height = 200;
             this.Title = "Status";
-            this.OKButton = new GUI.Controls.Button("Test button");
+            this.OKButton = new GUI.Controls.Button("Make something!");
             this.OKButton.Clicked += OKButton_Clicked;
             this.OKButton.Width = 128;
             this.OKButton.Height = 48;
@@ -69,13 +69,40 @@ namespace _3DGame.Scenes.GameplayAssets
             BonusPool p=BonusPool.Load("heavy_0_10");
             eq.Bonuses.Add(p.PickBonus());
             eq.Bonuses.Add(p.PickBonus());
-            Enchantment enc = new Enchantment() { Effecttext = "Fire damage +{0}%", Type = "dmg_scale_fire" };
-            enc.LineColour = new Color(255, 50, 30);
-            enc.Multiplier = 0.15f;
+            Enchantment enc=new Enchantment();
+            int enctype = GameObjects.RNG.Next(0, 3);
+            switch(enctype)
+            {
+                case 0:
+                    {
+                        enc = new Enchantment() { Effecttext = "Fire damage +{0}%", Type = "dmg_scale_fire" };
+                        enc.LineColour = new Color(255, 50, 30);
+                        enc.Multiplier = 0.15f;
+                        break;
+                    }
+                case 1:
+                    {
+                        enc = new Enchantment() { Effecttext = "Water resistance +{0}%", Type = "element_multiplier_water" };
+                        enc.LineColour = new Color(0, 50, 200);
+                        enc.Multiplier = 0.05f;
+                        break;
+                    }
+                case 2:
+                    {
+                        enc = new Enchantment() { Effecttext = "Reduces poisoning duration by +{0}%", Type = "element_dot_time_poison" };
+                        enc.LineColour = new Color(0, 150, 20);
+                        enc.Multiplier = 0.33f;
+                        break;
+                    }
+            } 
             eq.Enchant = enc;
-            eq.SubType = GameObjects.RNG.Next(0, 6);
-            //if (eq.SubType == 5)
+            eq.SubType = GameObjects.RNG.Next(0, 10);
+            if (eq.SubType == 7)
                 eq.SubType = 18;
+            if (eq.SubType == 8)
+                eq.SubType = 27;
+            if (eq.SubType == 9)
+                eq.SubType = 15;
             eq.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             eq.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             List<string> ToolTip = eq.GetTooltip();

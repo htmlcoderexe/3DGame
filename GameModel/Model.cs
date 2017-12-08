@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameModel
 {
-    public class Model : ModelPart
+    public class Model : ModelPart, IDisposable
     {
         private VertexBuffer _VB;
         private IndexBuffer _IB;
@@ -42,6 +42,10 @@ namespace GameModel
             _VB.SetData<ModelVertex>(vertices);
 
         }
+        public void Clear()
+        {
+            this.Children.Clear();
+        }
         public Model()
         {
             this.Children = new List<ModelPart>();
@@ -72,6 +76,7 @@ namespace GameModel
             leg = new TestParts.PartBugLeg();
             eye = new TestParts.PartLight(Color.Blue);
             eye.BoneFactor = 0.33f;
+            
             leg.Append(eye, Matrix.CreateTranslation(new Vector3(0.2f, 0.8f, 0.0f)));
             Root.Append(leg, Matrix.CreateRotationY((float)Math.PI * 0.3f) * Matrix.CreateTranslation(new Vector3(0.4f, 0, -0.5f)));
             leg = new TestParts.PartBugLeg();
@@ -116,5 +121,10 @@ namespace GameModel
             return m;
         }
 
+        public void Dispose()
+        {
+            this._IB.Dispose();
+            this._VB.Dispose();
+        }
     }
 }
