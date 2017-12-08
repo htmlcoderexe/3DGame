@@ -530,7 +530,7 @@ namespace _3DGame.Scenes
             while (true)
             {
                 //World.Player.UpdateRenderPos();
-                World.Terrain.BorderEvent(World.Camera.Position.BX, World.Camera.Position.BY);
+                World.Terrain.BorderEvent(World.Player.Position.BX, World.Player.Position.BY);
                 World.Terrain.ProcessQueue();
                 System.Threading.Thread.Sleep(1);
                 //  Utility.Trace(World.Player.
