@@ -28,17 +28,22 @@ namespace _3DGame.Scenes
         public SpriteBatch b;
         private int counter;
         public RenderTarget2D Screen { get; set; }
+        public RenderTarget2D OverheadMapTex { get; set; }
         public Vector3 CamPosition;
         public float Accel = 0;
         private RenderTarget2D RefractionMap { get; set; }
         private RenderTarget2D ReflectionMap { get; set; }
+        public bool RotateMap { get; private set; }
+
         public GUI.Renderer GUIRenderer;
         public GUI.WindowManager WindowManager;
         public MapEntity HoverTarget;
         private double spinner;
+        private int MapZoomLevel=1;
+
         //  public System.Threading.Thread QThread;
 
-            private void TakeScreenshot(GraphicsDevice device)
+        private void TakeScreenshot(GraphicsDevice device)
         {
             string fn = "screenshots\\";
             DateTime now = DateTime.Now;
@@ -100,6 +105,22 @@ namespace _3DGame.Scenes
             {
                 TakeScreenshot(device);
             }
+            if (kb.IsKeyDown(Keys.Add) && PreviousKbState.IsKeyUp(Keys.Add))
+            {
+                MapZoomLevel++;
+                if (MapZoomLevel > 4)
+                    MapZoomLevel = 4;
+            }
+            if (kb.IsKeyDown(Keys.Subtract) && PreviousKbState.IsKeyUp(Keys.Subtract))
+            {
+                MapZoomLevel--;
+                if (MapZoomLevel < 1)
+                    MapZoomLevel = 1;
+            }
+            if (kb.IsKeyDown(Keys.Multiply) && PreviousKbState.IsKeyUp(Keys.Multiply))
+            {
+                RotateMap = !RotateMap;            }
+
 
             if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
@@ -138,7 +159,7 @@ namespace _3DGame.Scenes
                 GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, Color.Green, 0.3f);
                 ray.Expires = false;
                 GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup();
-                g.Speed = 1f ;
+                g.Speed = 0f ;
                 g.Position = World.Player.Position;
                 g.WorldSpawn = World;
                 g.Gravity = false;
@@ -146,6 +167,7 @@ namespace _3DGame.Scenes
                 g.Particles.Add(ray);
                 g.Model = null;
                 g.Target = World.Player;
+                
                 World.Entities.Add(g);
                 r = null;
                 /*
@@ -357,13 +379,15 @@ namespace _3DGame.Scenes
             ReflectionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             RefractionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             Screen = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
+            OverheadMapTex = new RenderTarget2D(device,256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             b = new SpriteBatch(device);
             WindowManager.ScreenResized(ScreenWidth, ScreenHeight);
         }
 
         public void Init(GraphicsDevice device, ContentManager content)
         {
-            World = new GameObjects.World(device);
+            RotateMap = true;
+            World = new GameObjects.World(device,13);
             World.Player = new GameObjects.MapEntities.Actos.Player();
             Textures = new Dictionary<string, Texture2D>();
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
@@ -371,6 +395,9 @@ namespace _3DGame.Scenes
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
             Textures["sand"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sand.png", System.IO.FileMode.Open));
             Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\ray.png", System.IO.FileMode.Open));
+            Textures["mapsprites"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapsprites.png", System.IO.FileMode.Open));
+            Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
+            Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
             World.ModelEffect = TerrainEffect;
@@ -408,7 +435,7 @@ namespace _3DGame.Scenes
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)
         {
-            //return new Plane(planeNormalDirection * (clipSide ? -1f : 1f), height * (clipSide ? -1f : 1f)) ;
+            return new Plane(planeNormalDirection * (clipSide ? -1f : 1f), height * (clipSide ? -1f : 1f)) ;
             planeNormalDirection.Normalize();
             Vector4 planeCoeffs = new Vector4(planeNormalDirection, height);
             if (clipSide)
@@ -423,13 +450,146 @@ namespace _3DGame.Scenes
 
             return finalPlane;
         }
+
+
+
+        void DrawMap(GraphicsDevice GraphicsDevice,float dT,float zoom = 1)
+        {
+            Color cc = Color.CornflowerBlue;
+            //zoom /= 2;
+            GraphicsDevice.SetRenderTarget(OverheadMapTex);
+            // GraphicsDevice.Clear(ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
+            GraphicsDevice.Clear(ClearOptions.Target, cc, 1.0f, 0);
+           TerrainEffect.CurrentTechnique =TerrainEffect.Techniques["OverHeadMap"];
+         //   Terrain.Unit[] renderlist = new Terrain.Unit[World.Terrain.Blocks.Count];
+            if (World.Terrain.Blocks.Count < 1)
+                return;
+            //   World.Terrain.Blocks.ToArray().CopyTo(renderlist,0);
+            foreach (KeyValuePair<int, Terrain.Unit> bv in World.Terrain.Blocks)
+            {
+                Terrain.Unit blk = bv.Value;
+                if (blk == null)
+                    continue;
+                Vector3 v1 = new Vector3((blk.X - World.Player.Position.BX) * 1 / zoom, (blk.Y - World.Player.Position.BY) * -1 / zoom, 0);
+                v1.X -= (World.Player.Position.X / (Interfaces.WorldPosition.Stride * zoom));
+                v1.Y -= (World.Player.Position.Z / (-Interfaces.WorldPosition.Stride * zoom));
+               // v1.Z = v1.Y;v1.Y = 0;
+             //  v1.Z= (World.Player.Position.Z / (-Interfaces.WorldPosition.Stride * zoom));
+                Matrix rm = Matrix.CreateRotationX(MathHelper.PiOver2);
+                Matrix wm = Matrix.CreateTranslation(v1);
+                Matrix sm = Matrix.CreateScale( 1f / ((float)Interfaces.WorldPosition.Stride * zoom));
+                Matrix ym = Matrix.Identity;
+                if (RotateMap)
+                    ym = Matrix.CreateRotationZ(MathHelper.ToRadians(World.Camera.Yaw + 180f));
+                {
+                   TerrainEffect.Parameters["xWorld"].SetValue(rm * sm * wm * ym);
+                   TerrainEffect.Parameters["xZoomLevel"].SetValue(zoom);
+                    foreach (EffectPass pass in TerrainEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+
+                    }
+                    blk.Render(GraphicsDevice,dT);
+                }
+
+            }
+            //Assets.TerrainEffect.Parameters["xTexture"].Set
+            RasterizerState trs = GraphicsDevice.RasterizerState;
+            
+                        b.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            
+            for (int i = 0; i < World.Entities.Count(); i++)
+            {
+                MapEntity NPC = World.Entities[i];
+                if (NPC == null)
+                    continue;//error handling, bitch!
+                Vector3 v1 = new Vector3((NPC.Position.BX - World.Player.Position.BX) * 1 / zoom, (NPC.Position.BY - World.Player.Position.BY) * -1 / zoom, 0);
+                v1.X -= ((World.Player.Position.X - NPC.Position.X) / (Interfaces.WorldPosition.Stride * zoom));
+                v1.Y -= ((World.Player.Position.Z - NPC.Position.Z) / (-Interfaces.WorldPosition.Stride * zoom));
+
+                Matrix rm = Matrix.CreateRotationX(MathHelper.PiOver2); rm = Matrix.Identity;
+                Matrix wm = Matrix.CreateTranslation(v1);// wm = Matrix.Identity;
+                Matrix sm = Matrix.CreateScale(1f / (16f)); sm = Matrix.Identity;
+                Matrix ym = Matrix.Identity;
+                Matrix rym = Matrix.Identity;
+                if (RotateMap)
+                {
+                    ym = Matrix.CreateRotationZ(MathHelper.ToRadians(World.Camera.Yaw + 180f));
+                    rym = Matrix.CreateRotationZ(MathHelper.ToRadians(360f - (World.Camera.Yaw + 180f)));
+                }
+
+                {
+                    Matrix zawarudo = rm * sm * wm * ym;
+
+                   TerrainEffect.Parameters["xWorld"].SetValue(zawarudo);
+                   TerrainEffect.Parameters["xZoomLevel"].SetValue(zoom);
+                    foreach (EffectPass pass in TerrainEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+
+                    }
+                    Vector3 v = new Vector3(0, 0, 100)*2f;
+                    v = Vector3.Transform(v, zawarudo);
+                    Vector2 location = GUI.GFXUtility.ScreenToPixel(GraphicsDevice, v);
+
+                    if (NPC == World.Player.Target)
+                    {
+                        // b.Draw(
+                        b.Draw(Textures["mapsprites"], location, new Rectangle(24, 0, 8, 8), Color.Red);
+
+                        //GraphicsDevice.DrawUserPrimitives<Declarations.TerrainVertex>(PrimitiveType.TriangleList, Assets.RedDot, 0, 2);
+                    }
+                    else
+                    {
+                        Color c = new Color(255, 255, 255);
+                       
+                        //todo colourise depending on object type
+                        // if (NPC as Hostile != null)
+                            c = new Color(0, 255, 0);
+
+                        b.Draw(Textures["mapsprites"], location, new Rectangle(0, 0, 8, 8), c);
+                        //GraphicsDevice.DrawUserPrimitives<Declarations.TerrainVertex>(PrimitiveType.TriangleList, Assets.BlueDot, 0, 2);
+                    }
+
+                }
+            }
+            float rot = 0;
+            float rot2 = MathHelper.ToRadians(180f - (World.Camera.Yaw));
+            if (!RotateMap)
+                rot2 = 0;
+
+
+            if (!RotateMap)
+                rot = MathHelper.ToRadians((World.Camera.Yaw + 180f));
+            b.Draw(Textures["mapsprites"], new Rectangle(128, 128 , 16, 16), new Rectangle(0, 8, 16, 16), Color.Blue, rot, new Vector2(8, 8), SpriteEffects.None, 0);
+            b.Draw(Textures["mapnavring"], new Rectangle(128, 128, 256, 256), null, Color.White, rot2, new Vector2(64, 64), SpriteEffects.None, 0);
+            b.Draw(Textures["mapoverlay"], new Rectangle(128, 128, 256, 256), null, Color.White, 0, new Vector2(64, 64), SpriteEffects.None, 0);
+            //b.Draw(Textures["mapoverlat"], new Rectangle(64, 64, 128, 128), null, Color.White, rot2, new Vector2(64, 64), SpriteEffects.None, 0);
+           // b.Draw(Textures["mapoverlay"], Vector2.Zero, Color.White);
+            b.End();
+            // GraphicsDevice.RasterizerState = trs;
+            RasterizerState rs = new RasterizerState();
+            //Assets.GUIEffect.
+            rs.CullMode = CullMode.CullCounterClockwiseFace;
+          //  if (Volatile.WireframeMode)
+           //     rs.FillMode = FillMode.WireFrame;
+
+            GraphicsDevice.RasterizerState = rs;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            return;
+
+        }
+
         public void Render(GraphicsDevice device, float dT)
         {
             RenderTime += dT;
-            RasterizerState rs = new RasterizerState();
-            rs.CullMode = CullMode.CullCounterClockwiseFace;
+            RasterizerState rs = new RasterizerState
+            {
+                CullMode = CullMode.CullCounterClockwiseFace
+            };
             //rs.CullMode = CullMode.None;
-           // rs.FillMode = FillMode.WireFrame;
+            // rs.FillMode = FillMode.WireFrame;
             device.RasterizerState = rs;
             Color skyColor = new Color(40, 100, 255);
           //  skyColor = Color.Red;
@@ -458,9 +618,11 @@ namespace _3DGame.Scenes
             device.SetRenderTarget(ReflectionMap);
             device.Clear(skyColor);
             World.Render(device, dT,Vector2.Zero,false);
-           // device.Clear(Color.CornflowerBlue);
 
-            device.SetRenderTarget(Screen);
+           
+            // device.Clear(Color.CornflowerBlue);
+
+            // device.SetRenderTarget(Screen);
 
             TerrainEffect.Parameters["xView"].SetValue(viewMatrix);
            // World.View = viewMatrix;
@@ -474,6 +636,15 @@ namespace _3DGame.Scenes
             device.Clear(skyColor);
             World.Render(device, dT, Vector2.Zero,false);
             //device.Clear(Color.CornflowerBlue);
+            refractionplane = CreatePlane(-World.Terrain.WaterHeight - 690.3f, new Vector3(0, 1, 0), viewMatrix, true, projectionMatrix);
+
+            //TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(new Vector3(0, 1, 0), -World.Terrain.WaterHeight + 0.1f));
+            TerrainEffect.Parameters["ClipPlane0"].SetValue(new Vector4(refractionplane.Normal, refractionplane.D));
+
+            device.SetRenderTarget(OverheadMapTex);
+
+
+            DrawMap(device, dT, MapZoomLevel);
 
             device.SetRenderTarget(Screen);
             device.Clear(skyColor);
@@ -481,7 +652,7 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["Clipping"].SetValue(false);
             //TerrainEffect.Parameters["Clipping"].SetValue(true);
             TerrainEffect.Parameters["xFog"].SetValue(false);
-            device.SetRenderTarget(Screen);
+       //     device.SetRenderTarget(Screen);
            
 
             TerrainEffect.Parameters["xReflectionMap"].SetValue(ReflectionMap);
@@ -501,13 +672,19 @@ namespace _3DGame.Scenes
 
             World.Render(device, dT, Vector2.Zero, false);
 
+             device.SetRenderTarget(Screen);
+
 
             WindowManager.Render(device);
+
+            //from here on the screen "buffer" texture is actually rendered.
             device.SetRenderTarget(null);
             b.Begin();
             //b.Draw(RefractionMap, Vector2.Zero, Color.White);
             //b.Draw(Screen, new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), Color.White);
             b.Draw(Screen, Vector2.Zero, Color.White);
+            b.Draw(OverheadMapTex, new Vector2(Screen.Width - 256, 0), Color.White);
+           // b.Draw(OverheadMapTex,)
             b.End();
             /*
             GUIRenderer.RenderFrame(device, 32, 32, 256, 128);

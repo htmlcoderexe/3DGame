@@ -218,7 +218,7 @@ technique Rays
 
 
 //tech: overviewmap
-VertexToPixel OverHeadMapVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOORD0, float4 inNormal : NORMAL,float4 inColor: COLOR)
+VertexToPixel OverHeadMapVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCOORD0, float4 inNormal : NORMAL,float4 inColor: COLOR, float4 inWeights: TEXCOORD1)
 {
   	VertexToPixel Output = (VertexToPixel)0;
 	Output.Position = inPos;
@@ -228,17 +228,54 @@ VertexToPixel OverHeadMapVS( float4 inPos : POSITION,  float2 inTexCoords: TEXCO
 	Output.TextureCoords = inTexCoords;
     Output.Color = inColor;
 
-	if(Output.Position.z<(2.9f/(64.0f*xZoomLevel)))
-	  Output.Color = lerp(inColor,dullColor,0.8f);
+	if(Output.Position.z<(80.0f/(64.0f*xZoomLevel)))
+	
+	  Output.Color = dullColor;
 	Output.Position.z=0;
+	
+	Output.clipDistances = dot(mul(inPos,xWorld), ClipPlane0);
+	
+	Output.Normal=normalize(inNormal);
+	Output.TW=inWeights;
 	return Output;
 }
 PixelToFrame OverHeadMapPS(VertexToPixel PSIn) 
 {
 	PixelToFrame Output = (PixelToFrame)0;	
-
-	Output.Color=PSIn.Color;	
+//clip(PSIn.clipDistances);
+	Output.Color=PSIn.Color;
+	
 	//Output.Color = ((tex2D(TextureSampler, PSIn.TextureCoords)*2)-1)*PSIn.Color+PSIn.Color;
+		float4 dullcolor=float4(0.3f, 0.6f, 0.5f, 1.0f);
+		float4 GrassColor=PSIn.Color;
+		float4 RockColor=float4(0.3f,0.3f,0.3f,1.0f);
+		float4 SandColor=float4(0.9f,0.7f,0.4f,1.0f);
+	
+//	RockColor=float4(0.7f,0.6f,0.6f,1.0f);
+	
+		float Derp=PSIn.TW.z;
+
+		//fog
+		GrassColor=lerp(GrassColor,SandColor,Derp);
+		Output.Color=GrassColor;
+		
+		
+		float slope=abs(PSIn.Normal.x)+abs(PSIn.Normal.z);
+		//slope=1.0f-PSIn.Normal.y;
+		//slope=pow(slope, 0.5f);
+		Output.Color=lerp(GrassColor,RockColor,slope);
+		Output.Color=GrassColor;
+		if(slope>0.999f)
+		Output.Color=RockColor;
+		if(slope<0.999f && slope > 0.9f)
+		{
+			float slerp=(slope-0.9f)/10.0f*100.0f;
+			Output.Color=lerp(GrassColor,RockColor,slerp);
+		}
+		if(PSIn.Color.r==dullcolor.r&&PSIn.Color.g==dullcolor.g&&PSIn.Color.b==dullcolor.b)
+		Output.Color=PSIn.Color;
+	//	Output.Position.z=0;
+	
 	return Output;
 	}
 

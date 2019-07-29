@@ -22,11 +22,11 @@ namespace _3DGame.GameObjects
         public static Effect ModelEffect;
         public Matrix View = Matrix.Identity;
         public float GravityAcceleration = 9.81f;
-        public World(GraphicsDevice device)
+        public World(GraphicsDevice device, int Seed)
         {
             this.Entities = new List<MapEntity>();
             this._deadEntities = new List<MapEntity>();
-            this.Terrain = new Terrain.Terrain(Interfaces.WorldPosition.Stride,7);
+            this.Terrain = new Terrain.Terrain(Interfaces.WorldPosition.Stride,Seed);
             
            // ModelEffect = new BasicEffect(device);
         }

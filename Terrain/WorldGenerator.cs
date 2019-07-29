@@ -154,13 +154,17 @@ namespace Terrain
             Simplex.Seed = this.Seed;
             MapY += 65535;
             MapX += 65535;
-            H = Simplex.CalcPixel2D(MapX, MapY, 0.0006125f) - 35f;
+            H = Simplex.CalcPixel2D(MapX, MapY, 1f/2048f) - 35f;
+            //values from -35 to 220ish.
             H += (Simplex.CalcPixel2D(MapX, MapY, 1f / 256) / 16);
+            //+-16 variation, values -51..246
             float Hills = Simplex.CalcPixel2D(MapX, MapY, 1f / 256) - 128;
-            Hills /= 16;
+            Hills /= 16; 
+            //+-8 noise
             //*/
             v.Position.Y = H;
             float Temp = Simplex.CalcPixel2D(MapX, MapY, 1f / 4024f);
+            //0 to 255 temp
             int Blend1 = Math.Min((int)(Temp * 2), 160);
             int Blend2 = Math.Min((510 - (int)(Temp * 2)), 200);
 
@@ -192,9 +196,12 @@ namespace Terrain
                 v.MultiTexData.Z = 1;
             }
 
-            if(H>GroundBaseline)
+            if (H > GroundBaseline)
             {
-                Simplex.Seed = 4;
+                unchecked
+                { 
+                Simplex.Seed = Simplex.Seed ^ (int)0xFFFFFFFF;
+              }
                 float ground = Simplex.CalcPixel2D(MapX+1112, MapY+13123, 0.0006125f);
                 float beachdist= H - GroundBaseline;
                 float evenness = 16f;
@@ -208,8 +215,8 @@ namespace Terrain
                
                 v.Position.Y = finalground;
 
-                v.MultiTexData.Z = (float)MathHelper.Clamp(((Temp-100)/128f),0f,1f);
-                if(v.MultiTexData.Z<0.1f)
+                v.MultiTexData.Z = (float)Math.Pow((float)MathHelper.Clamp((((Temp / 2f) - finalground + 76f) / 100f), 0f, 1f),3f) ;
+                if(v.MultiTexData.Z<0.2f)
                 {
                     v.MultiTexData.Z = 0f;
                 }

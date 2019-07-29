@@ -15,6 +15,7 @@ namespace _3DGame.GameObjects.MapEntities.Actos
             this.Equipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max];
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "movement_speed", Order = StatBonus.StatOrder.Template });
             this.Gravity = false;
             this.JumpStrength = 10;
             this.MaxJumps = 2;
