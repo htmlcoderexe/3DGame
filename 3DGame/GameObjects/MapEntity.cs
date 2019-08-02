@@ -81,6 +81,7 @@ namespace _3DGame.GameObjects
         public virtual void Die()
         {
             this._isDead = true;
+            if(this.Model!=null)
             this.Model.Dispose();
             this.Model = null;
             this.WorldSpawn = null;

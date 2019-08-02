@@ -13,12 +13,23 @@ namespace _3DGame.GameObjects.MapEntities
         public MapEntity Target;
         public List<Particle> Particles;
         public GameModel.PartAnimation Animation;
+        public bool Expires = false;
+        public float TTL;
+        private void DoExpire(float dT)
+        {
+
+            this.TTL -= dT;
+            if (this.TTL <= 0)
+                this.Die();
+        }
         public ParticleGroup()
         {
             this.Particles = new List<Particle>();
         }
         public override void Update(float dT)
         {
+            if (this.Expires)
+                DoExpire(dT);
             foreach (Particle p in this.Particles)
             {
                 p.Origin = this.Position;
@@ -39,6 +50,13 @@ namespace _3DGame.GameObjects.MapEntities
                 p.Render(device, dT, Reference, Alpha);
             }
             base.Render(device, dT, Reference, Alpha);
+        }
+        public override void Die()
+        {
+            foreach (Particle p in this.Particles)
+                p.Die();
+            this.Particles.Clear();
+            base.Die();
         }
     }
 }

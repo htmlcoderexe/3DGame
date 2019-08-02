@@ -146,6 +146,7 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null)// && PreviousKbState.IsKeyUp(Keys.F3) )
             {
                 Color c = new Color(100, 255, 200);
+                /*
                 GameObjects.MapEntities.ParticleGroups.Ring r =
                     new GameObjects.MapEntities.ParticleGroups.Ring(0.5f, 0.4f, c);
                 r.Speed = 8f;
@@ -154,22 +155,26 @@ namespace _3DGame.Scenes
                 r.WorldSpawn = World;
                 r.Gravity = false;
                 r.OnGround = false;
-              //  World.Entities.Add(r);
-
+                World.Entities.Add(r);
+                //*/
                 GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, Color.Green, 0.3f);
-                ray.Expires = false;
-                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup();
-                g.Speed = 0f ;
-                g.Position = World.Player.Position;
-                g.WorldSpawn = World;
-                g.Gravity = false;
-                g.OnGround = false;
+                //ray.Expires = true;
+                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup
+                {
+                    Speed = 0f,
+                    Position = World.Player.Position,
+                    WorldSpawn = World,
+                    Gravity = false,
+                    OnGround = false
+                };
                 g.Particles.Add(ray);
                 g.Model = null;
-                g.Target = World.Player;
+                g.TTL = 0.4f;
+                g.Expires = true;
+              //  g.Target = World.Player;
                 
                 World.Entities.Add(g);
-                r = null;
+               // r = null;
                 /*
                 Vector3 source = new Vector3(0, 0.5f, 0);
                 Vector3 fw = new Vector3(3.2f, 0, 0);

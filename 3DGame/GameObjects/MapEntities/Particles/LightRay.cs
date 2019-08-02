@@ -33,8 +33,11 @@ namespace _3DGame.GameObjects.MapEntities.Particles
             // this.Offset =Source.Position;
             //this.l.Height = ((Vector3)diff).Length();
             this.l.Direction = diff*2f;
-            this.Offset = diff * 0.5f;
+             //this.Offset = diff * 0.5f;
+           // this.TTL = 6;
             base.Update(dT);
+            this.Position = Source.Position + diff * 0.5f; ;
+
         }
     }
 }
