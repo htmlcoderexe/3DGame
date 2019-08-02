@@ -146,7 +146,7 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3) )
             {
                 Color c = new Color(100, 255, 200);
-                /*
+                //*
                 GameObjects.MapEntities.ParticleGroups.Ring r =
                     new GameObjects.MapEntities.ParticleGroups.Ring(0.5f, 0.4f, c);
                 r.Speed = 8f;
@@ -155,6 +155,7 @@ namespace _3DGame.Scenes
                 r.WorldSpawn = World;
                 r.Gravity = false;
                 r.OnGround = false;
+               
                 World.Entities.Add(r);
                 //*/
                 GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, Color.Green, 0.3f);

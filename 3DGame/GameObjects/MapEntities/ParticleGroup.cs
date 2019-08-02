@@ -34,13 +34,16 @@ namespace _3DGame.GameObjects.MapEntities
             {
                 p.Origin = this.Position;
                 p.Heading = this.Heading;
+                p.Pitch = this.Pitch;
                 p.Update(dT);
             }
             if(this.Target!=null)
             {
-                Aim(Target);
-                
+                Aim(Target,false);
+                if ((this.Position - Target.Position).Truncate().Length() < 0.5f)
+                    this.Die();
             }
+            
             base.Update(dT);
         }
         public override void Render(GraphicsDevice device, float dT, Vector2 Reference, bool Alpha)

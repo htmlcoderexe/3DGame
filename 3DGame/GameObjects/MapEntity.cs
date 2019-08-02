@@ -104,8 +104,9 @@ namespace _3DGame.GameObjects
 
         public virtual void Update(float dT)
         {
-           // this.Heading += dT*10;
-            Vector3 advance = Vector3.Transform(new Vector3(dT, 0, 0),Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
+            // this.Heading += dT*10;
+            Vector3 Movevector = new Vector3(dT, 0, 0);
+            Vector3 advance = Point(Movevector, OnGround || Gravity);
             this.Position += advance*Speed;
             if(!OnGround && Gravity)
             this.Position.Y+= this.VerticalSpeed*dT;
@@ -122,16 +123,27 @@ namespace _3DGame.GameObjects
 
         }
 
-        public void Aim(MapEntity e)
+        public void Aim(MapEntity e,bool flatten=true)
         {
-            Aim(e.Position);
+            Aim(e.Position,flatten);
         }
-        public void Aim(Interfaces.WorldPosition Target)
+        public void Aim(Interfaces.WorldPosition Target,bool flatten)
         {
             Interfaces.WorldPosition diff = Target - this.Position;
             Vector3 v = diff;
             v.Normalize();
             this.Heading = (float)(Math.Atan2(v.X, v.Z) / MathHelper.Pi * -180f) + 90f;
+            if(!flatten)
+            {
+                this.Pitch = (float)(Math.Asin(-v.Y) / MathHelper.Pi * -180f);
+            }
+        }
+
+        public Vector3 Point(Vector3 Offset,bool flatten=true)
+        {
+            if(flatten)
+                return Vector3.Transform(Offset, Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
+            return Vector3.Transform(Vector3.Transform(Offset, Matrix.CreateRotationZ(MathHelper.ToRadians(this.Pitch))), Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
         }
     }
 }

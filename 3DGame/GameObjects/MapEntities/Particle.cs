@@ -27,7 +27,7 @@ namespace _3DGame.GameObjects.MapEntities
 
             if (Expires)
                 DoExpire(dT);
-            this.Position = Origin + Vector3.Transform(Offset,Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
+            this.Position = Origin + Vector3.Transform(Vector3.Transform(Offset, Matrix.CreateRotationZ(MathHelper.ToRadians(this.Pitch))),Matrix.CreateRotationY(MathHelper.ToRadians(-this.Heading)));
         }
     }
 }

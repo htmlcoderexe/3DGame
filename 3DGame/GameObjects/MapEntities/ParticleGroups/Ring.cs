@@ -14,9 +14,9 @@ namespace _3DGame.GameObjects.MapEntities.ParticleGroups
         {
             this.Model = null;
             Vector3 Offset = new Vector3(0, 0, Size);
-            Matrix XForm = Matrix.CreateRotationX(MathHelper.ToRadians(2));
+            Matrix XForm = Matrix.CreateRotationX(MathHelper.ToRadians(20));
             Particles.LightBall p;
-            for(int i=0;i<180;i++)
+            for(int i=0;i<18;i++)
             {
                 p = new MapEntities.Particles.LightBall(Colour, Thickness);
                 p.Offset = Offset;
