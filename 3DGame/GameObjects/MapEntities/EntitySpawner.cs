@@ -19,10 +19,12 @@ namespace _3DGame.GameObjects.MapEntities
 
         public override void Update(float dT)
         {
+            this.DisplayName = Count.ToString() + "/" + MaxCount.ToString();
             if (this.Count >= MaxCount)
                 return;
             base.Update(dT);
             this.CountDown -= dT;
+            this.DisplayName = this.DisplayName + " - Next in: " + this.CountDown;
             if(this.CountDown<0f )
             {
                 DoSpawn();

@@ -85,7 +85,7 @@ namespace _3DGame.Scenes
             s.Entity = tpl;
             s.Interval = 5;
             s.CountDown = 2;
-            s.MaxCount = 20;
+            s.MaxCount = 6;
             s.SpawnCallback = new Action<MapEntity>(e => World.Entities.Add(e));
             s.Position = Position;
             s.SpawningVolume = new BoundingBox(new Vector3(-5, 0, -5), new Vector3(5, 0, 5));
@@ -93,7 +93,7 @@ namespace _3DGame.Scenes
             
             /* Do not uncomment the following, left for posterity
             s.Entity = s;//VERY EVIL REMOVE IT WAS JUST FOR FUN
-            s.Entity = (MapEntity)s.Clone();//oh fuck
+            s.Entity = (MapEntity)s.Clone();//oh #@&*
             //   forget about this */
             World.Entities.Add(s);
 
@@ -581,6 +581,42 @@ namespace _3DGame.Scenes
 
         }
 
+        void DrawLabels(SpriteBatch batch)
+        {
+            batch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, DepthStencilState.DepthRead, RasterizerState.CullNone);
+            Vector3 labelorigin, playerorigin,distance,projectedlabelorigin;
+            Vector2 stringsize,renderlocation;
+            Color colour = Color.White;
+            playerorigin = World.Player.Position.Truncate();
+            for (int i = 0; i < World.Entities.Count(); i++)
+            {
+                MapEntity NPC = World.Entities[i];
+                if (NPC == null)
+                    continue;
+                labelorigin = NPC.Position.WRT(World.Player.Position);
+
+                distance = labelorigin - playerorigin;
+                if (distance.Length() > 50)
+                    continue;
+                labelorigin.Y += 2.5f;//todo implement object height
+                projectedlabelorigin = batch.GraphicsDevice.Viewport.Project(labelorigin, World.Camera.GetProjection(batch.GraphicsDevice), World.Camera.GetView(), Matrix.Identity);
+                if (projectedlabelorigin.Z > 1)
+                    continue;
+                colour = Color.White;
+                if ((NPC as GameObjects.MapEntities.Actor)!=null && (NPC as GameObjects.MapEntities.Actor).Target == World.Player)
+                    colour = Color.Red;
+                if (World.Player.Target == NPC)
+                    colour = Color.Lime;
+                if (NPC.DisplayName == null)
+                    NPC.DisplayName = "<MissingNo.>";
+                stringsize = GUIRenderer.UIFont.MeasureString(NPC.DisplayName);
+                renderlocation = new Vector2((int)(projectedlabelorigin.X - (stringsize.X / 2f)), (int)(projectedlabelorigin.Y));
+                batch.DrawString(GUIRenderer.UIFont, NPC.DisplayName, renderlocation, colour, 0f, Vector2.Zero, 1f, SpriteEffects.None, projectedlabelorigin.Z);
+            }
+            
+                batch.End();
+        }
+
         public void Render(GraphicsDevice device, float dT)
         {
             RenderTime += dT;
@@ -673,7 +709,7 @@ namespace _3DGame.Scenes
             World.Render(device, dT, Vector2.Zero, false);
 
              device.SetRenderTarget(Screen);
-
+            DrawLabels(b);
 
             WindowManager.Render(device);
 
