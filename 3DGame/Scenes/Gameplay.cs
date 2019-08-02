@@ -715,7 +715,12 @@ namespace _3DGame.Scenes
 
              device.SetRenderTarget(Screen);
             DrawLabels(b);
-
+            b.Begin();
+            //b.Draw(RefractionMap, Vector2.Zero, Color.White);
+            //b.Draw(Screen, new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), Color.White);
+             b.Draw(OverheadMapTex, new Vector2(Screen.Width - 256, 0), Color.White);
+            // b.Draw(OverheadMapTex,)
+            b.End();
             WindowManager.Render(device);
 
             //from here on the screen "buffer" texture is actually rendered.
@@ -724,8 +729,7 @@ namespace _3DGame.Scenes
             //b.Draw(RefractionMap, Vector2.Zero, Color.White);
             //b.Draw(Screen, new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), Color.White);
             b.Draw(Screen, Vector2.Zero, Color.White);
-            b.Draw(OverheadMapTex, new Vector2(Screen.Width - 256, 0), Color.White);
-           // b.Draw(OverheadMapTex,)
+             // b.Draw(OverheadMapTex,)
             b.End();
             /*
             GUIRenderer.RenderFrame(device, 32, 32, 256, 128);
