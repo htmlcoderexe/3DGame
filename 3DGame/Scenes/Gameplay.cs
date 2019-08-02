@@ -143,7 +143,7 @@ namespace _3DGame.Scenes
                 World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 10),true,0);
             }
 
-            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null)// && PreviousKbState.IsKeyUp(Keys.F3) )
+            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3) )
             {
                 Color c = new Color(100, 255, 200);
                 /*
