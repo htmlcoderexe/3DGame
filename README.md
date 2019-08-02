@@ -30,3 +30,9 @@ If you use any code from here, I pity you. Please do not try to locate my wherea
 * Terrain/entity clicking
 
 * Nice looking water with depth tinting, adapted from [Riemer's](http://www.riemers.net/eng/Tutorials/XNA/Csharp/Series4/The_water_technique.php)
+
+
+
+# What works as of August 2019
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/Entity/Player/201908020329411.png)
