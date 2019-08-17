@@ -17,7 +17,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             this.Height = 64;
             this.Title = "Skillz";
             this.X = 300;
-            this.Y = 4500;
+            this.Y = 450;
             int y = 0;
             int x = 0;
             int i = y * Width + x;

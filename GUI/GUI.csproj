@@ -48,6 +48,7 @@
     <Compile Include="Controls\RichTextDisplay.cs" />
     <Compile Include="Controls\RichText\ActionLink.cs" />
     <Compile Include="Controls\RichText\RichTextMultiLine.cs" />
+    <Compile Include="Controls\TextureContainer.cs" />
     <Compile Include="GFXUtility.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="Renderer.cs" />

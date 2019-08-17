@@ -385,6 +385,7 @@ namespace _3DGame.Scenes
             ReflectionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             RefractionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             Screen = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
+            if(OverheadMapTex==null)
             OverheadMapTex = new RenderTarget2D(device,256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             b = new SpriteBatch(device);
             WindowManager.ScreenResized(ScreenWidth, ScreenHeight);
@@ -431,7 +432,7 @@ namespace _3DGame.Scenes
             World.Player.Abilities = l.LoadAbilities();
 
             GUI.Window w;
-            w = new GameplayAssets.StatusWindow(WindowManager, World.Player);
+            w = new GameplayAssets.StatusWindow(WindowManager, World.Player, OverheadMapTex);
             WindowManager.Add(w);
             WindowManager.Add(new GameplayAssets.Windows.TargetWindow(WindowManager, World.Player));
             WindowManager.Add(new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
@@ -716,12 +717,6 @@ namespace _3DGame.Scenes
 
              device.SetRenderTarget(Screen);
             DrawLabels(b);
-            b.Begin();
-            //b.Draw(RefractionMap, Vector2.Zero, Color.White);
-            //b.Draw(Screen, new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), new Rectangle(0, 0, (int)(device.Viewport.Width / 2), (int)(device.Viewport.Height / 1)), Color.White);
-             b.Draw(OverheadMapTex, new Vector2(Screen.Width - 256, 0), Color.White);
-            // b.Draw(OverheadMapTex,)
-            b.End();
             WindowManager.Render(device);
 
             //from here on the screen "buffer" texture is actually rendered.

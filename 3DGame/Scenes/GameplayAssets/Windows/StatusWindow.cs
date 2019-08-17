@@ -19,12 +19,12 @@ namespace _3DGame.Scenes.GameplayAssets
         {
             
         }
-        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actos.Player Player)
+        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actos.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
             {
             this.Player = Player;
             this.WM = WM;
             this.Width = 360;
-            this.Height = 200;
+            this.Height = 500;
             this.Title = "Status";
             this.OKButton = new GUI.Controls.Button("Make something!");
             this.OKButton.Clicked += OKButton_Clicked;
@@ -33,6 +33,11 @@ namespace _3DGame.Scenes.GameplayAssets
             this.OKButton.X = 64;
             this.OKButton.Y = 49;
             this.AddControl(this.OKButton);
+
+            GUI.Controls.TextureContainer texcont = new GUI.Controls.TextureContainer(tex, WM);
+            texcont.Y = 100;
+            texcont.X = 4;
+            this.AddControl(texcont);
 
             this.slot = new ItemSlot(GameObjects.Items.Material.MaterialTemplates.GetRandomMaterial());
             this.slot.X = 0;
