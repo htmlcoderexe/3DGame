@@ -29,8 +29,8 @@ namespace _3DGame.Scenes.GameplayAssets
         public ItemSlot(GUI.IActionIcon Item)
         {
             this.Item = Item;
-            this.Width = 80;
-            this.Height = 80;
+            this.Width = 40;
+            this.Height = 40;
             this.CanGrab = true;
         }
         public override void Render(GraphicsDevice device, Renderer Renderer, int X, int Y)
@@ -41,7 +41,7 @@ namespace _3DGame.Scenes.GameplayAssets
             Renderer.Rect r = new Renderer.Rect(48, 48, 40, 40);
             Renderer.RenderQuad(device, X, Y, Width, Height, r);
             if(Item!=null)
-            Item.Render(X+8, Y+8, device, Renderer, false, false);
+            Item.Render(X+4, Y+4, device, Renderer, false, false);
             base.Render(device, Renderer, X, Y);
         }
         public override void Click(float X, float Y)

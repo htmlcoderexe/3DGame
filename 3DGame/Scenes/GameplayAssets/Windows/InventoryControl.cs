@@ -12,7 +12,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 
         public InventoryControl(GUI.WindowManager WM, Inventory Inventory, int Width =8)
         {
-            int slotwidth = 80;
+            int slotwidth = 40;
             this.Width = Width * slotwidth;
             int Rows = (int)Math.Ceiling((float)Inventory.Items.Length / (float)Width);
             this.Height = Rows* slotwidth;
