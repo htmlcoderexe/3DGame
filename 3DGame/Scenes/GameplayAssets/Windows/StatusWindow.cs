@@ -57,7 +57,7 @@ namespace _3DGame.Scenes.GameplayAssets
         public override void Update(float dT)
         {
             this.HPBar.Title = ((int)(this.Player.CurrentHP)).ToString() + "/" + ((int)this.Player.CalculateStat("HP")).ToString();
-            this.HPBar.Title = this.Player.Position.Y.ToString();
+            //this.HPBar.Title = this.Player.Position.Y.ToString();
             this.HPBar.MaxValue = (int)this.Player.CalculateStat("HP");
             this.HPBar.MinValue = 0;
             this.HPBar.Value = (int)this.Player.CurrentHP;

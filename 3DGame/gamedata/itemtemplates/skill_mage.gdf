@@ -1,0 +1,10 @@
+name=Magic Arrow
+description=Channel your magic energy a focused magic blast, dealing base magic damage plus {1}% of weapon attack as non-elemental magic damage
+target=hostile
+effect:damage
+element:fire
+params=bmd,weapon_attack
+initial=150,50
+increment=0,5
+name=Will-o-the-Wisp
+description:Summon miniature flames to attack and ignite the target, burning it for {0}% of weapon attack plus {1} for {2} seconds

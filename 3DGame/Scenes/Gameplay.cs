@@ -18,7 +18,7 @@ namespace _3DGame.Scenes
 
         public MouseState PreviousMouseState { get; set; }
 
-        public Dictionary<string, Texture2D> Textures;
+        public static Dictionary<string, Texture2D> Textures;
 
         float RenderTime = 0.0f;
 
@@ -405,6 +405,7 @@ namespace _3DGame.Scenes
             Textures["mapsprites"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapsprites.png", System.IO.FileMode.Open));
             Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
             Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
+            Textures["equipdoll"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\vitruvian.png", System.IO.FileMode.Open));
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
             World.ModelEffect = TerrainEffect;

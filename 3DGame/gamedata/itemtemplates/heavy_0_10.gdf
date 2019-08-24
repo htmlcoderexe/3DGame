@@ -1,0 +1,6 @@
+p_atk|Physical attack +{0}|10~20|0~0|5
+p_def|Magical defence +{0}|4~40|0~0|5
+HP|HP +{0}|10~50|0~0|2
+HP|HP +{0}%|0~0|1~3|1
+attr_str|Strength +{0}|1~3|0~0|1
+movement_speed|Movement speed +{0} m/s|10~40|0~0|2

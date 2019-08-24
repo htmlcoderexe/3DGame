@@ -26,11 +26,13 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             s.Y = 0;
             s.Width = 40;
             s.Height = 40;
+            s.CanPut = true;
             s2 = new ItemSlot(Player.Abilities[1]);
             s2.X = 42;
             s2.Y = 0;
             s2.Width = 40;
             s2.Height = 40;
+            s2.CanPut = true;
             GUI.Controls.Button b = new GUI.Controls.Button("Up me!");
             b.Clicked += B_Clicked;
             b.Width = 128;
