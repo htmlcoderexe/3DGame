@@ -13,8 +13,11 @@ namespace _3DGame.GameObjects.MapEntities
         public MapEntity Target;
         public List<Particle> Particles;
         public GameModel.PartAnimation Animation;
+        public bool FizzleOnTarget = true;
+        public bool FizzleOnGround = false;
         public bool Expires = false;
         public float TTL;
+        public bool FlatAim = false;
         private void DoExpire(float dT)
         {
 
@@ -33,14 +36,17 @@ namespace _3DGame.GameObjects.MapEntities
             foreach (Particle p in this.Particles)
             {
                 p.Origin = this.Position;
-                p.Heading = this.Heading;
+               // if (!FlatAim)
+                    p.Heading = this.Heading;
+
+                if(!FlatAim)
                 p.Pitch = this.Pitch;
                 p.Update(dT);
             }
             if(this.Target!=null)
             {
                 Aim(Target,false);
-                if ((this.Position - Target.Position).Truncate().Length() < 0.5f)
+                if (FizzleOnTarget && (this.Position - Target.Position).Truncate().Length() < 0.5f)
                     this.Die();
             }
             

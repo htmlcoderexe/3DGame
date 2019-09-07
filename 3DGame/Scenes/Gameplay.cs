@@ -125,6 +125,7 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
                 Color c = new Color(255, 100, 20);
+                /*
                 for (int i = 0; i < 1; i++)
                 {
                     GameObjects.MapEntities.Particles.Homing p = new GameObjects.MapEntities.Particles.Homing(c, 2.0f);
@@ -139,6 +140,41 @@ namespace _3DGame.Scenes
                     p.Gravity = false;
                     World.Entities.Add(p);
                     p = null;
+                }
+                //*/
+
+                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup();
+
+                g.Target = World.Player.Target;
+                g.Position = World.Player.Target.Position + new Vector3(0, 6+15, 0);// + offset;
+                g.TTL = 10.0f;
+                g.Expires = true;
+                g.Speed = 2f;
+                g.Gravity = false;
+                g.Model = null;
+                //                g.Pitch = -89f;
+                g.FizzleOnTarget = true;
+                g.FlatAim = true;
+                for (int i=0;i<11;i++)
+                {
+                    float angle = MathHelper.ToRadians(RNG.Next(0, 360));
+                    float delta = (float)((float)RNG.Next(0, 600) / 100f);
+                    float delta2 = (float)((float)RNG.Next(0, 600) / 100f);
+                    Vector3 offset = new Vector3(delta, delta2-15, 0);
+                    offset = Vector3.Transform(offset, Matrix.CreateRotationY(angle));
+                    GameObjects.MapEntities.Particle p = new GameObjects.MapEntities.Particle();
+
+                    p.Offset = new Interfaces.WorldPosition()+offset;
+                    p.Model = null;
+                    GameObjects.MapEntities.Particle p2 = new GameObjects.MapEntities.Particle();
+                    p2.Offset = new Interfaces.WorldPosition() + new Vector3(0, 2, 0)+offset;
+                    p2.Model = null;
+                    GameObjects.MapEntities.Particles.LightRay r = new GameObjects.MapEntities.Particles.LightRay(p, p2, new Color(255,50,0), 1f);
+
+                    g.Particles.Add(p);
+                    g.Particles.Add(p2);
+                    g.Particles.Add(r);
+                    World.Entities.Add(g);
                 }
                 World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 10),true,0);
             }
@@ -158,7 +194,7 @@ namespace _3DGame.Scenes
                
                 World.Entities.Add(r);
                 //*/
-                GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, Color.Green, 0.3f);
+                GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, new Color(0, 254, 100),1f);
                 //ray.Expires = true;
                 GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup
                 {

@@ -104,7 +104,7 @@ namespace _3DGame.GameObjects.Items
                         }
                     case "Epic":
                         {
-                            return new Color(255, 140, 20);
+                            return new Color(255, 100, 20);
                         }
                     default:
                         {
