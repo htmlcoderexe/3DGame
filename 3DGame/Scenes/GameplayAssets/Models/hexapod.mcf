@@ -1,0 +1,17 @@
+﻿#beginchoreo
+	#beginmove "Walk"
+		#moveparam Loop 1
+		#beginpart "LegR"
+			0 Y30
+			2.4 Z30 Y1
+			2.4 Y-30
+			4.8 Y30
+		#endpart
+		#beginpart "LegL"
+			0 Y-30
+			2.4 Z30 Y1
+			2.4 Y30
+			4.8 Y-30
+		#endpart
+	#endmove
+#endchoreo

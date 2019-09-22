@@ -442,6 +442,7 @@ namespace _3DGame.Scenes
             Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
             Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
             Textures["equipdoll"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\vitruvian.png", System.IO.FileMode.Open));
+            GameModel.ModelPart.Textures = Textures;
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
             World.ModelEffect = TerrainEffect;

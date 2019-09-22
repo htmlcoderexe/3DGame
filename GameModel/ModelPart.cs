@@ -10,6 +10,8 @@ namespace GameModel
 {
     public class ModelPart : ICloneable
     {
+
+        public static Dictionary<string, Texture2D> Textures;
         public int VertexOffset;
         public int VertexLength;
         public int IndexOffset;
