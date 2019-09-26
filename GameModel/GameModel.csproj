@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model.cs" />
+    <Compile Include="ModelGeometryCompiler.cs" />
     <Compile Include="ModelPart.cs" />
     <Compile Include="ModelVertex.cs" />
     <Compile Include="PartAnimation.cs" />
