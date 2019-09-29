@@ -154,7 +154,8 @@ namespace Terrain
             Simplex.Seed = this.Seed;
             MapY += 65535;
             MapX += 65535;
-            H = Simplex.CalcPixel2D(MapX, MapY, 1f/2048f) - 35f;
+            //land/water scaling
+            H = Simplex.CalcPixel2D(MapX, MapY, 1f/16384f) - 35f;
             //values from -35 to 220ish.
             H += (Simplex.CalcPixel2D(MapX, MapY, 1f / 256) / 16);
             //+-16 variation, values -51..246
@@ -202,7 +203,8 @@ namespace Terrain
                 { 
                 Simplex.Seed = Simplex.Seed ^ (int)0xFFFFFFFF;
               }
-                float ground = Simplex.CalcPixel2D(MapX+1112, MapY+13123, 0.0006125f);
+                //hill horizontal scale
+                float ground = Simplex.CalcPixel2D(MapX+1112, MapY+13123, 0.0006125f/1f);
                 float beachdist= H - GroundBaseline;
                 float evenness = 16f;
                 ground /= 256f;

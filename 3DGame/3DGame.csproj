@@ -220,7 +220,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="graphics\SavC150.tmp" />
-    <None Include="Scenes\GameplayAssets\Models\default.mgf" />
+    <None Include="Scenes\GameplayAssets\Models\default.mgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scenes\GameplayAssets\Models\hexapod.mcf" />
   </ItemGroup>
   <ItemGroup>
