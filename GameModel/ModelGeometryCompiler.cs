@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,11 @@ namespace GameModel
                 }
                 return result;
             }
+            public string NextQuoted()
+            {
+                string raw = Next();
+                return raw.Substring(1, raw.Length - 2);
+            }
             public int NextInt()
             {
                 if (EOL)
@@ -80,6 +86,7 @@ namespace GameModel
         CompilerState state;
         ModelPart CurrentPart;
         string[] lines;
+        public ModelPart R;
 
         #region data combing 
         void SplitLines(string input)
@@ -98,7 +105,6 @@ namespace GameModel
             Dictionary<string, ModelPart> parts = new Dictionary<string, ModelPart>();
             List<ModelPart> p = new List<ModelPart>();
             string command = ls.Next();
-
             while(command!="#endmodel")
             {
                 switch(command)
@@ -106,11 +112,12 @@ namespace GameModel
                     case "#beginpart":
                         {
                             state.LineNumber++;
-                            p.Add(ReadPart());
+                            parts.Add(ls.NextQuoted(),ReadPart());
                             break;
                         }
                     case "#beginassembly":
                         {
+                            AssembleModel(parts);
                             break;
                         }
                     case "#beginsymbols":
@@ -140,7 +147,7 @@ namespace GameModel
         ModelPart ReadPart()
         {
             ModelPart result = new ModelPart();
-
+            
             LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
             List<ModelVertex> vertices = new List<ModelVertex>();
             while (ls.Next() != "#endpart")
@@ -195,6 +202,8 @@ namespace GameModel
             c = new Microsoft.Xna.Framework.Color(int.Parse(rgb[0]), int.Parse(rgb[1]), int.Parse(rgb[2]));
             U = ls.NextFloat();
             V = ls.NextFloat();
+            W = 1f;
+            if(!ls.EOL)
             W = ls.NextFloat();
             v.Position = new Microsoft.Xna.Framework.Vector3(X, Y, Z);
             v.Color = c;
@@ -259,6 +268,74 @@ namespace GameModel
             }
             //make this table the current table
             LineSplitter.SymbolTable = SymbolTable;
+        }
+
+        
+
+        void AssembleModel(Dictionary<string,ModelPart> parts)
+        {
+            LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
+            ModelPart root = new ModelPart() ;
+            Stack<ModelPart> TreeBuilder = new Stack<ModelPart>();
+            ModelPart last;
+            int depth;
+            while (ls.Next() != "#endassembly")
+            {
+                ls.Reset();
+                string name = "";
+                string first = ls.Next();
+                
+                if(first[0]=='*')
+                {
+                    depth = first.Length;
+                }
+                else
+                {
+                    depth = 0;
+                    ls.Reset();
+                }
+
+                name = ls.NextQuoted();
+                string partname = ls.Next();
+                if (!parts.ContainsKey(partname))
+                {
+
+                    state.LineNumber++;
+                    ls = new LineSplitter(lines[state.LineNumber]);
+                    continue; //skip if invalid part
+                }
+                Matrix m = Matrix.Identity;
+
+                ModelPart next = (ModelPart)parts[partname].Clone();
+                next.Title = name;
+                if (depth == TreeBuilder.Count)
+                {
+                    if (depth != 0)
+                    {
+                        ModelPart parent = TreeBuilder.Peek();
+                        parent.Append(next, m);
+                    }
+                    else
+                    { 
+                        root = next;
+                }
+                    TreeBuilder.Push(next);
+                }
+                else
+                {
+                    ModelPart parent;
+                    while (depth  < TreeBuilder.Count)
+                    {
+                        parent = TreeBuilder.Pop();
+                    }
+                    parent = TreeBuilder.Peek();
+                    parent.Append(next, m);
+                    TreeBuilder.Push(next);
+                }
+                state.LineNumber++;
+                ls = new LineSplitter(lines[state.LineNumber]);
+            }
+            R = root;
         }
     }
 }

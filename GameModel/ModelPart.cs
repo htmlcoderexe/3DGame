@@ -22,7 +22,7 @@ namespace GameModel
         protected List<ModelPart> Children;
         public Matrix Dislocation;
         public float BoneFactor;
-
+        public string Title;
 
         public ModelPart()
         {

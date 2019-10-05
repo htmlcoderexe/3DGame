@@ -54,13 +54,13 @@
 	#endpart
 	#beginassembly
 		"Root"	 Body
-		* "LegR" Leg	Y54 T0.4,0,-0.5		0 
-		** "Eye" Eye	T0.2,0.8,0.0		0	0.33
-		* "LegR" Leg	Y90 T0.0,0,-0.5		0.5 
-		* "LegR" Leg	Y144 T-0.4,0,-0.5	0 
-		* "LegL" Leg	Y324 T0.4,0,0.5		0.5 
-		** "Eye" Eye	T0.2,0.8,0.0		0	0.33
-		* "LegL" Leg	Y270 T0.0,0,0.5		0 
-		* "LegL" Leg	Y234 T-0.4,0,0.5	0.5 
+		* "LegR1" Leg	Y54 T0.4,0,-0.5		0 
+		** "EyeR" Eye	T0.2,0.8,0.0		0	0.33
+		* "LegR2" Leg	Y90 T0.0,0,-0.5		0.5 
+		* "LegR3" Leg	Y144 T-0.4,0,-0.5	0 
+		* "LegL1" Leg	Y324 T0.4,0,0.5		0.5 
+		** "EyeL" Eye	T0.2,0.8,0.0		0	0.33
+		* "LegL2" Leg	Y270 T0.0,0,0.5		0 
+		* "LegL3" Leg	Y234 T-0.4,0,0.5	0.5 
 	#endassembly
 #endmodel
