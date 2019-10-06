@@ -46,6 +46,15 @@ namespace GameModel
         {
             this.Children.Clear();
         }
+
+        public Model(ModelPart Root)
+        {
+            this.Children = new List<ModelPart>
+            {
+                Root
+            };
+        }
+
         public Model()
         {
             this.Children = new List<ModelPart>();

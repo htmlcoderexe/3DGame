@@ -23,6 +23,8 @@ namespace GameModel
         public Matrix Dislocation;
         public float BoneFactor;
         public string Title;
+        public float Phase;
+        public string TextureName;
 
         public ModelPart()
         {

@@ -7,34 +7,34 @@
 	#endsymbols
 	#beginpart "Body"
 		#beginpoints
-			-1.5,  0.5, -0.5 $DarkGray
-			 0.5,  0.2,  0.2 $DarkGray 
-			-1.5,  0.5,  0.5 $DarkGray 
-			 0.5,  0.2, -0.2 $DarkGray 
-			-1.5, -0.5, -0.5 $DarkGray 
-			 0.5, -0.2,  0.2 $DarkGray 
-			-1.5, -0.5,  0.5 $DarkGray 
-			 0.5, -0.2, -0.2 $DarkGray
+			-1.5  0.5 -0.5 $DarkGray
+			 0.5  0.2  0.2 $DarkGray 
+			-1.5  0.5  0.5 $DarkGray 
+			 0.5  0.2 -0.2 $DarkGray 
+			-1.5 -0.5 -0.5 $DarkGray 
+			 0.5 -0.2  0.2 $DarkGray 
+			-1.5 -0.5  0.5 $DarkGray 
+			 0.5 -0.2 -0.2 $DarkGray
 		#endpoints
 		#beginmesh
-			0, 1, 2, 0, 3, 1
-			4, 6, 5, 4, 5, 7
-			4, 2, 6, 4, 0, 2
-			7, 5, 1, 7, 1, 3
-			6, 2, 1, 6, 1, 5
-			4, 3, 0, 4, 7, 3
+			0,1,2,0,3,1
+			4,6,5,4,5,7
+			4,2,6,4,0,2
+			7,5,1,7,1,3
+			6,2,1,6,1,5
+			4,3,0,4,7,3
 		#endmesh
 	#endpart
 	#beginpart "Leg"
 		#beginpoints
-			0.0, 0.50, -0.00  $Black 0,0 0
-			0.2, 0.82, -0.00  $Black 0,0 0.33
-			0.2, 0.80, -0.02  $Black 0,0 0.33
-			0.2, 0.80,  0.02  $Black 0,0 0.33
-			0.4, 0.22, -0.00  $Black 0,0 0.67
-			0.4, 0.20, -0.02  $Black 0,0 0.67
-			0.4, 0.20,  0.02  $Black 0,0 0.67
-			0.5, 0.00, -0.00  $Black 0,0 1
+			0.0 0.50 -0.00  $Black 0,0 0
+			0.2 0.82 -0.00  $Black 0,0 0.33
+			0.2 0.80 -0.02  $Black 0,0 0.33
+			0.2 0.80  0.02  $Black 0,0 0.33
+			0.4 0.22 -0.00  $Black 0,0 0.67
+			0.4 0.20 -0.02  $Black 0,0 0.67
+			0.4 0.20  0.02  $Black 0,0 0.67
+			0.5 0.00 -0.00  $Black 0,0 1
 		#endpoints
 		#beginmesh
 			0,2,1
@@ -49,18 +49,18 @@
 		#endmesh
 	#endpart
 	#beginpart "Eye"
-		#texture "point_sphere"
 		#billboard sphere 1 1 $Blue
+		#texture "point_sphere"
 	#endpart
 	#beginassembly
 		"Root"	 Body
-		* "LegR1" Leg	Y54 T0.4,0,-0.5		0 
-		** "EyeR" Eye	T0.2,0.8,0.0		0	0.33
-		* "LegR2" Leg	Y90 T0.0,0,-0.5		0.5 
-		* "LegR3" Leg	Y144 T-0.4,0,-0.5	0 
-		* "LegL1" Leg	Y324 T0.4,0,0.5		0.5 
-		** "EyeL" Eye	T0.2,0.8,0.0		0	0.33
-		* "LegL2" Leg	Y270 T0.0,0,0.5		0 
-		* "LegL3" Leg	Y234 T-0.4,0,0.5	0.5 
+		* "LegR" Leg	Y54 T0.4,0,-0.5		0 
+		** "Eye" Eye	T0.2,0.8,0.0		0	0.33
+		* "LegR" Leg	Y90 T0.0,0,-0.5		0.5 
+		* "LegR" Leg	Y144 T-0.4,0,-0.5	0 
+		* "LegL" Leg	Y324 T0.4,0,0.5		0.5 
+		** "Eye" Eye	T0.2,0.8,0.0		0	0.33
+		* "LegL" Leg	Y270 T0.0,0,0.5		0 
+		* "LegL" Leg	Y234 T-0.4,0,0.5	0.5 
 	#endassembly
 #endmodel

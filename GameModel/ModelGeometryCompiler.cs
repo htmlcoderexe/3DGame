@@ -19,7 +19,7 @@ namespace GameModel
             public LineSplitter(string Input)
             {
                 original = Input;
-                values = Input.Split(new char[] { ' ',','}, StringSplitOptions.RemoveEmptyEntries);
+                values = Input.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
                 offset = 0;
                 EOL = false;
                 if (SymbolTable == null)
@@ -74,6 +74,81 @@ namespace GameModel
                 if (yes)
                     return result;
                 return 0f;
+            }
+            public Matrix NextTransform()
+            {
+                //default to no transform
+                Matrix result = Matrix.Identity;
+                if (EOL)
+                    return result;
+                bool done = false;
+                //loop until no more transforms
+                while(!EOL && !done)
+                {
+                    string transform = Next();
+                    string cmd = transform.Substring(0, 1); //first character is either a valid transform or not
+                    string rest = transform.Substring(1);
+                    string[] values = rest.Split(',');
+                    switch (cmd)
+                    {
+                        case "X": //X rotation
+                            {
+                                if (float.TryParse(rest, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
+                                    result *= Matrix.CreateRotationX(MathHelper.ToDegrees(angle));
+                                break;
+                            }
+                        case "Y": //Y rotation
+                            {
+                                if (float.TryParse(rest, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
+                                    result *= Matrix.CreateRotationY(MathHelper.ToDegrees(angle));
+                                break;
+                            }
+                        case "Z": //Z rotation
+                            {
+                                if (float.TryParse(rest, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
+                                    result *= Matrix.CreateRotationZ(MathHelper.ToDegrees(angle));
+                                break;
+                            }
+                        case "T": //translation
+                            {
+                                if (values.Count() < 3)
+                                    break;
+                                //no specias needed here as 0 for translation on bad value is a very sane default
+                                float.TryParse(values[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float xValue);
+                                float.TryParse(values[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float yValue);
+                                float.TryParse(values[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float zValue);
+
+                                result *= Matrix.CreateTranslation(xValue, yValue, zValue);
+                                break;
+                            }
+                        case "S":
+                            {
+                                float xValue, yValue, zValue; //default to 1f if the entire value broken
+                                if(!float.TryParse(values[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out xValue))
+                                    xValue=1f;
+                                if(values.Count()<3) //if we can't get 3 values just use first for proportional scaling
+                                {
+                                    result *= Matrix.CreateScale(xValue);
+                                    break;
+                                }
+                                //else get remaining 2 values and scale
+                                if (!float.TryParse(values[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out yValue))
+                                    yValue = 1f;
+                                if (!float.TryParse(values[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out zValue))
+                                    zValue = 1f;
+
+                                result *= Matrix.CreateScale(xValue, yValue, zValue);
+                                break;
+                            }
+                        default: //any other case
+                            {
+                                offset--;
+                                done = true;
+                                break;
+                            }
+                    }
+                }
+                return result;
             }
         }
         struct CompilerState
@@ -144,6 +219,25 @@ namespace GameModel
 
         }
 
+        ModelPart ReadBB(LineSplitter ls)
+        {
+            ModelPart result = new ModelPart();
+
+            string type = ls.Next();
+            int H = ls.NextInt();
+            int W = ls.NextInt();
+            Color c;
+            string[] rgb;
+            rgb = ls.Next().Split(':');
+            c = new Microsoft.Xna.Framework.Color(int.Parse(rgb[0]), int.Parse(rgb[1]), int.Parse(rgb[2]));
+            TestParts.PartLight p = new TestParts.PartLight(c);
+            p.Width = W;
+            p.Height = H;
+            result = p;
+            
+            return result;
+        }
+
         ModelPart ReadPart()
         {
             ModelPart result = new ModelPart();
@@ -169,10 +263,12 @@ namespace GameModel
                         }
                     case "#texture": //TODO: set part's tex
                         {
+                            result.TextureName = ls.NextQuoted();
                             break;
                         }
                     case "#billboard": //TODO: turn into PartLight, set tex and bb type
                         {
+                            result = ReadBB(ls);
                             break;
                         }
                     default: //throw an error or something lol
@@ -190,7 +286,7 @@ namespace GameModel
         ModelVertex ReadPoint(LineSplitter ls)
         {
             ModelVertex v = new ModelVertex();
-            //TODO: read format X Y Z Colour U V W
+            //read format X Y Z Colour U V W
             float X, Y, Z, U, V, W;
             Microsoft.Xna.Framework.Color c = new Microsoft.Xna.Framework.Color();
             string[] rgb;
@@ -216,13 +312,16 @@ namespace GameModel
         {
             LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
             List<ModelVertex> vertices = new List<ModelVertex>();
+            //keep reading points until end command
             while(ls.Next()!="#endpoints")
             {
-                ls.Reset();
-                vertices.Add(ReadPoint(ls));
+                ls.Reset(); //rewind because of next
+                vertices.Add(ReadPoint(ls)); //read point and add to list
+                //prepare for next line
                 state.LineNumber++;
                 ls = new LineSplitter(lines[state.LineNumber]);
             }
+            //flatten and return
             return vertices.ToArray();
             
         }
@@ -231,14 +330,17 @@ namespace GameModel
         {
             LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
             List<int> indices = new List<int>();
+            //keep going until end mesh command
             while (ls.Next() != "#endmesh")
             {
+                //rewind because of next
                 ls.Reset();
                
-                while(!ls.EOL)
+                while(!ls.EOL) //read the rest of the line as ints
                 {
                     indices.Add(ls.NextInt());
                 }
+                //prepare for next line
                 state.LineNumber++;
                 ls = new LineSplitter(lines[state.LineNumber]);
             }
@@ -278,63 +380,56 @@ namespace GameModel
             ModelPart root = new ModelPart() ;
             Stack<ModelPart> TreeBuilder = new Stack<ModelPart>();
             ModelPart last;
+            Model Model;
             int depth;
             while (ls.Next() != "#endassembly")
             {
                 ls.Reset();
                 string name = "";
-                string first = ls.Next();
+                string first = ls.Next(); //first token
                 
-                if(first[0]=='*')
+                if(first[0]=='*') //if first character is *, count
                 {
                     depth = first.Length;
                 }
-                else
+                else //root part
                 {
                     depth = 0;
-                    ls.Reset();
+                    ls.Reset(); //rewind
                 }
 
-                name = ls.NextQuoted();
+                name = ls.NextQuoted(); //part "name" used in animation
                 string partname = ls.Next();
-                if (!parts.ContainsKey(partname))
+                if (!parts.ContainsKey(partname)) //find part by name from loaded parts
                 {
 
                     state.LineNumber++;
                     ls = new LineSplitter(lines[state.LineNumber]);
                     continue; //skip if invalid part
                 }
-                Matrix m = Matrix.Identity;
+                Matrix m = ls.NextTransform(); //get whatever transforms are there
 
                 ModelPart next = (ModelPart)parts[partname].Clone();
+                //both cool with 0 as default
+                next.Phase = ls.NextFloat();
+                next.BoneFactor = ls.NextFloat();
                 next.Title = name;
-                if (depth == TreeBuilder.Count)
-                {
-                    if (depth != 0)
+                //determine correct parent
+                    while (depth  < TreeBuilder.Count) //go back part by part until correct part is found (
                     {
-                        ModelPart parent = TreeBuilder.Peek();
-                        parent.Append(next, m);
+                        TreeBuilder.Pop();
                     }
+                    if (depth != 0) //the stack is not empty and its top is the last parent
+                        TreeBuilder.Peek().Append(next, m); 
                     else
-                    { 
                         root = next;
-                }
-                    TreeBuilder.Push(next);
-                }
-                else
-                {
-                    ModelPart parent;
-                    while (depth  < TreeBuilder.Count)
-                    {
-                        parent = TreeBuilder.Pop();
-                    }
-                    parent = TreeBuilder.Peek();
-                    parent.Append(next, m);
-                    TreeBuilder.Push(next);
-                }
+                    TreeBuilder.Push(next); //put current as last parent
+
+                
                 state.LineNumber++;
                 ls = new LineSplitter(lines[state.LineNumber]);
             }
+            Model = new Model(root);
             R = root;
         }
     }
