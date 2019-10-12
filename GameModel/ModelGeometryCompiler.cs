@@ -164,17 +164,18 @@ namespace GameModel
         public ModelPart R;
 
         #region data combing 
-        void SplitLines(string input)
+        static string[] SplitLines(string input)
         {
             input = input.Replace("\r\n", "\n");
             input = input.Replace("\t", " ");
-            this.lines= input.Split(new char[] { '\n' },StringSplitOptions.RemoveEmptyEntries);
+            return input.Split(new char[] { '\n' },StringSplitOptions.RemoveEmptyEntries);
         }
         #endregion
 
         public ModelGeometryCompiler(string input)
         {
-            SplitLines(input);
+            
+            this.lines=SplitLines(input);
 
             LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
             Dictionary<string, ModelPart> parts = new Dictionary<string, ModelPart>();
@@ -373,6 +374,76 @@ namespace GameModel
         }
 
         
+        public static Dictionary<string, Dictionary<string, PartAnimation>> LoadChoreo(string input)
+        {
+            Dictionary<string, Dictionary<string, PartAnimation>> result = new Dictionary<string, Dictionary<string, PartAnimation>>();
+
+            string[] filelines = SplitLines(input);
+            int pointer = 0;
+            Dictionary<string, PartAnimation> CurrentMove = new Dictionary<string, PartAnimation>();
+            string CurrentMoveName="";
+            string CurrentPartName="";
+            PartAnimation CurrentPart = new PartAnimation();
+            LineSplitter ls;
+            while(pointer<filelines.Length)
+            {
+                ls = new LineSplitter(filelines[pointer]);
+                string cmd = ls.Next();
+                switch(cmd)
+                {
+                    case "#beginmove":
+                        {
+                            CurrentMove = new Dictionary<string, PartAnimation>();
+                            CurrentMoveName = ls.NextQuoted();
+                            break;
+                        }
+                    case "#endmove":
+                        {
+                            if (result.ContainsKey(CurrentMoveName))
+                                break;
+                            result.Add(CurrentMoveName, CurrentMove);
+                            break;
+                        }
+                    case "#beginpart":
+                        {
+                            CurrentPart = new PartAnimation();
+                            CurrentPartName = ls.NextQuoted();
+                            break;
+                        }
+                    case "#endpart":
+                        {
+                            if (CurrentMove.ContainsKey(CurrentPartName))
+                                break;
+                            CurrentMove.Add(CurrentPartName, CurrentPart);
+                            break;
+                        }
+                    case "#beginchoreo":
+                        {
+                            break;
+                        }
+                    case "#endchoreo":
+                        {
+                            break;
+                        }
+                    case "#moveparam":
+                        {
+                            break;
+                        }
+                    default:
+                        {
+                            ls.Reset();
+                            float duration = ls.NextFloat();
+                            Matrix transform = ls.NextTransform();
+                            CurrentPart.Add(transform, duration);
+                            break;
+                        }
+                }
+
+                pointer++;
+            }
+
+            return result;
+        }
 
         void AssembleModel(Dictionary<string,ModelPart> parts)
         {

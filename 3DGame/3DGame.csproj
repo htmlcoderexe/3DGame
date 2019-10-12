@@ -223,7 +223,9 @@
     <None Include="Scenes\GameplayAssets\Models\default.mgf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Scenes\GameplayAssets\Models\hexapod.mcf" />
+    <None Include="Scenes\GameplayAssets\Models\hexapod.mcf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameModel\GameModel.csproj">

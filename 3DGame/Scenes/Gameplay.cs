@@ -445,6 +445,7 @@ namespace _3DGame.Scenes
 
             string mgf = System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\default.mgf");
             GameModel.ModelGeometryCompiler c = new GameModel.ModelGeometryCompiler(mgf);
+            Dictionary<string, Dictionary<string, GameModel.PartAnimation>> choreo = GameModel.ModelGeometryCompiler.LoadChoreo(System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\hexapod.mcf"));
             if(c==null)
             {
                 Console.Write("+");

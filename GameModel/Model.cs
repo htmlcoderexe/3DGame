@@ -12,11 +12,18 @@ namespace GameModel
     {
         private VertexBuffer _VB;
         private IndexBuffer _IB;
+        private Dictionary<string,List<ModelPart>>AnimationMapping;
+        /// <summary>
+        /// Bakes the model and creates the necessary index/vertex/animation buffers
+        /// </summary>
+        /// <param name="device"></param>
         private void Prepare(GraphicsDevice device)
         {
+            //get index count and vertex counts
             Vector2 TotalSizes = this.Children[0].GetCounts();
-
-
+            //init the index
+            AnimationMapping = new Dictionary<string, List<ModelPart>>();
+            //init buffers
             _IB = new IndexBuffer(device, IndexElementSize.ThirtyTwoBits, (int)TotalSizes.Y, BufferUsage.WriteOnly);
             _VB = new VertexBuffer(device, ModelVertex.VertexDeclaration, (int)TotalSizes.X, BufferUsage.WriteOnly);
             int[] indices = new int[(int)TotalSizes.Y];
@@ -31,22 +38,49 @@ namespace GameModel
                 int Vcount = p.VertexLength;
                 p.IndexOffset = cIo;
                 p.VertexOffset = cVo;
+                //obtain indices and vertices with proper offsetting
                 p.GetIndices().CopyTo(indices, cIo);
                 p.GetVertices().CopyTo(vertices, cVo);
+                //update offsets
                 cIo += Icount;
                 cVo += Vcount;
+                //add the part to animation mapping
+                if (!AnimationMapping.ContainsKey(p.Title)) //create key if needed
+                    AnimationMapping.Add(p.Title, new List<ModelPart>() {  });
+                AnimationMapping[p.Title].Add(p);
             }
 
-
+            //set buffers
             _IB.SetData<int>(indices);
             _VB.SetData<ModelVertex>(vertices);
 
+
+
         }
+
+        public void ApplyAnimation(string Name, Dictionary<string, Dictionary<string,PartAnimation>> Choreo)
+        {
+            if (AnimationMapping == null)
+                return;
+            if (!Choreo.ContainsKey(Name))
+                return;
+            Dictionary<string, PartAnimation> Movement = Choreo[Name];
+            List<ModelPart> tmppartlist;
+            foreach(KeyValuePair<string, PartAnimation> Part in Movement)
+            {
+                if (!AnimationMapping.ContainsKey(Part.Key))
+                    continue;
+                tmppartlist = AnimationMapping[Part.Key];
+                foreach (ModelPart p in tmppartlist)
+                    p.Animation = Part.Value;
+            }
+        }
+
         public void Clear()
         {
             this.Children.Clear();
         }
-
+        
         public Model(ModelPart Root)
         {
             this.Children = new List<ModelPart>
@@ -110,6 +144,7 @@ namespace GameModel
             this.Children.Add(Root);
 
         }
+
         public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx, bool Alpha)
         {
             if (this._IB == null)
@@ -122,6 +157,7 @@ namespace GameModel
             }
 
         }
+
         public override object Clone()
         {
             Model m = (Model)base.Clone();
