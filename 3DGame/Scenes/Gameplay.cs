@@ -442,14 +442,13 @@ namespace _3DGame.Scenes
             Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
             Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
             Textures["equipdoll"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\vitruvian.png", System.IO.FileMode.Open));
-
-            string mgf = System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\default.mgf");
-            GameModel.ModelGeometryCompiler c = new GameModel.ModelGeometryCompiler(mgf);
-            Dictionary<string, Dictionary<string, GameModel.PartAnimation>> choreo = GameModel.ModelGeometryCompiler.LoadChoreo(System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\hexapod.mcf"));
-            if(c==null)
-            {
-                Console.Write("+");
-            }
+//string mgf = System.IO.File.ReadAllText("default");
+            //GameModel.ModelGeometryCompiler c = new GameModel.ModelGeometryCompiler(mgf);
+          //  Dictionary<string, Dictionary<string, GameModel.PartAnimation>> choreo = GameModel.ModelGeometryCompiler.LoadChoreo(System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\hexapod.mcf"));
+            //if(c==null)
+           // {
+             //   Console.Write("+");
+            //}
             GameModel.ModelPart.Textures = Textures;
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
@@ -458,6 +457,16 @@ namespace _3DGame.Scenes
             World.Player.Position= new Vector3(0, 0, 0);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
+
+            GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
+
+            GameModel.Model _1 = GameModel.ModelGeometryCompiler.LoadModel("default");
+            GameModel.Model _2 = new GameModel.Model();
+
+            _1.Render(device, 0, Matrix.Identity, TerrainEffect, false);
+            _2.Render(device, 0, Matrix.Identity, TerrainEffect, false);
+            _1.ApplyAnimation("Walk");
+            
             GUIRenderer = new GUI.Renderer(device);
             GUIRenderer.WindowSkin = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\winskin.png", System.IO.FileMode.Open));
             GUIRenderer.InventoryPartsMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\itemparts.png", System.IO.FileMode.Open));

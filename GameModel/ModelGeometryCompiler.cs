@@ -9,6 +9,8 @@ namespace GameModel
 {
     public class ModelGeometryCompiler
     {
+
+        public static string ModelBaseDir = "";
         public class LineSplitter
         {
             public static Dictionary<string, string> SymbolTable;
@@ -94,19 +96,19 @@ namespace GameModel
                         case "X": //X rotation
                             {
                                 if (float.TryParse(rest, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
-                                    result *= Matrix.CreateRotationX(MathHelper.ToDegrees(angle));
+                                    result *= Matrix.CreateRotationX(MathHelper.ToRadians(angle));
                                 break;
                             }
                         case "Y": //Y rotation
                             {
                                 if (float.TryParse(rest, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
-                                    result *= Matrix.CreateRotationY(MathHelper.ToDegrees(angle));
+                                    result *= Matrix.CreateRotationY(MathHelper.ToRadians(angle));
                                 break;
                             }
                         case "Z": //Z rotation
                             {
                                 if (float.TryParse(rest, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
-                                    result *= Matrix.CreateRotationZ(MathHelper.ToDegrees(angle));
+                                    result *= Matrix.CreateRotationZ(MathHelper.ToRadians(angle));
                                 break;
                             }
                         case "T": //translation
@@ -162,7 +164,11 @@ namespace GameModel
         ModelPart CurrentPart;
         string[] lines;
         public ModelPart R;
-
+        Model Output;
+        public Model ReturnOutput()
+        {
+            return Output;
+        }
         #region data combing 
         static string[] SplitLines(string input)
         {
@@ -172,6 +178,15 @@ namespace GameModel
         }
         #endregion
 
+        public static GameModel.Model LoadModel(string name)
+        {
+            Model result;
+            string modeldata= System.IO.File.ReadAllText(ModelBaseDir+"\\"+name+".mgf");
+            ModelGeometryCompiler compiler = new ModelGeometryCompiler(modeldata);
+            result = compiler.ReturnOutput();
+            return result;
+        }
+
         public ModelGeometryCompiler(string input)
         {
             
@@ -180,6 +195,7 @@ namespace GameModel
             LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
             Dictionary<string, ModelPart> parts = new Dictionary<string, ModelPart>();
             List<ModelPart> p = new List<ModelPart>();
+            string choreoname = "";
             string command = ls.Next();
             while(command!="#endmodel")
             {
@@ -204,6 +220,8 @@ namespace GameModel
                         }
                     case "#choreo":
                         {
+                            choreoname = ls.NextQuoted();
+
                             break;
                         }
                     default:
@@ -216,6 +234,7 @@ namespace GameModel
                 ls = new LineSplitter(lines[state.LineNumber]);
                 command = ls.Next();
             }
+            Output.Choreo = LoadChoreo(System.IO.File.ReadAllText(ModelBaseDir+"\\"+choreoname+".mcf"));
             ls = null;
 
         }
@@ -501,6 +520,7 @@ namespace GameModel
                 ls = new LineSplitter(lines[state.LineNumber]);
             }
             Model = new Model(root);
+            Output = Model;
             R = root;
         }
     }

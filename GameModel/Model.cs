@@ -10,6 +10,7 @@ namespace GameModel
 {
     public class Model : ModelPart, IDisposable
     {
+        public Dictionary<string, Dictionary<string, PartAnimation>> Choreo;
         private VertexBuffer _VB;
         private IndexBuffer _IB;
         private Dictionary<string,List<ModelPart>>AnimationMapping;
@@ -45,6 +46,8 @@ namespace GameModel
                 cIo += Icount;
                 cVo += Vcount;
                 //add the part to animation mapping
+                if (p.Title == null)
+                    continue;
                 if (!AnimationMapping.ContainsKey(p.Title)) //create key if needed
                     AnimationMapping.Add(p.Title, new List<ModelPart>() {  });
                 AnimationMapping[p.Title].Add(p);
@@ -56,6 +59,12 @@ namespace GameModel
 
 
 
+        }
+
+        public void ApplyAnimation(string Name)
+        {
+            if(this.Choreo!=null)
+                ApplyAnimation(Name, this.Choreo);
         }
 
         public void ApplyAnimation(string Name, Dictionary<string, Dictionary<string,PartAnimation>> Choreo)
