@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DGame", "3DGame\3DGame.csproj", "{4D5AD3FC-9448-436A-9BDE-9EB1A491E2AC}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{1416F2FF-B454-45AB-92BE-811BFC66F6AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator", "ModelGenerator.cs\ModelGenerator.csproj", "{E9B7C791-40DC-478F-8EC1-B5D9802E8D87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelEditor", "ModelEditor\ModelEditor.csproj", "{712205DD-5E84-4D1A-BD75-F1B0651A9558}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,8 +61,17 @@ Global
 		{E9B7C791-40DC-478F-8EC1-B5D9802E8D87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9B7C791-40DC-478F-8EC1-B5D9802E8D87}.Release|x86.ActiveCfg = Release|Any CPU
 		{E9B7C791-40DC-478F-8EC1-B5D9802E8D87}.Release|x86.Build.0 = Release|Any CPU
+		{712205DD-5E84-4D1A-BD75-F1B0651A9558}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{712205DD-5E84-4D1A-BD75-F1B0651A9558}.Debug|x86.ActiveCfg = Debug|x86
+		{712205DD-5E84-4D1A-BD75-F1B0651A9558}.Debug|x86.Build.0 = Debug|x86
+		{712205DD-5E84-4D1A-BD75-F1B0651A9558}.Release|Any CPU.ActiveCfg = Release|x86
+		{712205DD-5E84-4D1A-BD75-F1B0651A9558}.Release|x86.ActiveCfg = Release|x86
+		{712205DD-5E84-4D1A-BD75-F1B0651A9558}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E19E0596-D65F-4D45-ABA0-E417C313E41E}
 	EndGlobalSection
 EndGlobal

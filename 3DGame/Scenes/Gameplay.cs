@@ -462,7 +462,7 @@ namespace _3DGame.Scenes
 
             GameModel.Model _1 = GameModel.ModelGeometryCompiler.LoadModel("default");
             GameModel.Model _2 = new GameModel.Model();
-
+            //test, remove as it doesn't realy do anything visible+
             _1.Render(device, 0, Matrix.Identity, TerrainEffect, false);
             _2.Render(device, 0, Matrix.Identity, TerrainEffect, false);
             _1.ApplyAnimation("Walk");
