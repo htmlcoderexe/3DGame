@@ -362,7 +362,7 @@ namespace GameModel
                 }
                 //prepare for next line
                 state.LineNumber++;
-                ls = new LineSplitter(lines[state.LineNumber]);
+                ls = new LineSplitter(lines[state.LineNumber].Replace(',', ' '));
             }
             return indices.ToArray();
         }
