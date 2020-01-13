@@ -348,7 +348,7 @@ namespace GameModel
 
         int[] ReadMesh()
         {
-            LineSplitter ls = new LineSplitter(lines[state.LineNumber]);
+            LineSplitter ls = new LineSplitter(lines[state.LineNumber].Replace(',',' '));
             List<int> indices = new List<int>();
             //keep going until end mesh command
             while (ls.Next() != "#endmesh")

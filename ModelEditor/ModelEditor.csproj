@@ -50,7 +50,9 @@
       <DependentUpon>MainAppFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsContainer.cs" />
     <Compile Include="SettingsFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +84,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MainAppFrm.resx">
+      <DependentUpon>MainAppFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingsFrm.resx">
       <DependentUpon>SettingsFrm.cs</DependentUpon>
     </EmbeddedResource>

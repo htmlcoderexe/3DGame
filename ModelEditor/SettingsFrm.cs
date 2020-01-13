@@ -13,16 +13,27 @@ namespace ModelEditor
 {
     public partial class SettingsFrm : Form
     {
-
-        public Microsoft.Xna.Framework.Color bGColor=Microsoft.Xna.Framework.Color.CornflowerBlue;
-        public SettingsFrm()
+        SettingsContainer Settings;
+       // public Microsoft.Xna.Framework.Color bGColor=Microsoft.Xna.Framework.Color.CornflowerBlue;
+        public SettingsFrm(SettingsContainer Settings)
         {
             InitializeComponent();
+            this.Settings = Settings;
+            bgCR.Value = Settings.ViewerBackgroundColor.R;
+            bgCG.Value = Settings.ViewerBackgroundColor.G;
+            bgCB.Value = Settings.ViewerBackgroundColor.B;
+
+            colprev.BackColor = Color.FromArgb(bgCR.Value, bgCG.Value, bgCB.Value);
+            coltxt.Text = bgCR.Value + ", " + bgCG.Value + ", " + bgCB.Value;
         }
 
         private void bgCR_Scroll(object sender, EventArgs e)
         {
-            bGColor = new Microsoft.Xna.Framework.Color(bgCR.Value,bgCG.Value,bgCB.Value);
+            Settings.ViewerBackgroundColor = new Microsoft.Xna.Framework.Color(bgCR.Value,bgCG.Value,bgCB.Value);
+            colprev.BackColor = Color.FromArgb(bgCR.Value, bgCG.Value, bgCB.Value);
+            coltxt.Text= bgCR.Value+", "+bgCG.Value+", "+bgCB.Value;
+
         }
+        
     }
 }
