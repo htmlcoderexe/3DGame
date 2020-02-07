@@ -71,5 +71,14 @@ namespace ModelEditor
             result.ApplyAnimation("Walk");
             State.CurrentModel = result;
         }
+
+        private void compileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ModelGeometryCompiler compiler = new ModelGeometryCompiler(modelcode.Text);
+            GameModel.Model result = compiler.ReturnOutput();
+            result.ApplyAnimation("Walk");
+            State.CurrentModel = result;
+        }
     }
 }

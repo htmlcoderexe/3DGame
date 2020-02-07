@@ -17,6 +17,8 @@ namespace ModelEditor
         MainAppFrm mainfrm;
         Effect ModelEffect;
         Camera Camera;
+        MouseState PreviousMouseState;
+        KeyboardState PreviousKeyboardState;
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -73,25 +75,68 @@ namespace ModelEditor
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            KeyboardState CurrentKeyboardState = Keyboard.GetState();
+            MouseState CurrentMouseState = Mouse.GetState();
+            float dT = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-                Camera.Pitch++;
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-                Camera.Pitch--;
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-                Camera.Yaw++;
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-                Camera.Yaw--;
+
+
+
+            if (CurrentMouseState.RightButton == ButtonState.Pressed)
+            {
+                // this.IsMouseVisible = false;
+                //  Volatile.WindowManager.MovingWindow = null;
+                //mouselook
+                float DX = CurrentMouseState.X - PreviousMouseState.X;
+                float DY = CurrentMouseState.Y - PreviousMouseState.Y;
+                Camera.Yaw += DX * dT * 6.0f;
+                Camera.Pitch -= DY * dT * 6.0f;
+                Camera.Pitch = MathHelper.Clamp(Camera.Pitch, -89.0f, 89.0f);
+
+
+                Mouse.SetPosition(PreviousMouseState.X, PreviousMouseState.Y);
+                CurrentMouseState = PreviousMouseState;
+                //Mouse.SetPosition(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+            }
+
+
+
+
+            Vector3 MoveVector = new Vector3(0.05f,0, 0);
+            float angle  = -Camera.Yaw-90f;
+                
+            if (CurrentKeyboardState.IsKeyDown(Keys.S))
+                angle+=180f;
+            if (CurrentKeyboardState.IsKeyDown(Keys.A))
+                angle+=90f;
+            if (CurrentKeyboardState.IsKeyDown(Keys.D))
+                angle-=90f;
+            if (CurrentKeyboardState.IsKeyDown(Keys.W)
+                || CurrentKeyboardState.IsKeyDown(Keys.S)
+                || CurrentKeyboardState.IsKeyDown(Keys.A)
+                || CurrentKeyboardState.IsKeyDown(Keys.D))
+            {
+                Camera.Position +=
+                    Vector3.Transform(
+                        MoveVector,
+                        Matrix.CreateRotationY(
+                            MathHelper.ToRadians(angle)
+                            )
+                        );
+            }
+
 
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
-                Camera.Position += new Vector3();
+                Camera.Position += new Vector3(0, 0.05f, 0);
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+                Camera.Position += new Vector3(0, -0.05f, 0);
 
             Camera.Pitch = MathHelper.Clamp(Camera.Pitch, -89f, 89f);
             // TODO: Add your update logic here
             bgColor = mainfrm.State.Settings.ViewerBackgroundColor;
             base.Update(gameTime);
+            PreviousKeyboardState = CurrentKeyboardState;
+            PreviousMouseState = CurrentMouseState;
         }
 
         /// <summary>
