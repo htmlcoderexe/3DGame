@@ -42,6 +42,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="ChoreoPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChoreoPlayer.Designer.cs">
+      <DependentUpon>ChoreoPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="MainAppFrm.cs">
       <SubType>Form</SubType>
@@ -84,6 +90,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ChoreoPlayer.resx">
+      <DependentUpon>ChoreoPlayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainAppFrm.resx">
       <DependentUpon>MainAppFrm.cs</DependentUpon>
     </EmbeddedResource>
