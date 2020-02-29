@@ -56,6 +56,7 @@
             this.playpausebutt.TabIndex = 1;
             this.playpausebutt.Text = "▶️";
             this.playpausebutt.UseVisualStyleBackColor = true;
+            this.playpausebutt.Click += new System.EventHandler(this.playpausebutt_Click);
             // 
             // stop
             // 

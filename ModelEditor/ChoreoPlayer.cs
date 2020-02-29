@@ -16,5 +16,10 @@ namespace ModelEditor
         {
             InitializeComponent();
         }
+
+        private void playpausebutt_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

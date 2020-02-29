@@ -61,6 +61,21 @@ namespace GameModel
 
         }
 
+        public void RebuildSkeleton()
+        {
+            AnimationMapping = new Dictionary<string, List<ModelPart>>();
+            List<ModelPart> Parts = this.Children[0].GetFlatList();
+            foreach (ModelPart p in Parts)
+            {
+                
+                if (p.Title == null)
+                    continue;
+                if (!AnimationMapping.ContainsKey(p.Title)) //create key if needed
+                    AnimationMapping.Add(p.Title, new List<ModelPart>() { });
+                AnimationMapping[p.Title].Add(p);
+            }
+        }
+
         public void ApplyAnimation(string Name)
         {
             if(this.Choreo!=null)

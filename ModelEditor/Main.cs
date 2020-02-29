@@ -133,7 +133,7 @@ namespace ModelEditor
 
             Camera.Pitch = MathHelper.Clamp(Camera.Pitch, -89f, 89f);
             // TODO: Add your update logic here
-            bgColor = mainfrm.State.Settings.ViewerBackgroundColor;
+            bgColor = ProgramState.State.Settings.ViewerBackgroundColor;
             base.Update(gameTime);
             PreviousKeyboardState = CurrentKeyboardState;
             PreviousMouseState = CurrentMouseState;
@@ -161,11 +161,11 @@ namespace ModelEditor
             rs.CullMode = CullMode.None;
            //  rs.FillMode = FillMode.WireFrame;
             GraphicsDevice.RasterizerState = rs;
-            if (mainfrm.State.CurrentModel == null)
+            if (ProgramState.State.CurrentModel == null)
                 return;
             // TODO: Add your drawing code here
-            mainfrm.State.CurrentModel.Render(GraphicsDevice, 1, Matrix.Identity, ModelEffect, false);
-            mainfrm.State.CurrentModel.Render(GraphicsDevice, 1, Matrix.Identity, ModelEffect, true);
+            ProgramState.State.CurrentModel.Render(GraphicsDevice, 1, Matrix.Identity, ModelEffect, false);
+            ProgramState.State.CurrentModel.Render(GraphicsDevice, 1, Matrix.Identity, ModelEffect, true);
             base.Draw(gameTime);
         }
     }

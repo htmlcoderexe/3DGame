@@ -13,13 +13,11 @@ namespace ModelEditor
 {
     public partial class MainAppFrm : Form
     {
-        public ProgramState State;
         public MainAppFrm()
         {
             Application.EnableVisualStyles();
             InitializeComponent();
-            State = new ProgramState();
-            State.Settings = LoadSettings();
+            ProgramState.State.Settings = LoadSettings();
         }
 
         public SettingsContainer LoadSettings()
@@ -37,11 +35,11 @@ namespace ModelEditor
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SettingsFrm s = new SettingsFrm(State.Settings);
-            SettingsContainer old = (SettingsContainer)State.Settings.Clone();
+            SettingsFrm s = new SettingsFrm(ProgramState.State.Settings);
+            SettingsContainer old = (SettingsContainer)ProgramState.State.Settings.Clone();
             DialogResult d = s.ShowDialog();
             if (d != DialogResult.OK)
-                State.Settings = old;
+                ProgramState.State.Settings = old;
 
         }
 
@@ -68,8 +66,9 @@ namespace ModelEditor
             ModelGeometryCompiler.ModelBaseDir = System.IO.Path.GetDirectoryName(filename);
             ModelGeometryCompiler compiler = new ModelGeometryCompiler(modeldata);
             result = compiler.ReturnOutput();
+            result.RebuildSkeleton();
             result.ApplyAnimation("Walk");
-            State.CurrentModel = result;
+            ProgramState.State.CurrentModel = result;
         }
 
         private void compileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -77,8 +76,9 @@ namespace ModelEditor
 
             ModelGeometryCompiler compiler = new ModelGeometryCompiler(modelcode.Text);
             GameModel.Model result = compiler.ReturnOutput();
+            result.RebuildSkeleton();
             result.ApplyAnimation("Walk");
-            State.CurrentModel = result;
+            ProgramState.State.CurrentModel = result;
         }
     }
 }

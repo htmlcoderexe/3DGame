@@ -10,5 +10,9 @@ namespace ModelEditor
     {
         public SettingsContainer Settings;
         public GameModel.Model CurrentModel;
+        public float PlayTime;
+        public bool Playing;
+
+        public static ProgramState State = new ProgramState();
     }
 }
