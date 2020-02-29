@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Choreo.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="ModelGeometryCompiler.cs" />
     <Compile Include="ModelPart.cs" />
