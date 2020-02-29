@@ -13,11 +13,13 @@ namespace ModelEditor
 {
     public partial class MainAppFrm : Form
     {
+        public ChoreoPlayer p;
         public MainAppFrm()
         {
             Application.EnableVisualStyles();
             InitializeComponent();
             ProgramState.State.Settings = LoadSettings();
+             p = new ChoreoPlayer();
         }
 
         public SettingsContainer LoadSettings()
@@ -79,6 +81,12 @@ namespace ModelEditor
             result.RebuildSkeleton();
             result.ApplyAnimation("Walk");
             ProgramState.State.CurrentModel = result;
+        }
+
+        private void playerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            p.Show();
         }
     }
 }

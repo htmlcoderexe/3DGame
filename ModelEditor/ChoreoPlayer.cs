@@ -19,7 +19,14 @@ namespace ModelEditor
 
         private void playpausebutt_Click(object sender, EventArgs e)
         {
-            
+            ProgramState.State.Playing = !ProgramState.State.Playing;
+            this.Text = this.Text == "▶️" ? "||" : "▶️";
+        }
+
+        private void stop_Click(object sender, EventArgs e)
+        {
+            ProgramState.State.Playing = false;
+            ProgramState.State.PlayTime = 0;
         }
     }
 }

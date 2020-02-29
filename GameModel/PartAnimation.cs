@@ -43,21 +43,23 @@ namespace GameModel
         {
             this.Time = 0;
         }
+
+        //advance by dT and get transform
         public Matrix GetTransform(float dT)
         {
             this.Time += dT;
-            float prev=0, next=0;
-            Matrix A=Matrix.Identity, B=Matrix.Identity;
+            float prev = 0, next = 0;
+            Matrix A = Matrix.Identity, B = Matrix.Identity;
             //go through all frames
-            foreach(KeyValuePair<float, Matrix> frame in _keyframes)
+            foreach (KeyValuePair<float, Matrix> frame in _keyframes)
             {
                 //current frame is before
-                if(Time>frame.Key)
+                if (Time > frame.Key)
                 {
                     //shortcut
-                    if(Time>=Length)
+                    if (Time >= Length)
                     {
-                        if(Loop)
+                        if (Loop)
                         {
                             Time -= Length;
                             return GetTransform(0.0f);
@@ -75,6 +77,42 @@ namespace GameModel
                     next = frame.Key;
                     B = frame.Value;
                     return Matrix.Lerp(A, B, (Time - prev) / (next - prev));
+                }
+            }
+            return A;
+        }
+        //get transform at specific time in floatseconds
+        public Matrix GetTransformAt(float dT)
+        {
+            
+            float prev = 0, next = 0;
+            Matrix A = Matrix.Identity, B = Matrix.Identity;
+            //go through all frames
+            foreach (KeyValuePair<float, Matrix> frame in _keyframes)
+            {
+                //current frame is before
+                if (dT > frame.Key)
+                {
+                    //shortcut
+                    if (dT >= Length)
+                    {
+                        if (Loop)
+                        {
+                            dT -= Length;
+                            return GetTransformAt(dT);
+                        }
+                        return frame.Value;
+                    }
+                    //update to this being previous frame
+                    prev = frame.Key;
+                    A = frame.Value;
+                }
+                //if frame is in the future
+                else
+                {
+                    next = frame.Key;
+                    B = frame.Value;
+                    return Matrix.Lerp(A, B, (dT - prev) / (next - prev));
                 }
             }
             return A;

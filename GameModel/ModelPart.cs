@@ -37,10 +37,10 @@ namespace GameModel
                 this.Children = new List<ModelPart>();
             this.Children.Add(part);
         }
-        public virtual void Render(GraphicsDevice device, float dT, Matrix World, Effect fx,bool Alpha)
+        public virtual void Render(GraphicsDevice device, float Time, Matrix World, Effect fx,bool Alpha)
         {
             //get bone animation
-            Matrix a = Animation==null?Matrix.Identity:this.Animation.GetTransform(dT);
+            Matrix a = Animation==null?Matrix.Identity:this.Animation.GetTransformAt(Time);
            
             Matrix b;
             //a = Matrix.Identity;
@@ -50,7 +50,7 @@ namespace GameModel
             {
                     //animate part's location
                     b = Matrix.Lerp(Dislocation, Dislocation * a, c.BoneFactor);
-                    c.Render(device, dT, b*World, fx,Alpha);
+                    c.Render(device, Time, b*World, fx,Alpha);
                 }
             if (Alpha)
                 return;

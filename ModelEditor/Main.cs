@@ -137,6 +137,8 @@ namespace ModelEditor
             base.Update(gameTime);
             PreviousKeyboardState = CurrentKeyboardState;
             PreviousMouseState = CurrentMouseState;
+            if (ProgramState.State.Playing)
+                ProgramState.State.PlayTime += dT;
         }
 
         /// <summary>
@@ -145,6 +147,7 @@ namespace ModelEditor
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            float dT = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
             Matrix viewMatrix = Camera.GetView();
             Matrix projectionMatrix = Camera.GetProjection(GraphicsDevice);
             ModelEffect.Parameters["xView"].SetValue(viewMatrix);
@@ -164,8 +167,11 @@ namespace ModelEditor
             if (ProgramState.State.CurrentModel == null)
                 return;
             // TODO: Add your drawing code here
-            ProgramState.State.CurrentModel.Render(GraphicsDevice, 1, Matrix.Identity, ModelEffect, false);
-            ProgramState.State.CurrentModel.Render(GraphicsDevice, 1, Matrix.Identity, ModelEffect, true);
+
+            float offset = ProgramState.State.Playing ? ProgramState.State.PlayTime : 0;
+            offset = ProgramState.State.PlayTime;
+            ProgramState.State.CurrentModel.Render(GraphicsDevice, offset, Matrix.Identity, ModelEffect, false);
+            ProgramState.State.CurrentModel.Render(GraphicsDevice, offset, Matrix.Identity, ModelEffect, true);
             base.Draw(gameTime);
         }
     }

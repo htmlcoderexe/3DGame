@@ -67,6 +67,7 @@
             this.stop.TabIndex = 2;
             this.stop.Text = "■";
             this.stop.UseVisualStyleBackColor = true;
+            this.stop.Click += new System.EventHandler(this.stop_Click);
             // 
             // next
             // 
