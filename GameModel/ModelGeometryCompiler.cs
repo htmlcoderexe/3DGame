@@ -235,6 +235,7 @@ namespace GameModel
                 command = ls.Next();
             }
             Output.Choreo = LoadChoreo(System.IO.File.ReadAllText(ModelBaseDir+"\\"+choreoname+".mcf"));
+            Output.ChoreoName = choreoname;
             ls = null;
 
         }

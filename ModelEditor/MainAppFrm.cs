@@ -71,6 +71,7 @@ namespace ModelEditor
             result.RebuildSkeleton();
             result.ApplyAnimation("Walk");
             ProgramState.State.CurrentModel = result;
+            p.choreocode.Text = System.IO.File.ReadAllText(ModelGeometryCompiler.ModelBaseDir + "\\" + result.ChoreoName + ".mcf");
         }
 
         private void compileToolStripMenuItem_Click(object sender, EventArgs e)

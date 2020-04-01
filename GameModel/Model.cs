@@ -13,7 +13,15 @@ namespace GameModel
         public Dictionary<string, Dictionary<string, PartAnimation>> Choreo;
         private VertexBuffer _VB;
         private IndexBuffer _IB;
-        private Dictionary<string,List<ModelPart>>AnimationMapping;
+        private Dictionary<string, List<ModelPart>> AnimationMapping;
+        private float maxlen=0;
+        public float CurrentAnimationLength {
+            get
+                {
+                return maxlen;
+                }
+            }
+        public string ChoreoName;
         /// <summary>
         /// Bakes the model and creates the necessary index/vertex/animation buffers
         /// </summary>
@@ -90,13 +98,19 @@ namespace GameModel
                 return;
             Dictionary<string, PartAnimation> Movement = Choreo[Name];
             List<ModelPart> tmppartlist;
+            maxlen = 0;
             foreach(KeyValuePair<string, PartAnimation> Part in Movement)
             {
                 if (!AnimationMapping.ContainsKey(Part.Key))
                     continue;
                 tmppartlist = AnimationMapping[Part.Key];
                 foreach (ModelPart p in tmppartlist)
+                {
+                    if (Part.Value.Length > maxlen)
+                        maxlen = Part.Value.Length;
                     p.Animation = Part.Value;
+                }
+                    
             }
         }
 

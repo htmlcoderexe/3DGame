@@ -41,12 +41,12 @@
             this.modelToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.choreoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.playerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.maintoolbar = new System.Windows.Forms.ToolStrip();
             this.modelcode = new System.Windows.Forms.TextBox();
             this.statusbar = new System.Windows.Forms.StatusStrip();
-            this.playerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mm.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -151,6 +151,13 @@
             this.choreoToolStripMenuItem1.Size = new System.Drawing.Size(58, 20);
             this.choreoToolStripMenuItem1.Text = "Choreo";
             // 
+            // playerToolStripMenuItem
+            // 
+            this.playerToolStripMenuItem.Name = "playerToolStripMenuItem";
+            this.playerToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.playerToolStripMenuItem.Text = "Player";
+            this.playerToolStripMenuItem.Click += new System.EventHandler(this.playerToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -181,7 +188,8 @@
             this.modelcode.Location = new System.Drawing.Point(0, 49);
             this.modelcode.Multiline = true;
             this.modelcode.Name = "modelcode";
-            this.modelcode.Size = new System.Drawing.Size(862, 498);
+            this.modelcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.modelcode.Size = new System.Drawing.Size(862, 476);
             this.modelcode.TabIndex = 2;
             // 
             // statusbar
@@ -192,20 +200,13 @@
             this.statusbar.TabIndex = 3;
             this.statusbar.Text = "statusStrip1";
             // 
-            // playerToolStripMenuItem
-            // 
-            this.playerToolStripMenuItem.Name = "playerToolStripMenuItem";
-            this.playerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.playerToolStripMenuItem.Text = "Player";
-            this.playerToolStripMenuItem.Click += new System.EventHandler(this.playerToolStripMenuItem_Click);
-            // 
             // MainAppFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(862, 547);
-            this.Controls.Add(this.statusbar);
             this.Controls.Add(this.modelcode);
+            this.Controls.Add(this.statusbar);
             this.Controls.Add(this.maintoolbar);
             this.Controls.Add(this.mm);
             this.MainMenuStrip = this.mm;

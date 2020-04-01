@@ -137,8 +137,13 @@ namespace ModelEditor
             base.Update(gameTime);
             PreviousKeyboardState = CurrentKeyboardState;
             PreviousMouseState = CurrentMouseState;
-            if (ProgramState.State.Playing)
+            if (ProgramState.State.Playing && ProgramState.State.PlayTime < ProgramState.State.CurrentModel.CurrentAnimationLength)
+            {
                 ProgramState.State.PlayTime += dT;
+                if (ProgramState.State.PlayTime > ProgramState.State.CurrentModel.CurrentAnimationLength)
+                    ProgramState.State.PlayTime = ProgramState.State.CurrentModel.CurrentAnimationLength;
+            }
+                
         }
 
         /// <summary>
