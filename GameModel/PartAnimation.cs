@@ -84,7 +84,8 @@ namespace GameModel
         //get transform at specific time in floatseconds
         public Matrix GetTransformAt(float dT)
         {
-            
+            if (dT == 0)
+                return _keyframes.ToList()[0].Value;
             float prev = 0, next = 0;
             Matrix A = Matrix.Identity, B = Matrix.Identity;
             //go through all frames
@@ -111,8 +112,9 @@ namespace GameModel
                 else
                 {
                     next = frame.Key;
-                    B = frame.Value;
-                    return Matrix.Lerp(A, B, (dT - prev) / (next - prev));
+                    B = frame.Value; 
+                    Matrix result= Matrix.Lerp(A, B, (dT - prev) / (next - prev));
+                    return result;
                 }
             }
             return A;
