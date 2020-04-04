@@ -1,0 +1,16 @@
+#beginmodel %modelname%
+	#choreo %choreoname%
+	#beginsymbols
+	#endsymbols
+	#beginpart "Body"
+		#beginpoints
+			
+		#endpoints
+		#beginmesh
+			
+		#endmesh
+	#endpart
+	#beginassembly
+		"Root"	 Body
+	#endassembly
+#endmodel

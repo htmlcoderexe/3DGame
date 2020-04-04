@@ -84,14 +84,15 @@
             this.choreoToolStripMenuItem,
             this.otherToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New...";
             // 
             // modelToolStripMenuItem
             // 
             this.modelToolStripMenuItem.Name = "modelToolStripMenuItem";
-            this.modelToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.modelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modelToolStripMenuItem.Text = "Model";
+            this.modelToolStripMenuItem.Click += new System.EventHandler(this.modelToolStripMenuItem_Click);
             // 
             // choreoToolStripMenuItem
             // 
@@ -196,6 +197,7 @@
             this.modelcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.modelcode.Size = new System.Drawing.Size(862, 476);
             this.modelcode.TabIndex = 2;
+            this.modelcode.TextChanged += new System.EventHandler(this.modelcode_TextChanged);
             // 
             // statusbar
             // 

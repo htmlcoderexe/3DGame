@@ -1,0 +1,24 @@
+#beginmodel "dude1"
+	#choreo "humanoid"
+	#beginsymbols
+		$body=127:127:127
+		$bodycentre=76:76:76
+	#endsymbols
+	#beginpart "Body"
+		#beginpoints
+			0.0 0.0 -0.05 $body
+			0.25 0.0 0.0 $body
+			0.0 0.25 -0.05 $bodycentre
+			0.25 0.25 0.0 $body
+			-0.25 0.0 0.0 $body
+			-0.25 0.25 0.0 $body
+		#endpoints
+		#beginmesh
+			0,1,2,1,3,2
+			0,2,4,2,5,4
+		#endmesh
+	#endpart
+	#beginassembly
+		"Root"	 Body
+	#endassembly
+#endmodel

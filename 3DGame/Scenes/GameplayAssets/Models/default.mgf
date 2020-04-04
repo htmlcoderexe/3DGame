@@ -6,6 +6,7 @@
 		$Blue=0:0:200
 		$Red=160:0:0
 		$Green=30:120:10
+		$Yellow=50:30:10
 	#endsymbols
 	#beginpart "Body"
 		#beginpoints
@@ -30,9 +31,9 @@
 	#beginpart "Leg"
 		#beginpoints
 			0.0 0.50 -0.00  $Black 0,0 1
-			0.2 0.82 -0.00  $Black 0,0 1
-			0.2 0.80 -0.02  $Black 0,0 1
-			0.2 0.80  0.02  $Black 0,0 1
+			0.2 0.82 -0.00  $Yellow 0,0 1
+			0.2 0.80 -0.02  $Yellow 0,0 1
+			0.2 0.80  0.02  $Yellow 0,0 1
 			0.4 0.22 -0.00  $Black 0,0 1
 			0.4 0.20 -0.02  $Black 0,0 1
 			0.4 0.20  0.02  $Black 0,0 1

@@ -234,7 +234,14 @@ namespace GameModel
                 ls = new LineSplitter(lines[state.LineNumber]);
                 command = ls.Next();
             }
-            Output.Choreo = LoadChoreo(System.IO.File.ReadAllText(ModelBaseDir+"\\"+choreoname+".mcf"));
+            string choreofname = ModelBaseDir + "\\" + choreoname + ".mcf";
+            //create a dummy if doesn't exist. Dumb workaround but works for now
+            if(!System.IO.File.Exists(choreofname))
+            {
+                System.IO.FileStream s = System.IO.File.Create(choreofname);
+                s.Close();
+            }
+            Output.Choreo = LoadChoreo(System.IO.File.ReadAllText(choreofname));
             Output.ChoreoName = choreoname;
             ls = null;
 

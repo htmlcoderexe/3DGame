@@ -15,6 +15,11 @@ namespace ModelEditor
     {
         public ChoreoPlayer p;
         public string FileName;
+        private bool _changes;
+        private bool Changes {
+            get { return _changes; }
+            set { _changes = value;this.Text = value ? "* Model Editor" : "Model Editor"; }
+        }
         public MainAppFrm()
         {
             Application.EnableVisualStyles();
@@ -81,6 +86,7 @@ namespace ModelEditor
             p.movements.Items.Clear();
             foreach (KeyValuePair<string, Dictionary<string,PartAnimation>> movement in result.Choreo)
                 p.movements.Items.Add(movement.Key);
+            Changes = false;
         }
 
         private void compileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,10 +112,92 @@ namespace ModelEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(FileName!=null)
+            DoSave();
+        }
+
+        private bool DoSave()
+        {
+            if (FileName != null)
             {
                 System.IO.File.WriteAllText(FileName, modelcode.Text);
+                Changes = false;
+                return true;
             }
+            else
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.Filter = "Model geometry files (*.mgf)|*.mgf|Any File|*.*";
+                saveFile.RestoreDirectory = true;
+                saveFile.AddExtension = true;
+                if (saveFile.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.File.WriteAllText(saveFile.FileName, modelcode.Text);
+                    FileName = saveFile.FileName;
+                    Changes = false;
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// This ensures no unintentional data loss occurs
+        /// </summary>
+        /// <returns></returns>
+        public bool ConfirmSaveOrLose()
+        {
+            //skip dialog if no changes, just proceed
+            if (!Changes)
+                return true;
+            DialogResult r =MessageBox.Show("You have unsaved changes in your model. Would you like to save?", "Model Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+            switch(r)
+                {
+                case DialogResult.Cancel:
+                    {
+                        //user cancels the whole thing, abort
+                        return false;
+                    }
+                case DialogResult.No:
+                    {
+                        //user intends to NOT save the changes, proceed
+                        return true;
+                    }
+                case DialogResult.Yes:
+                    {
+                        //user wants to save
+                        //offer to save changes, if true returned - saved, may proceed
+                        if (DoSave())
+                            return true;
+                        //unsaved changes  were not saved successfully (user closed the save dialog?), abort action
+                        return false;
+
+                    }
+                default: //should never happen but just in case
+                    return false;
+            }
+            //fallback
+            return false;
+        }
+        private void modelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!ConfirmSaveOrLose())
+                return;
+            FileName = null;
+            modelcode.Text = LoadBlank();
+
+
+        }
+
+        private string LoadBlank(string template="blank")
+        {
+            string result = "";
+            string path = "templates\\" + template + ".mgf";
+            result = System.IO.File.ReadAllText(path);
+            return result;
+        }
+
+        private void modelcode_TextChanged(object sender, EventArgs e)
+        {
+            Changes = true;
         }
     }
 }
