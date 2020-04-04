@@ -18,7 +18,8 @@ namespace ModelEditor
         }
 
         private bool scrubbing;
-
+        public string FileName;
+        public MainAppFrm mainfrmref;
         private void playpausebutt_Click(object sender, EventArgs e)
         {
             if (ProgramState.State.Playing)
@@ -44,6 +45,7 @@ namespace ModelEditor
         private void stop_Click(object sender, EventArgs e)
         {
             ProgramState.State.Playing = false;
+            playpausebutt.Text = "▶️";
             ProgramState.State.PlayTime = 0;
         }
 
@@ -84,6 +86,22 @@ namespace ModelEditor
         {
             ProgramState.State.PlayTime = scrubber.Value/100f;
             time.Text = TicksToSeconds(scrubber.Value) + "/" + TicksToSeconds(scrubber.Maximum);
+        }
+
+        private void ChoreoPlayer_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void movements_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ProgramState.State.CurrentModel.ApplyAnimation(movements.SelectedItem.ToString());
+        }
+
+        private void load_Click(object sender, EventArgs e)
+        {
+            System.IO.File.WriteAllText(FileName, choreocode.Text);
+            mainfrmref.CompileAndRun();
         }
     }
 }

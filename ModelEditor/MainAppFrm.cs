@@ -14,12 +14,14 @@ namespace ModelEditor
     public partial class MainAppFrm : Form
     {
         public ChoreoPlayer p;
+        public string FileName;
         public MainAppFrm()
         {
             Application.EnableVisualStyles();
             InitializeComponent();
             ProgramState.State.Settings = LoadSettings();
              p = new ChoreoPlayer();
+            p.mainfrmref = this;
         }
 
         public SettingsContainer LoadSettings()
@@ -58,10 +60,12 @@ namespace ModelEditor
             fopendlg.RestoreDirectory = true;
             if (fopendlg.ShowDialog() == DialogResult.OK)
                 OpenModel(fopendlg.FileName);
+            
         }
 
         private void OpenModel(string filename)
         {
+            FileName = filename;
             Model result;
             string modeldata = System.IO.File.ReadAllText(filename);
             modelcode.Text = modeldata;
@@ -71,12 +75,22 @@ namespace ModelEditor
             result.RebuildSkeleton();
             result.ApplyAnimation("Walk");
             ProgramState.State.CurrentModel = result;
-            p.choreocode.Text = System.IO.File.ReadAllText(ModelGeometryCompiler.ModelBaseDir + "\\" + result.ChoreoName + ".mcf");
+            string choreofilename = ModelGeometryCompiler.ModelBaseDir + "\\" + result.ChoreoName + ".mcf";
+            p.choreocode.Text = System.IO.File.ReadAllText(choreofilename);
+            p.FileName = choreofilename;
+            p.movements.Items.Clear();
+            foreach (KeyValuePair<string, Dictionary<string,PartAnimation>> movement in result.Choreo)
+                p.movements.Items.Add(movement.Key);
         }
 
         private void compileToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            CompileAndRun();
+        }
+
+        public void CompileAndRun()
+        {
             ModelGeometryCompiler compiler = new ModelGeometryCompiler(modelcode.Text);
             GameModel.Model result = compiler.ReturnOutput();
             result.RebuildSkeleton();
@@ -88,6 +102,14 @@ namespace ModelEditor
         {
             
             p.Show();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(FileName!=null)
+            {
+                System.IO.File.WriteAllText(FileName, modelcode.Text);
+            }
         }
     }
 }

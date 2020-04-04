@@ -98,7 +98,12 @@ namespace GameModel
                 return;
             Dictionary<string, PartAnimation> Movement = Choreo[Name];
             List<ModelPart> tmppartlist;
-            maxlen = 0;
+            List<ModelPart> Parts = this.Children[0].GetFlatList();
+            foreach (ModelPart p in Parts)
+            {
+                p.Animation = null;
+            }
+                maxlen = 0;
             foreach(KeyValuePair<string, PartAnimation> Part in Movement)
             {
                 if (!AnimationMapping.ContainsKey(Part.Key))

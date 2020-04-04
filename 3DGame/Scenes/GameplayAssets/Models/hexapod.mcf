@@ -1,4 +1,4 @@
-﻿#beginchoreo
+#beginchoreo
 	#beginmove "Walk"
 		#moveparam Loop 1
 		#beginpart "LegR"
@@ -13,5 +13,31 @@
 			2.4 Y30
 			4.8 Y-30
 		#endpart
+		#beginpart "LegRa"
+			0 Y-30
+			4.8 Y30
+			2.4 Z30 Y1
+			2.4 Y-30
+		#endpart
+		#beginpart "LegLa"
+			0 Y30
+			4.8 Y-30
+			2.4 Z30 Y1
+			2.4 Y30
+		#endpart
 	#endmove
+#beginmove "Melee1"
+#beginpart "Root"
+0 Z1
+1.0 Z20
+1.5 Z1
+#endpart
+#beginpart "LegR"
+0 X1
+0.5 X-90
+0.5 X-90 Y-90
+0.5 X-90
+0.5 X1
+#endpart
+#endmove
 #endchoreo

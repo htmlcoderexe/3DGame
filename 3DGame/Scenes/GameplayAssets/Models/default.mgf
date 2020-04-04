@@ -1,17 +1,19 @@
-﻿#beginmodel "Default"
+#beginmodel "Default"
 	#choreo "hexapod"
 	#beginsymbols
 		$DarkGray=169:169:169
 		$Black=0:0:0
 		$Blue=0:0:200
+		$Red=160:0:0
+		$Green=30:120:10
 	#endsymbols
 	#beginpart "Body"
 		#beginpoints
 			-1.5  0.5 -0.5 $DarkGray
-			 0.5  0.2  0.2 $DarkGray 
+			 0.5  0.2  0.2 $Green
 			-1.5  0.5  0.5 $DarkGray 
 			 0.5  0.2 -0.2 $DarkGray 
-			-1.5 -0.5 -0.5 $DarkGray 
+			-1.5 -0.5 -0.5 $Green
 			 0.5 -0.2  0.2 $DarkGray 
 			-1.5 -0.5  0.5 $DarkGray 
 			 0.5 -0.2 -0.2 $DarkGray
@@ -27,14 +29,14 @@
 	#endpart
 	#beginpart "Leg"
 		#beginpoints
-			0.0 0.50 -0.00  $Black 0,0 0
-			0.2 0.82 -0.00  $Black 0,0 0.33
-			0.2 0.80 -0.02  $Black 0,0 0.33
-			0.2 0.80  0.02  $Black 0,0 0.33
-			0.4 0.22 -0.00  $Black 0,0 0.67
-			0.4 0.20 -0.02  $Black 0,0 0.67
-			0.4 0.20  0.02  $Black 0,0 0.67
-			0.5 0.00 -0.00  $Black 0,0 1
+			0.0 0.50 -0.00  $Black 0,0 1
+			0.2 0.82 -0.00  $Black 0,0 1
+			0.2 0.80 -0.02  $Black 0,0 1
+			0.2 0.80  0.02  $Black 0,0 1
+			0.4 0.22 -0.00  $Black 0,0 1
+			0.4 0.20 -0.02  $Black 0,0 1
+			0.4 0.20  0.02  $Black 0,0 1
+			0.5 0.00 -0.00  $Red 0,0 1
 		#endpoints
 		#beginmesh
 			0,2,1
@@ -54,13 +56,13 @@
 	#endpart
 	#beginassembly
 		"Root"	 Body
-		* "LegR" Leg	Y54 T0.4,0,-0.5		0 
+		* "LegR" Leg	Y54 T0.4,0,-0.5		0	1
 		** "Eye" Eye	T0.2,0.8,0.0		0	0.33
-		* "LegR" Leg	Y90 T0.0,0,-0.5		0.5 
-		* "LegR" Leg	Y144 T-0.4,0,-0.5	0 
-		* "LegL" Leg	Y324 T0.4,0,0.5		0.5 
+		* "LegRa" Leg	Y90 T0.0,0,-0.5		0.5	1
+		* "LegR" Leg	Y144 T-0.4,0,-0.5	0	1
+		* "LegLa" Leg	Y324 T0.4,0,0.5		0.5	1
 		** "Eye" Eye	T0.2,0.8,0.0		0	0.33
-		* "LegL" Leg	Y270 T0.0,0,0.5		0 
-		* "LegL" Leg	Y234 T-0.4,0,0.5	0.5 
+		* "LegL" Leg	Y270 T0.0,0,0.5		0	1
+		* "LegLa" Leg	Y234 T-0.4,0,0.5	0.5	1
 	#endassembly
 #endmodel

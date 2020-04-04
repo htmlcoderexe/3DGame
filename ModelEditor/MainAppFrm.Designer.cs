@@ -47,6 +47,7 @@
             this.maintoolbar = new System.Windows.Forms.ToolStrip();
             this.modelcode = new System.Windows.Forms.TextBox();
             this.statusbar = new System.Windows.Forms.StatusStrip();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mm.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +71,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
             this.discardAndReloadToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -184,7 +186,10 @@
             // 
             // modelcode
             // 
+            this.modelcode.AcceptsReturn = true;
+            this.modelcode.AcceptsTab = true;
             this.modelcode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modelcode.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modelcode.Location = new System.Drawing.Point(0, 49);
             this.modelcode.Multiline = true;
             this.modelcode.Name = "modelcode";
@@ -199,6 +204,13 @@
             this.statusbar.Size = new System.Drawing.Size(862, 22);
             this.statusbar.TabIndex = 3;
             this.statusbar.Text = "statusStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // MainAppFrm
             // 
@@ -238,8 +250,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStrip maintoolbar;
-        private System.Windows.Forms.TextBox modelcode;
         private System.Windows.Forms.StatusStrip statusbar;
         private System.Windows.Forms.ToolStripMenuItem playerToolStripMenuItem;
+        public System.Windows.Forms.TextBox modelcode;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }

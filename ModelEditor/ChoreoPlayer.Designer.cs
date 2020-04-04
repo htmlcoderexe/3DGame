@@ -35,7 +35,7 @@
             this.next = new System.Windows.Forms.Button();
             this.prev = new System.Windows.Forms.Button();
             this.load = new System.Windows.Forms.Button();
-            this.list = new System.Windows.Forms.ComboBox();
+            this.movements = new System.Windows.Forms.ComboBox();
             this.time = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.choreocode = new System.Windows.Forms.TextBox();
@@ -106,14 +106,18 @@
             this.load.TabIndex = 4;
             this.load.Text = "⏏";
             this.load.UseVisualStyleBackColor = true;
+            this.load.Click += new System.EventHandler(this.load_Click);
             // 
-            // list
+            // movements
             // 
-            this.list.FormattingEnabled = true;
-            this.list.Location = new System.Drawing.Point(192, 61);
-            this.list.Name = "list";
-            this.list.Size = new System.Drawing.Size(320, 21);
-            this.list.TabIndex = 5;
+            this.movements.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.movements.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.movements.FormattingEnabled = true;
+            this.movements.Location = new System.Drawing.Point(192, 61);
+            this.movements.Name = "movements";
+            this.movements.Size = new System.Drawing.Size(320, 21);
+            this.movements.TabIndex = 5;
+            this.movements.SelectedIndexChanged += new System.EventHandler(this.movements_SelectedIndexChanged);
             // 
             // time
             // 
@@ -130,7 +134,7 @@
             this.panel1.Controls.Add(this.playpausebutt);
             this.panel1.Controls.Add(this.time);
             this.panel1.Controls.Add(this.scrubber);
-            this.panel1.Controls.Add(this.list);
+            this.panel1.Controls.Add(this.movements);
             this.panel1.Controls.Add(this.stop);
             this.panel1.Controls.Add(this.load);
             this.panel1.Controls.Add(this.prev);
@@ -144,6 +148,7 @@
             // choreocode
             // 
             this.choreocode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.choreocode.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.choreocode.Location = new System.Drawing.Point(0, 100);
             this.choreocode.Multiline = true;
             this.choreocode.Name = "choreocode";
@@ -165,6 +170,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "ChoreoPlayer";
             this.Text = "Player";
+            this.Load += new System.EventHandler(this.ChoreoPlayer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.scrubber)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -181,10 +187,10 @@
         private System.Windows.Forms.Button next;
         private System.Windows.Forms.Button prev;
         private System.Windows.Forms.Button load;
-        private System.Windows.Forms.ComboBox list;
         private System.Windows.Forms.Label time;
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.TextBox choreocode;
         private System.Windows.Forms.Timer barupdater;
+        public System.Windows.Forms.ComboBox movements;
     }
 }
