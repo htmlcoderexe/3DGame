@@ -329,6 +329,7 @@ namespace GameModel
             W = 1f;
             if(!ls.EOL)
             W = ls.NextFloat();
+            W += 0;
             v.Position = new Microsoft.Xna.Framework.Vector3(X, Y, Z);
             v.Color = c;
             v.TextureCoordinate = new Microsoft.Xna.Framework.Vector2(U, V);

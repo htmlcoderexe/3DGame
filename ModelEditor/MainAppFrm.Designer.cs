@@ -35,6 +35,7 @@
             this.choreoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.discardAndReloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,10 +46,11 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.maintoolbar = new System.Windows.Forms.ToolStrip();
+            this.wireframetoggle = new System.Windows.Forms.ToolStripButton();
             this.modelcode = new System.Windows.Forms.TextBox();
             this.statusbar = new System.Windows.Forms.StatusStrip();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mm.SuspendLayout();
+            this.maintoolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // mm
@@ -84,13 +86,13 @@
             this.choreoToolStripMenuItem,
             this.otherToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.newToolStripMenuItem.Text = "New...";
             // 
             // modelToolStripMenuItem
             // 
             this.modelToolStripMenuItem.Name = "modelToolStripMenuItem";
-            this.modelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modelToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.modelToolStripMenuItem.Text = "Model";
             this.modelToolStripMenuItem.Click += new System.EventHandler(this.modelToolStripMenuItem_Click);
             // 
@@ -112,6 +114,14 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // discardAndReloadToolStripMenuItem
             // 
@@ -179,11 +189,24 @@
             // 
             // maintoolbar
             // 
+            this.maintoolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.wireframetoggle});
             this.maintoolbar.Location = new System.Drawing.Point(0, 24);
             this.maintoolbar.Name = "maintoolbar";
             this.maintoolbar.Size = new System.Drawing.Size(862, 25);
             this.maintoolbar.TabIndex = 1;
             this.maintoolbar.Text = "toolStrip1";
+            // 
+            // wireframetoggle
+            // 
+            this.wireframetoggle.CheckOnClick = true;
+            this.wireframetoggle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.wireframetoggle.Image = global::ModelEditor.Properties.Resources.Wfmodebutton;
+            this.wireframetoggle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.wireframetoggle.Name = "wireframetoggle";
+            this.wireframetoggle.Size = new System.Drawing.Size(23, 22);
+            this.wireframetoggle.Text = "W";
+            this.wireframetoggle.Click += new System.EventHandler(this.wireframetoggle_Click);
             // 
             // modelcode
             // 
@@ -207,13 +230,6 @@
             this.statusbar.TabIndex = 3;
             this.statusbar.Text = "statusStrip1";
             // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
             // MainAppFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,6 +245,8 @@
             this.Load += new System.EventHandler(this.MainAppFrm_Load);
             this.mm.ResumeLayout(false);
             this.mm.PerformLayout();
+            this.maintoolbar.ResumeLayout(false);
+            this.maintoolbar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,5 +274,6 @@
         private System.Windows.Forms.ToolStripMenuItem playerToolStripMenuItem;
         public System.Windows.Forms.TextBox modelcode;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton wireframetoggle;
     }
 }

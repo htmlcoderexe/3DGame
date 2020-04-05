@@ -1,7 +1,9 @@
 #beginchoreo
 	#beginmove "Walk"
-		#beginpart "UpperLegL"
-
+		#beginpart "LegR"
+			0.0 Z0
+			0.5 Z90
+			0.5 Z0
 		#endpart
 	#endmove
 #endchoreo

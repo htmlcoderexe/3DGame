@@ -199,5 +199,10 @@ namespace ModelEditor
         {
             Changes = true;
         }
+
+        private void wireframetoggle_Click(object sender, EventArgs e)
+        {
+            ProgramState.State.Settings.WireFrameMode = wireframetoggle.Checked;
+        }
     }
 }

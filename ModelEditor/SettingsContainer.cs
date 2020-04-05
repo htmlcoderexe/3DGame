@@ -9,6 +9,8 @@ namespace ModelEditor
     public class SettingsContainer : ICloneable
     {
         public Microsoft.Xna.Framework.Color ViewerBackgroundColor;
+        public bool WireFrameMode;
+
 
         public object Clone()
         {

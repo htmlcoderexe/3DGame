@@ -166,8 +166,8 @@ namespace ModelEditor
             {
                 CullMode = CullMode.CullCounterClockwiseFace
             };
-            rs.CullMode = CullMode.None;
-           //  rs.FillMode = FillMode.WireFrame;
+           // rs.CullMode = CullMode.None;
+             rs.FillMode = ProgramState.State.Settings.WireFrameMode? FillMode.WireFrame:FillMode.Solid;
             GraphicsDevice.RasterizerState = rs;
             if (ProgramState.State.CurrentModel == null)
                 return;
