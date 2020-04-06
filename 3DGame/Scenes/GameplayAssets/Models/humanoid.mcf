@@ -2,13 +2,33 @@
 	#beginmove "Walk"
 		#beginpart "LegR"
 			0.0 Z1
-			0.5 Z90
-			0.5 Z1
+			0.1 Z18
+			0.1 Z36
+			0.1 Z54
+			0.1 Z72
+			0.1 Z90
+			0.1 Z72
+			0.1 Z54
+			0.1 Z36
+			0.1 Z18
+			0.1 Z1
 		#endpart
 		#beginpart "AnkR"
 			0.0 Z1
-			0.5 Z-90
-			0.5 Z1
+			0.1 Z-18
+			0.1 Z-36
+			0.1 Z-54
+			0.1 Z-72
+			0.1 Z-90
+			0.1 Z-72
+			0.1 Z-54
+			0.1 Z-36
+			0.1 Z-18
+			0.1 Z1
+		#endpart
+		#beginpart "Root"
+			0.0 Z-10
+			1.0 Z-10
 		#endpart
 	#endmove
 #endchoreo
