@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainAppFrm));
             this.mm = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +48,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.maintoolbar = new System.Windows.Forms.ToolStrip();
             this.wireframetoggle = new System.Windows.Forms.ToolStripButton();
+            this.fliptrianglebutton = new System.Windows.Forms.ToolStripButton();
             this.modelcode = new System.Windows.Forms.TextBox();
             this.statusbar = new System.Windows.Forms.StatusStrip();
             this.mm.SuspendLayout();
@@ -119,7 +121,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -190,7 +192,8 @@
             // maintoolbar
             // 
             this.maintoolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.wireframetoggle});
+            this.wireframetoggle,
+            this.fliptrianglebutton});
             this.maintoolbar.Location = new System.Drawing.Point(0, 24);
             this.maintoolbar.Name = "maintoolbar";
             this.maintoolbar.Size = new System.Drawing.Size(862, 25);
@@ -207,6 +210,16 @@
             this.wireframetoggle.Size = new System.Drawing.Size(23, 22);
             this.wireframetoggle.Text = "W";
             this.wireframetoggle.Click += new System.EventHandler(this.wireframetoggle_Click);
+            // 
+            // fliptrianglebutton
+            // 
+            this.fliptrianglebutton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fliptrianglebutton.Image = ((System.Drawing.Image)(resources.GetObject("fliptrianglebutton.Image")));
+            this.fliptrianglebutton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fliptrianglebutton.Name = "fliptrianglebutton";
+            this.fliptrianglebutton.Size = new System.Drawing.Size(23, 22);
+            this.fliptrianglebutton.Text = "Flip triangle(s)";
+            this.fliptrianglebutton.Click += new System.EventHandler(this.fliptrianglebutton_Click);
             // 
             // modelcode
             // 
@@ -275,5 +288,6 @@
         public System.Windows.Forms.TextBox modelcode;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton wireframetoggle;
+        private System.Windows.Forms.ToolStripButton fliptrianglebutton;
     }
 }

@@ -204,5 +204,92 @@ namespace ModelEditor
         {
             ProgramState.State.Settings.WireFrameMode = wireframetoggle.Checked;
         }
+
+        private void fliptrianglebutton_Click(object sender, EventArgs e)
+        {
+            if (modelcode.SelectedText == null || modelcode.SelectedText == "")
+                return;
+
+            string pre = modelcode.Text.Substring(0, modelcode.SelectionStart);
+            string cur = modelcode.Text.Substring(modelcode.SelectionStart, modelcode.SelectionLength);
+            string post = modelcode.Text.Substring(modelcode.SelectionStart + modelcode.SelectionLength);
+
+            string intbuffer = "";
+            string curbuffer = "";
+            int[] tribuffer = new int[3];
+            int counter = 0;
+            for(int i=0;i<cur.Length;i++)
+            {
+                char A = cur[i];
+                switch(A)
+                {
+                    case ',':
+                    case ' ': //end of potential integer - separator char
+                        {
+                            if(intbuffer!="")
+                            {
+                                int.TryParse(intbuffer, out int result);
+                                intbuffer = "";
+                                tribuffer[counter] = result;
+                                counter++;
+                                if(counter>=3)
+                                {
+                                    counter = 0;
+                                    curbuffer += tribuffer[0].ToString() + "," + tribuffer[2].ToString() + "," + tribuffer[1].ToString() + " ";
+
+                                }
+                            }
+                            break;
+                        }
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        {
+                            intbuffer += A;
+                            break;
+                        }
+                    default:
+                        {
+                            curbuffer += A;
+                            break;
+                        }
+                }
+
+                
+
+            }
+
+            //treat "end of selection" as a separator
+
+            if (intbuffer != "")
+            {
+                int.TryParse(intbuffer, out int result);
+                intbuffer = "";
+                tribuffer[counter] = result;
+                counter++;
+                if (counter >= 3)
+                {
+                    counter = 0;
+                    curbuffer += tribuffer[0].ToString() + "," + tribuffer[2].ToString() + "," + tribuffer[1].ToString() + " ";
+
+                }
+                else //flush remaining buffer
+                {
+                    for (int c = 0; c < counter; c++)
+                        curbuffer += tribuffer[c].ToString() + ",";
+                }
+            }
+            modelcode.Text = pre + curbuffer + post;
+            modelcode.SelectionStart = pre.Length;
+            modelcode.SelectionLength = curbuffer.Length;
+            modelcode.ScrollToCaret();
+        }
     }
 }

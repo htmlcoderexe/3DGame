@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="Resources\FlipTriangleButton.bmp" />
     <None Include="Resources\Wfmodebutton.bmp" />
   </ItemGroup>
   <ItemGroup>
