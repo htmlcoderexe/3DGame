@@ -205,34 +205,39 @@ namespace ModelEditor
             ProgramState.State.Settings.WireFrameMode = wireframetoggle.Checked;
         }
 
+        //this flips triangles by swapping every second and 3rd integer in the selected string
         private void fliptrianglebutton_Click(object sender, EventArgs e)
         {
+
+            //bail early if nothing is selected
             if (modelcode.SelectedText == null || modelcode.SelectedText == "")
                 return;
-
+            //remember the text around the selection
             string pre = modelcode.Text.Substring(0, modelcode.SelectionStart);
             string cur = modelcode.Text.Substring(modelcode.SelectionStart, modelcode.SelectionLength);
             string post = modelcode.Text.Substring(modelcode.SelectionStart + modelcode.SelectionLength);
 
-            string intbuffer = "";
-            string curbuffer = "";
-            int[] tribuffer = new int[3];
-            int counter = 0;
-            for(int i=0;i<cur.Length;i++)
+            string intbuffer = ""; //builds up digits to eventually parse as integer
+            string curbuffer = ""; //output accumulator that will replace the selection at the end
+            int[] tribuffer = new int[3]; //triangle accumulator, holds 3 ints to build a triangle
+            int counter = 0; //keeps track of "current" integer being built
+            bool charrun = false; //used to keep track of char flushing
+            for(int i=0;i<cur.Length;i++) 
             {
-                char A = cur[i];
-                switch(A)
+                char A = cur[i]; //take input 1 char at a time
+                switch (A)
                 {
                     case ',':
                     case ' ': //end of potential integer - separator char
                         {
-                            if(intbuffer!="")
+                            charrun = false;
+                            if(intbuffer!="") //if there are any digits captured, try getting an int
                             {
                                 int.TryParse(intbuffer, out int result);
-                                intbuffer = "";
-                                tribuffer[counter] = result;
-                                counter++;
-                                if(counter>=3)
+                                intbuffer = ""; //reset buffer
+                                tribuffer[counter] = result; //place int in correct slot
+                                counter++; //advance slot counter
+                                if(counter>=3) //if 3 (or more, abnormal! throw a warning?), flush flipped triangle and reset counter
                                 {
                                     counter = 0;
                                     curbuffer += tribuffer[0].ToString() + "," + tribuffer[2].ToString() + "," + tribuffer[1].ToString() + " ";
@@ -250,14 +255,39 @@ namespace ModelEditor
                     case '6':
                     case '7':
                     case '8':
-                    case '9':
+                    case '9': //digits - pile on the intbuffer
                         {
+                            charrun = false;
                             intbuffer += A;
                             break;
                         }
                     default:
                         {
-                            curbuffer += A;
+                            if(!charrun) //if this is the first "other" character
+                            {
+                                if (intbuffer != "")//if there are any digits still waiting, try getting an int
+                                {
+                                    int.TryParse(intbuffer, out int result);
+                                    intbuffer = ""; //reset buffer
+                                    tribuffer[counter] = result; //place int in slot
+                                    counter++; //advance slot counter
+                                    if (counter >= 3) //emit swapped tri, reset counter
+                                    {
+                                        counter = 0;
+                                        curbuffer += tribuffer[0].ToString() + "," + tribuffer[2].ToString() + "," + tribuffer[1].ToString() + " ";
+
+                                    }
+                                    else //flush remaining buffer
+                                    {
+                                        for (int c = 0; c < counter; c++) //emit remaining tribuffer slots
+                                            curbuffer += tribuffer[c].ToString() + ",";
+                                        counter = 0;
+                                    }
+                                }
+                                //set this to not repeat the above until more valid characters occur
+                                charrun = true;
+                            }
+                            curbuffer += A; //copy char as is
                             break;
                         }
                 }
@@ -268,13 +298,13 @@ namespace ModelEditor
 
             //treat "end of selection" as a separator
 
-            if (intbuffer != "")
+            if (intbuffer != "") //any captured digits, get the int
             {
                 int.TryParse(intbuffer, out int result);
-                intbuffer = "";
-                tribuffer[counter] = result;
-                counter++;
-                if (counter >= 3)
+                intbuffer = ""; //reset? not really needed at the end really
+                tribuffer[counter] = result; //place in slot
+                counter++; //advance slot counter 
+                if (counter >= 3) //emit tri if we got 3 slots full
                 {
                     counter = 0;
                     curbuffer += tribuffer[0].ToString() + "," + tribuffer[2].ToString() + "," + tribuffer[1].ToString() + " ";
@@ -282,14 +312,15 @@ namespace ModelEditor
                 }
                 else //flush remaining buffer
                 {
-                    for (int c = 0; c < counter; c++)
+                    for (int c = 0; c < counter; c++) //dump remaining slots, comma separated
                         curbuffer += tribuffer[c].ToString() + ",";
+                    counter = 0;
                 }
             }
-            modelcode.Text = pre + curbuffer + post;
-            modelcode.SelectionStart = pre.Length;
+            modelcode.Text = pre + curbuffer + post; //set text
+            modelcode.SelectionStart = pre.Length; //create selection identical to original
             modelcode.SelectionLength = curbuffer.Length;
-            modelcode.ScrollToCaret();
+            modelcode.ScrollToCaret(); //scroll, works weird but better than jumping to top, heard some WinAPI magic can do better by calling like 5 functions from user32.dll or something
         }
     }
 }
