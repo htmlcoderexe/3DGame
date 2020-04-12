@@ -95,6 +95,11 @@ namespace ModelEditor
 
         private void movements_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(movements.SelectedIndex==0)
+            {
+                ProgramState.State.CurrentModel.ClearAnimation();
+                return;
+            }
             ProgramState.State.CurrentModel.ApplyAnimation(movements.SelectedItem.ToString());
         }
 
@@ -102,6 +107,15 @@ namespace ModelEditor
         {
             System.IO.File.WriteAllText(FileName, choreocode.Text);
             mainfrmref.CompileAndRun();
+
+            string choreofilename = System.IO.Path.GetDirectoryName(ProgramState.State.CurrentFilename) + "\\" + ProgramState.State.CurrentModel.ChoreoName + ".mcf";
+            choreocode.Text = System.IO.File.ReadAllText(choreofilename);
+            FileName = choreofilename;
+            movements.Items.Clear();
+            movements.Items.Add("<none>");
+            foreach (KeyValuePair<string, Dictionary<string, GameModel.PartAnimation>> movement in ProgramState.State.CurrentModel.Choreo)
+                movements.Items.Add(movement.Key);
+            movements.SelectedIndex = 0;
         }
     }
 }

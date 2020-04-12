@@ -147,6 +147,8 @@
             // 
             // choreocode
             // 
+            this.choreocode.AcceptsReturn = true;
+            this.choreocode.AcceptsTab = true;
             this.choreocode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.choreocode.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.choreocode.Location = new System.Drawing.Point(0, 100);

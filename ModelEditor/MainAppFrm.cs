@@ -71,6 +71,7 @@ namespace ModelEditor
         private void OpenModel(string filename)
         {
             FileName = filename;
+            ProgramState.State.CurrentFilename = filename;
             Model result;
             string modeldata = System.IO.File.ReadAllText(filename);
             modelcode.Text = modeldata;
@@ -78,14 +79,16 @@ namespace ModelEditor
             ModelGeometryCompiler compiler = new ModelGeometryCompiler(modeldata);
             result = compiler.ReturnOutput();
             result.RebuildSkeleton();
-            result.ApplyAnimation("Walk");
+            //result.ApplyAnimation("Walk");
             ProgramState.State.CurrentModel = result;
             string choreofilename = ModelGeometryCompiler.ModelBaseDir + "\\" + result.ChoreoName + ".mcf";
             p.choreocode.Text = System.IO.File.ReadAllText(choreofilename);
             p.FileName = choreofilename;
             p.movements.Items.Clear();
+            p.movements.Items.Add("<none>");
             foreach (KeyValuePair<string, Dictionary<string,PartAnimation>> movement in result.Choreo)
                 p.movements.Items.Add(movement.Key);
+            p.movements.SelectedIndex = 0;
             Changes = false;
         }
 

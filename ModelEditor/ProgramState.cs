@@ -12,7 +12,8 @@ namespace ModelEditor
         public GameModel.Model CurrentModel;
         public float PlayTime;
         public bool Playing;
-        
+        public string CurrentFilename;
+        public string CurrentChoreoFilename;
 
 
         public static ProgramState State = new ProgramState();

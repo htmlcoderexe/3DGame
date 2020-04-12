@@ -90,19 +90,25 @@ namespace GameModel
                 ApplyAnimation(Name, this.Choreo);
         }
 
+        public void ClearAnimation()
+        {
+
+            List<ModelPart> Parts = this.Children[0].GetFlatList();
+            foreach (ModelPart p in Parts)
+            {
+                p.Animation = null;
+            }
+        }
+
         public void ApplyAnimation(string Name, Dictionary<string, Dictionary<string,PartAnimation>> Choreo)
         {
             if (AnimationMapping == null)
                 return;
             if (!Choreo.ContainsKey(Name))
                 return;
+            ClearAnimation();
             Dictionary<string, PartAnimation> Movement = Choreo[Name];
             List<ModelPart> tmppartlist;
-            List<ModelPart> Parts = this.Children[0].GetFlatList();
-            foreach (ModelPart p in Parts)
-            {
-                p.Animation = null;
-            }
                 maxlen = 0;
             foreach(KeyValuePair<string, PartAnimation> Part in Movement)
             {

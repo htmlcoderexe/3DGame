@@ -57,4 +57,10 @@
 			1.0 Z-10
 		#endpart
 	#endmove
+	#beginmove "ReadyAttack"
+		#beginpart "Root"
+			0.0 T0,0,0
+			0.5 T0,-0.2,0 Z-10
+		#endpart
+	#endmove
 #endchoreo
