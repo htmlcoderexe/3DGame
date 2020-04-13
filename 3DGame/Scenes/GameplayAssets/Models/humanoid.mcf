@@ -130,10 +130,26 @@
 			0.5 X54
 			0.5 X72
 			0.5 X90
+			0.5 X90
+			0.5 X90
 		#endpart
 		#beginpart "ForeArmR"
 			0.0 T0,0,0
-			2.5 T0,0,0
+			3.5 T0,0,0
+		#endpart
+	#endmove
+	#beginmove "Straighten"
+		#beginpart "ArmR"
+			0.0 X85 Z-10
+		#endpart
+		#beginpart "ArmL"
+			0.0 X-85 Z-10
+		#endpart
+		#beginpart "ForeArmR"
+			0.0 Y20
+		#endpart
+		#beginpart "ForeArmL"
+			0.0 Y-20
 		#endpart
 	#endmove
 #endchoreo
