@@ -13,8 +13,8 @@ namespace _3DGame.GameObjects.MapEntities.Actos
         public override void Update(float dT)
         {
             this.Speed = 0;
-            base.Update(dT);
             DoIdle(dT);
+            base.Update(dT);
         }
         public void DoIdle(float dT)
         {

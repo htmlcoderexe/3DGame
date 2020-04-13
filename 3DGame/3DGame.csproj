@@ -223,7 +223,13 @@
     <None Include="Scenes\GameplayAssets\Models\default.mgf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Scenes\GameplayAssets\Models\dude1.mgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scenes\GameplayAssets\Models\hexapod.mcf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scenes\GameplayAssets\Models\humanoid.mcf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

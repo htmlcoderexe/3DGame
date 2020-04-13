@@ -35,7 +35,7 @@ namespace _3DGame.GameObjects.MapEntities
         }
         public float GetMovementSpeed()
         {
-            return 5 + CalculateStat("movement_speed");
+            return 3 + CalculateStat("movement_speed");
         }
         public float CalculateStage(float input,List<StatBonus> Bonuses,StatBonus.StatOrder Stage)
         {

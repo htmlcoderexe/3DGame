@@ -14,6 +14,7 @@ namespace _3DGame.GameObjects
         public MapEntities.EntitySpawner Parent;
         public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
+        float aTimer = 0;
         public bool Gravity;
         public float Heading;
         public float Roll;
@@ -57,7 +58,7 @@ namespace _3DGame.GameObjects
 
         public MapEntity()
         {
-            this.Model = new GameModel.Model();
+            this.Model = GameModel.ModelGeometryCompiler.LoadModel("dude1");
             this.Speed = 0.0f;
             this.Gravity = true;
             this.MaxJumps = 2;
@@ -90,16 +91,19 @@ namespace _3DGame.GameObjects
         {
             if (this.Model == null)
                 return;
-            Matrix W = Matrix.Identity;
+            Matrix W = Matrix.CreateTranslation(this.Model.Offset);
             Matrix W2 = Matrix.CreateTranslation(0, this.Position.Y, 0);
             W2 = new Matrix();
             //   W *= Matrix.CreateRotationZ(MathHelper.ToRadians(this.Pitch));
             W *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(-this.Heading), MathHelper.ToRadians(this.Roll), MathHelper.ToRadians(this.Pitch));
             W2 = W*W2;
             W *= this.Position.CreateWorld(Reference);
-           
-           // W = Matrix.CreateTranslation((this.Position.BX - Reference.X) * Interfaces.WorldPosition.Stride, this.Position.Y, (this.Position.BY - Reference.Y) * Interfaces.WorldPosition.Stride);
-            this.Model.Render(device, dT*(Speed), W,GameObjects.World.ModelEffect,Alpha);
+
+            // W = Matrix.CreateTranslation((this.Position.BX - Reference.X) * Interfaces.WorldPosition.Stride, this.Position.Y, (this.Position.BY - Reference.Y) * Interfaces.WorldPosition.Stride);
+            aTimer += dT * (Speed/8f);
+            if (aTimer > this.Model.CurrentAnimationLength)
+                aTimer -= this.Model.CurrentAnimationLength;
+            this.Model.Render(device, aTimer, W,GameObjects.World.ModelEffect,Alpha);
         }
 
         public virtual void Update(float dT)
@@ -110,6 +114,13 @@ namespace _3DGame.GameObjects
             this.Position += advance*Speed;
             if(!OnGround && Gravity)
             this.Position.Y+= this.VerticalSpeed*dT;
+            if(this.Model!=null)
+            {
+                if (this.Speed == 0)
+                    this.Model.ApplyAnimation("Straighten");
+                else
+                    this.Model.ApplyAnimation("Walk");
+            }
         }
 
         public virtual object Clone()

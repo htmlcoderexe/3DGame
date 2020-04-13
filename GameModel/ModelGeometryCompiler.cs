@@ -196,6 +196,7 @@ namespace GameModel
             Dictionary<string, ModelPart> parts = new Dictionary<string, ModelPart>();
             List<ModelPart> p = new List<ModelPart>();
             string choreoname = "";
+            Vector3 offset= Vector3.Zero;
             string command = ls.Next();
             while(command!="#endmodel")
             {
@@ -224,6 +225,15 @@ namespace GameModel
 
                             break;
                         }
+                    case "#offset":
+                        {
+                            float X, Y, Z;
+                            X = ls.NextFloat();
+                            Y = ls.NextFloat();
+                            Z = ls.NextFloat();
+                            offset = new Vector3(X, Y, Z);
+                            break;
+                        }
                     default:
                         {
                             //throw error here or something
@@ -243,6 +253,7 @@ namespace GameModel
             }
             Output.Choreo = LoadChoreo(System.IO.File.ReadAllText(choreofname));
             Output.ChoreoName = choreoname;
+            Output.Offset = offset;
             ls = null;
 
         }

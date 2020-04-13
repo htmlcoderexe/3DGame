@@ -273,12 +273,14 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 180f;
+                World.Player.Model.ApplyAnimation("Walk");
             }
             else if (kb.IsKeyDown(Keys.A))
             {
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 0f;
+                World.Player.Model.ApplyAnimation("Walk");
             }
             
 
@@ -287,6 +289,7 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 90f;
+                World.Player.Model.ApplyAnimation("Walk");
             }
             else if (kb.IsKeyDown(Keys.W))
             {
@@ -294,14 +297,17 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw + 90f;
+                World.Player.Model.ApplyAnimation("Walk");
             }
             else if(World.Player.Walking)
             {
                 World.Player.Speed = World.Player.GetMovementSpeed() ;
+                World.Player.Model.ApplyAnimation("Walk");
             }
             else
             {
                 World.Player.Speed = 0;
+                World.Player.Model.ApplyAnimation("Straighten");
             }
 
             if (kb.IsKeyUp(Keys.W) && kb.IsKeyUp(Keys.S))
@@ -429,6 +435,9 @@ namespace _3DGame.Scenes
 
         public void Init(GraphicsDevice device, ContentManager content)
         {
+
+            GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
+
             RotateMap = true;
             World = new GameObjects.World(device,13);
             World.Player = new GameObjects.MapEntities.Actos.Player();
@@ -442,8 +451,9 @@ namespace _3DGame.Scenes
             Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
             Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
             Textures["equipdoll"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\vitruvian.png", System.IO.FileMode.Open));
-//string mgf = System.IO.File.ReadAllText("default");
-            //GameModel.ModelGeometryCompiler c = new GameModel.ModelGeometryCompiler(mgf);
+//string mgf = System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\dude1.mgf");
+     //       GameModel.ModelGeometryCompiler c = new GameModel.ModelGeometryCompiler(mgf);
+      //      GameModel.Model model = c.ReturnOutput();
           //  Dictionary<string, Dictionary<string, GameModel.PartAnimation>> choreo = GameModel.ModelGeometryCompiler.LoadChoreo(System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\hexapod.mcf"));
             //if(c==null)
            // {
@@ -457,8 +467,6 @@ namespace _3DGame.Scenes
             World.Player.Position= new Vector3(0, 0, 0);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
-
-            GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
 
             GameModel.Model _1 = GameModel.ModelGeometryCompiler.LoadModel("default");
             GameModel.Model _2 = new GameModel.Model();

@@ -81,9 +81,9 @@ namespace _3DGame.GameObjects
         {
             UpdateEntities(dT);
             Terrain.Update(dT);
-           if(Player.Gravity)
-            SetGravity(Player,dT);
             Player.Update(dT);
+            if (Player.Gravity)
+            SetGravity(Player,dT);
         }
         private void SetGravity(MapEntity e, float dT)
         {
