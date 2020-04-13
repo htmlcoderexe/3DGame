@@ -51,7 +51,7 @@ namespace GameModel
                     //animate part's location
                     b = Matrix.Lerp(Dislocation, Dislocation * a, c.BoneFactor);
                     b = Matrix.Lerp(Matrix.Identity, a, c.BoneFactor);
-                    b = Dislocation * b;
+                    b = b*Dislocation;
                     c.Render(device, Time, b*World, fx,Alpha);
                 }
             if (Alpha)
