@@ -30,6 +30,9 @@ namespace ModelEditor
 
         private void Play()
         {
+            //don't do anything on null
+            if (movements.SelectedIndex == 0)
+                return;
             playpausebutt.Text = "||";
             ProgramState.State.Playing = true;
             barupdater.Enabled = true;
@@ -44,9 +47,22 @@ namespace ModelEditor
         }
         private void stop_Click(object sender, EventArgs e)
         {
+            Stop();
+        }
+
+        public void Stop()
+        {
+            //reset the scrubber
             ProgramState.State.Playing = false;
             playpausebutt.Text = "▶️";
             ProgramState.State.PlayTime = 0;
+            scrubber.Value = 0;
+            //if currently selected no animation, do nothing else - play button is already disabled
+            if (movements.SelectedIndex == 0)
+                return;
+            //otherwise apply animation and update scrubber
+            ProgramState.State.CurrentModel.ApplyAnimation(movements.SelectedItem.ToString());
+            scrubber.Maximum = (int)(ProgramState.State.CurrentModel.CurrentAnimationLength * 100f);
         }
 
         private void barupdater_Tick(object sender, EventArgs e)
@@ -55,7 +71,14 @@ namespace ModelEditor
             
             if (scrubbing)
                 return;
-            scrubber.Value = (int)(ProgramState.State.PlayTime*100f);
+            int timevalue = (int)(ProgramState.State.PlayTime * 100f);
+            if(timevalue<=scrubber.Maximum)
+            scrubber.Value =timevalue;
+            else
+            {
+                Stop();
+                
+            }
         }
 
         private string TicksToSeconds(int maximum)
