@@ -133,6 +133,10 @@ namespace _3DGame.GameObjects
         {
 
         }
+        public virtual void DoubleClick(_3DGame.GameObjects.MapEntities.Actor Target)
+        {
+
+        }
 
         public void Aim(MapEntity e,bool flatten=true)
         {

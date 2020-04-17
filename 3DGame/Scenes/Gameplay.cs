@@ -36,7 +36,7 @@ namespace _3DGame.Scenes
         public bool RotateMap { get; private set; }
 
         public GUI.Renderer GUIRenderer;
-        public GUI.WindowManager WindowManager;
+        public static GUI.WindowManager WindowManager;
         public MapEntity HoverTarget;
         private double spinner;
         private int MapZoomLevel=1;
@@ -80,8 +80,11 @@ namespace _3DGame.Scenes
         public void TerrainClick(Interfaces.WorldPosition Position)
         {
             GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
-            GameObjects.MapEntities.Actos.Hostile tpl=new GameObjects.MapEntities.Actos.Hostile();
-            tpl.LeashRadius = 35;
+            // GameObjects.MapEntities.Actos.Hostile tpl=new GameObjects.MapEntities.Actos.Hostile();
+            // tpl.LeashRadius = 35;
+            string[] greetings = { "hey fuck face", "eat shit", "i hate you", "stop clicking me" };
+
+            MapEntity tpl = new GameObjects.MapEntities.Actors.NPC(greetings[RNG.Next(greetings.Length)]);
             s.Entity = tpl;
             s.Interval = 5;
             s.CountDown = 2;
@@ -373,7 +376,10 @@ namespace _3DGame.Scenes
                 {
                     if(HoverTarget!=null)
                     {
-                        HoverTarget.Click(World.Player);
+                        if (World.Player.Target == HoverTarget)
+                            HoverTarget.DoubleClick(World.Player);
+                        else
+                            HoverTarget.Click(World.Player);
                     }
                     else if(kb.IsKeyDown(Keys.LeftShift))
                     { 

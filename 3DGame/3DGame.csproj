@@ -59,6 +59,7 @@
     <Compile Include="GameObjects\Items\ItemEquip.cs" />
     <Compile Include="GameObjects\Items\ItemMaterial.cs" />
     <Compile Include="GameObjects\MapEntities\Actors\Hostile.cs" />
+    <Compile Include="GameObjects\MapEntities\Actors\NPC.cs" />
     <Compile Include="GameObjects\MapEntities\EntitySpawner.cs" />
     <Compile Include="GameObjects\MapEntities\Particle.cs" />
     <Compile Include="GameObjects\MapEntities\ParticleEffect.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Scenes\GameplayAssets\Windows\InventoryControl.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\InventoryWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\ItemSlot.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\NPCWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\SkillWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\TargetWindow.cs" />
