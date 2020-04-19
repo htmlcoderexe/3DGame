@@ -42,6 +42,8 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             }
             else
             {
+                if (this.Player.Target!=null && this.Player.Target.IsDead)
+                    this.Player.Target = null;
                 this.Visible = false;
             }
         }

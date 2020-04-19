@@ -90,6 +90,8 @@
     <Compile Include="Scenes\GameplayAssets\Windows\InventoryControl.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\InventoryWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\ItemSlot.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\MultiActionChoice.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\NavWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\NPCWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\SkillWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />

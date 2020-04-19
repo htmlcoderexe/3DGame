@@ -40,7 +40,7 @@ namespace _3DGame.Scenes
         public MapEntity HoverTarget;
         private double spinner;
         private int MapZoomLevel=1;
-
+        private Dictionary<string, GUI.Window> wlist;
         //  public System.Threading.Thread QThread;
 
         private void TakeScreenshot(GraphicsDevice device)
@@ -104,10 +104,34 @@ namespace _3DGame.Scenes
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
 
+            #region game windows
+            if (kb.IsKeyDown(Keys.E) && PreviousKbState.IsKeyUp(Keys.E))
+            {
+                wlist["inventory"].Visible = !wlist["inventory"].Visible;
+            }
+
+            if (kb.IsKeyDown(Keys.R) && PreviousKbState.IsKeyUp(Keys.R))
+            {
+                wlist["equipment"].Visible = !wlist["equipment"].Visible;
+            }
+
+            if (kb.IsKeyDown(Keys.T) && PreviousKbState.IsKeyUp(Keys.T))
+            {
+                wlist["skills"].Visible = !wlist["skills"].Visible;
+            }
+
+
+            #endregion
+
+            #region screenshot
             if (kb.IsKeyDown(Keys.F12) && PreviousKbState.IsKeyUp(Keys.F12))
             {
                 TakeScreenshot(device);
             }
+
+            #endregion
+
+            #region map controls
             if (kb.IsKeyDown(Keys.Add) && PreviousKbState.IsKeyUp(Keys.Add))
             {
                 MapZoomLevel++;
@@ -122,8 +146,11 @@ namespace _3DGame.Scenes
             }
             if (kb.IsKeyDown(Keys.Multiply) && PreviousKbState.IsKeyUp(Keys.Multiply))
             {
-                RotateMap = !RotateMap;            }
+                RotateMap = !RotateMap;
+            }
+#endregion
 
+            #region skills
 
             if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
@@ -237,6 +264,10 @@ namespace _3DGame.Scenes
                 p = null;
                 //*/
             }
+
+#endregion
+
+            #region gravity debug
             if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
             {
                 World.Player.Gravity = !World.Player.Gravity;
@@ -246,20 +277,12 @@ namespace _3DGame.Scenes
                 World.Entities.Clear();
                 World.Entities.Clear();
             }
+#endregion
 
-
-
-            if (kb.IsKeyDown(Keys.Space) /* )//Diarrhea mode!!*/ && (PreviousKbState.IsKeyUp(Keys.Space) || kb.IsKeyDown(Keys.LeftShift)))
+            #region jumping
+            if (kb.IsKeyDown(Keys.Space) && (PreviousKbState.IsKeyUp(Keys.Space) ))
             {
-                /*
-                GameObjects.MapEntity e = new GameObjects.MapEntity();
-                e.Position = World.Player.Position;
-                e.Heading = World.Player.Heading;
-                e.Speed = 3.0f;
-                World.Entities.Add(e);
-                Console.Write("Spawned entity at " + e.Position.ToString());
-
-                //*/
+                
                 if (!World.Player.Gravity)
                 {
                     World.Player.Position.Y += 1.1f;
@@ -271,6 +294,10 @@ namespace _3DGame.Scenes
                     
                 }
             }
+#endregion
+
+            #region WASD and forced walking
+
             if (kb.IsKeyDown(Keys.D))
             {
                 World.Player.Speed = World.Player.GetMovementSpeed();
@@ -312,7 +339,10 @@ namespace _3DGame.Scenes
                 World.Player.Speed = 0;
                 World.Player.Model.ApplyAnimation("Straighten");
             }
+            #endregion
 
+
+            /* idk wtf this is
             if (kb.IsKeyUp(Keys.W) && kb.IsKeyUp(Keys.S))
                 Accel -=0.25f*(Accel>=0?1:-1);
             Vector3 mv= -World.Camera.GetMoveVector() * dT * Accel;
@@ -324,14 +354,17 @@ namespace _3DGame.Scenes
             {
                 mv.Y += 0.0f;
             }
+             //*/
+            #region zooming
             if (kb.IsKeyDown(Keys.Up))
                 World.Camera.Distance *= 0.99f;
             if (kb.IsKeyDown(Keys.Down))
                 World.Camera.Distance /= 0.99f;
             World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 1010f);
             //World.Player.Position += mv;
+#endregion
 
-
+            #region mouse code!!
             WindowManager.MouseX = mouse.X;
             WindowManager.MouseY = mouse.Y;
             bool MouseHandled = WindowManager.HandleMouse(mouse,dT);
@@ -422,6 +455,8 @@ namespace _3DGame.Scenes
 
 
             }
+            #endregion
+
             PreviousKbState = Keyboard.GetState();
             PreviousMouseState = Mouse.GetState();
         }
@@ -433,10 +468,7 @@ namespace _3DGame.Scenes
             ReflectionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             RefractionMap = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             Screen = new RenderTarget2D(device, ScreenWidth, ScreenHeight, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
-            if(OverheadMapTex==null)
-            OverheadMapTex = new RenderTarget2D(device,256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
-            b = new SpriteBatch(device);
-            WindowManager.ScreenResized(ScreenWidth, ScreenHeight);
+             WindowManager.ScreenResized(ScreenWidth, ScreenHeight);
         }
 
         public void Init(GraphicsDevice device, ContentManager content)
@@ -445,8 +477,15 @@ namespace _3DGame.Scenes
             GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
 
             RotateMap = true;
-            World = new GameObjects.World(device,13);
+            World = new GameObjects.World(device,12);
             World.Player = new GameObjects.MapEntities.Actos.Player();
+
+            if (OverheadMapTex == null)
+                OverheadMapTex = new RenderTarget2D(device, 256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
+            b = new SpriteBatch(device);
+
+
+            #region load game textures
             Textures = new Dictionary<string, Texture2D>();
             Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
@@ -457,14 +496,8 @@ namespace _3DGame.Scenes
             Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
             Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
             Textures["equipdoll"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\vitruvian.png", System.IO.FileMode.Open));
-//string mgf = System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\dude1.mgf");
-     //       GameModel.ModelGeometryCompiler c = new GameModel.ModelGeometryCompiler(mgf);
-      //      GameModel.Model model = c.ReturnOutput();
-          //  Dictionary<string, Dictionary<string, GameModel.PartAnimation>> choreo = GameModel.ModelGeometryCompiler.LoadChoreo(System.IO.File.ReadAllText("Scenes\\GameplayAssets\\Models\\hexapod.mcf"));
-            //if(c==null)
-           // {
-             //   Console.Write("+");
-            //}
+            #endregion
+
             GameModel.ModelPart.Textures = Textures;
             TerrainEffect = content.Load<Effect>("legacy");
             World.Terrain.TerrainEffect = TerrainEffect;
@@ -474,13 +507,8 @@ namespace _3DGame.Scenes
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
 
-            GameModel.Model _1 = GameModel.ModelGeometryCompiler.LoadModel("default");
-            GameModel.Model _2 = new GameModel.Model();
-            //test, remove as it doesn't realy do anything visible+
-            _1.Render(device, 0, Matrix.Identity, TerrainEffect, false);
-            _2.Render(device, 0, Matrix.Identity, TerrainEffect, false);
-            _1.ApplyAnimation("Walk");
-            
+
+            #region GUI - onlybasics
             GUIRenderer = new GUI.Renderer(device);
             GUIRenderer.WindowSkin = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\winskin.png", System.IO.FileMode.Open));
             GUIRenderer.InventoryPartsMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\itemparts.png", System.IO.FileMode.Open));
@@ -489,24 +517,40 @@ namespace _3DGame.Scenes
             GUIRenderer.UIFont = content.Load<SpriteFont>("font1");
             WindowManager = new GUI.WindowManager();
             WindowManager.Renderer = GUIRenderer;
-            WindowManager.Add(new GameplayAssets.ConsoleWindow(WindowManager));
-            ScreenResized(device);
+            wlist = new Dictionary<string, GUI.Window>();
+            wlist["console"] = new GameplayAssets.ConsoleWindow(WindowManager);
+            WindowManager.Add(wlist["console"]);
+
+
             Terrain.Console.WriteCallback = new Action<string>(ConsoleWrite);
             _3DGame.Console.WriteCallback = new Action<string>(ConsoleWrite);
             _3DGame.Console.WriteCallbackEx = new Action<string,List<Action>>(ConsoleWriteEx);
             GUI.Console.WriteCallback = new Action<string>(ConsoleWrite);
-            GameObjects.Items.Material.MaterialTemplates.Load();
-            GameObjects.AbilityLogic.AbilityLoader l = new GameObjects.AbilityLogic.AbilityLoader("Mage");
+            #endregion
 
+
+            GameObjects.Items.Material.MaterialTemplates.Load();
+
+            GameObjects.AbilityLogic.AbilityLoader l = new GameObjects.AbilityLogic.AbilityLoader("Mage");
             World.Player.Abilities = l.LoadAbilities();
 
-            GUI.Window w;
-            w = new GameplayAssets.StatusWindow(WindowManager, World.Player, OverheadMapTex);
-            WindowManager.Add(w);
-            WindowManager.Add(new GameplayAssets.Windows.TargetWindow(WindowManager, World.Player));
-            WindowManager.Add(new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
-            WindowManager.Add(new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player));
-            WindowManager.Add(new GameplayAssets.Windows.SkillWindow(WindowManager, World.Player));
+
+            #region GUI - the rest of it
+            wlist["status"] = new GameplayAssets.StatusWindow(WindowManager, World.Player);
+            WindowManager.Add(wlist["status"]);
+            wlist["nav"] = new GameplayAssets.Windows.NavWindow( World.Player, OverheadMapTex);
+            WindowManager.Add(wlist["nav"]);
+            wlist["target"] = new GameplayAssets.Windows.TargetWindow(WindowManager, World.Player);
+            WindowManager.Add(wlist["target"]);
+            wlist["inventory"] = new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player);
+            WindowManager.Add(wlist["inventory"]);
+            wlist["equipment"] = new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player);
+            WindowManager.Add(wlist["equipment"]);
+            wlist["skills"] = new GameplayAssets.Windows.SkillWindow(WindowManager, World.Player);
+            WindowManager.Add(wlist["skills"]);
+
+            ScreenResized(device);
+#endregion
 
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)

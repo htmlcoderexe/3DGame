@@ -15,11 +15,13 @@ namespace _3DGame.Scenes.GameplayAssets
         public GameplayAssets.ItemSlot slot;
         public GameObjects.MapEntities.Actos.Player Player;
         private GUI.Controls.ProgressBar HPBar;
+        private GUI.Controls.ProgressBar MPBar;
+        private GUI.Controls.ProgressBar EXPBar;
         public override void Close()
         {
             
         }
-        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actos.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
+        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actos.Player Player)
             {
             this.Player = Player;
             this.WM = WM;
@@ -34,33 +36,57 @@ namespace _3DGame.Scenes.GameplayAssets
             this.OKButton.Y = 49;
             this.AddControl(this.OKButton);
 
-            GUI.Controls.TextureContainer texcont = new GUI.Controls.TextureContainer(tex, WM);
-            texcont.Y = 100;
-            texcont.X = 4;
-            this.AddControl(texcont);
-
-            this.slot = new ItemSlot(GameObjects.Items.Material.MaterialTemplates.GetRandomMaterial());
+            this.slot = new ItemSlot(null);
             this.slot.X = 0;
             this.slot.Y = 49;
             this.Controls.Add(this.slot);
 
-            this.HPBar = new GUI.Controls.ProgressBar();
-            this.HPBar.DisplayLabel = true;
-            this.HPBar.Style = 0;
-            this.HPBar.Height = 16;
-            this.HPBar.Width = 192;
-            this.HPBar.Colour = new Color(255, 0, 80);
+            this.HPBar = new GUI.Controls.ProgressBar
+            {
+                DisplayLabel = true,
+                Style = 0,
+                Height = 16,
+                Width = 192,
+                Colour = new Color(255, 0, 80),
+                X = 3,
+                Y = 3
+            };
             this.AddControl(HPBar);
-           // this.AddControl(Texst);
+            this.MPBar = new GUI.Controls.ProgressBar
+            {
+                DisplayLabel = true,
+                Style = 0,
+                Height = 16,
+                Width = 192,
+                Colour = new Color(25, 150, 255),
+                X=3,
+                Y=21
+            };
+            this.AddControl(MPBar);
+            this.EXPBar = new GUI.Controls.ProgressBar
+            {
+                DisplayLabel = true,
+                Style = 0,
+                Height = 24,
+                Width = 192,
+                Colour = new Color(200, 100, 255),
+                X = 3,
+                Y = 39
+            };
+            this.AddControl(EXPBar);
+            // this.AddControl(Texst);
         }
 
         public override void Update(float dT)
         {
             this.HPBar.Title = ((int)(this.Player.CurrentHP)).ToString() + "/" + ((int)this.Player.CalculateStat("HP")).ToString();
-            //this.HPBar.Title = this.Player.Position.Y.ToString();
             this.HPBar.MaxValue = (int)this.Player.CalculateStat("HP");
             this.HPBar.MinValue = 0;
             this.HPBar.Value = (int)this.Player.CurrentHP;
+            this.MPBar.Title = ((int)(this.Player.CurrentMP)).ToString() + "/" + ((int)this.Player.CalculateStat("MP")).ToString();
+            this.MPBar.MaxValue = (int)this.Player.CalculateStat("MP");
+            this.MPBar.MinValue = 0;
+            this.MPBar.Value = (int)this.Player.CurrentMP;
         }
 
         private void OKButton_Clicked(object sender, EventArgs e)

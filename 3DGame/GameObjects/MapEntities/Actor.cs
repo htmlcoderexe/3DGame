@@ -28,10 +28,10 @@ namespace _3DGame.GameObjects.MapEntities
         {
             this.StatBonuses = new List<StatBonus>();
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
-            this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 1, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.Camera = new Camera();
             this.Abilities = new List<Ability>();
-            
+            CurrentHP = CalculateStat("HP");
         }
         public float GetMovementSpeed()
         {
@@ -90,6 +90,8 @@ namespace _3DGame.GameObjects.MapEntities
         {
             this.Camera.Position = this.Position;
             UpdateBuffers(dT);
+            if (CurrentHP < 0)
+                Die();
             base.Update(dT);
         }
 

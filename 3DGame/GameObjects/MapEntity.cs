@@ -86,6 +86,9 @@ namespace _3DGame.GameObjects
             this.Model.Dispose();
             this.Model = null;
             this.WorldSpawn = null;
+            //if it came from a spawner, reduce count of current entities so it can restock
+            if (this.Parent != null)
+                this.Parent.Count--;
         }
         public virtual void Render(GraphicsDevice device, float dT, Vector2 Reference,bool Alpha)
         {

@@ -10,7 +10,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
     {
         public NPCWindow(GUI.WindowManager WM,GameObjects.MapEntities.Actors.NPC NPC)
         {
-            this.Width = 200;
+            this.Width = 320;
             this.Height = 512;
             GUI.Controls.RichTextDisplay greeting = new GUI.Controls.RichTextDisplay(NPC.Greeting,180, 200, WM);
             this.Controls.Add(greeting);

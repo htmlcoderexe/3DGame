@@ -42,6 +42,8 @@ namespace GUI.Controls
             get
             {
                 int range = this.MaxValue - this.MinValue;
+                if (range == 0)
+                    return 0;
                 int val = this.Value - this.MinValue;
                 return ((float)val / (float)range);
             }
