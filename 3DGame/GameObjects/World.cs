@@ -17,7 +17,7 @@ namespace _3DGame.GameObjects
         public List<MapEntity> Entities;
         private List<MapEntity> _deadEntities;
         public Camera Camera;
-        public GameObjects.MapEntities.Actos.Player Player;
+        public GameObjects.MapEntities.Actors.Player Player;
         public Terrain.Terrain Terrain; //terrain.
         public static Effect ModelEffect;
         public Matrix View = Matrix.Identity;

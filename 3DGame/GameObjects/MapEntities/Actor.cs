@@ -19,7 +19,7 @@ namespace _3DGame.GameObjects.MapEntities
         public GameObjects.Camera Camera;
         public Actor Target;
         public bool Walking;
-
+        public Action<Actor> WalkCallback;
         private float _TickLength=0.9f;
         private float _TickTime;
         private Interfaces.WorldPosition WalkTarget;

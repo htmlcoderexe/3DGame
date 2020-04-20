@@ -79,6 +79,9 @@ namespace _3DGame.Scenes
         }
         public void TerrainClick(Interfaces.WorldPosition Position)
         {
+            //
+            World.Player.WalkTo(Position);
+            return; 
             GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
             // GameObjects.MapEntities.Actos.Hostile tpl=new GameObjects.MapEntities.Actos.Hostile();
             // tpl.LeashRadius = 35;
@@ -206,7 +209,8 @@ namespace _3DGame.Scenes
                     g.Particles.Add(r);
                     World.Entities.Add(g);
                 }
-                World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 10),true,0);
+                World.Player.Target.Target = World.Player;
+                World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30),true,0);
             }
 
             if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3) )
@@ -300,6 +304,7 @@ namespace _3DGame.Scenes
 
             if (kb.IsKeyDown(Keys.D))
             {
+                World.Player.Walking = false;
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 180f;
@@ -307,6 +312,7 @@ namespace _3DGame.Scenes
             }
             else if (kb.IsKeyDown(Keys.A))
             {
+                World.Player.Walking = false;
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 0f;
@@ -316,6 +322,7 @@ namespace _3DGame.Scenes
 
             else if (kb.IsKeyDown(Keys.S))
             {
+                World.Player.Walking = false;
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 90f;
@@ -323,6 +330,7 @@ namespace _3DGame.Scenes
             }
             else if (kb.IsKeyDown(Keys.W))
             {
+                World.Player.Walking = false;
 
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
@@ -331,7 +339,7 @@ namespace _3DGame.Scenes
             }
             else if(World.Player.Walking)
             {
-                World.Player.Speed = World.Player.GetMovementSpeed() ;
+                //World.Player.Speed = World.Player.GetMovementSpeed() ;
                 World.Player.Model.ApplyAnimation("Walk");
             }
             else
@@ -478,7 +486,7 @@ namespace _3DGame.Scenes
 
             RotateMap = true;
             World = new GameObjects.World(device,12);
-            World.Player = new GameObjects.MapEntities.Actos.Player();
+            World.Player = new GameObjects.MapEntities.Actors.Player();
 
             if (OverheadMapTex == null)
                 OverheadMapTex = new RenderTarget2D(device, 256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
@@ -550,7 +558,16 @@ namespace _3DGame.Scenes
             WindowManager.Add(wlist["skills"]);
 
             ScreenResized(device);
-#endregion
+            #endregion
+
+            GameObjects.WorldGen.ObjectPopulator p = new GameObjects.WorldGen.ObjectPopulator(new Random(1));
+            List<MapEntity> elist = p.GenerateObjectsTest(16);
+            foreach(MapEntity me in elist)
+            {
+                me.WorldSpawn = World;
+                World.Entities.Add(me);
+            }
+
 
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)

@@ -18,6 +18,7 @@ namespace _3DGame.GameObjects
         public bool Gravity;
         public float Heading;
         public float Roll;
+        public Action<MapEntity> DeathCallback;
         public float Pitch
         {
             set
@@ -82,6 +83,7 @@ namespace _3DGame.GameObjects
         public virtual void Die()
         {
             this._isDead = true;
+            this.DeathCallback?.Invoke(this);
             if(this.Model!=null)
             this.Model.Dispose();
             this.Model = null;

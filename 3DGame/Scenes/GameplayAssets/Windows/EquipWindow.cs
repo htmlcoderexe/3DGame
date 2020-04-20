@@ -9,8 +9,8 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
     public class EquipWindow : GUI.Window
     {
-        public GameObjects.MapEntities.Actos.Player Player;
-        public EquipWindow(GUI.WindowManager WM, GameObjects.MapEntities.Actos.Player Player)
+        public GameObjects.MapEntities.Actors.Player Player;
+        public EquipWindow(GUI.WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
         {
             this.Width = 400 + 6 + 6;
             this.Height = 400 + 6 + 16;
@@ -53,7 +53,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             
         }
 
-        ItemSlot makeslot(int id, GameObjects.MapEntities.Actos.Player Player)
+        ItemSlot makeslot(int id, GameObjects.MapEntities.Actors.Player Player)
         {
             
                 ItemSlot s = new ItemSlot(Player.Equipment[id]);

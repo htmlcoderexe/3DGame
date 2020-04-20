@@ -8,10 +8,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
      public class NavWindow : GUI.Window
     {
-        public GameObjects.MapEntities.Actos.Player Player;
+        public GameObjects.MapEntities.Actors.Player Player;
         GUI.Controls.RichTextDisplay Placename;
         GUI.Controls.RichTextDisplay Coords;
-        public NavWindow(GameObjects.MapEntities.Actos.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
+        public NavWindow(GameObjects.MapEntities.Actors.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
         {
             this.WM = Gameplay.WindowManager;
             this.Player = Player;

@@ -13,7 +13,7 @@ namespace _3DGame.Scenes.GameplayAssets
     {
         public GUI.Controls.Button OKButton;
         public GameplayAssets.ItemSlot slot;
-        public GameObjects.MapEntities.Actos.Player Player;
+        public GameObjects.MapEntities.Actors.Player Player;
         private GUI.Controls.ProgressBar HPBar;
         private GUI.Controls.ProgressBar MPBar;
         private GUI.Controls.ProgressBar EXPBar;
@@ -21,7 +21,7 @@ namespace _3DGame.Scenes.GameplayAssets
         {
             
         }
-        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actos.Player Player)
+        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
             {
             this.Player = Player;
             this.WM = WM;
@@ -87,6 +87,18 @@ namespace _3DGame.Scenes.GameplayAssets
             this.MPBar.MaxValue = (int)this.Player.CalculateStat("MP");
             this.MPBar.MinValue = 0;
             this.MPBar.Value = (int)this.Player.CurrentMP;
+
+            int lvl, target, leftover;
+            lvl = Player.CalculateLvl(Player.EXP);
+            target = Player.Exp4Level(lvl + 1);
+            leftover = Player.EXP - Player.Total4Level(lvl);
+
+            this.EXPBar.Title = leftover.ToString() + "/" + target.ToString();
+            this.EXPBar.MaxValue = target;
+            this.EXPBar.MinValue = 0;
+            this.EXPBar.Value = leftover;
+
+
         }
 
         private void OKButton_Clicked(object sender, EventArgs e)

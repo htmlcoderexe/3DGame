@@ -77,6 +77,9 @@
     <Compile Include="GameObjects\MapEntities\Actors\Player.cs" />
     <Compile Include="GameObjects\MapEntity.cs" />
     <Compile Include="GameObjects\RNG.cs" />
+    <Compile Include="GameObjects\WorldGen\MonsterGenerator.cs" />
+    <Compile Include="GameObjects\WorldGen\NPCGenerator.cs" />
+    <Compile Include="GameObjects\WorldGen\ObjectPopulator.cs" />
     <Compile Include="Interfaces\IActionIcon.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IGameScene.cs" />

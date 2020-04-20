@@ -4,12 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3DGame.GameObjects.MapEntities.Actos
+namespace _3DGame.GameObjects.MapEntities.Actors
 {
     public class Player : Actor
     {
         public Items.ItemEquip[] Equipment;
         public Scenes.GameplayAssets.Inventory Inventory;
+        public int Level;
+        public int EXP;
+        public int Exp4Level(int lvl)
+        {
+            return lvl * 10;
+        }
+        public int Total4Level(int lvl)
+        {
+            return lvl * Exp4Level(lvl)/2;
+        }
+        public int CalculateLvl(int EXP)
+        {
+            int curlvl = 1;
+            while(Total4Level(curlvl)<EXP)
+            {
+                curlvl++;
+            }
+            curlvl -= 1;
+            return curlvl;
+        }
         public Player()
         {
             this.Equipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max];
@@ -63,6 +83,17 @@ namespace _3DGame.GameObjects.MapEntities.Actos
             if(Item.Bonuses!=null)
             foreach (Items.ItemBonus b in Item.Bonuses)
                 StatBonuses.Remove(b);
+        }
+        public override void Update(float dT)
+        {
+
+            if (Walking)
+            {
+                this.Speed = this.GetMovementSpeed();
+
+                StepToTarget(dT);
+            }
+            base.Update(dT);
         }
     }
 }

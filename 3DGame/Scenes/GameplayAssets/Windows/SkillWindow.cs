@@ -8,10 +8,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
     public class SkillWindow : GUI.Window
     {
-        public GameObjects.MapEntities.Actos.Player Player;
+        public GameObjects.MapEntities.Actors.Player Player;
         private ItemSlot s;
         private ItemSlot s2;
-        public SkillWindow(GUI.WindowManager WM, GameObjects.MapEntities.Actos.Player Player)
+        public SkillWindow(GUI.WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
         {
             this.Width = 512;
             this.Height = 64;

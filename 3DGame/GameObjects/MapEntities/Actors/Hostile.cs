@@ -5,11 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace _3DGame.GameObjects.MapEntities.Actos
+namespace _3DGame.GameObjects.MapEntities.Actors
 {
     public class Hostile : Actor
     {
         public float LeashRadius { get; set; }
+        public Hostile()
+        {
+            this.DeathCallback = new Action<MapEntity>(DeathAction);
+        }
+        public void DeathAction(MapEntity me)
+        {
+            if ((me as Hostile).Target is Player p)
+                p.EXP += 1;
+
+        }
         public override void Update(float dT)
         {
             this.Speed = 0;
