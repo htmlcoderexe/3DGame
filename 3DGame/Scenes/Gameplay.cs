@@ -110,7 +110,17 @@ namespace _3DGame.Scenes
             #region game windows
             if (kb.IsKeyDown(Keys.E) && PreviousKbState.IsKeyUp(Keys.E))
             {
-                wlist["inventory"].Visible = !wlist["inventory"].Visible;
+               if(wlist["inventory"]!=null && !wlist["inventory"].Closed)
+                {
+                    wlist["inventory"].Close();
+                    wlist["inventory"] = null;
+                }
+               else
+                {
+
+                    wlist["inventory"] = new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player);
+                    WindowManager.Add(wlist["inventory"]);
+                }
             }
 
             if (kb.IsKeyDown(Keys.R) && PreviousKbState.IsKeyUp(Keys.R))

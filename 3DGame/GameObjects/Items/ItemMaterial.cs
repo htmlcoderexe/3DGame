@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace _3DGame.GameObjects.Items
 {
@@ -190,17 +190,19 @@ namespace _3DGame.GameObjects.Items
         public Color Colour { get; set; }
         public override object Clone()
         {
-            Material m = new Material();
-            m.Name = this.Name;
-            m.Density = this.Density;
-            m.Magic = this.Magic;
-            m.SellPrice = this.SellPrice;
-            m.StackSize++;
-            m.SubType = this.SubType;
+            Material m = new Material
+            {
+                Name = this.Name,
+                Density = this.Density,
+                Magic = this.Magic,
+                SellPrice = this.SellPrice,
+                SubType = this.SubType
+            };
             m.SubType = this.SubType;
             m.Hardness = this.Hardness;
             m.Colour = this.Colour;
             m.NameColour = this.NameColour;
+            m.StackSize++;
             return m;
         }
         public override List<string> GetTooltip()

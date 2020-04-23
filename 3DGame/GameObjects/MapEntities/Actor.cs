@@ -9,6 +9,8 @@ namespace _3DGame.GameObjects.MapEntities
 {
     public class Actor : MapEntity
     {
+        public List<Tuple<int, Item>> PrimaryLootTable;
+        public int PrimaryLootRollCount;
         public virtual float CurrentHP { get; set; }
         public virtual float CurrentMP { get; set; }
         public float CurrentHPBuffer;
@@ -32,6 +34,7 @@ namespace _3DGame.GameObjects.MapEntities
             this.Camera = new Camera();
             this.Abilities = new List<Ability>();
             CurrentHP = CalculateStat("HP");
+            this.PrimaryLootTable = new List<Tuple<int, Item>>();
         }
         public float GetMovementSpeed()
         {
@@ -110,6 +113,7 @@ namespace _3DGame.GameObjects.MapEntities
             if (v.Length() < 0.5f)
             {
                 Walking = false;
+                WalkCallback?.Invoke(this);
                // Console.Write("Arrived at ^FFFF00 " + this.WalkTarget.ToString());
                 return;
                     }
@@ -145,6 +149,48 @@ namespace _3DGame.GameObjects.MapEntities
         {
             this.CurrentHPBuffer -= amount;
         }
-      
+
+        public static Item PickItemFromTable(List<Tuple<int, Item>> table, Random RNG)
+        {
+            int maxval = 0;
+            foreach(Tuple<int,Item> item in table)
+            {
+                maxval += item.Item1;//sum up weights;
+            }
+            int roll = RNG.Next(0, maxval+1);
+
+            foreach (Tuple<int, Item> item in table)
+            {
+                roll -= item.Item1;//sum up weights;
+                if (roll <= 0)
+                    return item.Item2;
+            }
+            return null;
+        }
+
+
+        public override void Die()
+        {
+            System.Random RNG = new Random();
+            Vector3 offset = Vector3.Zero;
+            if (this.PrimaryLootTable.Count>0)
+            {
+                for(int i=0;i<this.PrimaryLootRollCount;i++)
+                {
+
+                    Item item = PickItemFromTable(this.PrimaryLootTable,RNG);
+                    if (item != null)
+                    {
+                        offset = new Vector3((float)(RNG.Next(0, 10) - 5) / 100f, 0, (float)(RNG.Next(0, 10) - 5) / 100f);
+                        DroppedItem drop = new DroppedItem((Item)item.Clone());
+                        drop.Position = this.Position + offset;
+                        drop.WorldSpawn = this.WorldSpawn;
+                        this.WorldSpawn.Entities.Add(drop);
+                    }
+                }
+
+            }
+            base.Die();
+        }
     }
 }

@@ -42,6 +42,7 @@ namespace _3DGame.GameObjects.MapEntities
             p += new Vector3(X, Y, Z);
             e.Position = p+this.Position;
             e.Heading = RNG.Next(359);
+            e.WorldSpawn = this.WorldSpawn;
             SpawnCallback?.Invoke(e);
             Count++;
         }

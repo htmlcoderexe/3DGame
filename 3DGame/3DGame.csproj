@@ -56,10 +56,12 @@
     <Compile Include="GameObjects\Items\BonusTemplate.cs" />
     <Compile Include="GameObjects\Items\Enchantment.cs" />
     <Compile Include="GameObjects\Items\ItemBonus.cs" />
+    <Compile Include="GameObjects\Items\ItemConsumable.cs" />
     <Compile Include="GameObjects\Items\ItemEquip.cs" />
     <Compile Include="GameObjects\Items\ItemMaterial.cs" />
-    <Compile Include="GameObjects\MapEntities\Actors\Hostile.cs" />
+    <Compile Include="GameObjects\MapEntities\Actors\Monster.cs" />
     <Compile Include="GameObjects\MapEntities\Actors\NPC.cs" />
+    <Compile Include="GameObjects\MapEntities\DroppedItem.cs" />
     <Compile Include="GameObjects\MapEntities\EntitySpawner.cs" />
     <Compile Include="GameObjects\MapEntities\Particle.cs" />
     <Compile Include="GameObjects\MapEntities\ParticleEffect.cs" />
@@ -227,6 +229,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="graphics\SavC150.tmp" />
+    <None Include="Scenes\GameplayAssets\Models\cube.mgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scenes\GameplayAssets\Models\default.mgf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -237,6 +242,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Scenes\GameplayAssets\Models\humanoid.mcf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scenes\GameplayAssets\Models\null.mcf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

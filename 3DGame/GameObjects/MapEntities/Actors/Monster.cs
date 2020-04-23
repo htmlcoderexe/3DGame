@@ -7,16 +7,16 @@ using Microsoft.Xna.Framework;
 
 namespace _3DGame.GameObjects.MapEntities.Actors
 {
-    public class Hostile : Actor
+    public class Monster : Actor
     {
         public float LeashRadius { get; set; }
-        public Hostile()
+        public Monster()
         {
             this.DeathCallback = new Action<MapEntity>(DeathAction);
         }
         public void DeathAction(MapEntity me)
         {
-            if ((me as Hostile).Target is Player p)
+            if ((me as Monster).Target is Player p)
                 p.EXP += 1;
 
         }

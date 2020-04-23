@@ -19,6 +19,7 @@ namespace _3DGame.GameObjects
             public const int Equip = 3;
             public const int Consumable = 4;
         }
+        public string ModelName = "";
         public Color NameColour;
         public string Name;
         public string Description;
@@ -38,7 +39,7 @@ namespace _3DGame.GameObjects
 
         public virtual object Clone()
         {
-            return this; 
+            return this.MemberwiseClone(); 
         }
         public virtual List<string> GetTooltip()
         {
