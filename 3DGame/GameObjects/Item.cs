@@ -37,6 +37,11 @@ namespace _3DGame.GameObjects
 
         string IActionIcon.Name { get; set; }
 
+        public Item()
+        {
+            this.StackSize = 1;
+        }
+
         public virtual object Clone()
         {
             return this.MemberwiseClone(); 
@@ -60,7 +65,8 @@ namespace _3DGame.GameObjects
 
         public virtual void Render(int X, int Y, GraphicsDevice device, GUI.Renderer Renderer, bool RenderCooldown = false, bool RenderEXP = false)
         {
-
+          if (this.StackSize > 1)
+                Renderer.RenderSmallText(device, X,Y + 20, this.StackSize.ToString(), Color.White, true, false);
         }
         
 

@@ -38,7 +38,7 @@ namespace _3DGame.Scenes.GameplayAssets
             X += this.X;
             Y += this.Y;
             Renderer.SetTexture(Renderer.WindowSkin);
-            Renderer.Rect r = new Renderer.Rect(48, 48, 40, 40);
+            Renderer.Rect r = new Renderer.Rect(48, 48, 40, 40); //#TODO: dynamic skin positioning!!
             Renderer.RenderQuad(device, X, Y, Width, Height, r);
             if(Item!=null)
             Item.Render(X+4, Y+4, device, Renderer, false, false);

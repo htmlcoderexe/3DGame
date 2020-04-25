@@ -47,11 +47,11 @@ namespace _3DGame.GameObjects.Items
         }
         public class MaterialTemplates
         {
-            public static Material Gold = new Material          {Type=Item.Types.Material, NameColour = new Color(192,0,255),        SubType = MaterialType.Bar,    Name = "Golden bar", SellPrice = 500, Density = 200, Hardness = 10, Magic = 100, Colour = Color.Gold };
-            public static Material Iron = new Material          {Type=Item.Types.Material, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Bar,    Name = "Iron bar", SellPrice = 25, Density = 80, Hardness = 100, Magic = 10, Colour = Color.LightGray };
-            public static Material IronSheet = new Material     {Type=Item.Types.Material, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Sheet,  Name = "Iron sheet", SellPrice = 25, Density = 80, Hardness = 100, Magic = 10, Colour = Color.LightGray };
-            public static Material GlassSheet = new Material    {Type=Item.Types.Material, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Sheet,  Name = "Glass sheet", SellPrice = 25, Density = 50, Hardness = 80, Magic = 10, Colour = new Color(200, 240, 255) };
-            public static Material CopperSheet = new Material   {Type=Item.Types.Material, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Sheet,  Name = "Copper sheet", SellPrice = 150, Density = 100, Hardness = 30, Magic = 10, Colour = new Color(200, 50, 50) };
+            public static Material Gold = new Material          {Type=Item.Types.Material, StackSize=1, NameColour = new Color(192,0,255),        SubType = MaterialType.Bar,    Name = "Golden bar", SellPrice = 500, Density = 200, Hardness = 10, Magic = 100, Colour = Color.Gold };
+            public static Material Iron = new Material          {Type=Item.Types.Material, StackSize=1, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Bar,    Name = "Iron bar", SellPrice = 25, Density = 80, Hardness = 100, Magic = 10, Colour = Color.LightGray };
+            public static Material IronSheet = new Material     {Type=Item.Types.Material, StackSize=1, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Sheet,  Name = "Iron sheet", SellPrice = 25, Density = 80, Hardness = 100, Magic = 10, Colour = Color.LightGray };
+            public static Material GlassSheet = new Material    {Type=Item.Types.Material, StackSize=1, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Sheet,  Name = "Glass sheet", SellPrice = 25, Density = 50, Hardness = 80, Magic = 10, Colour = new Color(200, 240, 255) };
+            public static Material CopperSheet = new Material   {Type=Item.Types.Material, StackSize=1, NameColour = new Color(120, 100, 255),    SubType = MaterialType.Sheet,  Name = "Copper sheet", SellPrice = 150, Density = 100, Hardness = 30, Magic = 10, Colour = new Color(200, 50, 50) };
             public static List<Material> Materials;
 
             public static Material GetMaterialById(int ID)

@@ -91,11 +91,13 @@ namespace _3DGame.GameObjects.MapEntities
 
         public override void Update(float dT)
         {
-            this.Camera.Position = this.Position;
             UpdateBuffers(dT);
             if (CurrentHP < 0)
                 Die();
             base.Update(dT);
+            //that's right, FIRST update object position and THEN its camera
+            //otherwise it looks very very jittery for no good reason
+            this.Camera.Position = this.Position + new Vector3(0, 1.5f, 0);
         }
 
         public void WalkTo(Interfaces.WorldPosition Target)

@@ -13,6 +13,7 @@ namespace _3DGame.GameObjects.Items
     {
         public Color Colour;
 
+        
 
         public override void Render(int X, int Y, GraphicsDevice device, Renderer Renderer, bool RenderCooldown = false, bool RenderEXP = false)
         {

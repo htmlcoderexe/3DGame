@@ -111,6 +111,7 @@ namespace _3DGame.GameObjects.Items
         public ItemEquip()
         {
             this.Type = Types.Equip;
+            this.StackSize = 1;
             this.Bonuses = new List<ItemBonus>();
             this.Name = "Equipment piece";
             this.NameColour= new Color(192, 0, 255);

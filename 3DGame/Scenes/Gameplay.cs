@@ -495,7 +495,7 @@ namespace _3DGame.Scenes
             GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
 
             RotateMap = true;
-            World = new GameObjects.World(device,12);
+            World = new GameObjects.World(device,11);
             World.Player = new GameObjects.MapEntities.Actors.Player();
 
             if (OverheadMapTex == null)
@@ -509,7 +509,8 @@ namespace _3DGame.Scenes
             Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
             Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
             Textures["sand"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sand.png", System.IO.FileMode.Open));
-            Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\ray.png", System.IO.FileMode.Open));
+            Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sphere.png", System.IO.FileMode.Open));
+            Textures["ray"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\ray.png", System.IO.FileMode.Open));
             Textures["mapsprites"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapsprites.png", System.IO.FileMode.Open));
             Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
             Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));

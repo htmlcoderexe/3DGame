@@ -11,6 +11,8 @@ namespace _3DGame.Scenes.GameplayAssets
     {
         public Item[] Items;
         Item[] Backup;
+
+        public bool Changed;
         public Inventory(int Size)
         {
             this.Items = new Item[Size];
@@ -24,6 +26,7 @@ namespace _3DGame.Scenes.GameplayAssets
         public void Commit()
         {
             this.Backup.CopyTo(Items, 0);
+            this.Changed = true;
 
         }
         public Item AddItem(Item Item)
