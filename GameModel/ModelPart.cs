@@ -19,7 +19,7 @@ namespace GameModel
         public PartAnimation Animation;
         protected ModelVertex[] _vertices;
         protected int[] _indices;
-        protected List<ModelPart> Children;
+        public List<ModelPart> Children;
         public Matrix Dislocation;
         public float BoneFactor;
         public string Title;

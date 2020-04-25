@@ -247,6 +247,9 @@
     <None Include="Scenes\GameplayAssets\Models\null.mcf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Scenes\GameplayAssets\Models\sword1.mgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameModel\GameModel.csproj">

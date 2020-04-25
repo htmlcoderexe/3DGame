@@ -523,6 +523,10 @@ namespace _3DGame.Scenes
             World.ModelEffect = TerrainEffect;
             World.Camera = World.Player.GetTheCamera();
             World.Player.Position= new Vector3(0, 0, 0);
+            GameModel.Model sword = GameModel.ModelGeometryCompiler.LoadModel("sword1");
+            Matrix sr = Matrix.CreateRotationY(MathHelper.PiOver2);
+            sr*= Matrix.CreateRotationX(MathHelper.PiOver2);
+            World.Player.Model.FindPart("HandR").Append(sword.Children[0], sr);
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
 

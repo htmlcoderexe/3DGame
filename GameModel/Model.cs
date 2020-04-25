@@ -70,6 +70,18 @@ namespace GameModel
 
         }
 
+        public ModelPart FindPart(string name)
+        {
+            List<ModelPart> Parts = this.Children[0].GetFlatList();
+            foreach (ModelPart p in Parts)
+            {
+
+                if (p.Title == name)
+                    return p;
+            }
+            return null;
+        }
+
         public void RebuildSkeleton()
         {
             AnimationMapping = new Dictionary<string, List<ModelPart>>();
