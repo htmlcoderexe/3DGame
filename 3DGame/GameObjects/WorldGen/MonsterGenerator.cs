@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _3DGame.GameObjects.Items;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,11 +48,20 @@ namespace _3DGame.GameObjects.WorldGen
                 Name = "MP potion"
             };
             Items.Material matA = Items.Material.MaterialTemplates.GetRandomMaterial();
+            Items.ItemEquip weapA = new Items.ItemEquip();
+
+            BonusPool p = BonusPool.Load("heavy_0_10");
+            weapA.Bonuses.Add(p.PickBonus());
+            weapA.Bonuses.Add(p.PickBonus());
+            weapA.SubType = RNG.Next(0, 1) * 4;
+            weapA.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
+            weapA.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             monster.PrimaryLootTable.Add(new Tuple<int, Item>(5, potA));
             monster.PrimaryLootTable.Add(new Tuple<int, Item>(5, potB));
             monster.PrimaryLootTable.Add(new Tuple<int, Item>(1, matA));
             monster.PrimaryLootTable.Add(new Tuple<int, Item>(3, null));
-           
+            monster.PrimaryLootTable.Add(new Tuple<int, Item>(10, weapA));
+
             return monster;
 
         }

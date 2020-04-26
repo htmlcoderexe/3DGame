@@ -36,6 +36,7 @@ namespace GameModel
             if (this.Children == null)
                 this.Children = new List<ModelPart>();
             this.Children.Add(part);
+            
         }
         public virtual void Render(GraphicsDevice device, float Time, Matrix World, Effect fx,bool Alpha)
         {

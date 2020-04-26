@@ -12,10 +12,8 @@ namespace _3DGame.GameObjects.MapEntities
         public DroppedItem(Item Item)
         {
             this.Item = Item;
-            if (this.Item.ModelName != null && this.Item.ModelName != "")
-                this.Model = GameModel.ModelGeometryCompiler.LoadModel(this.Item.ModelName);
-            else
-                this.Model = GameModel.ModelGeometryCompiler.LoadModel("cube");
+            GameModel.Model m = this.Item.GetModel();
+            this.Model = m ?? GameModel.ModelGeometryCompiler.LoadModel("cube");
             this.DisplayName = this.Item.Name;
         }
         public override void Click(Actor Target)
@@ -36,7 +34,7 @@ namespace _3DGame.GameObjects.MapEntities
                 (Target as Actors.Player).Inventory.Prepare();
                 (Target as Actors.Player).Inventory.AddItem(this.Item);
                 (Target as Actors.Player).Inventory.Commit();
-                Console.Write("^00C020 Picked up " + this.Item.Name);
+                Console.Write("^00C020 Picked up " + this.Item.GetName());
                 this.Die();
             }
                 

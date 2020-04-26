@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameModel;
 using GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -161,6 +162,23 @@ namespace _3DGame.GameObjects.Items
                 tip.Add(GUI.Renderer.ColourToCode(this.Enchant.LineColour) + this.Enchant.BonusText);
             }
             return tip ;
+        }
+
+        public override GameModel.Model GetModel()
+        {
+            Color PrimaryColour = this.PrimaryMaterial == null ? Color.Gray : this.PrimaryMaterial.Colour;
+            Color SecondaryColour = this.SecondaryMaterial == null ? PrimaryColour : this.SecondaryMaterial.Colour;
+            Color GlowColour = this.Enchant == null ? PrimaryColour : this.Enchant.LineColour;
+            Dictionary<string, string> matcolor = new Dictionary<string, string>
+            {
+                { "$handle", GameModel.ModelGeometryCompiler.ColourToCode(SecondaryColour) },
+                { "$blade", GameModel.ModelGeometryCompiler.ColourToCode(PrimaryColour) },
+                { "$enchant", GameModel.ModelGeometryCompiler.ColourToCode(GlowColour) }
+            };
+            string modelname = "sword1"; //will get edited to select specific model
+
+            return ModelGeometryCompiler.LoadModel(modelname, matcolor);
+           // return base.GetModel();
         }
     }
 }

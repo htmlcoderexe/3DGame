@@ -19,7 +19,25 @@ namespace _3DGame.GameObjects
             public const int Equip = 3;
             public const int Consumable = 4;
         }
-        public string ModelName = "";
+        public virtual bool CanStackWith(Item other)
+        {
+            if (this.Name != other.Name)
+                return false;
+            if (this.GetName() != other.GetName())
+                return false;
+            if (this.Type != other.Type)
+                return false;
+            if (this.SubType != other.SubType)
+                return false;
+            if (this.NameColour != other.NameColour)
+                return false;
+            if (this.SellPrice != other.SellPrice)
+                return false;
+
+
+            return true;
+        }
+        private string ModelName = "";
         public Color NameColour;
         public string Name;
         public string Description;
@@ -70,9 +88,16 @@ namespace _3DGame.GameObjects
         }
         
 
-        public void Use()
+        public virtual void Use()
         {
             
+        }
+
+        public virtual GameModel.Model GetModel()
+        {
+            if (this.ModelName != null && this.ModelName != "")
+            return GameModel.ModelGeometryCompiler.LoadModel(this.ModelName);
+            return null;
         }
     }
 }

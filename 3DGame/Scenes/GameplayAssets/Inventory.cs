@@ -44,7 +44,7 @@ namespace _3DGame.Scenes.GameplayAssets
             int firstofkind = -1;
             for (int i = 0; i < this.Backup.Length; i++)
             {
-                if (this.Backup[i] != null && this.Backup[i].GetName() == Item.GetName())
+                if (this.Backup[i] != null && this.Backup[i].CanStackWith(Item))
                 {
                     firstofkind = i;
                     break;
@@ -77,7 +77,7 @@ namespace _3DGame.Scenes.GameplayAssets
             }
             else
             {
-                if (this.Backup[Position].Name == Item.Name)
+                if (this.Backup[Position].CanStackWith(Item))
                 {
                     int totalstack = this.Backup[Position].StackSize + Item.StackSize;
                     // if(totalstack<=Item.

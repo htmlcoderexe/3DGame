@@ -5,7 +5,7 @@
 		$blade=127:127:127
 		$enchant=0:0:255
 	#endsymbols
-	#beginpart "Body"
+	#beginpart "Blade"
 		#beginpoints
 			0.0 0.0 0.004 $handle 0 0 1
 
@@ -54,6 +54,6 @@
 		#endmesh
 	#endpart
 	#beginassembly
-		"Root"	 Body
+		"Blade"	 Blade
 	#endassembly
 #endmodel

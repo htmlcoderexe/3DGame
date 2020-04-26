@@ -176,12 +176,28 @@ namespace GameModel
             input = input.Replace("\t", " ");
             return input.Split(new char[] { '\n' },StringSplitOptions.RemoveEmptyEntries);
         }
+
+        public static string ColourToCode(Color input)
+        {
+            byte R, G, B;
+            R = input.R;
+            G = input.G;
+            B = input.B;
+            return R + ":" + G + ":" + B;
+        }
         #endregion
 
-        public static GameModel.Model LoadModel(string name)
+        public static GameModel.Model LoadModel(string name, Dictionary<string,string> Substitutes=null)
         {
             Model result;
             string modeldata= System.IO.File.ReadAllText(ModelBaseDir+"\\"+name+".mgf");
+            if(Substitutes!=null)
+            {
+                foreach(KeyValuePair<string,string> replace in Substitutes)
+                {
+                    modeldata = modeldata.Replace(replace.Key, replace.Value);
+                }
+            }
             ModelGeometryCompiler compiler = new ModelGeometryCompiler(modeldata);
             result = compiler.ReturnOutput();
             return result;

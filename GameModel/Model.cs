@@ -16,6 +16,7 @@ namespace GameModel
         private Dictionary<string, List<ModelPart>> AnimationMapping;
         private float maxlen=0;
         public Vector3 Offset;
+        public bool Dirty = true;
         public float CurrentAnimationLength {
             get
                 {
@@ -66,7 +67,7 @@ namespace GameModel
             _IB.SetData<int>(indices);
             _VB.SetData<ModelVertex>(vertices);
 
-
+            this.Dirty = false;
 
         }
 
@@ -209,7 +210,7 @@ namespace GameModel
 
         public override void Render(GraphicsDevice device, float dT, Matrix World, Effect fx, bool Alpha)
         {
-            if (this._IB == null)
+            if (this._IB == null || this.Dirty)
                 Prepare(device);
             device.SetVertexBuffer(_VB);
             device.Indices = _IB;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,38 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             this.Inventory = new Scenes.GameplayAssets.Inventory(64);
             this.Camera.Distance = 15;
         }
-        
+
+        static Dictionary<int, string> _equipMap;
+        static Dictionary<int, Matrix> _equipTMap;
+
+        public static Tuple<string,Matrix> GetEquipParent(int slot)
+        {
+            if(_equipMap==null)
+            {
+                _equipMap = new Dictionary<int, string>
+                {
+                    [0] = "HandR",
+                    [1] = "HandL"
+                };
+            }
+            if(_equipTMap==null)
+            {
+                _equipTMap = new Dictionary<int, Matrix>()
+                {
+                    [0] = Matrix.CreateRotationY(MathHelper.PiOver2)
+                    * Matrix.CreateRotationZ(-MathHelper.PiOver2)
+                    * Matrix.CreateTranslation(0, 0, 0.05f),
+                    [1] = Matrix.CreateRotationY(MathHelper.PiOver2)
+                    * Matrix.CreateRotationZ(-MathHelper.PiOver2)
+                    * Matrix.CreateTranslation(0, 0, 0.05f)
+                };
+            }
+            if (slot >= _equipMap.Count)
+                return null;
+            return new Tuple<string,Matrix>(_equipMap[slot],_equipTMap[slot]);
+        }
+
+
         public bool CanEquip(Items.ItemEquip Item)
         {
             //TODO actual requirement checking
@@ -54,6 +86,18 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             if (slot >= 0 && slot < this.Equipment.Length)
             {
                 this.Equipment[slot] = Item;
+                Tuple<string, Matrix> attach = GetEquipParent(slot);
+                if (attach!=null)
+                {
+
+                    GameModel.Model m = Item.GetModel();
+                    if (m != null)
+                    {
+                        this.Model.FindPart(attach.Item1).Append(m.Children[0], attach.Item2);
+                        this.Model.Dirty = true;
+                    }
+                        
+                }
                 this.EquipItem(Item);
             }
         }
@@ -72,6 +116,13 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             if (slot >= 0 && slot < this.Equipment.Length)
             {
                 this.Equipment[slot] = null;
+                Tuple<string, Matrix> attach = GetEquipParent(slot);
+                if (attach != null)
+                {
+                        this.Model.FindPart(attach.Item1).Children.Clear();
+
+                    this.Model.Dirty = true;
+                }
                 this.UnequipItem(Item);
             }
         }

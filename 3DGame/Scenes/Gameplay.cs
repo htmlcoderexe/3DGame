@@ -523,10 +523,19 @@ namespace _3DGame.Scenes
             World.ModelEffect = TerrainEffect;
             World.Camera = World.Player.GetTheCamera();
             World.Player.Position= new Vector3(0, 0, 0);
-            GameModel.Model sword = GameModel.ModelGeometryCompiler.LoadModel("sword1");
+            /* debuggey model stuff
+            Dictionary<string, string> matcolor = new Dictionary<string, string>
+            {
+                { "$handle", "0:100:200" },
+                { "$blade", "200:130:100" },
+                { "$enchant", "0:255:0" }
+            };
+            GameModel.Model sword = GameModel.ModelGeometryCompiler.LoadModel("sword1",matcolor);
             Matrix sr = Matrix.CreateRotationY(MathHelper.PiOver2);
-            sr*= Matrix.CreateRotationX(MathHelper.PiOver2);
+            sr*= Matrix.CreateRotationZ(-MathHelper.PiOver2);
+            sr *= Matrix.CreateTranslation(0, 0, 0.05f);
             World.Player.Model.FindPart("HandR").Append(sword.Children[0], sr);
+            //*/
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
 
