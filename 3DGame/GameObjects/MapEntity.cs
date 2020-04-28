@@ -11,6 +11,13 @@ namespace _3DGame.GameObjects
     public class MapEntity : Interfaces.IGameObject,ICloneable
     {
         public World WorldSpawn;
+        public float AnimationMultiplier = 1.0f;
+        public bool LetPlayOnce = false;
+        public void SetPlayOnce()
+        {
+            aTimer = 0;
+            LetPlayOnce = true;
+        }
         public MapEntities.EntitySpawner Parent;
         public string DisplayName { get; set; }
         public Interfaces.WorldPosition Position;
@@ -103,11 +110,15 @@ namespace _3DGame.GameObjects
             W *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(-this.Heading), MathHelper.ToRadians(this.Roll), MathHelper.ToRadians(this.Pitch));
             W2 = W*W2;
             W *= this.Position.CreateWorld(Reference);
-
+            float animationspeed = 1;
+            
             // W = Matrix.CreateTranslation((this.Position.BX - Reference.X) * Interfaces.WorldPosition.Stride, this.Position.Y, (this.Position.BY - Reference.Y) * Interfaces.WorldPosition.Stride);
-            aTimer += dT * (Speed/8f);
+            aTimer += dT * (AnimationMultiplier);
             if (aTimer > this.Model.CurrentAnimationLength)
+            {
+                LetPlayOnce = false;
                 aTimer -= this.Model.CurrentAnimationLength;
+            }
             this.Model.Render(device, aTimer, W,GameObjects.World.ModelEffect,Alpha);
         }
 
@@ -121,10 +132,10 @@ namespace _3DGame.GameObjects
             this.Position.Y+= this.VerticalSpeed*dT;
             if(this.Model!=null)
             {
-                if (this.Speed == 0)
-                    this.Model.ApplyAnimation("Straighten");
-                else
-                    this.Model.ApplyAnimation("Walk");
+            //    if (this.Speed == 0)
+                   // this.Model.ApplyAnimation("Straighten");
+            //    else
+                   // this.Model.ApplyAnimation("Walk");
             }
         }
 

@@ -9,18 +9,45 @@ namespace _3DGame.GameObjects.MapEntities.Actors
 {
     public class Player : Actor
     {
+        /// <summary>
+        /// Player's current equipment
+        /// </summary>
         public Items.ItemEquip[] Equipment;
+        /// <summary>
+        /// Player's current inventory
+        /// </summary>
         public Scenes.GameplayAssets.Inventory Inventory;
+        /// <summary>
+        /// Player's level
+        /// </summary>
         public int Level;
+        /// <summary>
+        /// Player's EXP
+        /// </summary>
         public int EXP;
+        /// <summary>
+        /// Calculates EXP to achieve specific level from previous.
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public int Exp4Level(int lvl)
         {
             return lvl * 10;
         }
+        /// <summary>
+        /// Calculates total needed to achieve specific level from 1st (0 exp).
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public int Total4Level(int lvl)
         {
             return lvl * Exp4Level(lvl)/2;
         }
+        /// <summary>
+        /// Calculates level from total EXP
+        /// </summary>
+        /// <param name="EXP"></param>
+        /// <returns></returns>
         public int CalculateLvl(int EXP)
         {
             int curlvl = 1;
@@ -31,22 +58,30 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             curlvl -= 1;
             return curlvl;
         }
+        /// <summary>
+        /// Create the player
+        /// </summary>
         public Player()
         {
             this.Equipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max];
+            this.Inventory = new Scenes.GameplayAssets.Inventory(64);
+            this.Camera.Distance = 15;
+            //anything below should be data pulled from character template/saved character
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 5, Type = "movement_speed", Order = StatBonus.StatOrder.Template });
             this.Gravity = false;
             this.JumpStrength = 10;
             this.MaxJumps = 2;
-            this.Inventory = new Scenes.GameplayAssets.Inventory(64);
-            this.Camera.Distance = 15;
         }
 
         static Dictionary<int, string> _equipMap;
         static Dictionary<int, Matrix> _equipTMap;
-
+        /// <summary>
+        /// Retrieves the correct parent part and translation matrix to display object for a given slot
+        /// </summary>
+        /// <param name="slot">Equipment slot to use</param>
+        /// <returns>A Tuple containing the part name as a string (better make that unique in the model!) and the Matrix to pass to Append()</returns>
         public static Tuple<string,Matrix> GetEquipParent(int slot)
         {
             if(_equipMap==null)
@@ -59,6 +94,7 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             }
             if(_equipTMap==null)
             {
+                //these should be eventually data coming from the model itself
                 _equipTMap = new Dictionary<int, Matrix>()
                 {
                     [0] = Matrix.CreateRotationY(MathHelper.PiOver2)
@@ -66,7 +102,7 @@ namespace _3DGame.GameObjects.MapEntities.Actors
                     * Matrix.CreateTranslation(0, 0, 0.05f),
                     [1] = Matrix.CreateRotationY(MathHelper.PiOver2)
                     * Matrix.CreateRotationZ(-MathHelper.PiOver2)
-                    * Matrix.CreateTranslation(0, 0, 0.05f)
+                    * Matrix.CreateTranslation(0, 0, -0.05f)
                 };
             }
             if (slot >= _equipMap.Count)
@@ -74,13 +110,21 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             return new Tuple<string,Matrix>(_equipMap[slot],_equipTMap[slot]);
         }
 
-
+        /// <summary>
+        /// Checks if specific item can be equipped by the player (based on level, class etc)
+        /// </summary>
+        /// <param name="Item">Item to check</param>
+        /// <returns></returns>
         public bool CanEquip(Items.ItemEquip Item)
         {
             //TODO actual requirement checking
             return true;
         }
-        
+        /// <summary>
+        /// Places the item in player's equipment slot, if possible
+        /// </summary>
+        /// <param name="Item">Item to equip</param>
+        /// <param name="slot">Slot</param>
         public void EquipItem(Items.ItemEquip Item,int slot)
         {
             if (slot >= 0 && slot < this.Equipment.Length)
@@ -101,8 +145,11 @@ namespace _3DGame.GameObjects.MapEntities.Actors
                 this.EquipItem(Item);
             }
         }
-
-        public void EquipItem(Items.ItemEquip Item)
+        /// <summary>
+        /// Applies the stat bonuses
+        /// </summary>
+        /// <param name="Item"></param>
+        private void EquipItem(Items.ItemEquip Item)
         {
             if (!CanEquip(Item))
                 return;
@@ -111,6 +158,11 @@ namespace _3DGame.GameObjects.MapEntities.Actors
                     StatBonuses.Add(b);
             
         }
+        /// <summary>
+        /// Removes item from the corresponding equip slot
+        /// </summary>
+        /// <param name="Item">Item to remove - needed to undo stat bonuses</param>
+        /// <param name="slot">Slot to remove from</param>
         public void UnequipItem(Items.ItemEquip Item,int slot)
         {
             if (slot >= 0 && slot < this.Equipment.Length)
@@ -126,6 +178,10 @@ namespace _3DGame.GameObjects.MapEntities.Actors
                 this.UnequipItem(Item);
             }
         }
+        /// <summary>
+        /// Removes associated stat bonuses
+        /// </summary>
+        /// <param name="Item">Item to remove</param>
         public void UnequipItem(Items.ItemEquip Item)
         {
            
@@ -135,6 +191,10 @@ namespace _3DGame.GameObjects.MapEntities.Actors
             foreach (Items.ItemBonus b in Item.Bonuses)
                 StatBonuses.Remove(b);
         }
+        /// <summary>
+        /// basic update logic
+        /// </summary>
+        /// <param name="dT">Time to update</param>
         public override void Update(float dT)
         {
 

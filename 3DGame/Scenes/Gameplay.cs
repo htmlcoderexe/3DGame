@@ -125,12 +125,32 @@ namespace _3DGame.Scenes
 
             if (kb.IsKeyDown(Keys.R) && PreviousKbState.IsKeyUp(Keys.R))
             {
-                wlist["equipment"].Visible = !wlist["equipment"].Visible;
+                if (wlist["equipment"] != null && !wlist["equipment"].Closed)
+                {
+                    wlist["equipment"].Close();
+                    wlist["equipment"] = null;
+                }
+                else
+                {
+
+                    wlist["equipment"] = new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player);
+                    WindowManager.Add(wlist["equipment"]);
+                }
             }
 
             if (kb.IsKeyDown(Keys.T) && PreviousKbState.IsKeyUp(Keys.T))
             {
-                wlist["skills"].Visible = !wlist["skills"].Visible;
+                if (wlist["skills"] != null && !wlist["skills"].Closed)
+                {
+                    wlist["skills"].Close();
+                    wlist["skills"] = null;
+                }
+                else
+                {
+
+                    wlist["skills"] = new GameplayAssets.Windows.SkillWindow(WindowManager, World.Player);
+                    WindowManager.Add(wlist["skills"]);
+                }
             }
 
 
@@ -164,7 +184,13 @@ namespace _3DGame.Scenes
 #endregion
 
             #region skills
-
+            if (kb.IsKeyDown(Keys.F1) && PreviousKbState.IsKeyUp(Keys.F1) && World.Player.Target!=null && !World.Player.Target.IsDead)
+            {
+                World.Player.Model.ApplyAnimation("StrikeBladeShortRight");
+                World.Player.SetPlayOnce();
+                World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30), true, 0);
+                // World.Player.Model.Animation.
+            }
             if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
                 Color c = new Color(255, 100, 20);
@@ -186,18 +212,19 @@ namespace _3DGame.Scenes
                 }
                 //*/
 
-                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup();
-
-                g.Target = World.Player.Target;
-                g.Position = World.Player.Target.Position + new Vector3(0, 6+15, 0);// + offset;
-                g.TTL = 10.0f;
-                g.Expires = true;
-                g.Speed = 2f;
-                g.Gravity = false;
-                g.Model = null;
-                //                g.Pitch = -89f;
-                g.FizzleOnTarget = true;
-                g.FlatAim = true;
+                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup
+                {
+                    Target = World.Player.Target,
+                    Position = World.Player.Target.Position + new Vector3(0, 6 + 15, 0),// + offset;
+                    TTL = 10.0f,
+                    Expires = true,
+                    Speed = 2f,
+                    Gravity = false,
+                    Model = null,
+                    //                g.Pitch = -89f;
+                    FizzleOnTarget = true,
+                    FlatAim = true
+                };
                 for (int i=0;i<11;i++)
                 {
                     float angle = MathHelper.ToRadians(RNG.Next(0, 360));
@@ -205,13 +232,16 @@ namespace _3DGame.Scenes
                     float delta2 = (float)((float)RNG.Next(0, 600) / 100f);
                     Vector3 offset = new Vector3(delta, delta2-15, 0);
                     offset = Vector3.Transform(offset, Matrix.CreateRotationY(angle));
-                    GameObjects.MapEntities.Particle p = new GameObjects.MapEntities.Particle();
-
-                    p.Offset = new Interfaces.WorldPosition()+offset;
-                    p.Model = null;
-                    GameObjects.MapEntities.Particle p2 = new GameObjects.MapEntities.Particle();
-                    p2.Offset = new Interfaces.WorldPosition() + new Vector3(0, 2, 0)+offset;
-                    p2.Model = null;
+                    GameObjects.MapEntities.Particle p = new GameObjects.MapEntities.Particle
+                    {
+                        Offset = new Interfaces.WorldPosition() + offset,
+                        Model = null
+                    };
+                    GameObjects.MapEntities.Particle p2 = new GameObjects.MapEntities.Particle
+                    {
+                        Offset = new Interfaces.WorldPosition() + new Vector3(0, 2, 0) + offset,
+                        Model = null
+                    };
                     GameObjects.MapEntities.Particles.LightRay r = new GameObjects.MapEntities.Particles.LightRay(p, p2, new Color(255,50,0), 1f);
 
                     g.Particles.Add(p);
@@ -318,6 +348,7 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 180f;
+                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
                 World.Player.Model.ApplyAnimation("Walk");
             }
             else if (kb.IsKeyDown(Keys.A))
@@ -326,6 +357,7 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 0f;
+                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
                 World.Player.Model.ApplyAnimation("Walk");
             }
             
@@ -336,6 +368,7 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw - 90f;
+                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
                 World.Player.Model.ApplyAnimation("Walk");
             }
             else if (kb.IsKeyDown(Keys.W))
@@ -345,17 +378,22 @@ namespace _3DGame.Scenes
                 World.Player.Speed = World.Player.GetMovementSpeed();
 
                 World.Player.Heading = World.Camera.Yaw + 90f;
+                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
                 World.Player.Model.ApplyAnimation("Walk");
             }
             else if(World.Player.Walking)
             {
                 //World.Player.Speed = World.Player.GetMovementSpeed() ;
+                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
                 World.Player.Model.ApplyAnimation("Walk");
             }
             else
             {
                 World.Player.Speed = 0;
+                World.Player.AnimationMultiplier = 1f;
+                if(!World.Player.LetPlayOnce)
                 World.Player.Model.ApplyAnimation("Straighten");
+                
             }
             #endregion
 
@@ -489,14 +527,25 @@ namespace _3DGame.Scenes
              WindowManager.ScreenResized(ScreenWidth, ScreenHeight);
         }
 
+        public Texture2D LoadTex2D(GraphicsDevice device,string path)
+        {
+            Texture2D result;
+            System.IO.FileStream s = new System.IO.FileStream(path, System.IO.FileMode.Open);
+            result =Texture2D.FromStream(device, s);
+            s.Close();
+            return result;
+        }
+
         public void Init(GraphicsDevice device, ContentManager content)
         {
 
             GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
 
             RotateMap = true;
-            World = new GameObjects.World(device,11);
-            World.Player = new GameObjects.MapEntities.Actors.Player();
+            World = new GameObjects.World(device, 11)
+            {
+                Player = new GameObjects.MapEntities.Actors.Player()
+            };
 
             if (OverheadMapTex == null)
                 OverheadMapTex = new RenderTarget2D(device, 256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
@@ -505,16 +554,16 @@ namespace _3DGame.Scenes
 
             #region load game textures
             Textures = new Dictionary<string, Texture2D>();
-            Textures["grass_overworld"]= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\grassB.png", System.IO.FileMode.Open));
-            Textures["waterbump"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\waterbump.jpg", System.IO.FileMode.Open));
-            Textures["rock"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\rock.jpg", System.IO.FileMode.Open));
-            Textures["sand"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sand.png", System.IO.FileMode.Open));
-            Textures["point_sphere"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\sphere.png", System.IO.FileMode.Open));
-            Textures["ray"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\ray.png", System.IO.FileMode.Open));
-            Textures["mapsprites"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapsprites.png", System.IO.FileMode.Open));
-            Textures["mapnavring"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapnavring.png", System.IO.FileMode.Open));
-            Textures["mapoverlay"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\mapoverlay.png", System.IO.FileMode.Open));
-            Textures["equipdoll"] = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\vitruvian.png", System.IO.FileMode.Open));
+            Textures["grass_overworld"] = LoadTex2D(device, "graphics\\grassB.png");
+            Textures["waterbump"] = LoadTex2D(device, "graphics\\waterbump.jpg");
+            Textures["rock"] = LoadTex2D(device, "graphics\\rock.jpg");
+            Textures["sand"] = LoadTex2D(device, "graphics\\sand.png");
+            Textures["point_sphere"] = LoadTex2D(device, "graphics\\sphere.png");
+            Textures["ray"] = LoadTex2D(device, "graphics\\ray.png");
+            Textures["mapsprites"] = LoadTex2D(device, "graphics\\mapsprites.png");
+            Textures["mapnavring"] = LoadTex2D(device, "graphics\\mapnavring.png");
+            Textures["mapoverlay"] = LoadTex2D(device, "graphics\\mapoverlay.png");
+            Textures["equipdoll"] = LoadTex2D(device, "graphics\\vitruvian.png");
             #endregion
 
             GameModel.ModelPart.Textures = Textures;
@@ -523,19 +572,6 @@ namespace _3DGame.Scenes
             World.ModelEffect = TerrainEffect;
             World.Camera = World.Player.GetTheCamera();
             World.Player.Position= new Vector3(0, 0, 0);
-            /* debuggey model stuff
-            Dictionary<string, string> matcolor = new Dictionary<string, string>
-            {
-                { "$handle", "0:100:200" },
-                { "$blade", "200:130:100" },
-                { "$enchant", "0:255:0" }
-            };
-            GameModel.Model sword = GameModel.ModelGeometryCompiler.LoadModel("sword1",matcolor);
-            Matrix sr = Matrix.CreateRotationY(MathHelper.PiOver2);
-            sr*= Matrix.CreateRotationZ(-MathHelper.PiOver2);
-            sr *= Matrix.CreateTranslation(0, 0, 0.05f);
-            World.Player.Model.FindPart("HandR").Append(sword.Children[0], sr);
-            //*/
             World.Terrain.QThread = new Thread(new ThreadStart(ProcessQ));
             World.Terrain.QThread.Start();
 

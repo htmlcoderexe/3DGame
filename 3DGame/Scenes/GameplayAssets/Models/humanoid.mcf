@@ -152,4 +152,32 @@
 			0.0 Y-20
 		#endpart
 	#endmove
+	#beginmove "StrikeBladeShortRight"
+		#beginpart "ArmR"
+			0.0 X85 Z-10
+			0.5 X50 Z30
+			0.1 X50 Z48
+			0.1 X50 Z66
+			0.1 X50 Z84
+			0.1 X50 Z102
+			0.1 X50 Z120
+			0.1 X75 Z102
+			0.1 X85 Z84
+			0.1 X95 Z66
+		#endpart
+		#beginpart "ArmL"
+			0.0 X-85 Z-10
+		#endpart
+		#beginpart "ForeArmR"
+			0.0 Y20
+		#endpart
+		#beginpart "ForeArmL"
+			0.0 Y-20
+		#endpart
+		#beginpart "Root"
+			0.0 Y0
+			0.5 Y0
+			0.8 Y25
+		#endpart
+	#endmove
 #endchoreo
