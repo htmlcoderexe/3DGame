@@ -45,6 +45,7 @@
     <Compile Include="Console.cs" />
     <Compile Include="GameObjects\AbilityLogic\AbilityAnimation.cs" />
     <Compile Include="GameObjects\AbilityLogic\AbilityEffect.cs" />
+    <Compile Include="GameObjects\AbilityLogic\AbilityExecutor.cs" />
     <Compile Include="GameObjects\AbilityLogic\AbilityLoader.cs" />
     <Compile Include="GameObjects\Ability.cs" />
     <Compile Include="GameObjects\AbilityLogic\Effects\Effect_damage_bmd_full.cs" />

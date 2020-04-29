@@ -25,11 +25,18 @@ namespace _3DGame.Interfaces
 
            
         }
-        //returns only local coordinates
+        /// <summary>
+        /// Returns ONLY the local part. To convert to Vector3, just use an explicit cast instead.
+        /// </summary>
+        /// <returns>The local X,Y,Z component.</returns>
         public Vector3 Truncate()
         {
             return new Vector3(X, Y, Z);
         }
+        /// <summary>
+        /// Gets the block X,Y
+        /// </summary>
+        /// <returns>Vector2 of the two.</returns>
         public Vector2 Reference()
         {
             return new Vector2(BX, BY);

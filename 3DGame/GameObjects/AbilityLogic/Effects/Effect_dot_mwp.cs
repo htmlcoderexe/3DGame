@@ -13,18 +13,19 @@ namespace _3DGame.GameObjects.AbilityLogic.Effects
         {
             this._rawparams = parameters;
         }
-        public override void Apply(Actor Source, Actor Target)
+        public override void Apply(Actor Source, Actor Target, int Level)
         {
-            base.Apply(Source, Target);
+            base.Apply(Source, Target,Level);
         }
         public override List<string> GetParams(int Level)
         {
-            List<string> p = new List<string>();
+            List<string> p = new List<string>
+            {
+                Utility.GetGrowth(_rawparams[0], Level).ToString(),
 
-            p.Add(Utility.GetGrowth(_rawparams[0], Level).ToString());
-
-            p.Add(Utility.GetGrowth(_rawparams[1], Level).ToString());
-            p.Add(((float)Utility.GetGrowth(_rawparams[2], Level)/10f).ToString());
+                Utility.GetGrowth(_rawparams[1], Level).ToString(),
+                ((float)Utility.GetGrowth(_rawparams[2], Level) / 10f).ToString()
+            };
             return p;
         }
     }

@@ -29,6 +29,13 @@ namespace _3DGame.GameObjects
 
         public List<AbilityLogic.AbilityEffect> Effects=new List<AbilityLogic.AbilityEffect>();
 
+        public float MPCost;
+        public float MPCostGrowth;
+        public float GetCurrentMPCost()
+        {
+            return this.MPCost + this.MPCostGrowth * (this.Level - 1);
+        }
+
         public enum AbilityTarget
         {
             Self,
@@ -47,6 +54,15 @@ namespace _3DGame.GameObjects
             return s;
         }
 
+        public float GetCurrentCastTime()
+        {
+            return this.CastTime + this.CastGrowth * (this.Level - 1);
+        }
+
+        public float GetCurrentChargeTime()
+        {
+            return this.ChargeTime + this.ChargeGrowth * (this.Level - 1);
+        }
         public virtual string FormatDescription()
         {
 
@@ -67,9 +83,13 @@ namespace _3DGame.GameObjects
             Renderer.RenderIconEx(device, X, Y, this.Icon);
         }
 
-        public void Use()
+        public void Use(MapEntities.Actor Source, MapEntities.Actor Target)
         {
-            throw new NotImplementedException();
+            foreach(AbilityLogic.AbilityEffect e in this.Effects)
+            {
+                e.Apply(Source, Target,this.Level);
+            }
+            
         }
     }
 }

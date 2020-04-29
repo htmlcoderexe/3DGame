@@ -188,6 +188,7 @@ namespace _3DGame.Scenes
             {
                 World.Player.Model.ApplyAnimation("StrikeBladeShortRight");
                 World.Player.SetPlayOnce();
+                World.Player.Target.Target = World.Player;
                 World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30), true, 0);
                 // World.Player.Model.Animation.
             }
@@ -250,13 +251,29 @@ namespace _3DGame.Scenes
                     World.Entities.Add(g);
                 }
                 World.Player.Target.Target = World.Player;
-                World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30),true,0);
+                World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30), true, 0);
+                List<MapEntity> targets = World.LocateNearby(World.Player.Target);
+                foreach(MapEntity e in targets)
+                {
+                    if(e is GameObjects.MapEntities.Actors.Monster mon)
+                    {
+                        if(((Vector3)(World.Player.Target.Position-mon.Position)).Length()<10f)
+                        {
+                            mon.Target = World.Player;
+                            mon.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30), true, 0);
+                        }
+                    }
+                }
+
+                //World.Player.Target.
             }
 
-            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3) )
+            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3))
             {
+                World.Player.Model.ApplyAnimation("ChargeHands");
+                World.Player.SetPlayOnce();
                 Color c = new Color(100, 255, 200);
-                //*
+                /*
                 GameObjects.MapEntities.ParticleGroups.Ring r =
                     new GameObjects.MapEntities.ParticleGroups.Ring(0.5f, 0.4f, c);
                 r.Speed = 8f;
@@ -265,54 +282,35 @@ namespace _3DGame.Scenes
                 r.WorldSpawn = World;
                 r.Gravity = false;
                 r.OnGround = false;
-               
+                r.FizzleOnTarget = true;
                 World.Entities.Add(r);
                 //*/
-                GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, new Color(0, 254, 100),1f);
+                //GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, new Color(0, 254, 100),1f);
                 //ray.Expires = true;
+                GameObjects.MapEntities.Particles.LightBall ball = new GameObjects.MapEntities.Particles.LightBall(c, 0.5f);
                 GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup
                 {
-                    Speed = 0f,
-                    Position = World.Player.Position,
+                    Speed = 15f,
+                    Position = World.Player.Position + new Vector3(0, 0.9f, 0),
                     WorldSpawn = World,
                     Gravity = false,
                     OnGround = false
                 };
-                g.Particles.Add(ray);
                 g.Model = null;
-                g.TTL = 0.4f;
+                g.TTL = 10.4f;
                 g.Expires = true;
-              //  g.Target = World.Player;
-                
+                g.Target = World.Player.Target;
+                g.FizzleOnGround = true;
+                g.Particles.Add(ball);
+
                 World.Entities.Add(g);
-               // r = null;
-                /*
-                Vector3 source = new Vector3(0, 0.5f, 0);
-                Vector3 fw = new Vector3(3.2f, 0, 0);
-                Matrix spinm = Matrix.CreateRotationX((float)spinner * 10f);
-                Matrix head = Matrix.CreateRotationY(MathHelper.ToRadians(-World.Player.Heading + 0));
-                fw = Vector3.Transform(fw, head);
-                source = Vector3.Transform(source, spinm*head);
-                //source = Vector3.Transform(source, );
-                GameObjects.MapEntities.Particles.Spiral p =
-                    new GameObjects.MapEntities.Particles.Spiral(c, 0.2f);
-               
-                p.WorldSpawn = World;
-                p.Parent = World.Player.Target;
-                p.Origin = World.Player.Position;// + source;
-                p.TTL = 100;
-                p.Speed = 0.3f;
-                p.Gravity = false;
-                World.Entities.Add(p);
-                World.Player.Target.Speed = 0;
-                p = null;
-                //*/
+                World.Player.Target.Target = World.Player;
+                World.Player.Executor = new GameObjects.AbilityLogic.AbilityExecutor(World.Player.Abilities[0],World.Player,World.Player.Target);
             }
+                #endregion
 
-#endregion
-
-            #region gravity debug
-            if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
+                #region gravity debug
+                if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
             {
                 World.Player.Gravity = !World.Player.Gravity;
             }
@@ -338,62 +336,64 @@ namespace _3DGame.Scenes
                     
                 }
             }
-#endregion
+            #endregion
 
             #region WASD and forced walking
-
-            if (kb.IsKeyDown(Keys.D))
+            if (World.Player.Executor == null)
             {
-                World.Player.Walking = false;
-                World.Player.Speed = World.Player.GetMovementSpeed();
+                if (kb.IsKeyDown(Keys.D))
+                {
+                    World.Player.Walking = false;
+                    World.Player.Speed = World.Player.GetMovementSpeed();
 
-                World.Player.Heading = World.Camera.Yaw - 180f;
-                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                World.Player.Model.ApplyAnimation("Walk");
-            }
-            else if (kb.IsKeyDown(Keys.A))
-            {
-                World.Player.Walking = false;
-                World.Player.Speed = World.Player.GetMovementSpeed();
+                    World.Player.Heading = World.Camera.Yaw - 180f;
+                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                    World.Player.Model.ApplyAnimation("Walk");
+                }
+                else if (kb.IsKeyDown(Keys.A))
+                {
+                    World.Player.Walking = false;
+                    World.Player.Speed = World.Player.GetMovementSpeed();
 
-                World.Player.Heading = World.Camera.Yaw - 0f;
-                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                World.Player.Model.ApplyAnimation("Walk");
-            }
-            
+                    World.Player.Heading = World.Camera.Yaw - 0f;
+                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                    World.Player.Model.ApplyAnimation("Walk");
+                }
 
-            else if (kb.IsKeyDown(Keys.S))
-            {
-                World.Player.Walking = false;
-                World.Player.Speed = World.Player.GetMovementSpeed();
 
-                World.Player.Heading = World.Camera.Yaw - 90f;
-                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                World.Player.Model.ApplyAnimation("Walk");
-            }
-            else if (kb.IsKeyDown(Keys.W))
-            {
-                World.Player.Walking = false;
+                else if (kb.IsKeyDown(Keys.S))
+                {
+                    World.Player.Walking = false;
+                    World.Player.Speed = World.Player.GetMovementSpeed();
 
-                World.Player.Speed = World.Player.GetMovementSpeed();
+                    World.Player.Heading = World.Camera.Yaw - 90f;
+                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                    World.Player.Model.ApplyAnimation("Walk");
+                }
+                else if (kb.IsKeyDown(Keys.W))
+                {
+                    World.Player.Walking = false;
 
-                World.Player.Heading = World.Camera.Yaw + 90f;
-                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                World.Player.Model.ApplyAnimation("Walk");
-            }
-            else if(World.Player.Walking)
-            {
-                //World.Player.Speed = World.Player.GetMovementSpeed() ;
-                World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                World.Player.Model.ApplyAnimation("Walk");
-            }
-            else
-            {
-                World.Player.Speed = 0;
-                World.Player.AnimationMultiplier = 1f;
-                if(!World.Player.LetPlayOnce)
-                World.Player.Model.ApplyAnimation("Straighten");
-                
+                    World.Player.Speed = World.Player.GetMovementSpeed();
+
+                    World.Player.Heading = World.Camera.Yaw + 90f;
+                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                    World.Player.Model.ApplyAnimation("Walk");
+                }
+                else if (World.Player.Walking)
+                {
+                    //World.Player.Speed = World.Player.GetMovementSpeed() ;
+                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                    World.Player.Model.ApplyAnimation("Walk");
+                }
+                else
+                {
+                    World.Player.Speed = 0;
+                    World.Player.AnimationMultiplier = 1f;
+                    if (!World.Player.LetPlayOnce)
+                        World.Player.Model.ApplyAnimation("Straighten");
+
+                }
             }
             #endregion
 

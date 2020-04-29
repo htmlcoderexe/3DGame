@@ -25,7 +25,7 @@ namespace _3DGame.GameObjects.AbilityLogic
             UserAreaExclude
         }
 
-        public virtual void Apply(GameObjects.MapEntities.Actor Source, GameObjects.MapEntities.Actor Target)
+        public virtual void Apply(GameObjects.MapEntities.Actor Source, GameObjects.MapEntities.Actor Target, int Level)
         {
 
         }

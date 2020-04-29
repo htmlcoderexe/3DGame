@@ -11,7 +11,6 @@ namespace GUI
     {
         float CoolDown { get; set; }
         float MaxCoolDown { get; set; }
-        void Use();
         int Icon { get; set; }
         int StackSize { get; set; }
         string Name { get; set; }

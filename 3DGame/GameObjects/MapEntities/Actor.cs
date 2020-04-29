@@ -25,6 +25,7 @@ namespace _3DGame.GameObjects.MapEntities
         private float _TickLength=0.9f;
         private float _TickTime;
         private Interfaces.WorldPosition WalkTarget;
+        public AbilityLogic.AbilityExecutor Executor;
 
         public Actor()
         {
@@ -94,6 +95,13 @@ namespace _3DGame.GameObjects.MapEntities
             UpdateBuffers(dT);
             if (CurrentHP < 0)
                 Die();
+            if (this.Executor != null)
+            {
+
+                Executor.Update(dT);
+                if (this.Executor.done)
+                    this.Executor = null;
+            }
             base.Update(dT);
             //that's right, FIRST update object position and THEN its camera
             //otherwise it looks very very jittery for no good reason
@@ -112,10 +120,11 @@ namespace _3DGame.GameObjects.MapEntities
             Interfaces.WorldPosition diff = this.WalkTarget - this.Position;
             diff.Y = 0;
             Vector3 v = diff;
-            if (v.Length() < 0.5f)
+            if (v.Length() < 0.5f) //#0.5 is an epsilon here, #TODO change it
             {
                 Walking = false;
                 WalkCallback?.Invoke(this);
+                WalkCallback = null;
                // Console.Write("Arrived at ^FFFF00 " + this.WalkTarget.ToString());
                 return;
                     }

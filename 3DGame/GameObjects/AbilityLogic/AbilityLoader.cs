@@ -175,6 +175,13 @@ namespace _3DGame.GameObjects.AbilityLogic
                                 effectparts = null;
                                 break;
                             }
+                        case "MPCost":
+                            {
+                                string[] castparts = kvp.Value.Split(',');
+                                a.MPCost = (float)int.Parse(castparts[0]) / 10f;
+                                a.MPCostGrowth = (float)int.Parse(castparts[1]) / 10f;
+                                break;
+                            }
                     }
                 }
                 result.Add(a);
