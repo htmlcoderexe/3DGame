@@ -8,7 +8,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
     public class NPCWindow : GUI.Window
     {
-        public NPCWindow(GUI.WindowManager WM,GameObjects.MapEntities.Actors.NPC NPC)
+        public NPCWindow(GUI.WindowManager WM,GameObject.MapEntities.Actors.NPC NPC)
         {
             this.Width = 320;
             this.Height = 512;

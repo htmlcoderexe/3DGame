@@ -10,13 +10,13 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
     public class TargetWindow : GUI.Window
     {
-        public GameObjects.MapEntities.Actors.Player Player;
+        public GameObject.MapEntities.Actors.Player Player;
         private GUI.Controls.ProgressBar HPBar;
         public override void Close()
         {
 
         }
-        public TargetWindow(WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
+        public TargetWindow(WindowManager WM, GameObject.MapEntities.Actors.Player Player)
         {
             this.Player = Player;
             this.Width = 200;

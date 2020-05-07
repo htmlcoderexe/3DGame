@@ -9,7 +9,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
     public class InventoryWindow :GUI.Window
     {
         private InventoryControl _ic;
-        public InventoryWindow(GUI.WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
+        public InventoryWindow(GUI.WindowManager WM, GameObject.MapEntities.Actors.Player Player)
         {
              _ic = new InventoryControl(WM, Player.Inventory);
             this.Width = _ic.Width + 10;

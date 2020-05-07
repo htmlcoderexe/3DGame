@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameObject.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
                     };
                     //s.BeforeItemChanged += new ItemSlot.ItemEventHandler((sender, e) => { if(((e as ItemSlot.ItemEventArgs).Item as GameObjects.Item) ==null) e.Cancel=true; });
                     s.ItemOut += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = null; });
-                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = ((e as ItemSlot.ItemEventArgs).Item as GameObjects.Item); });
+                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = ((e as ItemSlot.ItemEventArgs).Item as GameObject.Item); });
                     this.AddControl(s);
                 }
         }
@@ -55,7 +56,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
                     };
                     //s.BeforeItemChanged += new ItemSlot.ItemEventHandler((sender, e) => { if(((e as ItemSlot.ItemEventArgs).Item as GameObjects.Item) ==null) e.Cancel=true; });
                     s.ItemOut += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = null; });
-                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = ((e as ItemSlot.ItemEventArgs).Item as GameObjects.Item); });
+                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = ((e as ItemSlot.ItemEventArgs).Item as GameObject.Item); });
                     this.AddControl(s);
                 }
         }

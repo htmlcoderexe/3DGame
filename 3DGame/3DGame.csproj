@@ -43,50 +43,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Console.cs" />
-    <Compile Include="GameObjects\AbilityLogic\AbilityAnimation.cs" />
-    <Compile Include="GameObjects\AbilityLogic\AbilityEffect.cs" />
-    <Compile Include="GameObjects\AbilityLogic\AbilityExecutor.cs" />
-    <Compile Include="GameObjects\AbilityLogic\AbilityLoader.cs" />
-    <Compile Include="GameObjects\Ability.cs" />
-    <Compile Include="GameObjects\AbilityLogic\Effects\Effect_damage_bmd_full.cs" />
-    <Compile Include="GameObjects\AbilityLogic\Effects\Effect_dot_mwp.cs" />
-    <Compile Include="GameObjects\AbilityLogic\EffectTemplate.cs" />
-    <Compile Include="GameObjects\Camera.cs" />
-    <Compile Include="GameObjects\Item.cs" />
-    <Compile Include="GameObjects\Items\BonusPool.cs" />
-    <Compile Include="GameObjects\Items\BonusTemplate.cs" />
-    <Compile Include="GameObjects\Items\Enchantment.cs" />
-    <Compile Include="GameObjects\Items\ItemBonus.cs" />
-    <Compile Include="GameObjects\Items\ItemConsumable.cs" />
-    <Compile Include="GameObjects\Items\ItemEquip.cs" />
-    <Compile Include="GameObjects\Items\ItemMaterial.cs" />
-    <Compile Include="GameObjects\MapEntities\Actors\Monster.cs" />
-    <Compile Include="GameObjects\MapEntities\Actors\NPC.cs" />
-    <Compile Include="GameObjects\MapEntities\DroppedItem.cs" />
-    <Compile Include="GameObjects\MapEntities\EntitySpawner.cs" />
-    <Compile Include="GameObjects\MapEntities\Particle.cs" />
-    <Compile Include="GameObjects\MapEntities\ParticleEffect.cs" />
-    <Compile Include="GameObjects\MapEntities\ParticleGroup.cs" />
-    <Compile Include="GameObjects\MapEntities\ParticleGroups\Ring.cs" />
-    <Compile Include="GameObjects\MapEntities\Particles\Floating.cs" />
-    <Compile Include="GameObjects\MapEntities\Particles\Homing.cs" />
-    <Compile Include="GameObjects\MapEntities\Particles\LightBall.cs" />
-    <Compile Include="GameObjects\MapEntities\Particles\LightRay.cs" />
-    <Compile Include="GameObjects\MapEntities\Particles\Spiral.cs" />
-    <Compile Include="GameObjects\StatBonus.cs" />
-    <Compile Include="GameObjects\World.cs" />
-    <Compile Include="GameObjects\MapEntities\Actor.cs" />
-    <Compile Include="GameObjects\MapEntities\ActorLogic\StatObject.cs" />
-    <Compile Include="GameObjects\MapEntities\Actors\Player.cs" />
-    <Compile Include="GameObjects\MapEntity.cs" />
-    <Compile Include="GameObjects\RNG.cs" />
-    <Compile Include="GameObjects\WorldGen\MonsterGenerator.cs" />
-    <Compile Include="GameObjects\WorldGen\NPCGenerator.cs" />
-    <Compile Include="GameObjects\WorldGen\ObjectPopulator.cs" />
     <Compile Include="Interfaces\IActionIcon.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IGameScene.cs" />
-    <Compile Include="Interfaces\WorldPosition.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,8 +61,6 @@
     <Compile Include="Scenes\GameplayAssets\Windows\SkillWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\TargetWindow.cs" />
-    <Compile Include="Scenes\GameplayAssets\Inventory.cs" />
-    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -257,6 +214,10 @@
       <Project>{a3377de7-8e2e-456d-8120-61c21730eac5}</Project>
       <Name>GameModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameObject\GameObject.csproj">
+      <Project>{ffa614ca-bfaf-4e43-b3ed-7d23654940cb}</Project>
+      <Name>GameObject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GUI\GUI.csproj">
       <Project>{1416f2ff-b454-45ab-92be-811bfc66f6ad}</Project>
       <Name>GUI</Name>
@@ -266,7 +227,9 @@
       <Name>Terrain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GameObjects\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

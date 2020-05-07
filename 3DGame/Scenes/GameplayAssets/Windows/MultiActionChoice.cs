@@ -10,7 +10,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
     {
         public string Text;
         public int Icon;
-        public Action<GameObjects.MapEntities.Actor, GameObjects.MapEntities.Actor> Command; //first is the clicker (player), second is the NPC (usually)
+        public Action<GameObject.MapEntities.Actor, GameObject.MapEntities.Actor> Command; //first is the clicker (player), second is the NPC (usually)
         public MultiActionChoice Parent;
     }
     public class MultiActionChoice : GUI.Control

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using _3DGame.GameObjects;
+using GameObject;
+using GameObject.Interfaces;
+using GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +24,7 @@ namespace _3DGame.Scenes
 
         float RenderTime = 0.0f;
 
-        public GameObjects.World World;
+        public GameObject.World World;
         public Effect TerrainEffect;
         public BasicEffect ModelEffect;
         public SpriteBatch b;
@@ -77,11 +79,12 @@ namespace _3DGame.Scenes
                 return;
             console.AppendMessage(Text,Links);
         }
-        public void TerrainClick(Interfaces.WorldPosition Position)
+        public void TerrainClick(WorldPosition Position)
         {
             //
             World.Player.WalkTo(Position);
             return; 
+            /*
             GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
             // GameObjects.MapEntities.Actos.Hostile tpl=new GameObjects.MapEntities.Actos.Hostile();
             // tpl.LeashRadius = 35;
@@ -97,12 +100,12 @@ namespace _3DGame.Scenes
             s.SpawningVolume = new BoundingBox(new Vector3(-5, 0, -5), new Vector3(5, 0, 5));
             s.Entity.Parent = s;
             
-            /* Do not uncomment the following, left for posterity
+            / Do not uncomment the following, left for posterity
             s.Entity = s;//VERY EVIL REMOVE IT WAS JUST FOR FUN
             s.Entity = (MapEntity)s.Clone();//oh #@&*
-            //   forget about this */
+            //   forget about this * /
             World.Entities.Add(s);
-
+            */
         }
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
@@ -213,7 +216,7 @@ namespace _3DGame.Scenes
                 }
                 //*/
 
-                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup
+                GameObject.MapEntities.ParticleGroup g = new GameObject.MapEntities.ParticleGroup
                 {
                     Target = World.Player.Target,
                     Position = World.Player.Target.Position + new Vector3(0, 6 + 15, 0),// + offset;
@@ -233,17 +236,17 @@ namespace _3DGame.Scenes
                     float delta2 = (float)((float)RNG.Next(0, 600) / 100f);
                     Vector3 offset = new Vector3(delta, delta2-15, 0);
                     offset = Vector3.Transform(offset, Matrix.CreateRotationY(angle));
-                    GameObjects.MapEntities.Particle p = new GameObjects.MapEntities.Particle
+                    GameObject.MapEntities.Particle p = new GameObject.MapEntities.Particle
                     {
-                        Offset = new Interfaces.WorldPosition() + offset,
+                        Offset = new WorldPosition() + offset,
                         Model = null
                     };
-                    GameObjects.MapEntities.Particle p2 = new GameObjects.MapEntities.Particle
+                    GameObject.MapEntities.Particle p2 = new GameObject.MapEntities.Particle
                     {
-                        Offset = new Interfaces.WorldPosition() + new Vector3(0, 2, 0) + offset,
+                        Offset = new WorldPosition() + new Vector3(0, 2, 0) + offset,
                         Model = null
                     };
-                    GameObjects.MapEntities.Particles.LightRay r = new GameObjects.MapEntities.Particles.LightRay(p, p2, new Color(255,50,0), 1f);
+                    GameObject.MapEntities.Particles.LightRay r = new GameObject.MapEntities.Particles.LightRay(p, p2, new Color(255,50,0), 1f);
 
                     g.Particles.Add(p);
                     g.Particles.Add(p2);
@@ -255,7 +258,7 @@ namespace _3DGame.Scenes
                 List<MapEntity> targets = World.LocateNearby(World.Player.Target);
                 foreach(MapEntity e in targets)
                 {
-                    if(e is GameObjects.MapEntities.Actors.Monster mon)
+                    if(e is GameObject.MapEntities.Actors.Monster mon)
                     {
                         if(((Vector3)(World.Player.Target.Position-mon.Position)).Length()<10f)
                         {
@@ -287,8 +290,8 @@ namespace _3DGame.Scenes
                 //*/
                 //GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, new Color(0, 254, 100),1f);
                 //ray.Expires = true;
-                GameObjects.MapEntities.Particles.LightBall ball = new GameObjects.MapEntities.Particles.LightBall(c, 0.5f);
-                GameObjects.MapEntities.ParticleGroup g = new GameObjects.MapEntities.ParticleGroup
+                GameObject.MapEntities.Particles.LightBall ball = new GameObject.MapEntities.Particles.LightBall(c, 0.5f);
+                GameObject.MapEntities.ParticleGroup g = new GameObject.MapEntities.ParticleGroup
                 {
                     Speed = 15f,
                     Position = World.Player.Position + new Vector3(0, 0.9f, 0),
@@ -305,7 +308,7 @@ namespace _3DGame.Scenes
 
                 World.Entities.Add(g);
                 World.Player.Target.Target = World.Player;
-                World.Player.Executor = new GameObjects.AbilityLogic.AbilityExecutor(World.Player.Abilities[0],World.Player,World.Player.Target);
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(World.Player.Abilities[0],World.Player,World.Player.Target);
             }
                 #endregion
 
@@ -395,6 +398,13 @@ namespace _3DGame.Scenes
 
                 }
             }
+            else
+            {
+
+               // World.Player.AnimationMultiplier = 1f;
+                if (!World.Player.LetPlayOnce)
+                    World.Player.Model.ApplyAnimation("Straighten");
+            }
             #endregion
 
 
@@ -452,9 +462,9 @@ namespace _3DGame.Scenes
                 HoverTarget = Target;
                 targets = null;
 
-                Interfaces.WorldPosition check = MouseRay.Position;
+                WorldPosition check = MouseRay.Position;
                 check.Normalize();
-                Interfaces.WorldPosition campos = World.Player.Position+((Vector3)World.Player.Camera.GetCamVector() - World.Camera.Position.Truncate());
+                WorldPosition campos = World.Player.Position+((Vector3)World.Player.Camera.GetCamVector() - World.Camera.Position.Truncate());
                 check.BX = World.Player.Position.BX;
                 check.BY = World.Player.Position.BY;
                 //*
@@ -542,9 +552,9 @@ namespace _3DGame.Scenes
             GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
 
             RotateMap = true;
-            World = new GameObjects.World(device, 11)
+            World = new World(device, 11)
             {
-                Player = new GameObjects.MapEntities.Actors.Player()
+                Player = new GameObject.MapEntities.Actors.Player()
             };
 
             if (OverheadMapTex == null)
@@ -597,9 +607,9 @@ namespace _3DGame.Scenes
             #endregion
 
 
-            GameObjects.Items.Material.MaterialTemplates.Load();
+            GameObject.Items.Material.MaterialTemplates.Load();
 
-            GameObjects.AbilityLogic.AbilityLoader l = new GameObjects.AbilityLogic.AbilityLoader("Mage");
+            GameObject.AbilityLogic.AbilityLoader l = new GameObject.AbilityLogic.AbilityLoader("Mage");
             World.Player.Abilities = l.LoadAbilities();
 
 
@@ -620,7 +630,7 @@ namespace _3DGame.Scenes
             ScreenResized(device);
             #endregion
 
-            GameObjects.WorldGen.ObjectPopulator p = new GameObjects.WorldGen.ObjectPopulator(new Random(1));
+            GameObject.WorldGen.ObjectPopulator p = new GameObject.WorldGen.ObjectPopulator(new Random(1));
             List<MapEntity> elist = p.GenerateObjectsTest(16);
             foreach(MapEntity me in elist)
             {
@@ -668,13 +678,13 @@ namespace _3DGame.Scenes
                 if (blk == null)
                     continue;
                 Vector3 v1 = new Vector3((blk.X - World.Player.Position.BX) * 1 / zoom, (blk.Y - World.Player.Position.BY) * -1 / zoom, 0);
-                v1.X -= (World.Player.Position.X / (Interfaces.WorldPosition.Stride * zoom));
-                v1.Y -= (World.Player.Position.Z / (-Interfaces.WorldPosition.Stride * zoom));
+                v1.X -= (World.Player.Position.X / (WorldPosition.Stride * zoom));
+                v1.Y -= (World.Player.Position.Z / (-WorldPosition.Stride * zoom));
                // v1.Z = v1.Y;v1.Y = 0;
              //  v1.Z= (World.Player.Position.Z / (-Interfaces.WorldPosition.Stride * zoom));
                 Matrix rm = Matrix.CreateRotationX(MathHelper.PiOver2);
                 Matrix wm = Matrix.CreateTranslation(v1);
-                Matrix sm = Matrix.CreateScale( 1f / ((float)Interfaces.WorldPosition.Stride * zoom));
+                Matrix sm = Matrix.CreateScale( 1f / ((float)WorldPosition.Stride * zoom));
                 Matrix ym = Matrix.Identity;
                 if (RotateMap)
                     ym = Matrix.CreateRotationZ(MathHelper.ToRadians(World.Camera.Yaw + 180f));
@@ -701,8 +711,8 @@ namespace _3DGame.Scenes
                 if (NPC == null)
                     continue;//error handling, bitch!
                 Vector3 v1 = new Vector3((NPC.Position.BX - World.Player.Position.BX) * 1 / zoom, (NPC.Position.BY - World.Player.Position.BY) * -1 / zoom, 0);
-                v1.X -= ((World.Player.Position.X - NPC.Position.X) / (Interfaces.WorldPosition.Stride * zoom));
-                v1.Y -= ((World.Player.Position.Z - NPC.Position.Z) / (-Interfaces.WorldPosition.Stride * zoom));
+                v1.X -= ((World.Player.Position.X - NPC.Position.X) / (WorldPosition.Stride * zoom));
+                v1.Y -= ((World.Player.Position.Z - NPC.Position.Z) / (-WorldPosition.Stride * zoom));
 
                 Matrix rm = Matrix.CreateRotationX(MathHelper.PiOver2); rm = Matrix.Identity;
                 Matrix wm = Matrix.CreateTranslation(v1);// wm = Matrix.Identity;
@@ -800,7 +810,7 @@ namespace _3DGame.Scenes
                 if (projectedlabelorigin.Z > 1)
                     continue;
                 colour = Color.White;
-                if ((NPC as GameObjects.MapEntities.Actor)!=null && (NPC as GameObjects.MapEntities.Actor).Target == World.Player)
+                if ((NPC as GameObject.MapEntities.Actor)!=null && (NPC as GameObject.MapEntities.Actor).Target == World.Player)
                     colour = Color.Red;
                 if (World.Player.Target == NPC)
                     colour = Color.Lime;

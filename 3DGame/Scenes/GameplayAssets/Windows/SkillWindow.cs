@@ -8,10 +8,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
     public class SkillWindow : GUI.Window
     {
-        public GameObjects.MapEntities.Actors.Player Player;
+        public GameObject.MapEntities.Actors.Player Player;
         private ItemSlot s;
         private ItemSlot s2;
-        public SkillWindow(GUI.WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
+        public SkillWindow(GUI.WindowManager WM, GameObject.MapEntities.Actors.Player Player)
         {
             this.Width = 512;
             this.Height = 64;
@@ -45,10 +45,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 
         private void B_Clicked(object sender, EventArgs e)
         {
-            GameObjects.Ability a = s.Item as GameObjects.Ability;
+            GameObject.Ability a = s.Item as GameObject.Ability;
             if (a != null)
                 a.Level++;
-            a = s2.Item as GameObjects.Ability;
+            a = s2.Item as GameObject.Ability;
             if (a != null)
                 a.Level++;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameObject.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
      public class NavWindow : GUI.Window
     {
-        public GameObjects.MapEntities.Actors.Player Player;
+        public GameObject.MapEntities.Actors.Player Player;
         GUI.Controls.RichTextDisplay Placename;
         GUI.Controls.RichTextDisplay Coords;
-        public NavWindow(GameObjects.MapEntities.Actors.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
+        public NavWindow(GameObject.MapEntities.Actors.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
         {
             this.WM = Gameplay.WindowManager;
             this.Player = Player;
@@ -40,8 +41,8 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         public override void Update(float dT)
         {
             string playerloc = "";
-            int X = (int)(Player.Position.X + Player.Position.BX * Interfaces.WorldPosition.Stride);
-            int Y = (int)(Player.Position.Z + Player.Position.BY * Interfaces.WorldPosition.Stride);
+            int X = (int)(Player.Position.X + Player.Position.BX * WorldPosition.Stride);
+            int Y = (int)(Player.Position.Z + Player.Position.BY * WorldPosition.Stride);
             int H = (int)Player.Position.Y;
             playerloc = X + ", " + Y+" H" + H;
             this.Coords.SetText(playerloc);

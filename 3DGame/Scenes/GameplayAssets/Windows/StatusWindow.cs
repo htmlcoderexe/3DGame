@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _3DGame.GameObjects.Items;
+using GameObject.Items;
 using GUI;
 using Microsoft.Xna.Framework;
 
@@ -13,7 +13,7 @@ namespace _3DGame.Scenes.GameplayAssets
     {
         public GUI.Controls.Button OKButton;
         public GameplayAssets.ItemSlot slot;
-        public GameObjects.MapEntities.Actors.Player Player;
+        public GameObject.MapEntities.Actors.Player Player;
         private GUI.Controls.ProgressBar HPBar;
         private GUI.Controls.ProgressBar MPBar;
         private GUI.Controls.ProgressBar EXPBar;
@@ -21,7 +21,7 @@ namespace _3DGame.Scenes.GameplayAssets
         {
             
         }
-        public StatusWindow(WindowManager WM, GameObjects.MapEntities.Actors.Player Player)
+        public StatusWindow(WindowManager WM, GameObject.MapEntities.Actors.Player Player)
             {
             this.Player = Player;
             this.WM = WM;
@@ -103,10 +103,10 @@ namespace _3DGame.Scenes.GameplayAssets
 
         private void OKButton_Clicked(object sender, EventArgs e)
         {
-            GameObjects.Item Item;
-            Item = GameObjects.Items.Material.MaterialTemplates.GetRandomMaterial();
-            Item.SubType = GameObjects.RNG.Next(GameObjects.Items.Material.MaterialType.Max);
-            Item.Description= "A " + GameObjects.Items.Material.MaterialType.GetTypeName(Item.SubType) +" made from "+Item.Name+". Used in crafting equipment.";
+            GameObject.Item Item;
+            Item = GameObject.Items.Material.MaterialTemplates.GetRandomMaterial();
+            Item.SubType = GameObject.RNG.Next(GameObject.Items.Material.MaterialType.Max);
+            Item.Description= "A " + GameObject.Items.Material.MaterialType.GetTypeName(Item.SubType) +" made from "+Item.Name+". Used in crafting equipment.";
             this.OKButton.Title = Item.GetName();
             this.slot.Item = Item;
             ItemEquip eq = new ItemEquip();
@@ -114,7 +114,7 @@ namespace _3DGame.Scenes.GameplayAssets
             eq.Bonuses.Add(p.PickBonus());
             eq.Bonuses.Add(p.PickBonus());
             Enchantment enc=new Enchantment();
-            int enctype = GameObjects.RNG.Next(0, 3);
+            int enctype =GameObject.RNG.Next(0, 3);
             switch(enctype)
             {
                 case 0:
@@ -140,7 +140,7 @@ namespace _3DGame.Scenes.GameplayAssets
                     }
             } 
             eq.Enchant = enc;
-            eq.SubType = GameObjects.RNG.Next(0, 10);
+            eq.SubType = GameObject.RNG.Next(0, 10);
             if (eq.SubType == 7)
                 eq.SubType = 18;
             if (eq.SubType == 8)
