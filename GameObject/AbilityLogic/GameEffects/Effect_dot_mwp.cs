@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameObject.MapEntities;
 
-namespace GameObject.AbilityLogic.Effects
+namespace GameObject.AbilityLogic.GameEffects
 {
     public class Effect_dot_mwp : AbilityEffect
     {

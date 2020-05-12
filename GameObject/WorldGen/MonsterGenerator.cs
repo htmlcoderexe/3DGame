@@ -1,5 +1,5 @@
 ﻿using GameObject.Items;
-using GameObjects;
+using GameObject;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

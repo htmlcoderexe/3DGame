@@ -8,9 +8,9 @@ using GameObject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameObjects
+namespace GameObject
 {
-    public class MapEntity : GameObject.Interfaces.IGameObject,ICloneable
+    public class MapEntity :Interfaces.IGameObject,ICloneable
     {
         public World WorldSpawn;
         public float AnimationMultiplier = 1.0f;
@@ -20,9 +20,9 @@ namespace GameObjects
             aTimer = 0;
             LetPlayOnce = true;
         }
-        public GameObject.MapEntities.EntitySpawner Parent;
+        public MapEntities.EntitySpawner Parent;
         public string DisplayName { get; set; }
-        public GameObject.Interfaces.WorldPosition Position;
+        public Interfaces.WorldPosition Position;
         float aTimer = 0;
         public bool Gravity;
         public float Heading;
@@ -63,8 +63,8 @@ namespace GameObjects
         private int JumpCount;
         private float AnimationTimer;
         private float _pitch;
-        private Matrix World;
-        private bool _isDead;
+        private Matrix _World;
+        internal bool _isDead;
 
         public MapEntity()
         {
@@ -121,7 +121,7 @@ namespace GameObjects
                 LetPlayOnce = false;
                 aTimer -= this.Model.CurrentAnimationLength;
             }
-            this.Model.Render(device, aTimer, W,GameObject.World.ModelEffect,Alpha);
+            this.Model.Render(device, aTimer, W,World.ModelEffect,Alpha);
         }
 
         public virtual void Update(float dT)
@@ -147,11 +147,11 @@ namespace GameObjects
             e.Model = (GameModel.Model)this.Model.Clone();
             return e;
         }
-        public virtual void Click(GameObject.MapEntities.Actor Target)
+        public virtual void Click(MapEntities.Actor Target)
         {
 
         }
-        public virtual void DoubleClick(GameObject.MapEntities.Actor Target)
+        public virtual void DoubleClick(MapEntities.Actor Target)
         {
 
         }
@@ -160,9 +160,9 @@ namespace GameObjects
         {
             Aim(e.Position,flatten);
         }
-        public void Aim(GameObject.Interfaces.WorldPosition Target,bool flatten)
+        public void Aim(Interfaces.WorldPosition Target,bool flatten)
         {
-            GameObject.Interfaces.WorldPosition diff = Target - this.Position;
+            Interfaces.WorldPosition diff = Target - this.Position;
             Vector3 v = diff;
             v.Normalize();
             this.Heading = (float)(Math.Atan2(v.X, v.Z) / MathHelper.Pi * -180f) + 90f;

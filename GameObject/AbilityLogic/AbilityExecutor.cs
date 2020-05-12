@@ -8,13 +8,13 @@ namespace GameObject.AbilityLogic
 {
     public class AbilityExecutor
     {
-        public Ability ability;
+        public EffectiveAbility ability;
         public MapEntities.Actor Source;
         public MapEntities.Actor Target;
         float Timeline;
         public bool done;
 
-        public AbilityExecutor(Ability ability,MapEntities.Actor Source, MapEntities.Actor Target)
+        public AbilityExecutor(EffectiveAbility ability,MapEntities.Actor Source, MapEntities.Actor Target)
         {
             this.ability = ability;
             this.Source = Source;
@@ -25,27 +25,41 @@ namespace GameObject.AbilityLogic
         {
             get
             {
-                return Math.Min(1.0f, Timeline / ability.GetCurrentChargeTime());
+                return Math.Min(1.0f, Timeline / ability.ChannelTime);
             }
         }
         public float CastProgress
         {
             get
             {
-                return Math.Min(1.0f, (Timeline-ability.GetCurrentChargeTime()) / ability.GetCurrentCastTime());
+                return Math.Min(1.0f, (Timeline-ability.ChannelTime) / ability.CastTime);
             }
         }
         public void Update(float dT)
         {
             if (this.done)
                 return;
-            Timeline += dT;
-            if(this.CastProgress>=1f)
+
+            if (this.ability.EffectTimeline.Count <= 0)
             {
-                this.ability.Use(Source, Target);
-                Console.Write(this.ability.FormatDescription());
                 this.done = true;
+                return;
             }
+            while(Timeline > ability.EffectTimeline.Keys[0])
+            {
+
+                AbilityLogic.ITimedEffect effect = ability.EffectTimeline.Values[0];
+                effect.Apply(Source, Target, ability.Level);
+                ability.EffectTimeline.Remove(ability.EffectTimeline.Keys[0]);
+                if (this.ability.EffectTimeline.Count <= 0)
+                {
+                    this.done = true;
+                    break;
+                }
+            }
+
+
+            Timeline += dT;
         }
     }
 }

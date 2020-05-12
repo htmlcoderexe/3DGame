@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GameObject;
 using GameObject.Interfaces;
-using GameObjects;
+using GameObject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,7 +21,7 @@ namespace _3DGame.Scenes
         public MouseState PreviousMouseState { get; set; }
 
         public static Dictionary<string, Texture2D> Textures;
-
+        public static Dictionary<string, SpriteFont> Fonts;
         float RenderTime = 0.0f;
 
         public GameObject.World World;
@@ -85,12 +85,12 @@ namespace _3DGame.Scenes
             World.Player.WalkTo(Position);
             return; 
             /*
-            GameObjects.MapEntities.EntitySpawner s = new GameObjects.MapEntities.EntitySpawner();
-            // GameObjects.MapEntities.Actos.Hostile tpl=new GameObjects.MapEntities.Actos.Hostile();
+            GameObject.MapEntities.EntitySpawner s = new GameObject.MapEntities.EntitySpawner();
+            // GameObject.MapEntities.Actos.Hostile tpl=new GameObject.MapEntities.Actos.Hostile();
             // tpl.LeashRadius = 35;
             string[] greetings = { "hey fuck face", "eat shit", "i hate you", "stop clicking me" };
 
-            MapEntity tpl = new GameObjects.MapEntities.Actors.NPC(greetings[RNG.Next(greetings.Length)]);
+            MapEntity tpl = new GameObject.MapEntities.Actors.NPC(greetings[RNG.Next(greetings.Length)]);
             s.Entity = tpl;
             s.Interval = 5;
             s.CountDown = 2;
@@ -201,7 +201,7 @@ namespace _3DGame.Scenes
                 /*
                 for (int i = 0; i < 1; i++)
                 {
-                    GameObjects.MapEntities.Particles.Homing p = new GameObjects.MapEntities.Particles.Homing(c, 2.0f);
+                    GameObject.MapEntities.Particles.Homing p = new GameObject.MapEntities.Particles.Homing(c, 2.0f);
                     p.WorldSpawn = World;
                     p.Parent = World.Player.Target;
                     Vector3 v = new Vector3(0, 3.6f, -2.0f+(1.0f*(float)i));
@@ -273,12 +273,21 @@ namespace _3DGame.Scenes
 
             if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3))
             {
+                ModularAbility ab = new GameObject.AbilityLogic.TestAbility();
+                ab.Level = 2;
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
+
+
+            }
+            if (1==2)
+                { 
+
                 World.Player.Model.ApplyAnimation("ChargeHands");
                 World.Player.SetPlayOnce();
                 Color c = new Color(100, 255, 200);
                 /*
-                GameObjects.MapEntities.ParticleGroups.Ring r =
-                    new GameObjects.MapEntities.ParticleGroups.Ring(0.5f, 0.4f, c);
+                GameObject.MapEntities.ParticleGroups.Ring r =
+                    new GameObject.MapEntities.ParticleGroups.Ring(0.5f, 0.4f, c);
                 r.Speed = 8f;
                 r.Position = World.Player.Position;
                 r.Target = World.Player.Target;
@@ -288,7 +297,7 @@ namespace _3DGame.Scenes
                 r.FizzleOnTarget = true;
                 World.Entities.Add(r);
                 //*/
-                //GameObjects.MapEntities.Particles.LightRay ray = new GameObjects.MapEntities.Particles.LightRay(World.Player, World.Player.Target, new Color(0, 254, 100),1f);
+                //GameObject.MapEntities.Particles.LightRay ray = new GameObject.MapEntities.Particles.LightRay(World.Player, World.Player.Target, new Color(0, 254, 100),1f);
                 //ray.Expires = true;
                 GameObject.MapEntities.Particles.LightBall ball = new GameObject.MapEntities.Particles.LightBall(c, 0.5f);
                 GameObject.MapEntities.ParticleGroup g = new GameObject.MapEntities.ParticleGroup
@@ -308,7 +317,7 @@ namespace _3DGame.Scenes
 
                 World.Entities.Add(g);
                 World.Player.Target.Target = World.Player;
-                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(World.Player.Abilities[0],World.Player,World.Player.Target);
+               // World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(World.Player.Abilities[0],World.Player,World.Player.Target);
             }
                 #endregion
 
@@ -556,7 +565,7 @@ namespace _3DGame.Scenes
             {
                 Player = new GameObject.MapEntities.Actors.Player()
             };
-
+            World.Player.WorldSpawn = World;
             if (OverheadMapTex == null)
                 OverheadMapTex = new RenderTarget2D(device, 256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             b = new SpriteBatch(device);
@@ -574,6 +583,10 @@ namespace _3DGame.Scenes
             Textures["mapnavring"] = LoadTex2D(device, "graphics\\mapnavring.png");
             Textures["mapoverlay"] = LoadTex2D(device, "graphics\\mapoverlay.png");
             Textures["equipdoll"] = LoadTex2D(device, "graphics\\vitruvian.png");
+
+            Fonts = new Dictionary<string, SpriteFont>();
+            Fonts["font1"]= content.Load<SpriteFont>("font1");
+            Fonts["FX"]= content.Load<SpriteFont>("FX");
             #endregion
 
             GameModel.ModelPart.Textures = Textures;
@@ -592,7 +605,7 @@ namespace _3DGame.Scenes
             GUIRenderer.InventoryPartsMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\itemparts.png", System.IO.FileMode.Open));
             GUIRenderer.AbilityMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\icons.png", System.IO.FileMode.Open));
             GUIRenderer.GUIEffect = content.Load<Effect>("GUI");
-            GUIRenderer.UIFont = content.Load<SpriteFont>("font1");
+            GUIRenderer.UIFont = Fonts["font1"];
             WindowManager = new GUI.WindowManager();
             WindowManager.Renderer = GUIRenderer;
             wlist = new Dictionary<string, GUI.Window>();
@@ -819,6 +832,24 @@ namespace _3DGame.Scenes
                 stringsize = GUIRenderer.UIFont.MeasureString(NPC.DisplayName);
                 renderlocation = new Vector2((int)(projectedlabelorigin.X - (stringsize.X / 2f)), (int)(projectedlabelorigin.Y));
                 batch.DrawString(GUIRenderer.UIFont, NPC.DisplayName, renderlocation, colour, 0f, Vector2.Zero, 1f, SpriteEffects.None, projectedlabelorigin.Z);
+
+                if(NPC is GameObject.MapEntities.DamageParticle ppp)
+                {
+                    labelorigin = ppp.Position.WRT(World.Player.Position);
+
+                    distance = labelorigin - playerorigin;
+                    if (distance.Length() > 50)
+                        continue;
+                    labelorigin.Y += 2.5f;//todo implement object height
+                    projectedlabelorigin = batch.GraphicsDevice.Viewport.Project(labelorigin, World.Camera.GetProjection(batch.GraphicsDevice), World.Camera.GetView(), Matrix.Identity);
+                    if (projectedlabelorigin.Z > 1)
+                        continue;
+                    stringsize = Fonts["FX"].MeasureString(ppp.Text);
+                    renderlocation = new Vector2((int)(projectedlabelorigin.X - (stringsize.X / 2f)), (int)(projectedlabelorigin.Y));
+                    batch.DrawString(Fonts["FX"], ppp.Text, renderlocation, ppp.Colour, 0f, Vector2.Zero, 1f, SpriteEffects.None, projectedlabelorigin.Z);
+
+                }
+
             }
             
                 batch.End();

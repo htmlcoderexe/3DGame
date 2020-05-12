@@ -231,8 +231,8 @@ namespace GameModel
 
         public void Dispose()
         {
-            this._IB.Dispose();
-            this._VB.Dispose();
+            this._IB?.Dispose();
+            this._VB?.Dispose();
         }
     }
 }

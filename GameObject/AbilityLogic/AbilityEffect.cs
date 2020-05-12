@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameObject.AbilityLogic
 {
-    public class AbilityEffect
+    public class AbilityEffect : ITimedEffect
     {
         public float Probability;
         public float ProbabilityGrowth;
@@ -29,6 +29,8 @@ namespace GameObject.AbilityLogic
         {
 
         }
+
+        public float Duration { get; set; }
         public virtual List<string> GetParams(int Level)
         {
             return new List<string>();
@@ -40,9 +42,9 @@ namespace GameObject.AbilityLogic
             switch (type)
             {
                 case "damage_bmd_full":
-                    return new Effects.Effect_damage_bmd_full(parameters);
+                    return new GameEffects.Effect_damage_bmd_full(parameters);
                 case "dot_mwp":
-                    return new Effects.Effect_dot_mwp(parameters);
+                    return new GameEffects.Effect_dot_mwp(parameters);
             }
 
 

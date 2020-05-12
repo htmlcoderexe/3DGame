@@ -47,10 +47,16 @@
     <Compile Include="AbilityLogic\AbilityEffect.cs" />
     <Compile Include="AbilityLogic\AbilityExecutor.cs" />
     <Compile Include="AbilityLogic\AbilityLoader.cs" />
-    <Compile Include="AbilityLogic\Effects\Effect_damage_bmd_full.cs" />
-    <Compile Include="AbilityLogic\Effects\Effect_dot_mwp.cs" />
+    <Compile Include="AbilityLogic\AbilityVFX.cs" />
+    <Compile Include="AbilityLogic\GameEffects\Effect_damage_bmd_full.cs" />
+    <Compile Include="AbilityLogic\GameEffects\Effect_dot_mwp.cs" />
     <Compile Include="AbilityLogic\EffectTemplate.cs" />
+    <Compile Include="AbilityLogic\TestAbility.cs" />
+    <Compile Include="AbilityLogic\TimedEffect.cs" />
+    <Compile Include="AbilityLogic\VisualEffects\VFX_charge_ball.cs" />
+    <Compile Include="AbilityLogic\VisualEffects\VFX_throw_ball.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="EffectiveAbility.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Interfaces\IActionIcon.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
@@ -70,6 +76,7 @@
     <Compile Include="MapEntities\Actors\Monster.cs" />
     <Compile Include="MapEntities\Actors\NPC.cs" />
     <Compile Include="MapEntities\Actors\Player.cs" />
+    <Compile Include="MapEntities\DamageParticle.cs" />
     <Compile Include="MapEntities\DroppedItem.cs" />
     <Compile Include="MapEntities\EntitySpawner.cs" />
     <Compile Include="MapEntities\Particle.cs" />
@@ -82,6 +89,7 @@
     <Compile Include="MapEntities\Particles\LightRay.cs" />
     <Compile Include="MapEntities\Particles\Spiral.cs" />
     <Compile Include="MapEntity.cs" />
+    <Compile Include="ModularAbility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RNG.cs" />
     <Compile Include="StatBonus.cs" />
@@ -104,6 +112,9 @@
       <Project>{5194618f-fe7f-434f-b5b6-d9dce3357bca}</Project>
       <Name>Terrain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AbilityLogic\SoundEffects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

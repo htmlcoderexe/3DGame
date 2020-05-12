@@ -55,3 +55,11 @@
 /processorParam:TextureFormat=Color
 /build:UIFontO.png
 
+#begin FX.png
+/importer:TextureImporter
+/processor:FontTextureProcessor
+/processorParam:FirstCharacter= 
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Color
+/build:FX.png
+

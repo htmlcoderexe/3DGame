@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameObjects;
+using GameObject;
 using Microsoft.Xna.Framework;
 
 namespace GameObject.MapEntities
@@ -159,7 +159,11 @@ namespace GameObject.MapEntities
 
         public virtual void Hit(float amount, bool Magic, int Type)
         {
+            if (_isDead)
+                return;
             this.CurrentHPBuffer -= amount;
+
+            this.WorldSpawn.Entities.Add(new DamageParticle(this.Position, amount.ToString(), Color.Red, 0.5f));
         }
 
         public static Item PickItemFromTable(List<Tuple<int, Item>> table, Random RNG)

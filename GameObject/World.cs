@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameObject.Interfaces;
-using GameObjects;
+using GameObject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameObject
 {
-    public class World : Interfaces.IGameObject
+    public class World : IGameObject
     {
         /// <summary>
         /// List of all entities int the world
