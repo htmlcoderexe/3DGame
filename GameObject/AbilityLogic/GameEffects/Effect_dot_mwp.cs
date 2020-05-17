@@ -9,6 +9,7 @@ namespace GameObject.AbilityLogic.GameEffects
 {
     public class Effect_dot_mwp : AbilityEffect
     {
+        public override string EffectType { get { return "Effect_dot_mwp"; } }
         public Effect_dot_mwp(string[] parameters)
         {
             this._rawparams = parameters;

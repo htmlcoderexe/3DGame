@@ -10,6 +10,7 @@ namespace GameObject.AbilityLogic.VisualEffects
 {
     class VFX_throw_ball : AbilityVFX
     {
+        public override string EffectType { get { return "VFX_throw_ball"; } }
         public Color Colour;
         public override void Apply(Actor Source, Actor Target, int Level)
         {

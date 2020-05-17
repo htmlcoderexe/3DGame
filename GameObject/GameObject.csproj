@@ -53,6 +53,7 @@
     <Compile Include="AbilityLogic\EffectTemplate.cs" />
     <Compile Include="AbilityLogic\TestAbility.cs" />
     <Compile Include="AbilityLogic\TimedEffect.cs" />
+    <Compile Include="AbilityLogic\VisualEffects\VFX_animate.cs" />
     <Compile Include="AbilityLogic\VisualEffects\VFX_charge_ball.cs" />
     <Compile Include="AbilityLogic\VisualEffects\VFX_throw_ball.cs" />
     <Compile Include="Camera.cs" />

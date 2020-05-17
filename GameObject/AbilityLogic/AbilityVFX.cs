@@ -7,11 +7,12 @@ using GameObject.MapEntities;
 
 namespace GameObject.AbilityLogic
 {
-    public class AbilityVFX : ITimedEffect
+    public abstract class AbilityVFX : ITimedEffect
     {
+        public abstract string EffectType { get; }
         public virtual void Apply(Actor Source, Actor Target, int Level)
         {
-            
+
         }
         public float Duration { get; set; }
     }

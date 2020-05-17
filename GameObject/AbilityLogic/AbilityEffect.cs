@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameObject.AbilityLogic
 {
-    public class AbilityEffect : ITimedEffect
+    public abstract class AbilityEffect : ITimedEffect
     {
+        public abstract string EffectType { get; }
         public float Probability;
         public float ProbabilityGrowth;
 
@@ -37,7 +38,7 @@ namespace GameObject.AbilityLogic
         }
         public static AbilityEffect CreateEffect(string type,string[] parameters)
         {
-            AbilityEffect ef= new AbilityEffect();
+            AbilityEffect ef = null;
 
             switch (type)
             {

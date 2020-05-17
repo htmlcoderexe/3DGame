@@ -9,6 +9,7 @@ namespace GameObject.AbilityLogic.GameEffects
 {
     public class Effect_damage_bmd_full : AbilityEffect
     {
+        public override string EffectType { get { return "Effect_damage_bmd_full"; } }
         public override List<string> GetParams(int Level)
         {
             List<string> p = new List<string>
