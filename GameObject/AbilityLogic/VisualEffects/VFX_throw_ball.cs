@@ -12,9 +12,10 @@ namespace GameObject.AbilityLogic.VisualEffects
     {
         public override string EffectType { get { return "VFX_throw_ball"; } }
         public Color Colour;
+        public float Size;
         public override void Apply(Actor Source, Actor Target, int Level)
         {
-            MapEntities.Particles.LightBall ball = new MapEntities.Particles.LightBall(this.Colour, 0.5f);
+            MapEntities.Particles.LightBall ball = new MapEntities.Particles.LightBall(this.Colour, this.Size);
             MapEntities.ParticleGroup g = new MapEntities.ParticleGroup
             {
                 Speed = 15f,
@@ -31,6 +32,11 @@ namespace GameObject.AbilityLogic.VisualEffects
             g.Particles.Add(ball);
 
             Source.WorldSpawn.Entities.Add(g);
+        }
+        public VFX_throw_ball(string[] parameters)
+        {
+            this.Colour = Utility.GetColor(parameters[0]);
+            this.Size = Utility.GetFloat(parameters[1]);
         }
     }
 }

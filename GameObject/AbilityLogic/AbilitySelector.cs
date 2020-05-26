@@ -7,7 +7,7 @@ using GameObject.MapEntities;
 
 namespace GameObject.AbilityLogic
 {
-    public abstract class AbilityVFX : ITimedEffect
+    public abstract class AbilitySelector : ITimedEffect
     {
         public abstract string EffectType { get; }
         public virtual void Apply(Actor Source, Actor Target, int Level)
@@ -15,18 +15,17 @@ namespace GameObject.AbilityLogic
 
         }
 
-        public static AbilityVFX CreateEffect(string type, string[] parameters)
+        public abstract List<MapEntities.Actor> GetTargets(Actor Source, Actor Target, int Level);
+
+        public static AbilitySelector CreateEffect(string type, string[] parameters)
         {
-            AbilityVFX ef = null;
+            AbilitySelector ef = null;
 
             switch (type)
             {
-                case "throw_ball":
-                    return new VisualEffects.VFX_throw_ball(parameters);
-                case "charge_ball":
-                    return new VisualEffects.VFX_charge_ball(parameters);
-                case "animate":
-                    return new VisualEffects.VFX_animate(parameters);
+                //case "around_target":
+                  //  return new Selectors.SEL_around_target(parameters);
+                
             }
 
 

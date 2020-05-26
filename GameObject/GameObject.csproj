@@ -47,6 +47,7 @@
     <Compile Include="AbilityLogic\AbilityEffect.cs" />
     <Compile Include="AbilityLogic\AbilityExecutor.cs" />
     <Compile Include="AbilityLogic\AbilityLoader.cs" />
+    <Compile Include="AbilityLogic\AbilitySelector.cs" />
     <Compile Include="AbilityLogic\AbilityVFX.cs" />
     <Compile Include="AbilityLogic\GameEffects\Effect_damage_bmd_full.cs" />
     <Compile Include="AbilityLogic\GameEffects\Effect_dot_mwp.cs" />
@@ -115,6 +116,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AbilityLogic\Selectors\" />
     <Folder Include="AbilityLogic\SoundEffects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

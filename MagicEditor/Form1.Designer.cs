@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.EffectList = new System.Windows.Forms.ListView();
+            this.icons = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // EffectList
@@ -40,6 +42,12 @@
             this.EffectList.TabIndex = 0;
             this.EffectList.UseCompatibleStateImageBehavior = false;
             this.EffectList.View = System.Windows.Forms.View.List;
+            // 
+            // icons
+            // 
+            this.icons.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.icons.ImageSize = new System.Drawing.Size(16, 16);
+            this.icons.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // Form1
             // 
@@ -57,6 +65,7 @@
         #endregion
 
         private System.Windows.Forms.ListView EffectList;
+        private System.Windows.Forms.ImageList icons;
     }
 }
 

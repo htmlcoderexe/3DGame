@@ -11,6 +11,9 @@ namespace GameObject.AbilityLogic
         public EffectiveAbility ability;
         public MapEntities.Actor Source;
         public MapEntities.Actor Target;
+        //this will get loaded from target selector blocks and will then apply next effect to all targets.
+        //should enable different selectors like "user only" "allies within 5m" "enemies in a line in front of user" etc
+        public List<MapEntities.Actor> TargetBuffer = new List<MapEntities.Actor>();
         float Timeline;
         public bool done;
 
@@ -49,8 +52,26 @@ namespace GameObject.AbilityLogic
             {
 
                 AbilityLogic.ITimedEffect effect = ability.EffectTimeline.Values[0];
-                effect.Apply(Source, Target, ability.Level);
+                //if it is a selector, query for targets and skip to next effect
+                if(effect is AbilitySelector selector)
+                {
+                    this.TargetBuffer = selector.GetTargets(Source,Target,ability.Level);
+                    continue;
+                }
+                //if a selector returned valid targets before, use these, else just teh user selected target
+                if(TargetBuffer!=null && TargetBuffer.Count>0)
+                {
+                    foreach(MapEntities.Actor target in TargetBuffer)
+                        effect.Apply(Source, target, ability.Level); //note SMALL t
+                }
+                else
+                {
+                    effect.Apply(Source, Target, ability.Level);
+                }
+
+                //discard the effect
                 ability.EffectTimeline.Remove(ability.EffectTimeline.Keys[0]);
+                //if out of effects, stop ability (TODO: constant channel abilities should have a flag that's checked here
                 if (this.ability.EffectTimeline.Count <= 0)
                 {
                     this.done = true;

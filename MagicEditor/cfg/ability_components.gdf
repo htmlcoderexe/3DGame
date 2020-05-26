@@ -1,0 +1,5 @@
+﻿1|Effect_damage_bmd_full|Deals damage based on BMD+weapon attack+fixed amount|BMD,%|Weapon damage,%|Fixed damage,n
+1|Effect_dot_mwp|Deals damage over time based on BMD+weapon attack+fixed amount|BMD,%|Weapon damage,%|Fixed damage,n|Duration,s
+2|VFX_throw_ball|Spawns a sphere particle towards target|Sphere colour,c|Sphere size,f
+2|VFX_charge_ball|Spawns a sphere particle in front of user|Sphere colour,c|Sphere size,f
+2|VFX_animate|Applies an animation|Animation name,c|Animation target,n

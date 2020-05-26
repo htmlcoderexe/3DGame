@@ -10,12 +10,11 @@ namespace GameObject.AbilityLogic
     {
         public TestAbility()
         {
-            AbilityLogic.VisualEffects.VFX_charge_ball charge = new VisualEffects.VFX_charge_ball();
+            string[] ballparams = new string[] {"255,127,0","0.5" };
+            AbilityLogic.VisualEffects.VFX_charge_ball charge = new VisualEffects.VFX_charge_ball(ballparams);
             charge.Duration = ModularAbility.CHANNEL_TIME;
-            charge.Colour = new Microsoft.Xna.Framework.Color(255, 127, 0);
-            AbilityLogic.VisualEffects.VFX_throw_ball launch = new VisualEffects.VFX_throw_ball();
+            AbilityLogic.VisualEffects.VFX_throw_ball launch = new VisualEffects.VFX_throw_ball(ballparams);
             launch.Duration = 2.0f;
-            launch.Colour = new Microsoft.Xna.Framework.Color(255, 127, 0);
             string[] bmdparams = new string[] {"150,0","10,0","10,20" };
             AbilityLogic.GameEffects.Effect_damage_bmd_full bmd = new GameEffects.Effect_damage_bmd_full(bmdparams);
             this.VisualEffects.Add(0, charge);

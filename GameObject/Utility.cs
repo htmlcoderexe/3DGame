@@ -24,5 +24,15 @@ namespace GameObject
             int b = int.Parse(parts[1]);
             return a + b * Level;
         }
+        public static float GetFloat(string param)
+        {
+            float.TryParse(param, out float a);
+            return a;
+        }
+        public static int GetInt(string param)
+        {
+            int.TryParse(param, out int a);
+            return a;
+        }
     }
 }

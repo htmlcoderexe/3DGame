@@ -22,6 +22,7 @@ namespace MagicEditor
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            AbilityEffectDefinition.LoadDefinitions();
             CurrentAbility = new TestAbility();
 
             EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
@@ -31,6 +32,8 @@ namespace MagicEditor
                 EffectList.Items.Add(effect.EffectType);
 
             }
+            AbilityEffectDefinition d = AbilityEffectDefinition.Definitions.Values.First();
+            CurrentAbility = new ModularAbility();
         }
     }
 }
