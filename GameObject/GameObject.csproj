@@ -49,6 +49,7 @@
     <Compile Include="AbilityLogic\AbilityLoader.cs" />
     <Compile Include="AbilityLogic\AbilitySelector.cs" />
     <Compile Include="AbilityLogic\AbilityVFX.cs" />
+    <Compile Include="AbilityLogic\EffectTimeline.cs" />
     <Compile Include="AbilityLogic\GameEffects\Effect_damage_bmd_full.cs" />
     <Compile Include="AbilityLogic\GameEffects\Effect_dot_mwp.cs" />
     <Compile Include="AbilityLogic\EffectTemplate.cs" />

@@ -9,6 +9,7 @@ namespace GameObject.AbilityLogic
     public abstract class AbilityEffect : ITimedEffect
     {
         public abstract string EffectType { get; }
+        public float Time { get; set; }
         public float Probability;
         public float ProbabilityGrowth;
 

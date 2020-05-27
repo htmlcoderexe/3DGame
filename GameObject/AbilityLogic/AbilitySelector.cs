@@ -10,6 +10,7 @@ namespace GameObject.AbilityLogic
     public abstract class AbilitySelector : ITimedEffect
     {
         public abstract string EffectType { get; }
+        public float Time { get; set; }
         public virtual void Apply(Actor Source, Actor Target, int Level)
         {
 

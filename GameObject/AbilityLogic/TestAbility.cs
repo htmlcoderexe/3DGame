@@ -13,10 +13,13 @@ namespace GameObject.AbilityLogic
             string[] ballparams = new string[] {"255,127,0","0.5" };
             AbilityLogic.VisualEffects.VFX_charge_ball charge = new VisualEffects.VFX_charge_ball(ballparams);
             charge.Duration = ModularAbility.CHANNEL_TIME;
+            charge.Time = 0f;
             AbilityLogic.VisualEffects.VFX_throw_ball launch = new VisualEffects.VFX_throw_ball(ballparams);
             launch.Duration = 2.0f;
+            launch.Time = CHANNEL_TIME;
             string[] bmdparams = new string[] {"150,0","10,0","10,20" };
             AbilityLogic.GameEffects.Effect_damage_bmd_full bmd = new GameEffects.Effect_damage_bmd_full(bmdparams);
+            bmd.Time = BOTH;
             this.VisualEffects.Add(0, charge);
             this.VisualEffects.Add(CHANNEL_TIME, launch);
             this.GameEffects.Add(BOTH, bmd);

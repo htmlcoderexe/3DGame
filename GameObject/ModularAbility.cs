@@ -37,6 +37,7 @@ namespace GameObject
 
         public SortedList<float, AbilityLogic.AbilityEffect> GameEffects= new SortedList<float, AbilityLogic.AbilityEffect>();
         public SortedList<float, AbilityLogic.AbilityVFX> VisualEffects = new SortedList<float, AbilityLogic.AbilityVFX>();
+        public SortedList<float, AbilityLogic.AbilitySelector> Selectors = new SortedList<float, AbilityLogic.AbilitySelector>();
 
         public List<string> GetTooltip()
         {
@@ -78,7 +79,7 @@ namespace GameObject
             EffectiveAbility result = new EffectiveAbility
             {
                 Level = this.Level,
-                EffectTimeline = new SortedList<float, AbilityLogic.ITimedEffect>()
+                EffectTimeline = new AbilityLogic.EffectTimeline()
             };
 
             //this just pushes all effects onto the timeline for AbilityExecutor, resolving magic constants to actual values
@@ -89,7 +90,8 @@ namespace GameObject
                 float k = eff.Key;
                 k = GetTimeValue(k);
                 eff.Value.Duration = GetTimeValue(eff.Value.Duration);
-                result.EffectTimeline.Add(k, eff.Value);
+                eff.Value.Time = GetTimeValue(eff.Value.Time);
+                result.EffectTimeline.Add(eff.Value);
             }
 
             foreach (KeyValuePair<float, AbilityLogic.AbilityVFX> eff in this.VisualEffects)
@@ -97,7 +99,16 @@ namespace GameObject
                 float k = eff.Key;
                 k = GetTimeValue(k);
                 eff.Value.Duration = GetTimeValue(eff.Value.Duration);
-                result.EffectTimeline.Add(k, eff.Value);
+                eff.Value.Time = GetTimeValue(eff.Value.Time);
+                result.EffectTimeline.Add(eff.Value);
+            }
+            foreach (KeyValuePair<float, AbilityLogic.AbilitySelector> eff in this.Selectors)
+            {
+                float k = eff.Key;
+                k = GetTimeValue(k);
+                eff.Value.Duration = GetTimeValue(eff.Value.Duration);
+                eff.Value.Time = GetTimeValue(eff.Value.Time);
+                result.EffectTimeline.Add(eff.Value);
             }
 
             return result;

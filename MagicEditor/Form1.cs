@@ -27,7 +27,7 @@ namespace MagicEditor
 
             EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
 
-            foreach(ITimedEffect effect in a.EffectTimeline.Values)
+            foreach(ITimedEffect effect in a.EffectTimeline.GetList())
             {
                 EffectList.Items.Add(effect.EffectType);
 

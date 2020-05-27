@@ -8,7 +8,8 @@ namespace GameObject
 {
     public class EffectiveAbility
     {
-        public SortedList<float, AbilityLogic.ITimedEffect> EffectTimeline;
+        //public SortedList<float, AbilityLogic.ITimedEffect> EffectTimeline;
+        public AbilityLogic.EffectTimeline EffectTimeline;
         public int Level;
         public float CastTime;
         public float ChannelTime;

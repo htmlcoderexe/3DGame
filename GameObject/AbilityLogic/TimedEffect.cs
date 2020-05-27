@@ -11,6 +11,6 @@ namespace GameObject.AbilityLogic
         void Apply(MapEntities.Actor Source, MapEntities.Actor Target, int Level);
         float Duration { get; set; }
         string EffectType { get; }
-        
+        float Time { get; set; }
     }
 }

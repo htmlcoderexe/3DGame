@@ -43,36 +43,39 @@ namespace GameObject.AbilityLogic
             if (this.done)
                 return;
 
-            if (this.ability.EffectTimeline.Count <= 0)
+            if (this.ability.EffectTimeline.Count() <= 0)
             {
                 this.done = true;
                 return;
             }
             while(Timeline > ability.EffectTimeline.Keys[0])
             {
+                float current = ability.EffectTimeline.Keys[0];
+                List<ITimedEffect> effects = ability.EffectTimeline.Get(current);
+                foreach(ITimedEffect effect in effects)
+                {
 
-                AbilityLogic.ITimedEffect effect = ability.EffectTimeline.Values[0];
-                //if it is a selector, query for targets and skip to next effect
-                if(effect is AbilitySelector selector)
-                {
-                    this.TargetBuffer = selector.GetTargets(Source,Target,ability.Level);
-                    continue;
+                    //if it is a selector, query for targets and skip to next effect
+                    if (effect is AbilitySelector selector)
+                    {
+                        this.TargetBuffer = selector.GetTargets(Source, Target, ability.Level);
+                        continue;
+                    }
+                    //if a selector returned valid targets before, use these, else just teh user selected target
+                    if (TargetBuffer != null && TargetBuffer.Count > 0)
+                    {
+                        foreach (MapEntities.Actor target in TargetBuffer)
+                            effect.Apply(Source, target, ability.Level); //note SMALL t
+                    }
+                    else
+                    {
+                        effect.Apply(Source, Target, ability.Level);
+                    }
                 }
-                //if a selector returned valid targets before, use these, else just teh user selected target
-                if(TargetBuffer!=null && TargetBuffer.Count>0)
-                {
-                    foreach(MapEntities.Actor target in TargetBuffer)
-                        effect.Apply(Source, target, ability.Level); //note SMALL t
-                }
-                else
-                {
-                    effect.Apply(Source, Target, ability.Level);
-                }
-
                 //discard the effect
-                ability.EffectTimeline.Remove(ability.EffectTimeline.Keys[0]);
+                ability.EffectTimeline.Remove(current);
                 //if out of effects, stop ability (TODO: constant channel abilities should have a flag that's checked here
-                if (this.ability.EffectTimeline.Count <= 0)
+                if (this.ability.EffectTimeline.Count() <= 0)
                 {
                     this.done = true;
                     break;
