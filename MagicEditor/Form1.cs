@@ -38,8 +38,6 @@ namespace MagicEditor
                 EffectList.Items.Add(line);
 
             }
-            AbilityEffectDefinition d = AbilityEffectDefinition.Definitions.Values.First();
-            CurrentAbility = new ModularAbility();
         }
 
         private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
