@@ -29,11 +29,25 @@ namespace MagicEditor
 
             foreach(ITimedEffect effect in a.EffectTimeline.GetList())
             {
-                EffectList.Items.Add(effect.EffectType);
+                AbilityEffectDefinition adef = AbilityEffectDefinition.GetDefinition(effect.EffectType);
+                string[] ItemProps = new string[] { adef.FriendlyName, effect.Time.ToString(),effect.Duration.ToString()};
+                ListViewItem line = new ListViewItem(ItemProps, adef.Icon)
+                {
+                    Tag = effect
+                };
+                EffectList.Items.Add(line);
 
             }
             AbilityEffectDefinition d = AbilityEffectDefinition.Definitions.Values.First();
             CurrentAbility = new ModularAbility();
+        }
+
+        private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (EffectList.SelectedItems.Count != 1)
+                return;
+            ListViewItem item = EffectList.SelectedItems[0];
+            MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
         }
     }
 }

@@ -29,25 +29,48 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.EffectList = new System.Windows.Forms.ListView();
             this.icons = new System.Windows.Forms.ImageList(this.components);
+            this.time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.duration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.typefriendly = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // EffectList
             // 
+            this.EffectList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.typefriendly,
+            this.time,
+            this.duration});
             this.EffectList.HideSelection = false;
             this.EffectList.Location = new System.Drawing.Point(290, 76);
             this.EffectList.Name = "EffectList";
             this.EffectList.Size = new System.Drawing.Size(484, 336);
+            this.EffectList.SmallImageList = this.icons;
             this.EffectList.TabIndex = 0;
             this.EffectList.UseCompatibleStateImageBehavior = false;
-            this.EffectList.View = System.Windows.Forms.View.List;
+            this.EffectList.View = System.Windows.Forms.View.Details;
+            this.EffectList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.EffectList_MouseDoubleClick);
             // 
             // icons
             // 
-            this.icons.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.icons.ImageSize = new System.Drawing.Size(16, 16);
-            this.icons.TransparentColor = System.Drawing.Color.Transparent;
+            this.icons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("icons.ImageStream")));
+            this.icons.TransparentColor = System.Drawing.Color.Magenta;
+            this.icons.Images.SetKeyName(0, "icon_vfx.bmp");
+            this.icons.Images.SetKeyName(1, "icon_damage.bmp");
+            // 
+            // time
+            // 
+            this.time.Text = "Time";
+            // 
+            // duration
+            // 
+            this.duration.Text = "Duration";
+            // 
+            // typefriendly
+            // 
+            this.typefriendly.Text = "Item";
             // 
             // Form1
             // 
@@ -66,6 +89,9 @@
 
         private System.Windows.Forms.ListView EffectList;
         private System.Windows.Forms.ImageList icons;
+        private System.Windows.Forms.ColumnHeader time;
+        private System.Windows.Forms.ColumnHeader duration;
+        private System.Windows.Forms.ColumnHeader typefriendly;
     }
 }
 

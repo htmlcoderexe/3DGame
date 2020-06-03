@@ -96,5 +96,9 @@
       <Name>Terrain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\icon_damage.bmp" />
+    <Content Include="images\icon_vfx.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
