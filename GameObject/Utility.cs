@@ -11,7 +11,7 @@ namespace GameObject
     {
         public static Color GetColor(string csv)
         {
-            string[] rgb = csv.Split(',');
+            string[] rgb = csv.Split(':');
             int r = Int32.Parse(rgb[0]);
             int g = Int32.Parse(rgb[1]);
             int b = Int32.Parse(rgb[2]);

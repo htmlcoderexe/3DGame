@@ -10,7 +10,7 @@ namespace GameObject.AbilityLogic
     {
         public TestAbility()
         {
-            string[] ballparams = new string[] {"255,127,0","0.5" };
+            string[] ballparams = new string[] {"255:127:0","0.5" };
             AbilityLogic.VisualEffects.VFX_charge_ball charge = new VisualEffects.VFX_charge_ball(ballparams);
             charge.Duration = ModularAbility.CHANNEL_TIME;
             charge.Time = 0f;

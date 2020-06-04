@@ -33,6 +33,8 @@ namespace GameObject.AbilityLogic
 
             return ef;
         }
+
+        public abstract string[] GetParamValues();
         public float Duration { get; set; }
     }
 }

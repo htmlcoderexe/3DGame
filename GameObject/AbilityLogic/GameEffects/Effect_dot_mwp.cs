@@ -29,5 +29,9 @@ namespace GameObject.AbilityLogic.GameEffects
             };
             return p;
         }
+        public override string[] GetParamValues()
+        {
+            return _rawparams;
+        }
     }
 }

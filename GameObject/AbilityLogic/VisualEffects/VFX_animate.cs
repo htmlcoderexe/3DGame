@@ -14,15 +14,22 @@ namespace GameObject.AbilityLogic.VisualEffects
         public int Target;
         public const int ANIMATE_USER = 0;
         public const int ANIMATE_TARGET = 1;
-
+        string[] _rawparams;
         public override void Apply(Actor Source, Actor Target, int Level)
         {
 
         }
         public VFX_animate(string[] parameters)
         {
+            this._rawparams = parameters;
+            parameters[0] = parameters[0].Split(',')[0];
+            parameters[1] = parameters[1].Split(',')[0];
             this.AnimationName = parameters[0];
             this.Target = Utility.GetInt(parameters[1]);
+        }
+        public override string[] GetParamValues()
+        {
+            return _rawparams;
         }
     }
 }

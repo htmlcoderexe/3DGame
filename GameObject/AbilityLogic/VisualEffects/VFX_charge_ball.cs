@@ -13,6 +13,7 @@ namespace GameObject.AbilityLogic.VisualEffects
         public override string EffectType{get{return "VFX_charge_ball";}}
         public Color Colour;
         public float Size;
+        string[] _rawparams;
         public override void Apply(Actor Source, Actor Target, int Level)
         {
             MapEntities.Particles.LightBall ball = new MapEntities.Particles.LightBall(this.Colour,this.Size);
@@ -36,8 +37,15 @@ namespace GameObject.AbilityLogic.VisualEffects
 
         public VFX_charge_ball(string[] parameters)
         {
+            this._rawparams = parameters;
+            parameters[0] = parameters[0].Split(',')[0];
+            parameters[1] = parameters[1].Split(',')[0];
             this.Colour = Utility.GetColor(parameters[0]);
             this.Size = Utility.GetFloat(parameters[1]);
+        }
+        public override string[] GetParamValues()
+        {
+            return _rawparams;
         }
     }
 }

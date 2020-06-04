@@ -45,7 +45,9 @@ namespace MagicEditor
             if (EffectList.SelectedItems.Count != 1)
                 return;
             ListViewItem item = EffectList.SelectedItems[0];
-            MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
+            EditAbilityComponent editform = new EditAbilityComponent((ITimedEffect)item.Tag);
+            editform.ShowDialog();
+            //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
         }
     }
 }

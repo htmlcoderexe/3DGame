@@ -42,6 +42,10 @@ namespace GameObject.AbilityLogic
             fs.Close();
             fs.Dispose();
         }
+        /// <summary>
+        /// Deprecated do not use
+        /// </summary>
+        /// <returns></returns>
         public List<Ability> LoadAbilities()
         {
             List<Ability> result = new List<Ability>();

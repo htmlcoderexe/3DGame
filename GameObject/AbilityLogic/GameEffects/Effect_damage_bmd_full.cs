@@ -35,5 +35,10 @@ namespace GameObject.AbilityLogic.GameEffects
             Target.Hit(dmg, true, 0); //#TODO: extra magic type param
             base.Apply(Source, Target,Level);
         }
+
+        public override string[] GetParamValues()
+        {
+            return _rawparams;
+        }
     }
 }
