@@ -12,6 +12,10 @@ namespace GameObject.AbilityLogic.GameEffects
         public override string EffectType { get { return "Effect_dot_mwp"; } }
         public Effect_dot_mwp(string[] parameters)
         {
+            SetParamValues(parameters);
+        }
+        public override void SetParamValues(string[] parameters)
+        {
             this._rawparams = parameters;
         }
         public override void Apply(Actor Source, Actor Target, int Level)

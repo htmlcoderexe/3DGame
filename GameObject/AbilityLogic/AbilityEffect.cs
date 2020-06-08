@@ -53,5 +53,6 @@ namespace GameObject.AbilityLogic
             return ef;
         }
         public abstract string[] GetParamValues();
+        public abstract void SetParamValues(string[] Values);
     }
 }

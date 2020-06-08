@@ -35,6 +35,7 @@ namespace GameObject.AbilityLogic
         }
 
         public abstract string[] GetParamValues();
+        public abstract void SetParamValues(string[] Values);
         public float Duration { get; set; }
     }
 }

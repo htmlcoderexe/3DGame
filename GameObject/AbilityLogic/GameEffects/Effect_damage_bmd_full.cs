@@ -23,6 +23,10 @@ namespace GameObject.AbilityLogic.GameEffects
         }
         public Effect_damage_bmd_full(string[] parameters)
         {
+            SetParamValues(parameters);
+        }
+        public override void SetParamValues(string[] parameters)
+        {
             this._rawparams = parameters;
         }
         public override void Apply(Actor Source, Actor Target,int Level)

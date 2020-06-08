@@ -37,7 +37,11 @@ namespace GameObject.AbilityLogic.VisualEffects
 
         public VFX_charge_ball(string[] parameters)
         {
-            this._rawparams = parameters;
+            SetParamValues(parameters);
+        }
+        public override void SetParamValues(string[] parameters)
+        {
+            this._rawparams = (string[])parameters.Clone();
             parameters[0] = parameters[0].Split(',')[0];
             parameters[1] = parameters[1].Split(',')[0];
             this.Colour = Utility.GetColor(parameters[0]);

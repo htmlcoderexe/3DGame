@@ -13,5 +13,6 @@ namespace GameObject.AbilityLogic
         string EffectType { get; }
         float Time { get; set; }
         string[] GetParamValues();
+        void SetParamValues(string[] Values);
     }
 }

@@ -36,6 +36,11 @@ namespace GameObject.AbilityLogic.VisualEffects
         }
         public VFX_throw_ball(string[] parameters)
         {
+            SetParamValues(parameters);
+        }
+        public override void SetParamValues(string[] parameters)
+        {
+
             this._rawparams = parameters;
             parameters[0] = parameters[0].Split(',')[0];
             parameters[1] = parameters[1].Split(',')[0];
