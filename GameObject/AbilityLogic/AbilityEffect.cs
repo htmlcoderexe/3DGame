@@ -9,7 +9,18 @@ namespace GameObject.AbilityLogic
     public abstract class AbilityEffect : ITimedEffect
     {
         public abstract string EffectType { get; }
-        public float Time { get; set; }
+        public float GetTime(int Level)
+        {
+            return BaseTime + DeltaTime * (Level - 1);
+        }
+        public float GetDuration(int Level)
+        {
+            return BaseDuration + DeltaDuration * (Level - 1);
+        }
+        public float BaseDuration { get; set; }
+        public float DeltaDuration { get; set; }
+        public float BaseTime { get; set; }
+        public float DeltaTime { get; set; }
         public float Probability;
         public float ProbabilityGrowth;
 
@@ -32,7 +43,6 @@ namespace GameObject.AbilityLogic
 
         }
 
-        public float Duration { get; set; }
         public virtual List<string> GetParams(int Level)
         {
             return new List<string>();

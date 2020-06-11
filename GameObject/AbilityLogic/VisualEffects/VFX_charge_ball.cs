@@ -26,7 +26,7 @@ namespace GameObject.AbilityLogic.VisualEffects
                 OnGround = false
             };
             g.Model = null;
-            g.TTL = this.Duration;
+            g.TTL = this.GetDuration(Level);
             g.Expires = true;
             g.Target = Source;
             //g.FizzleOnGround = true;

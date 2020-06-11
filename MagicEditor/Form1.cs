@@ -25,12 +25,12 @@ namespace MagicEditor
             AbilityEffectDefinition.LoadDefinitions();
             CurrentAbility = new TestAbility();
 
-            EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
+            //EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
 
-            foreach(ITimedEffect effect in a.EffectTimeline.GetList())
+            foreach(ITimedEffect effect in CurrentAbility.GetModules())
             {
                 AbilityEffectDefinition adef = AbilityEffectDefinition.GetDefinition(effect.EffectType);
-                string[] ItemProps = new string[] { adef.FriendlyName, effect.Time.ToString(),effect.Duration.ToString()};
+                string[] ItemProps = new string[] { adef.FriendlyName, effect.BaseTime.ToString(),effect.BaseDuration.ToString()};
                 ListViewItem line = new ListViewItem(ItemProps, adef.Icon)
                 {
                     Tag = effect
@@ -38,6 +38,8 @@ namespace MagicEditor
                 EffectList.Items.Add(line);
 
             }
+
+            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
         }
 
         private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -48,6 +50,12 @@ namespace MagicEditor
             EditAbilityComponent editform = new EditAbilityComponent((ITimedEffect)item.Tag);
             editform.ShowDialog();
             //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
+        }
+
+        private void lvlprev_ValueChanged(object sender, EventArgs e)
+        {
+            CurrentAbility.Level = (int)lvlprev.Value;
+            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
         }
     }
 }

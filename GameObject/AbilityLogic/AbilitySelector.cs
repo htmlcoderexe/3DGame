@@ -10,7 +10,18 @@ namespace GameObject.AbilityLogic
     public abstract class AbilitySelector : ITimedEffect
     {
         public abstract string EffectType { get; }
-        public float Time { get; set; }
+        public float GetTime(int Level)
+        {
+            return BaseTime + DeltaTime * (Level - 1);
+        }
+        public float GetDuration(int Level)
+        {
+            return BaseDuration + DeltaDuration * (Level - 1);
+        }
+        public float BaseDuration { get; set; }
+        public float DeltaDuration { get; set; }
+        public float BaseTime { get; set; }
+        public float DeltaTime { get; set; }
         public virtual void Apply(Actor Source, Actor Target, int Level)
         {
 
@@ -34,6 +45,5 @@ namespace GameObject.AbilityLogic
         }
         public abstract string[] GetParamValues();
         public abstract void SetParamValues(string[] Values);
-        public float Duration { get; set; }
     }
 }

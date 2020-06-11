@@ -13,13 +13,13 @@ namespace GameObject.AbilityLogic
         /// Adds a single effect to the internal collection
         /// </summary>
         /// <param name="effect"></param>
-        public void Add(ITimedEffect effect)
+        public void Add(ITimedEffect effect, int Level)
         {
-            if(!Effects.ContainsKey(effect.Time))
+            if(!Effects.ContainsKey(effect.GetTime(Level)))
             {
-                Effects.Add(effect.Time, new List<ITimedEffect>());
+                Effects.Add(effect.GetTime(Level), new List<ITimedEffect>());
             }
-            Effects[effect.Time].Add(effect);
+            Effects[effect.GetTime(Level)].Add(effect);
         }
         /// <summary>
         /// Returns total amount of elements
@@ -47,11 +47,11 @@ namespace GameObject.AbilityLogic
         /// Generates a new instance from a list of effects
         /// </summary>
         /// <param name="effectList"></param>
-        public EffectTimeline(List<ITimedEffect> effectList)
+        public EffectTimeline(List<ITimedEffect> effectList, int Level)
         {
             this.Effects = new SortedDictionary<float, List<ITimedEffect>>();
             foreach (ITimedEffect effect in effectList)
-                Add(effect);
+                Add(effect, Level);
         }
         public EffectTimeline()
         {

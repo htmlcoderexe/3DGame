@@ -31,10 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.EffectList = new System.Windows.Forms.ListView();
-            this.icons = new System.Windows.Forms.ImageList(this.components);
+            this.typefriendly = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.duration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.typefriendly = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.icons = new System.Windows.Forms.ImageList(this.components);
+            this.descprev = new System.Windows.Forms.Label();
+            this.lvlprev = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.SuspendLayout();
             // 
             // EffectList
@@ -53,12 +56,9 @@
             this.EffectList.View = System.Windows.Forms.View.Details;
             this.EffectList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.EffectList_MouseDoubleClick);
             // 
-            // icons
+            // typefriendly
             // 
-            this.icons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("icons.ImageStream")));
-            this.icons.TransparentColor = System.Drawing.Color.Magenta;
-            this.icons.Images.SetKeyName(0, "icon_vfx.bmp");
-            this.icons.Images.SetKeyName(1, "icon_damage.bmp");
+            this.typefriendly.Text = "Item";
             // 
             // time
             // 
@@ -68,19 +68,56 @@
             // 
             this.duration.Text = "Duration";
             // 
-            // typefriendly
+            // icons
             // 
-            this.typefriendly.Text = "Item";
+            this.icons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("icons.ImageStream")));
+            this.icons.TransparentColor = System.Drawing.Color.Magenta;
+            this.icons.Images.SetKeyName(0, "icon_vfx.bmp");
+            this.icons.Images.SetKeyName(1, "icon_damage.bmp");
+            // 
+            // descprev
+            // 
+            this.descprev.Location = new System.Drawing.Point(12, 76);
+            this.descprev.Name = "descprev";
+            this.descprev.Size = new System.Drawing.Size(158, 152);
+            this.descprev.TabIndex = 1;
+            this.descprev.Text = "<>";
+            // 
+            // lvlprev
+            // 
+            this.lvlprev.Location = new System.Drawing.Point(25, 35);
+            this.lvlprev.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.lvlprev.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.lvlprev.Name = "lvlprev";
+            this.lvlprev.Size = new System.Drawing.Size(120, 20);
+            this.lvlprev.TabIndex = 2;
+            this.lvlprev.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.lvlprev.ValueChanged += new System.EventHandler(this.lvlprev_ValueChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 516);
+            this.Controls.Add(this.lvlprev);
+            this.Controls.Add(this.descprev);
             this.Controls.Add(this.EffectList);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -92,6 +129,8 @@
         private System.Windows.Forms.ColumnHeader time;
         private System.Windows.Forms.ColumnHeader duration;
         private System.Windows.Forms.ColumnHeader typefriendly;
+        private System.Windows.Forms.Label descprev;
+        private System.Windows.Forms.NumericUpDown lvlprev;
     }
 }
 
