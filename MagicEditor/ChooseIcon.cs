@@ -25,8 +25,7 @@ namespace MagicEditor
 
         private void iconimage_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Point point = iconimage.PointToClient(new Point(e.X, e.Y));
-            point = new Point(e.X, e.Y);
+            Point point = new Point(e.X, e.Y);
             int X = (int)((float)point.X / 32f);
             int Y = (int)((float)point.Y / 32f);
             this.Icon = X + Y * 64;
