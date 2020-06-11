@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbilityEffectDefinition.cs" />
+    <Compile Include="ChooseIcon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChooseIcon.Designer.cs">
+      <DependentUpon>ChooseIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditAbilityComponent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChooseIcon.resx">
+      <DependentUpon>ChooseIcon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditAbilityComponent.resx">
       <DependentUpon>EditAbilityComponent.cs</DependentUpon>
     </EmbeddedResource>

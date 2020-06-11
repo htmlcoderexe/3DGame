@@ -28,6 +28,13 @@ namespace MagicEditor
             //EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
 
            ReloadList();
+            SetIcon(CurrentAbility.Icon);
+            //SetIcon(2);
+        }
+
+        private void SetIcon(int IconId)
+        {
+            iconimage.Location = new Point((IconId % 64)*-32, ((int)(IconId / 64f))*-32);
         }
 
         private void ReloadList()
@@ -63,6 +70,16 @@ namespace MagicEditor
         {
             CurrentAbility.Level = (int)lvlprev.Value;
             descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
+        }
+
+        private void iconimage_DoubleClick(object sender, EventArgs e)
+        {
+            ChooseIcon chooseform = new ChooseIcon();
+            if(chooseform.ShowDialog()==DialogResult.OK)
+            {
+                SetIcon(chooseform.Icon);
+                CurrentAbility.Icon = chooseform.Icon;
+            }
         }
     }
 }

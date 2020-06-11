@@ -13,7 +13,7 @@ namespace GameObject.AbilityLogic
 
             this.BaseValues = new Dictionary<string, float>();
             this.GrowthValues = new Dictionary<string, float>();
-
+            this.Icon = 193;
             //DATA PART 2: base values.
             this.BaseValues.Add("channel_time", 1.3f);
             this.BaseValues.Add("cast_time", 1.0f);
