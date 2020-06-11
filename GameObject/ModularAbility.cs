@@ -58,7 +58,7 @@ namespace GameObject
             string output = "";
            for(int i=0;i<this.DescriptionString.Length;i++)
             {
-                if (DescriptionString[i]!='^')
+                if (DescriptionString[i]!='@')
                 {
                     output += DescriptionString[i];
                     continue;

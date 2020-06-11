@@ -39,7 +39,7 @@ namespace GameObject.AbilityLogic
             this.Effects.Add(charge);
             this.Effects.Add(launch);
             this.Effects.Add(bmd);
-            this.DescriptionString = "Launch a simple fireball at the target, burning them for ^20% base magic attack, ^21% weapon attack and an additional ^22 damage as Fire damage.";
+            this.DescriptionString = "Launch a simple fireball at the target, burning them for @20% base magic attack, @21% weapon attack and an additional @22 damage as Fire damage.";
         }
     }
 }
