@@ -59,6 +59,7 @@
             // typefriendly
             // 
             this.typefriendly.Text = "Item";
+            this.typefriendly.Width = 250;
             // 
             // time
             // 

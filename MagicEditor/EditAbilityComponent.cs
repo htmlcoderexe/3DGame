@@ -22,6 +22,11 @@ namespace MagicEditor
             CurrentEffect = effect;
             AbilityEffectDefinition aed = AbilityEffectDefinition.GetDefinition(effect.EffectType);
             this.label1.Text = aed.FriendlyName;
+            basetimevalue.Value = (decimal)CurrentEffect.BaseTime;
+            basedurationvalue.Value = (decimal)CurrentEffect.BaseDuration;
+            deltatimevalue.Value = (decimal)CurrentEffect.DeltaTime;
+            deltadurationvalue.Value = (decimal)CurrentEffect.DeltaDuration;
+            desclabel.Text = aed.Description;   
             string[] values = effect.GetParamValues();
 
             for(int i=0;i<aed.parameters.Count;i++)
@@ -150,6 +155,12 @@ namespace MagicEditor
 
             }
             CurrentEffect.SetParamValues(values);
+
+            CurrentEffect.BaseTime = (float)basetimevalue.Value;
+            CurrentEffect.DeltaTime = (float)deltatimevalue.Value;
+            CurrentEffect.BaseDuration = (float)basedurationvalue.Value;
+            CurrentEffect.DeltaDuration = (float)deltadurationvalue.Value;
+
             this.Close();
         }
 
@@ -171,11 +182,13 @@ namespace MagicEditor
 
         private void okSave_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.OK;
             SaveAndQuit();
         }
 
         private void cancelbutt_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }

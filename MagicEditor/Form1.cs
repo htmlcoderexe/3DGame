@@ -27,10 +27,16 @@ namespace MagicEditor
 
             //EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
 
-            foreach(ITimedEffect effect in CurrentAbility.GetModules())
+           ReloadList();
+        }
+
+        private void ReloadList()
+        {
+            EffectList.Items.Clear();
+            foreach (ITimedEffect effect in CurrentAbility.GetModules())
             {
                 AbilityEffectDefinition adef = AbilityEffectDefinition.GetDefinition(effect.EffectType);
-                string[] ItemProps = new string[] { adef.FriendlyName, effect.BaseTime.ToString(),effect.BaseDuration.ToString()};
+                string[] ItemProps = new string[] { adef.FriendlyName, effect.BaseTime.ToString(), effect.BaseDuration.ToString() };
                 ListViewItem line = new ListViewItem(ItemProps, adef.Icon)
                 {
                     Tag = effect
@@ -48,7 +54,8 @@ namespace MagicEditor
                 return;
             ListViewItem item = EffectList.SelectedItems[0];
             EditAbilityComponent editform = new EditAbilityComponent((ITimedEffect)item.Tag);
-            editform.ShowDialog();
+            if (editform.ShowDialog() == DialogResult.OK)
+                ReloadList();
             //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
         }
 
