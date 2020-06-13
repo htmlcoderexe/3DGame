@@ -109,6 +109,11 @@ namespace GameObject
         {
             if (Level == -1)
                 Level = this.Level;
+
+            if (this.Effects.Count <= Effect)
+                return "";
+            if (this.Effects[Effect].GetParamValues().Length <= Param)
+                return "";
             string pbase= (this.Effects[Effect].GetParamValues())[Param].Split(new char[] { ',' })[0];
             string pdelta= (this.Effects[Effect].GetParamValues())[Param].Split(new char[] { ',' }).Length==2? (this.Effects[Effect].GetParamValues())[Param].Split(new char[] { ',' })[1]:"0";
             float.TryParse(pbase, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float floatbase);

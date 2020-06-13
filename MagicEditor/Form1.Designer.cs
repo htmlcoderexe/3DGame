@@ -40,9 +40,13 @@
             this.iconimage = new System.Windows.Forms.PictureBox();
             this.iconcontainer = new System.Windows.Forms.Panel();
             this.spellname = new System.Windows.Forms.Label();
+            this.effectmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
             this.iconcontainer.SuspendLayout();
+            this.effectmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -51,6 +55,7 @@
             this.typefriendly,
             this.time,
             this.duration});
+            this.EffectList.ContextMenuStrip = this.effectmenu;
             this.EffectList.HideSelection = false;
             this.EffectList.Location = new System.Drawing.Point(577, 12);
             this.EffectList.Name = "EffectList";
@@ -144,6 +149,29 @@
             this.spellname.Text = "<>";
             this.spellname.DoubleClick += new System.EventHandler(this.spellname_DoubleClick);
             // 
+            // effectmenu
+            // 
+            this.effectmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addEffectToolStripMenuItem,
+            this.removeEffectToolStripMenuItem});
+            this.effectmenu.Name = "effectmenu";
+            this.effectmenu.Size = new System.Drawing.Size(181, 70);
+            this.effectmenu.Opening += new System.ComponentModel.CancelEventHandler(this.effectmenu_Opening);
+            // 
+            // addEffectToolStripMenuItem
+            // 
+            this.addEffectToolStripMenuItem.Name = "addEffectToolStripMenuItem";
+            this.addEffectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addEffectToolStripMenuItem.Text = "Add effect";
+            this.addEffectToolStripMenuItem.Click += new System.EventHandler(this.addEffectToolStripMenuItem_Click);
+            // 
+            // removeEffectToolStripMenuItem
+            // 
+            this.removeEffectToolStripMenuItem.Name = "removeEffectToolStripMenuItem";
+            this.removeEffectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeEffectToolStripMenuItem.Text = "Remove effect";
+            this.removeEffectToolStripMenuItem.Click += new System.EventHandler(this.removeEffectToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -160,6 +188,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
             this.iconcontainer.ResumeLayout(false);
+            this.effectmenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -176,6 +205,9 @@
         private System.Windows.Forms.PictureBox iconimage;
         private System.Windows.Forms.Panel iconcontainer;
         private System.Windows.Forms.Label spellname;
+        private System.Windows.Forms.ContextMenuStrip effectmenu;
+        private System.Windows.Forms.ToolStripMenuItem addEffectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeEffectToolStripMenuItem;
     }
 }
 

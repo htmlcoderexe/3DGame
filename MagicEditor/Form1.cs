@@ -117,5 +117,59 @@ namespace MagicEditor
                 UpdateDescriptionPreview();
             }
         }
+
+        private void effectmenu_Opening(object sender, CancelEventArgs e)
+        {
+            
+                effectmenu.Items[1].Enabled = EffectList.SelectedItems.Count == 1;
+        }
+
+        private void removeEffectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (EffectList.SelectedItems.Count != 1)
+                return;
+            ListViewItem item = EffectList.SelectedItems[0];
+            ITimedEffect effect = (ITimedEffect)item.Tag;
+            CurrentAbility.Effects.Remove(effect);
+            EffectList.SelectedItems.Clear();
+            EffectList.Items.Remove(item);
+        }
+
+        private void addEffectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PickEffectSimple box = new PickEffectSimple();
+            if(box.ShowDialog()== DialogResult.OK)
+            {
+                string result = box.Effect;
+                string[] parts = result.Split(new char[]{ '_'},2);
+                string[] dummyparams = new string[] {"0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0" };
+                ITimedEffect eff;
+                switch(parts[0])
+                {
+                    case "VFX":
+                        {
+                            eff = AbilityVFX.CreateEffect(parts[1], dummyparams);
+                            break;
+                        }
+                    case "Effect":
+                        {
+                            eff = AbilityEffect.CreateEffect(parts[1], dummyparams);
+                            break;
+                        }
+                    case "Selector":
+                        {
+                            eff = AbilitySelector.CreateEffect(parts[1], dummyparams);
+                            break;
+                        }
+                    default:
+                        {
+                            eff = AbilityEffect.CreateEffect("null", dummyparams);
+                            break;
+                        }
+                }
+                CurrentAbility.Effects.Add(eff);
+                ReloadList();
+            }
+        }
     }
 }
