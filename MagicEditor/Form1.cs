@@ -29,6 +29,9 @@ namespace MagicEditor
 
            ReloadList();
             SetIcon(CurrentAbility.Icon);
+
+            UpdateDescriptionPreview();
+            this.spellname.Text = CurrentAbility.Name;
             //SetIcon(2);
         }
 
@@ -52,7 +55,6 @@ namespace MagicEditor
 
             }
 
-            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
         }
 
         private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -62,11 +64,21 @@ namespace MagicEditor
             ListViewItem item = EffectList.SelectedItems[0];
             EditAbilityComponent editform = new EditAbilityComponent((ITimedEffect)item.Tag);
             if (editform.ShowDialog() == DialogResult.OK)
+            {
+
                 ReloadList();
+                UpdateDescriptionPreview();
+            }
             //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
         }
 
         private void lvlprev_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateDescriptionPreview();
+
+        }
+
+        private void UpdateDescriptionPreview()
         {
             CurrentAbility.Level = (int)lvlprev.Value;
             descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
@@ -79,6 +91,30 @@ namespace MagicEditor
             {
                 SetIcon(chooseform.Icon);
                 CurrentAbility.Icon = chooseform.Icon;
+            }
+        }
+
+        private void descprev_DoubleClick(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            prompt.Input = CurrentAbility.DescriptionString;
+            if(prompt.ShowDialog()==DialogResult.OK)
+            {
+                CurrentAbility.DescriptionString = prompt.Input;
+
+                UpdateDescriptionPreview();
+            }
+        }
+
+        private void spellname_DoubleClick(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            prompt.Input = CurrentAbility.Name;
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                CurrentAbility.Name = prompt.Input;
+                spellname.Text = CurrentAbility.Name;
+                UpdateDescriptionPreview();
             }
         }
     }

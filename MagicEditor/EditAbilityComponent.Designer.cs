@@ -79,7 +79,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(52, 53);
+            this.label2.Location = new System.Drawing.Point(12, 19);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 3;
@@ -88,7 +88,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(186, 53);
+            this.label3.Location = new System.Drawing.Point(146, 19);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 13);
             this.label3.TabIndex = 4;
@@ -97,7 +97,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(186, 87);
+            this.label4.Location = new System.Drawing.Point(146, 53);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 13);
             this.label4.TabIndex = 6;
@@ -106,7 +106,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(52, 87);
+            this.label5.Location = new System.Drawing.Point(12, 53);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(50, 13);
             this.label5.TabIndex = 5;
@@ -115,7 +115,7 @@
             // basetimevalue
             // 
             this.basetimevalue.DecimalPlaces = 1;
-            this.basetimevalue.Location = new System.Drawing.Point(120, 51);
+            this.basetimevalue.Location = new System.Drawing.Point(80, 17);
             this.basetimevalue.Minimum = new decimal(new int[] {
             100,
             0,
@@ -128,7 +128,7 @@
             // deltatimevalue
             // 
             this.deltatimevalue.DecimalPlaces = 1;
-            this.deltatimevalue.Location = new System.Drawing.Point(258, 51);
+            this.deltatimevalue.Location = new System.Drawing.Point(218, 17);
             this.deltatimevalue.Minimum = new decimal(new int[] {
             100,
             0,
@@ -141,7 +141,7 @@
             // basedurationvalue
             // 
             this.basedurationvalue.DecimalPlaces = 1;
-            this.basedurationvalue.Location = new System.Drawing.Point(120, 85);
+            this.basedurationvalue.Location = new System.Drawing.Point(80, 51);
             this.basedurationvalue.Minimum = new decimal(new int[] {
             100,
             0,
@@ -154,7 +154,7 @@
             // deltadurationvalue
             // 
             this.deltadurationvalue.DecimalPlaces = 1;
-            this.deltadurationvalue.Location = new System.Drawing.Point(258, 85);
+            this.deltadurationvalue.Location = new System.Drawing.Point(218, 51);
             this.deltadurationvalue.Minimum = new decimal(new int[] {
             100,
             0,

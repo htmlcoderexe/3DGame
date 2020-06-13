@@ -36,23 +36,29 @@ namespace MagicEditor
                 string[] bothvalues = values[i].Split(',');
                 string basevalue = bothvalues[0];
                 string deltavalue = bothvalues.Length==2?bothvalues[1]:"";
+                int leftstart = 20;
+                int topstart = 80;
+                int topstride = 40;
+                int leftinput = 200;
+                int inputwidth = 64;
+
 
                 Label l = new Label();
                 l.Text = name;
                 l.AutoSize = true;
-                l.Location = new Point(120, 160 + 80 * i);
+                l.Location = new Point(leftstart, topstart+topstride * i);
                 this.Controls.Add(l);
 
                 Control t1 = CraftInput(basevalue, ptype);
-                t1.Width = 64;
+                t1.Width = inputwidth;
                 t1.Height = 2;
-                t1.Location = new Point(320, 160 + 80 * i);
+                t1.Location = new Point(leftinput, topstart + topstride * i);
                 this.Controls.Add(t1);
                 this.Inputs.Add(t1);
                 Control t2 = CraftInput(deltavalue, ptype);
-                t2.Width = 64;
+                t2.Width = inputwidth;
                 t2.Height = 2;
-                t2.Location = new Point(460, 160 + 80 * i);
+                t2.Location = new Point(leftinput+inputwidth, topstart + topstride * i);
                 this.Controls.Add(t2);
                 this.Inputs.Add(t2);
 

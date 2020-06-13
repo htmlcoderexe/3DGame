@@ -39,6 +39,7 @@
             this.lvlprev = new System.Windows.Forms.NumericUpDown();
             this.iconimage = new System.Windows.Forms.PictureBox();
             this.iconcontainer = new System.Windows.Forms.Panel();
+            this.spellname = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -88,6 +89,7 @@
             this.descprev.Size = new System.Drawing.Size(158, 152);
             this.descprev.TabIndex = 1;
             this.descprev.Text = "<>";
+            this.descprev.DoubleClick += new System.EventHandler(this.descprev_DoubleClick);
             // 
             // lvlprev
             // 
@@ -126,17 +128,28 @@
             // iconcontainer
             // 
             this.iconcontainer.Controls.Add(this.iconimage);
-            this.iconcontainer.Location = new System.Drawing.Point(424, 27);
+            this.iconcontainer.Location = new System.Drawing.Point(419, 49);
             this.iconcontainer.Margin = new System.Windows.Forms.Padding(0);
             this.iconcontainer.Name = "iconcontainer";
             this.iconcontainer.Size = new System.Drawing.Size(32, 32);
             this.iconcontainer.TabIndex = 4;
+            // 
+            // spellname
+            // 
+            this.spellname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.spellname.Location = new System.Drawing.Point(416, 12);
+            this.spellname.Name = "spellname";
+            this.spellname.Size = new System.Drawing.Size(155, 37);
+            this.spellname.TabIndex = 5;
+            this.spellname.Text = "<>";
+            this.spellname.DoubleClick += new System.EventHandler(this.spellname_DoubleClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1073, 516);
+            this.Controls.Add(this.spellname);
             this.Controls.Add(this.iconcontainer);
             this.Controls.Add(this.lvlprev);
             this.Controls.Add(this.descprev);
@@ -162,6 +175,7 @@
         private System.Windows.Forms.NumericUpDown lvlprev;
         private System.Windows.Forms.PictureBox iconimage;
         private System.Windows.Forms.Panel iconcontainer;
+        private System.Windows.Forms.Label spellname;
     }
 }
 
