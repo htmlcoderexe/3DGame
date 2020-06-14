@@ -15,6 +15,7 @@ namespace MagicEditor
     public partial class Form1 : Form
     {
         ModularAbility CurrentAbility;
+        private bool lockform = false;
         public Form1()
         {
             InitializeComponent();
@@ -24,15 +25,41 @@ namespace MagicEditor
         {
             AbilityEffectDefinition.LoadDefinitions();
             CurrentAbility = new TestAbility();
+            EditCurrentAbility();
+           
+        }
 
-            //EffectiveAbility a = CurrentAbility.GetEffectiveAbility();
-
-           ReloadList();
+        private void EditCurrentAbility()
+        {
+           
+            ReloadList();
             SetIcon(CurrentAbility.Icon);
 
-            UpdateDescriptionPreview();
             this.spellname.Text = CurrentAbility.Name;
-            //SetIcon(2);
+            lockform = true;
+            castbase.Value =     (decimal)CurrentAbility.BaseValues["cast_time"];
+            channelbase.Value =  (decimal)CurrentAbility.BaseValues["channel_time"];
+            mpbase.Value =       (decimal)CurrentAbility.BaseValues["mp_cost"];
+            cdbase.Value =       (decimal)CurrentAbility.BaseValues["cooldown"];
+            castdelta.Value =    (decimal)CurrentAbility.GrowthValues["cast_time"];
+            channeldelta.Value = (decimal)CurrentAbility.GrowthValues["channel_time"];
+            mpdelta.Value =      (decimal)CurrentAbility.GrowthValues["mp_cost"];
+            cddelta.Value =      (decimal)CurrentAbility.GrowthValues["cooldown"];
+
+            UpdateDescriptionPreview();
+            lockform = false;
+        }
+
+        private void UpdateBases()
+        {
+            CurrentAbility.BaseValues["cast_time"] =         (float)castbase.Value;
+            CurrentAbility.BaseValues["channel_time"]=       (float)channelbase.Value;
+            CurrentAbility.BaseValues["mp_cost"]=            (float)mpbase.Value;
+            CurrentAbility.BaseValues["cooldown"]=           (float)cdbase.Value;
+            CurrentAbility.GrowthValues["cast_time"]=        (float)castdelta.Value;
+            CurrentAbility.GrowthValues["channel_time"]=     (float)channeldelta.Value;
+            CurrentAbility.GrowthValues["mp_cost"]=          (float)mpdelta.Value;
+            CurrentAbility.GrowthValues["cooldown"] =        (float)cddelta.Value;
         }
 
         private void SetIcon(int IconId)
@@ -170,6 +197,15 @@ namespace MagicEditor
                 CurrentAbility.Effects.Add(eff);
                 ReloadList();
             }
+        }
+
+        private void cddelta_ValueChanged(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            UpdateBases();
+
+            UpdateDescriptionPreview();
         }
     }
 }
