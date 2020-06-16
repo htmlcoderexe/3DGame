@@ -56,6 +56,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.abilityselector = new System.Windows.Forms.ListBox();
+            this.abilitymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -68,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mpdelta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.channeldelta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.castdelta)).BeginInit();
+            this.abilitymenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -370,11 +375,49 @@
             this.label5.TabIndex = 18;
             this.label5.Text = "Preview level:";
             // 
+            // abilityselector
+            // 
+            this.abilityselector.ContextMenuStrip = this.abilitymenu;
+            this.abilityselector.DisplayMember = "Name";
+            this.abilityselector.Dock = System.Windows.Forms.DockStyle.Left;
+            this.abilityselector.FormattingEnabled = true;
+            this.abilityselector.HorizontalScrollbar = true;
+            this.abilityselector.Location = new System.Drawing.Point(0, 0);
+            this.abilityselector.Name = "abilityselector";
+            this.abilityselector.ScrollAlwaysVisible = true;
+            this.abilityselector.Size = new System.Drawing.Size(207, 516);
+            this.abilityselector.TabIndex = 19;
+            this.abilityselector.DoubleClick += new System.EventHandler(this.abilityselector_DoubleClick);
+            // 
+            // abilitymenu
+            // 
+            this.abilitymenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createAbilityToolStripMenuItem,
+            this.deleteAbilityToolStripMenuItem});
+            this.abilitymenu.Name = "abilitymenu";
+            this.abilitymenu.Size = new System.Drawing.Size(144, 48);
+            this.abilitymenu.Opening += new System.ComponentModel.CancelEventHandler(this.abilitymenu_Opening);
+            // 
+            // createAbilityToolStripMenuItem
+            // 
+            this.createAbilityToolStripMenuItem.Name = "createAbilityToolStripMenuItem";
+            this.createAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createAbilityToolStripMenuItem.Text = "Create ability";
+            this.createAbilityToolStripMenuItem.Click += new System.EventHandler(this.createAbilityToolStripMenuItem_Click);
+            // 
+            // deleteAbilityToolStripMenuItem
+            // 
+            this.deleteAbilityToolStripMenuItem.Name = "deleteAbilityToolStripMenuItem";
+            this.deleteAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteAbilityToolStripMenuItem.Text = "Delete ability";
+            this.deleteAbilityToolStripMenuItem.Click += new System.EventHandler(this.deleteAbilityToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1073, 516);
+            this.Controls.Add(this.abilityselector);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -408,6 +451,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mpdelta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.channeldelta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.castdelta)).EndInit();
+            this.abilitymenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -441,6 +485,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ListBox abilityselector;
+        private System.Windows.Forms.ContextMenuStrip abilitymenu;
+        private System.Windows.Forms.ToolStripMenuItem createAbilityToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteAbilityToolStripMenuItem;
     }
 }
 

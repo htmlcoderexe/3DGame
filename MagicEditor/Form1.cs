@@ -16,6 +16,7 @@ namespace MagicEditor
     {
         ModularAbility CurrentAbility;
         private bool lockform = false;
+        public List<ModularAbility> abilities = new List<ModularAbility>();
         public Form1()
         {
             InitializeComponent();
@@ -24,7 +25,22 @@ namespace MagicEditor
         private void Form1_Load(object sender, EventArgs e)
         {
             AbilityEffectDefinition.LoadDefinitions();
-            CurrentAbility = new TestAbility();
+
+            //* DUMMY CODE DUMMY CODE DUMMY CODE
+            //this will be replaced with actually loading a list
+            abilities.Add(new TestAbility());
+            abilities.Add(new TestAbility());
+            abilities.Add(new TestAbility());
+
+            //*/
+
+            foreach(ModularAbility ability in abilities)
+            {
+                abilityselector.Items.Add(ability);
+            }
+
+            CurrentAbility = abilities[0];
+            abilityselector.SelectedIndex = 0;
             EditCurrentAbility();
            
         }
@@ -145,6 +161,16 @@ namespace MagicEditor
             }
         }
 
+        //this handles ALL of the basic values changes
+        private void cddelta_ValueChanged(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            UpdateBases();
+
+            UpdateDescriptionPreview();
+        }
+
         private void effectmenu_Opening(object sender, CancelEventArgs e)
         {
             
@@ -199,13 +225,36 @@ namespace MagicEditor
             }
         }
 
-        private void cddelta_ValueChanged(object sender, EventArgs e)
-        {
-            if (lockform)
-                return;
-            UpdateBases();
 
-            UpdateDescriptionPreview();
+        private void abilitymenu_Opening(object sender, CancelEventArgs e)
+        {
+            abilitymenu.Items[1].Enabled = abilityselector.SelectedItem != null;
+        }
+
+        private void createAbilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            if(prompt.ShowDialog()==DialogResult.OK)
+            {
+                ModularAbility a = ModularAbility.CreateEmpty(prompt.Input);
+                abilities.Add(a);
+                abilityselector.Items.Add(a);
+            }
+        }
+
+        private void deleteAbilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ModularAbility removeme = (ModularAbility)abilityselector.SelectedItem;
+            abilityselector.Items.Remove(removeme);
+            abilities.Remove(removeme);
+
+        }
+
+        private void abilityselector_DoubleClick(object sender, EventArgs e)
+        {
+            CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
+            EditCurrentAbility();
         }
     }
 }

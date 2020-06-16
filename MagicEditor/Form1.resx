@@ -1198,4 +1198,7 @@
         AAAAQJAAAAAAAACAIAEAAAAAAABBAgAAAAAAAIIEAAAAAAAA5Nwe59m0bFXwI7QAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="abilitymenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>210, 17</value>
+  </metadata>
 </root>

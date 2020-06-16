@@ -160,5 +160,27 @@ namespace GameObject
             //*/
             return result;
         }
+
+        public static ModularAbility CreateEmpty(string Name)
+        {
+            ModularAbility result = new ModularAbility
+            {
+                Name = Name,
+                BaseValues = new Dictionary<string, float>(),
+                GrowthValues = new Dictionary<string, float>(),
+                Icon = 0,
+                DescriptionString = "Insert description here!"
+            };
+            result.BaseValues.Add("channel_time", 1.0f);
+            result.BaseValues.Add("cast_time", 1.0f);
+            result.BaseValues.Add("cooldown", 1.0f);
+            result.BaseValues.Add("mp_cost", 1f);
+            result.GrowthValues.Add("channel_time", 0.0f);
+            result.GrowthValues.Add("cast_time", 0.0f);
+            result.GrowthValues.Add("cooldown", 0.0f);
+            result.GrowthValues.Add("mp_cost", 0f);
+
+            return result;
+        }
     }
 }
