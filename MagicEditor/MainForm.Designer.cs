@@ -1,6 +1,6 @@
 ﻿namespace MagicEditor
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.EffectList = new System.Windows.Forms.ListView();
             this.typefriendly = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -83,10 +83,11 @@
             this.time,
             this.duration});
             this.EffectList.ContextMenuStrip = this.effectmenu;
+            this.EffectList.Dock = System.Windows.Forms.DockStyle.Right;
             this.EffectList.HideSelection = false;
-            this.EffectList.Location = new System.Drawing.Point(577, 12);
+            this.EffectList.Location = new System.Drawing.Point(589, 0);
             this.EffectList.Name = "EffectList";
-            this.EffectList.Size = new System.Drawing.Size(484, 362);
+            this.EffectList.Size = new System.Drawing.Size(484, 516);
             this.EffectList.SmallImageList = this.icons;
             this.EffectList.TabIndex = 0;
             this.EffectList.UseCompatibleStateImageBehavior = false;
@@ -423,7 +424,7 @@
             this.saveabilities.UseVisualStyleBackColor = true;
             this.saveabilities.Click += new System.EventHandler(this.saveabilities_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -448,7 +449,7 @@
             this.Controls.Add(this.lvlprev);
             this.Controls.Add(this.descprev);
             this.Controls.Add(this.EffectList);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Magic Editor v1.0";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.effectmenu.ResumeLayout(false);
