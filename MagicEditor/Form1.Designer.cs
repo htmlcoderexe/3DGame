@@ -449,7 +449,7 @@
             this.Controls.Add(this.descprev);
             this.Controls.Add(this.EffectList);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Magic Editor v1.0";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.effectmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).EndInit();
