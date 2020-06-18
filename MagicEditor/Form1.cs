@@ -28,13 +28,16 @@ namespace MagicEditor
 
             //* DUMMY CODE DUMMY CODE DUMMY CODE
             //this will be replaced with actually loading a list
-            abilities.Add(new TestAbility());
-            abilities.Add(new TestAbility());
-            abilities.Add(new TestAbility());
+            //abilities.Add(new TestAbility());
+            //abilities.Add(new TestAbility());
+            //abilities.Add(new TestAbility());
 
+            AddWithAutoname(new TestAbility(),true);
+            AddWithAutoname(new TestAbility(), true);
+            AddWithAutoname(new TestAbility(), true);
             //*/
 
-            foreach(ModularAbility ability in abilities)
+            foreach (ModularAbility ability in abilities)
             {
                 abilityselector.Items.Add(ability);
             }
@@ -100,6 +103,60 @@ namespace MagicEditor
 
         }
 
+        private void UpdateDescriptionPreview()
+        {
+            CurrentAbility.Level = (int)lvlprev.Value;
+            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
+        }
+
+        private string AddWithAutoname(ModularAbility ab, bool autoaccept=false)
+        {
+            string autoname = "";
+
+            int degree = 0;
+            foreach (ModularAbility a in abilities)
+            {
+                string[] autoparts = a.ID.Split('.');
+                if(autoparts.Length==2)//current name is an autoname - compare to first piece only
+                {
+                    
+                    if(autoparts[0]==ab.ID)//matching auto
+                    {
+                        int currentdegree = int.Parse(autoparts[1])+1;
+                        if (currentdegree > degree)
+                            degree = currentdegree;
+                    }
+                }
+                else
+                {
+                    if (a.ID == ab.ID)
+                        degree = 1;
+                }
+            }
+
+            if (degree > 0)
+                autoname = ab.ID + "." + degree.ToString();
+
+            //if ab ID already exists, change the ID to autoname and add if autoaccept is true, else do nothing and just return autoname
+            if (autoname!="")
+            {
+                if(autoaccept)
+                {
+
+                    ab.ID = autoname;
+                    abilities.Add(ab);
+                }
+            }
+            else //no collision, just append as normal
+            {
+
+                abilities.Add(ab);
+            }
+            //the return value is useful in determining if a collision occurred - and with autoaccept= false lets user choose to force the name or not
+            return autoname;
+        }
+
+        #region GUI wireups
         private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (EffectList.SelectedItems.Count != 1)
@@ -121,11 +178,6 @@ namespace MagicEditor
 
         }
 
-        private void UpdateDescriptionPreview()
-        {
-            CurrentAbility.Level = (int)lvlprev.Value;
-            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
-        }
 
         private void iconimage_DoubleClick(object sender, EventArgs e)
         {
@@ -237,7 +289,7 @@ namespace MagicEditor
             if(prompt.ShowDialog()==DialogResult.OK)
             {
                 ModularAbility a = ModularAbility.CreateEmpty(prompt.Input);
-                abilities.Add(a);
+                AddWithAutoname(a, true);
                 abilityselector.Items.Add(a);
             }
         }
@@ -256,5 +308,6 @@ namespace MagicEditor
             CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
             EditCurrentAbility();
         }
+        #endregion
     }
 }

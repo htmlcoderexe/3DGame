@@ -17,9 +17,11 @@ namespace GameObject
         public int Icon { get; set; }
         public float MaxCoolDown { get { return GetValue("cooldown"); } set { } }
         public string Name { get; set; }
+        public string ID { get; set; }
         public int StackSize { get; set; }
 
         //magic constants - to resolve into actual numbers derived during casting to Effective Ability
+        //deprecated!
         public const float CHANNEL_TIME = -1.0f;
         public const float CAST_TIME = -2.0f;
         public const float BOTH = -3.0f;
@@ -28,6 +30,7 @@ namespace GameObject
 
         public Dictionary<string, float> BaseValues = new Dictionary<string, float>();
         public Dictionary<string, float> GrowthValues = new Dictionary<string, float>();
+        //the below probably unused - stored in individual effects instead
         public Dictionary<string, int> ValueUnits = new Dictionary<string, int>(); //0 is raw, 1 is %, 2 is 1/10ths
 
         public float GetValue(string ValueName)
@@ -165,7 +168,8 @@ namespace GameObject
         {
             ModularAbility result = new ModularAbility
             {
-                Name = Name,
+                Name = "<Untitled ability>",
+                ID = Name,
                 BaseValues = new Dictionary<string, float>(),
                 GrowthValues = new Dictionary<string, float>(),
                 Icon = 0,

@@ -12,6 +12,7 @@ namespace GameObject.AbilityLogic
         private List<KeyValuePair<string, string>> _data = new List<KeyValuePair<string, string>>();
         private int _datapointer = 0;
         private bool _finished = false;
+        //deprecated! this is using the old text format.
         public AbilityLoader(string ClassName)
         {
             FileStream fs;
