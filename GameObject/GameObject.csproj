@@ -46,9 +46,12 @@
     <Compile Include="AbilityLogic\AbilityAnimation.cs" />
     <Compile Include="AbilityLogic\AbilityEffect.cs" />
     <Compile Include="AbilityLogic\AbilityExecutor.cs" />
+    <Compile Include="AbilityLogic\AbilityFileReader.cs" />
+    <Compile Include="AbilityLogic\AbilityFileWriter.cs" />
     <Compile Include="AbilityLogic\AbilityLoader.cs" />
     <Compile Include="AbilityLogic\AbilitySelector.cs" />
     <Compile Include="AbilityLogic\AbilityVFX.cs" />
+    <Compile Include="AbilityLogic\EffectHelper.cs" />
     <Compile Include="AbilityLogic\EffectTimeline.cs" />
     <Compile Include="AbilityLogic\GameEffects\Effect_damage_bmd_full.cs" />
     <Compile Include="AbilityLogic\GameEffects\Effect_dot_mwp.cs" />
@@ -119,6 +122,11 @@
   <ItemGroup>
     <Folder Include="AbilityLogic\Selectors\" />
     <Folder Include="AbilityLogic\SoundEffects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gamedata\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

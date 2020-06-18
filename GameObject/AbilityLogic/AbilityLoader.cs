@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace GameObject.AbilityLogic
 {
-    public class AbilityLoader
+    public class __AbilityLoader
     {
         private List<KeyValuePair<string, string>> _data = new List<KeyValuePair<string, string>>();
         private int _datapointer = 0;
         private bool _finished = false;
         //deprecated! this is using the old text format.
-        public AbilityLoader(string ClassName)
+        public __AbilityLoader(string ClassName)
         {
             FileStream fs;
             string cd = System.Reflection.Assembly.GetExecutingAssembly().Location;

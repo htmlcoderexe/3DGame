@@ -60,6 +60,7 @@
             this.abilitymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveabilities = new System.Windows.Forms.Button();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -401,22 +402,33 @@
             // createAbilityToolStripMenuItem
             // 
             this.createAbilityToolStripMenuItem.Name = "createAbilityToolStripMenuItem";
-            this.createAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createAbilityToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.createAbilityToolStripMenuItem.Text = "Create ability";
             this.createAbilityToolStripMenuItem.Click += new System.EventHandler(this.createAbilityToolStripMenuItem_Click);
             // 
             // deleteAbilityToolStripMenuItem
             // 
             this.deleteAbilityToolStripMenuItem.Name = "deleteAbilityToolStripMenuItem";
-            this.deleteAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteAbilityToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.deleteAbilityToolStripMenuItem.Text = "Delete ability";
             this.deleteAbilityToolStripMenuItem.Click += new System.EventHandler(this.deleteAbilityToolStripMenuItem_Click);
+            // 
+            // saveabilities
+            // 
+            this.saveabilities.Location = new System.Drawing.Point(213, 2);
+            this.saveabilities.Name = "saveabilities";
+            this.saveabilities.Size = new System.Drawing.Size(75, 42);
+            this.saveabilities.TabIndex = 21;
+            this.saveabilities.Text = "Save abilities";
+            this.saveabilities.UseVisualStyleBackColor = true;
+            this.saveabilities.Click += new System.EventHandler(this.saveabilities_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1073, 516);
+            this.Controls.Add(this.saveabilities);
             this.Controls.Add(this.abilityselector);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -489,6 +501,7 @@
         private System.Windows.Forms.ContextMenuStrip abilitymenu;
         private System.Windows.Forms.ToolStripMenuItem createAbilityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteAbilityToolStripMenuItem;
+        private System.Windows.Forms.Button saveabilities;
     }
 }
 

@@ -26,7 +26,7 @@ namespace MagicEditor
         {
             AbilityEffectDefinition.LoadDefinitions();
 
-            //* DUMMY CODE DUMMY CODE DUMMY CODE
+            /* DUMMY CODE DUMMY CODE DUMMY CODE
             //this will be replaced with actually loading a list
             //abilities.Add(new TestAbility());
             //abilities.Add(new TestAbility());
@@ -36,7 +36,9 @@ namespace MagicEditor
             AddWithAutoname(new TestAbility(), true);
             AddWithAutoname(new TestAbility(), true);
             //*/
+            AbilityFileReader fr = new AbilityFileReader();
 
+            abilities = fr.ReadFile();
             foreach (ModularAbility ability in abilities)
             {
                 abilityselector.Items.Add(ability);
@@ -45,6 +47,7 @@ namespace MagicEditor
             CurrentAbility = abilities[0];
             abilityselector.SelectedIndex = 0;
             EditCurrentAbility();
+
            
         }
 
@@ -210,6 +213,8 @@ namespace MagicEditor
                 CurrentAbility.Name = prompt.Input;
                 spellname.Text = CurrentAbility.Name;
                 UpdateDescriptionPreview();
+                //this refreshes the relevant string on the listbox
+                abilityselector.Items[abilityselector.Items.IndexOf(CurrentAbility)] = CurrentAbility;
             }
         }
 
@@ -246,33 +251,9 @@ namespace MagicEditor
             if(box.ShowDialog()== DialogResult.OK)
             {
                 string result = box.Effect;
-                string[] parts = result.Split(new char[]{ '_'},2);
-                string[] dummyparams = new string[] {"0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0", "0,0" };
-                ITimedEffect eff;
-                switch(parts[0])
-                {
-                    case "VFX":
-                        {
-                            eff = AbilityVFX.CreateEffect(parts[1], dummyparams);
-                            break;
-                        }
-                    case "Effect":
-                        {
-                            eff = AbilityEffect.CreateEffect(parts[1], dummyparams);
-                            break;
-                        }
-                    case "Selector":
-                        {
-                            eff = AbilitySelector.CreateEffect(parts[1], dummyparams);
-                            break;
-                        }
-                    default:
-                        {
-                            eff = AbilityEffect.CreateEffect("null", dummyparams);
-                            break;
-                        }
-                }
-                CurrentAbility.Effects.Add(eff);
+                
+                
+                CurrentAbility.Effects.Add(EffectHelper.CreateEmpty(result));
                 ReloadList();
             }
         }
@@ -309,5 +290,12 @@ namespace MagicEditor
             EditCurrentAbility();
         }
         #endregion
+
+        private void saveabilities_Click(object sender, EventArgs e)
+        {
+
+            AbilityFileWriter fw = new AbilityFileWriter(abilities);
+            fw.WriteFile();
+        }
     }
 }
