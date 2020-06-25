@@ -15,6 +15,7 @@ namespace MagicEditor
     public partial class MainForm : Form
     {
         ModularAbility CurrentAbility;
+        CharacterTemplate currentclass;
         private bool lockform = false;
         public List<ModularAbility> abilities = new List<ModularAbility>();
         public MainForm()
@@ -48,8 +49,13 @@ namespace MagicEditor
             abilityselector.SelectedIndex = 0;
             EditCurrentAbility();
 
-           
+            currentclass= new TestCharacterClass();
+            panel1.Refresh();
         }
+
+
+
+        #region functions used by Abilities tab
 
         private void EditCurrentAbility()
         {
@@ -159,7 +165,11 @@ namespace MagicEditor
             return autoname;
         }
 
-        #region GUI wireups
+        #endregion
+
+
+        #region GUI wireups for Abilities tab
+
         private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (EffectList.SelectedItems.Count != 1)
@@ -289,13 +299,69 @@ namespace MagicEditor
             CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
             EditCurrentAbility();
         }
-        #endregion
 
         private void saveabilities_Click(object sender, EventArgs e)
         {
 
             AbilityFileWriter fw = new AbilityFileWriter(abilities);
             fw.WriteFile();
+        }
+
+        #endregion
+
+
+        public ModularAbility FindAbility(string id)
+        {
+            foreach (ModularAbility a in abilities)
+                if (a.ID == id)
+                    return a;
+            return null;
+        }
+
+
+
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
+            {
+                ModularAbility a = FindAbility(entry.SkillID);
+                Microsoft.Xna.Framework.Point corner = entry.GetLocation();
+                corner += new Microsoft.Xna.Framework.Point(SkillTree.ICON_WIDTH / 2, SkillTree.ICON_WIDTH / 2);
+                if(entry.PreRequisiteSkills!=null)
+                foreach(Tuple<string,int> prereq in entry.PreRequisiteSkills)
+                {
+                    foreach(SkillTreeEntry preentry in currentclass.SkillTree.Entries)
+                    {
+                        if(preentry.SkillID==prereq.Item1)
+                        {
+
+                            Microsoft.Xna.Framework.Point corner2 = preentry.GetLocation();
+                            corner2 += new Microsoft.Xna.Framework.Point(SkillTree.ICON_WIDTH / 2, SkillTree.ICON_WIDTH / 2);
+                            g.DrawLine(new Pen(Color.Red, 7), corner.X,corner.Y, corner2.X,corner2.Y);
+                        }
+                    }
+
+                }
+                
+            }
+            foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
+            {
+                ModularAbility a = FindAbility(entry.SkillID);
+                Microsoft.Xna.Framework.Point corner = entry.GetLocation();
+                int IconId = a.Icon;
+                Point iconsource = new Point((IconId % 64) * 32, ((int)(IconId / 64f)) * 32);
+                Rectangle src = new Rectangle(iconsource, new Size(32, 32));
+
+                g.DrawImage(iconimage.Image, corner.X, corner.Y, src, GraphicsUnit.Pixel);
+            }
+
+        }
+
+        private void panel1_Click(object sender, EventArgs e)
+        {
+            panel1.Refresh();
         }
     }
 }

@@ -64,6 +64,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.abilitylistpage = new System.Windows.Forms.TabPage();
             this.classespage = new System.Windows.Forms.TabPage();
+            this.comppage = new System.Windows.Forms.TabPage();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -79,6 +82,7 @@
             this.abilitymenu.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.abilitylistpage.SuspendLayout();
+            this.classespage.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -433,11 +437,12 @@
             // 
             this.tabControl1.Controls.Add(this.abilitylistpage);
             this.tabControl1.Controls.Add(this.classespage);
+            this.tabControl1.Controls.Add(this.comppage);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1073, 594);
+            this.tabControl1.Size = new System.Drawing.Size(1185, 594);
             this.tabControl1.TabIndex = 22;
             // 
             // abilitylistpage
@@ -472,19 +477,55 @@
             // 
             // classespage
             // 
+            this.classespage.Controls.Add(this.panel1);
+            this.classespage.Controls.Add(this.listBox1);
             this.classespage.Location = new System.Drawing.Point(4, 22);
             this.classespage.Name = "classespage";
             this.classespage.Padding = new System.Windows.Forms.Padding(3);
-            this.classespage.Size = new System.Drawing.Size(1065, 568);
+            this.classespage.Size = new System.Drawing.Size(1177, 568);
             this.classespage.TabIndex = 1;
             this.classespage.Text = "Classes";
             this.classespage.UseVisualStyleBackColor = true;
+            // 
+            // comppage
+            // 
+            this.comppage.Location = new System.Drawing.Point(4, 22);
+            this.comppage.Name = "comppage";
+            this.comppage.Padding = new System.Windows.Forms.Padding(3);
+            this.comppage.Size = new System.Drawing.Size(1065, 568);
+            this.comppage.TabIndex = 2;
+            this.comppage.Text = "Components";
+            this.comppage.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            this.listBox1.ContextMenuStrip = this.abilitymenu;
+            this.listBox1.DisplayMember = "Name";
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
+            this.listBox1.Location = new System.Drawing.Point(3, 3);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.ScrollAlwaysVisible = true;
+            this.listBox1.Size = new System.Drawing.Size(233, 562);
+            this.listBox1.TabIndex = 20;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Silver;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(767, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(407, 562);
+            this.panel1.TabIndex = 21;
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1073, 594);
+            this.ClientSize = new System.Drawing.Size(1185, 594);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "Magic Editor v1.0";
@@ -505,6 +546,7 @@
             this.tabControl1.ResumeLayout(false);
             this.abilitylistpage.ResumeLayout(false);
             this.abilitylistpage.PerformLayout();
+            this.classespage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -545,6 +587,9 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage abilitylistpage;
         private System.Windows.Forms.TabPage classespage;
+        private System.Windows.Forms.TabPage comppage;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
