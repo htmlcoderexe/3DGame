@@ -24,7 +24,8 @@ namespace GameObject
             this.BaseStats = new Dictionary<string, float>()
             {
                 ["HP"]=65f,
-                ["hpregen"]=5f,
+                ["hpregen"] = 5f,
+                ["mpregen"] = 20f,
                 ["movement_speed"]=5f
             };
 

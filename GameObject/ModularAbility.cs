@@ -27,6 +27,8 @@ namespace GameObject
         public const float BOTH = -3.0f;
 
         public int Level;
+        //not saved here, pulled from savegame and used to calculate level at runtime
+        public int TotalExp;
 
         public Dictionary<string, float> BaseValues = new Dictionary<string, float>();
         public Dictionary<string, float> GrowthValues = new Dictionary<string, float>();

@@ -15,9 +15,10 @@ namespace MagicEditor
     public partial class MainForm : Form
     {
         ModularAbility CurrentAbility;
-        CharacterTemplate currentclass;
-        private bool lockform = false;
         public List<ModularAbility> abilities = new List<ModularAbility>();
+        CharacterTemplate currentclass;
+        public List<CharacterTemplate> classes = new List<CharacterTemplate>();
+        private bool lockform = false;
         public MainForm()
         {
             InitializeComponent();
@@ -27,16 +28,6 @@ namespace MagicEditor
         {
             AbilityEffectDefinition.LoadDefinitions();
 
-            /* DUMMY CODE DUMMY CODE DUMMY CODE
-            //this will be replaced with actually loading a list
-            //abilities.Add(new TestAbility());
-            //abilities.Add(new TestAbility());
-            //abilities.Add(new TestAbility());
-
-            AddWithAutoname(new TestAbility(),true);
-            AddWithAutoname(new TestAbility(), true);
-            AddWithAutoname(new TestAbility(), true);
-            //*/
             AbilityFileReader fr = new AbilityFileReader();
 
             abilities = fr.ReadFile();
@@ -49,18 +40,54 @@ namespace MagicEditor
             abilityselector.SelectedIndex = 0;
             EditCurrentAbility();
 
-            currentclass= new TestCharacterClass();
+            //classes evt. load from file, now using this to "populate"
+            //*
+            currentclass = new TestCharacterClass();
+            currentclass.ID = "koldun";
+            currentclass.Name = "Wizard";
+            classes.Add(currentclass);
+            classes.Add(new TestCharacterClass());
+            //*/
+
+            foreach(CharacterTemplate t in classes)
+            {
+                classlist.Items.Add(t);
+            }
+
+            currentclass = classes[0];
+            classlist.SelectedIndex = 0;
+            EditCurrentClass();
+
             panel1.Refresh();
         }
 
 
+        #region functions used by Classes tab
+
+        private void EditCurrentClass()
+        {
+            ReloadSkillTreeList();
+
+        }
+
+        private void ReloadSkillTreeList()
+        {
+            skillentrylist.Items.Clear();
+            foreach(SkillTreeEntry e in currentclass.SkillTree.Entries)
+            {
+                e.Name = FindAbility(e.SkillID).Name;
+                skillentrylist.Items.Add(e);
+            }
+        }
+
+        #endregion
 
         #region functions used by Abilities tab
 
         private void EditCurrentAbility()
         {
            
-            ReloadList();
+            ReloadEffectList();
             SetIcon(CurrentAbility.Icon);
 
             this.spellname.Text = CurrentAbility.Name;
@@ -95,7 +122,7 @@ namespace MagicEditor
             iconimage.Location = new Point((IconId % 64)*-32, ((int)(IconId / 64f))*-32);
         }
 
-        private void ReloadList()
+        private void ReloadEffectList()
         {
             EffectList.Items.Clear();
             foreach (ITimedEffect effect in CurrentAbility.GetModules())
@@ -179,7 +206,7 @@ namespace MagicEditor
             if (editform.ShowDialog() == DialogResult.OK)
             {
 
-                ReloadList();
+                ReloadEffectList();
                 UpdateDescriptionPreview();
             }
             //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
@@ -264,7 +291,7 @@ namespace MagicEditor
                 
                 
                 CurrentAbility.Effects.Add(EffectHelper.CreateEmpty(result));
-                ReloadList();
+                ReloadEffectList();
             }
         }
 
