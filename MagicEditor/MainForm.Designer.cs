@@ -86,7 +86,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.dmgstat = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
@@ -507,7 +507,7 @@
             // classespage
             // 
             this.classespage.Controls.Add(this.label11);
-            this.classespage.Controls.Add(this.comboBox1);
+            this.classespage.Controls.Add(this.dmgstat);
             this.classespage.Controls.Add(this.label15);
             this.classespage.Controls.Add(this.label14);
             this.classespage.Controls.Add(this.label13);
@@ -560,6 +560,7 @@
             this.classlist.ScrollAlwaysVisible = true;
             this.classlist.Size = new System.Drawing.Size(233, 562);
             this.classlist.TabIndex = 20;
+            this.classlist.DoubleClick += new System.EventHandler(this.classlist_DoubleClick);
             // 
             // comppage
             // 
@@ -767,18 +768,18 @@
             this.label15.TabIndex = 40;
             this.label15.Text = "Running speed:";
             // 
-            // comboBox1
+            // dmgstat
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.dmgstat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dmgstat.FormattingEnabled = true;
+            this.dmgstat.Items.AddRange(new object[] {
             "STR",
             "DEX",
             "INT"});
-            this.comboBox1.Location = new System.Drawing.Point(332, 490);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 41;
+            this.dmgstat.Location = new System.Drawing.Point(332, 490);
+            this.dmgstat.Name = "dmgstat";
+            this.dmgstat.Size = new System.Drawing.Size(121, 21);
+            this.dmgstat.TabIndex = 41;
             // 
             // label11
             // 
@@ -886,7 +887,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox dmgstat;
         private System.Windows.Forms.Label label11;
     }
 }

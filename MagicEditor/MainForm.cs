@@ -67,7 +67,20 @@ namespace MagicEditor
         private void EditCurrentClass()
         {
             ReloadSkillTreeList();
+            classname.Text = currentclass.Name;
+            //classdesc.Text=currentclass.Description;
+            hplvl.Value = currentclass.HPperLVL;
+            mplvl.Value = currentclass.MPperLVL;
+            hpvit.Value = currentclass.HPperVIT;
+            mpint.Value = currentclass.MPperINT;
 
+            basehp.Value = (decimal)currentclass.BaseStats["HP"];
+            hpregen.Value = (decimal)currentclass.BaseStats["hpregen"];
+            mpregen.Value = (decimal)currentclass.BaseStats["mpregen"];
+            speed.Value = (decimal)currentclass.BaseStats["movement_speed"];
+
+            int stat = (int)currentclass.DamageStat;
+            dmgstat.SelectedIndex = stat;
         }
 
         private void ReloadSkillTreeList()
@@ -389,6 +402,12 @@ namespace MagicEditor
         private void panel1_Click(object sender, EventArgs e)
         {
             panel1.Refresh();
+        }
+
+        private void classlist_DoubleClick(object sender, EventArgs e)
+        {
+            currentclass = (CharacterTemplate)classlist.SelectedItem;
+            EditCurrentClass();
         }
     }
 }
