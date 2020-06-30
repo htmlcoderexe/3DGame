@@ -13,7 +13,7 @@ namespace GameObject
             this.Name = "Magician";
             this.ID = "mage";
             this.SkillTree = new SkillTree();
-
+            this.Description = "Magic class. Really likes fireballs and sausages.";
             this.DamageStat = MainStats.INT;
             this.HPperLVL = 10;
             this.HPperVIT = 5;
@@ -34,7 +34,10 @@ namespace GameObject
                 SkillID = "fireball",
                 LearnLevel = 1,
                 Column = 0,
-                TrainingLevel = 0
+                TrainingLevel = 0,
+                MaxLevel = 10,
+                ExpBase = 10,
+                ExpDelta = 10
             };
 
             SkillTreeEntry fs = new SkillTreeEntry
@@ -43,6 +46,9 @@ namespace GameObject
                 LearnLevel = 10,
                 Column = 0,
                 TrainingLevel = 0,
+                MaxLevel = 10,
+                ExpBase=20,
+                ExpDelta=10,
                 PreRequisiteSkills = new List<Tuple<string, int>> { new Tuple<string, int>("fireball", 3) }
             };
             SkillTreeEntry fs3 = new SkillTreeEntry
@@ -51,6 +57,9 @@ namespace GameObject
                 LearnLevel = 30,
                 Column = 2,
                 TrainingLevel = 0,
+                MaxLevel = 10,
+                ExpBase = 50,
+                ExpDelta = 20,
                 PreRequisiteSkills = new List<Tuple<string, int>> { new Tuple<string, int>("firestorm", 3), new Tuple<string, int>("fireball", 3) }
             };
             this.SkillTree.Entries.Add(fb);

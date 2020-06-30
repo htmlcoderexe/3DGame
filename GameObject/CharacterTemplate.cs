@@ -15,6 +15,7 @@ namespace GameObject
 
         public string Name { get; set; }
         public string ID { get; set; }
+        public string Description { get; set; }
         public SkillTree SkillTree { get; set; }
         public Dictionary<string, float> BaseStats { get; set; }
         public MainStats DamageStat { get; set; }

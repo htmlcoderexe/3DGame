@@ -17,6 +17,7 @@ namespace GameObject
         public int MaxLevel { get; set; }
         public int ExpBase { get; set; }
         public int ExpDelta { get; set; }
+        public string RequireItemID { get; set; }
 
         //only used for display
         public string Name { get; set; }

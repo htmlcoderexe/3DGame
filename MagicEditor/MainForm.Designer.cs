@@ -64,30 +64,30 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.abilitylistpage = new System.Windows.Forms.TabPage();
             this.classespage = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.dmgstat = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.mpregen = new System.Windows.Forms.NumericUpDown();
+            this.speed = new System.Windows.Forms.NumericUpDown();
+            this.hpregen = new System.Windows.Forms.NumericUpDown();
+            this.basehp = new System.Windows.Forms.NumericUpDown();
+            this.mpint = new System.Windows.Forms.NumericUpDown();
+            this.hpvit = new System.Windows.Forms.NumericUpDown();
+            this.mplvl = new System.Windows.Forms.NumericUpDown();
+            this.hplvl = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.classdesc = new System.Windows.Forms.Label();
+            this.classname = new System.Windows.Forms.Label();
+            this.skillentrylist = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.classlist = new System.Windows.Forms.ListBox();
             this.comppage = new System.Windows.Forms.TabPage();
-            this.skillentrylist = new System.Windows.Forms.ListBox();
-            this.classname = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.hplvl = new System.Windows.Forms.NumericUpDown();
-            this.mplvl = new System.Windows.Forms.NumericUpDown();
-            this.hpvit = new System.Windows.Forms.NumericUpDown();
-            this.mpint = new System.Windows.Forms.NumericUpDown();
-            this.basehp = new System.Windows.Forms.NumericUpDown();
-            this.hpregen = new System.Windows.Forms.NumericUpDown();
-            this.speed = new System.Windows.Forms.NumericUpDown();
-            this.mpregen = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.dmgstat = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -104,14 +104,14 @@
             this.tabControl1.SuspendLayout();
             this.abilitylistpage.SuspendLayout();
             this.classespage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpint)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.basehp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hpregen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mpregen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hpregen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.basehp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).BeginInit();
             this.SuspendLayout();
             // 
             // EffectList
@@ -524,7 +524,7 @@
             this.classespage.Controls.Add(this.label10);
             this.classespage.Controls.Add(this.label8);
             this.classespage.Controls.Add(this.label7);
-            this.classespage.Controls.Add(this.label6);
+            this.classespage.Controls.Add(this.classdesc);
             this.classespage.Controls.Add(this.classname);
             this.classespage.Controls.Add(this.skillentrylist);
             this.classespage.Controls.Add(this.panel1);
@@ -537,6 +537,237 @@
             this.classespage.Text = "Classes";
             this.classespage.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(242, 493);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(70, 13);
+            this.label11.TabIndex = 42;
+            this.label11.Text = "Damage stat:";
+            // 
+            // dmgstat
+            // 
+            this.dmgstat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dmgstat.FormattingEnabled = true;
+            this.dmgstat.Items.AddRange(new object[] {
+            "STR",
+            "DEX",
+            "INT"});
+            this.dmgstat.Location = new System.Drawing.Point(332, 490);
+            this.dmgstat.Name = "dmgstat";
+            this.dmgstat.Size = new System.Drawing.Size(121, 21);
+            this.dmgstat.TabIndex = 41;
+            this.dmgstat.SelectedIndexChanged += new System.EventHandler(this.dmgstat_SelectedIndexChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(242, 451);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(82, 13);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Running speed:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(242, 425);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(56, 13);
+            this.label14.TabIndex = 39;
+            this.label14.Text = "MP regen:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(242, 399);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(55, 13);
+            this.label13.TabIndex = 38;
+            this.label13.Text = "HP regen:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(242, 373);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(64, 13);
+            this.label12.TabIndex = 37;
+            this.label12.Text = "Starting HP:";
+            // 
+            // mpregen
+            // 
+            this.mpregen.DecimalPlaces = 1;
+            this.mpregen.Location = new System.Drawing.Point(333, 423);
+            this.mpregen.Name = "mpregen";
+            this.mpregen.Size = new System.Drawing.Size(120, 20);
+            this.mpregen.TabIndex = 36;
+            this.mpregen.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.mpregen.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // speed
+            // 
+            this.speed.DecimalPlaces = 1;
+            this.speed.Location = new System.Drawing.Point(333, 449);
+            this.speed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.speed.Name = "speed";
+            this.speed.Size = new System.Drawing.Size(120, 20);
+            this.speed.TabIndex = 35;
+            this.speed.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.speed.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // hpregen
+            // 
+            this.hpregen.DecimalPlaces = 1;
+            this.hpregen.Location = new System.Drawing.Point(333, 397);
+            this.hpregen.Name = "hpregen";
+            this.hpregen.Size = new System.Drawing.Size(120, 20);
+            this.hpregen.TabIndex = 34;
+            this.hpregen.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.hpregen.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // basehp
+            // 
+            this.basehp.Location = new System.Drawing.Point(333, 371);
+            this.basehp.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.basehp.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.basehp.Name = "basehp";
+            this.basehp.Size = new System.Drawing.Size(120, 20);
+            this.basehp.TabIndex = 33;
+            this.basehp.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.basehp.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // mpint
+            // 
+            this.mpint.Location = new System.Drawing.Point(333, 320);
+            this.mpint.Name = "mpint";
+            this.mpint.Size = new System.Drawing.Size(120, 20);
+            this.mpint.TabIndex = 31;
+            this.mpint.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // hpvit
+            // 
+            this.hpvit.Location = new System.Drawing.Point(333, 294);
+            this.hpvit.Name = "hpvit";
+            this.hpvit.Size = new System.Drawing.Size(120, 20);
+            this.hpvit.TabIndex = 30;
+            this.hpvit.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // mplvl
+            // 
+            this.mplvl.Location = new System.Drawing.Point(333, 268);
+            this.mplvl.Name = "mplvl";
+            this.mplvl.Size = new System.Drawing.Size(120, 20);
+            this.mplvl.TabIndex = 29;
+            this.mplvl.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // hplvl
+            // 
+            this.hplvl.Location = new System.Drawing.Point(333, 242);
+            this.hplvl.Name = "hplvl";
+            this.hplvl.Size = new System.Drawing.Size(120, 20);
+            this.hplvl.TabIndex = 29;
+            this.hplvl.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(242, 322);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 13);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "MP per INT:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(242, 296);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "HP per VIT:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(242, 270);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(69, 13);
+            this.label8.TabIndex = 26;
+            this.label8.Text = "MP per level:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(242, 244);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 13);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "HP per level:";
+            // 
+            // classdesc
+            // 
+            this.classdesc.Location = new System.Drawing.Point(242, 49);
+            this.classdesc.Name = "classdesc";
+            this.classdesc.Size = new System.Drawing.Size(199, 181);
+            this.classdesc.TabIndex = 24;
+            this.classdesc.Text = "<>";
+            this.classdesc.DoubleClick += new System.EventHandler(this.classdesc_DoubleClick);
+            // 
+            // classname
+            // 
+            this.classname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.classname.Location = new System.Drawing.Point(242, 3);
+            this.classname.Name = "classname";
+            this.classname.Size = new System.Drawing.Size(164, 46);
+            this.classname.TabIndex = 23;
+            this.classname.Text = "<>";
+            this.classname.DoubleClick += new System.EventHandler(this.classname_DoubleClick);
+            // 
+            // skillentrylist
+            // 
+            this.skillentrylist.ContextMenuStrip = this.abilitymenu;
+            this.skillentrylist.DisplayMember = "Name";
+            this.skillentrylist.Dock = System.Windows.Forms.DockStyle.Right;
+            this.skillentrylist.FormattingEnabled = true;
+            this.skillentrylist.HorizontalScrollbar = true;
+            this.skillentrylist.Location = new System.Drawing.Point(534, 3);
+            this.skillentrylist.Name = "skillentrylist";
+            this.skillentrylist.ScrollAlwaysVisible = true;
+            this.skillentrylist.Size = new System.Drawing.Size(233, 562);
+            this.skillentrylist.TabIndex = 22;
+            this.skillentrylist.SelectedIndexChanged += new System.EventHandler(this.skillentrylist_SelectedIndexChanged);
+            this.skillentrylist.DoubleClick += new System.EventHandler(this.skillentrylist_DoubleClick);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Silver;
@@ -547,6 +778,8 @@
             this.panel1.TabIndex = 21;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
+            this.panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDoubleClick);
             // 
             // classlist
             // 
@@ -571,224 +804,6 @@
             this.comppage.TabIndex = 2;
             this.comppage.Text = "Components";
             this.comppage.UseVisualStyleBackColor = true;
-            // 
-            // skillentrylist
-            // 
-            this.skillentrylist.ContextMenuStrip = this.abilitymenu;
-            this.skillentrylist.DisplayMember = "Name";
-            this.skillentrylist.Dock = System.Windows.Forms.DockStyle.Right;
-            this.skillentrylist.FormattingEnabled = true;
-            this.skillentrylist.HorizontalScrollbar = true;
-            this.skillentrylist.Location = new System.Drawing.Point(534, 3);
-            this.skillentrylist.Name = "skillentrylist";
-            this.skillentrylist.ScrollAlwaysVisible = true;
-            this.skillentrylist.Size = new System.Drawing.Size(233, 562);
-            this.skillentrylist.TabIndex = 22;
-            // 
-            // classname
-            // 
-            this.classname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.classname.Location = new System.Drawing.Point(242, 3);
-            this.classname.Name = "classname";
-            this.classname.Size = new System.Drawing.Size(164, 46);
-            this.classname.TabIndex = 23;
-            this.classname.Text = "<>";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(242, 49);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(199, 181);
-            this.label6.TabIndex = 24;
-            this.label6.Text = "<>";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(242, 244);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 13);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "HP per level:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(242, 270);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(69, 13);
-            this.label8.TabIndex = 26;
-            this.label8.Text = "MP per level:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(242, 322);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 13);
-            this.label9.TabIndex = 28;
-            this.label9.Text = "MP per INT:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(242, 296);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 27;
-            this.label10.Text = "HP per VIT:";
-            // 
-            // hplvl
-            // 
-            this.hplvl.Location = new System.Drawing.Point(333, 242);
-            this.hplvl.Name = "hplvl";
-            this.hplvl.Size = new System.Drawing.Size(120, 20);
-            this.hplvl.TabIndex = 29;
-            // 
-            // mplvl
-            // 
-            this.mplvl.Location = new System.Drawing.Point(333, 268);
-            this.mplvl.Name = "mplvl";
-            this.mplvl.Size = new System.Drawing.Size(120, 20);
-            this.mplvl.TabIndex = 29;
-            // 
-            // hpvit
-            // 
-            this.hpvit.Location = new System.Drawing.Point(333, 294);
-            this.hpvit.Name = "hpvit";
-            this.hpvit.Size = new System.Drawing.Size(120, 20);
-            this.hpvit.TabIndex = 30;
-            // 
-            // mpint
-            // 
-            this.mpint.Location = new System.Drawing.Point(333, 320);
-            this.mpint.Name = "mpint";
-            this.mpint.Size = new System.Drawing.Size(120, 20);
-            this.mpint.TabIndex = 31;
-            // 
-            // basehp
-            // 
-            this.basehp.Location = new System.Drawing.Point(333, 371);
-            this.basehp.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.basehp.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.basehp.Name = "basehp";
-            this.basehp.Size = new System.Drawing.Size(120, 20);
-            this.basehp.TabIndex = 33;
-            this.basehp.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // hpregen
-            // 
-            this.hpregen.DecimalPlaces = 1;
-            this.hpregen.Location = new System.Drawing.Point(333, 397);
-            this.hpregen.Name = "hpregen";
-            this.hpregen.Size = new System.Drawing.Size(120, 20);
-            this.hpregen.TabIndex = 34;
-            this.hpregen.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // speed
-            // 
-            this.speed.DecimalPlaces = 1;
-            this.speed.Location = new System.Drawing.Point(333, 449);
-            this.speed.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.speed.Name = "speed";
-            this.speed.Size = new System.Drawing.Size(120, 20);
-            this.speed.TabIndex = 35;
-            this.speed.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // mpregen
-            // 
-            this.mpregen.DecimalPlaces = 1;
-            this.mpregen.Location = new System.Drawing.Point(333, 423);
-            this.mpregen.Name = "mpregen";
-            this.mpregen.Size = new System.Drawing.Size(120, 20);
-            this.mpregen.TabIndex = 36;
-            this.mpregen.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(242, 373);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(64, 13);
-            this.label12.TabIndex = 37;
-            this.label12.Text = "Starting HP:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(242, 399);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(55, 13);
-            this.label13.TabIndex = 38;
-            this.label13.Text = "HP regen:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(242, 425);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(56, 13);
-            this.label14.TabIndex = 39;
-            this.label14.Text = "MP regen:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(242, 451);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(82, 13);
-            this.label15.TabIndex = 40;
-            this.label15.Text = "Running speed:";
-            // 
-            // dmgstat
-            // 
-            this.dmgstat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dmgstat.FormattingEnabled = true;
-            this.dmgstat.Items.AddRange(new object[] {
-            "STR",
-            "DEX",
-            "INT"});
-            this.dmgstat.Location = new System.Drawing.Point(332, 490);
-            this.dmgstat.Name = "dmgstat";
-            this.dmgstat.Size = new System.Drawing.Size(121, 21);
-            this.dmgstat.TabIndex = 41;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(242, 493);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 13);
-            this.label11.TabIndex = 42;
-            this.label11.Text = "Damage stat:";
             // 
             // MainForm
             // 
@@ -817,14 +832,14 @@
             this.abilitylistpage.PerformLayout();
             this.classespage.ResumeLayout(false);
             this.classespage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpint)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.basehp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hpregen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mpregen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hpregen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.basehp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -874,7 +889,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label classdesc;
         private System.Windows.Forms.NumericUpDown mpint;
         private System.Windows.Forms.NumericUpDown hpvit;
         private System.Windows.Forms.NumericUpDown mplvl;

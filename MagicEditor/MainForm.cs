@@ -67,21 +67,58 @@ namespace MagicEditor
         private void EditCurrentClass()
         {
             ReloadSkillTreeList();
+            lockform = true;
             classname.Text = currentclass.Name;
-            //classdesc.Text=currentclass.Description;
+            classdesc.Text = currentclass.Description;
             hplvl.Value = currentclass.HPperLVL;
             mplvl.Value = currentclass.MPperLVL;
             hpvit.Value = currentclass.HPperVIT;
             mpint.Value = currentclass.MPperINT;
-
-            basehp.Value = (decimal)currentclass.BaseStats["HP"];
+            basehp.Value =  (decimal)currentclass.BaseStats["HP"];
             hpregen.Value = (decimal)currentclass.BaseStats["hpregen"];
             mpregen.Value = (decimal)currentclass.BaseStats["mpregen"];
-            speed.Value = (decimal)currentclass.BaseStats["movement_speed"];
+            speed.Value =   (decimal)currentclass.BaseStats["movement_speed"];
 
             int stat = (int)currentclass.DamageStat;
             dmgstat.SelectedIndex = stat;
+            lockform = false;
         }
+
+        private void SaveClassBasics()
+        {
+            currentclass.HPperLVL = (int)hplvl.Value;
+            currentclass.MPperLVL = (int)mplvl.Value;
+            currentclass.HPperVIT = (int)hpvit.Value;
+            currentclass.MPperINT = (int)mpint.Value;
+
+            currentclass.BaseStats["HP"] = (float)basehp.Value;
+            currentclass.BaseStats["hpregen"] = (float)hpregen.Value;
+            currentclass.BaseStats["mpregen"] = (float)mpregen.Value;
+            currentclass.BaseStats["movement_speed"] = (float)speed.Value;
+
+            CharacterTemplate.MainStats setstat;
+            switch(dmgstat.SelectedIndex)
+            {
+                case 0:
+                    {
+                        setstat = CharacterTemplate.MainStats.STR;
+                        break;
+                    }
+                case 1:
+                    {
+                        setstat = CharacterTemplate.MainStats.DEX;
+                        break;
+                    }
+                case 2:
+                default:
+                    {
+                        setstat = CharacterTemplate.MainStats.INT;
+                        break;
+                    }
+            }
+            currentclass.DamageStat = setstat;
+        }
+
 
         private void ReloadSkillTreeList()
         {
@@ -93,6 +130,14 @@ namespace MagicEditor
             }
         }
 
+        private void EditSkillEntry(SkillTreeEntry entry)
+        {
+            SkillTreeEntryEditor editor = new SkillTreeEntryEditor(this, entry);
+            if(editor.ShowDialog()==DialogResult.OK)
+            {
+                
+            }
+        }
         #endregion
 
         #region functions used by Abilities tab
@@ -388,26 +433,110 @@ namespace MagicEditor
             }
             foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
             {
+
+
                 ModularAbility a = FindAbility(entry.SkillID);
                 Microsoft.Xna.Framework.Point corner = entry.GetLocation();
                 int IconId = a.Icon;
                 Point iconsource = new Point((IconId % 64) * 32, ((int)(IconId / 64f)) * 32);
                 Rectangle src = new Rectangle(iconsource, new Size(32, 32));
-
-                g.DrawImage(iconimage.Image, corner.X, corner.Y, src, GraphicsUnit.Pixel);
+                if (entry == skillentrylist.SelectedItem)
+                    g.DrawRectangle(new Pen(Color.Red, 4), corner.X, corner.Y, 40, 40);
+                g.DrawImage(iconimage.Image, corner.X+4, corner.Y+4, src, GraphicsUnit.Pixel);
             }
 
         }
 
         private void panel1_Click(object sender, EventArgs e)
         {
-            panel1.Refresh();
+            //panel1.Refresh();
+
+            
         }
 
         private void classlist_DoubleClick(object sender, EventArgs e)
         {
             currentclass = (CharacterTemplate)classlist.SelectedItem;
             EditCurrentClass();
+        }
+
+        private void hplvl_ValueChanged(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            SaveClassBasics();
+        }
+
+        private void dmgstat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            SaveClassBasics();
+        }
+
+        private void classname_DoubleClick(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            prompt.Input = currentclass.Name;
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                currentclass.Name = prompt.Input;
+                classname.Text = currentclass.Name;
+                //this refreshes the relevant string on the listbox
+               classlist.Items[classlist.Items.IndexOf(currentclass)] = currentclass;
+            }
+        }
+
+        private void classdesc_DoubleClick(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            prompt.Input = currentclass.Description;
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                currentclass.Description = prompt.Input;
+                classdesc.Text = currentclass.Description;
+            }
+        }
+
+        private void panel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            foreach(SkillTreeEntry icon in currentclass.SkillTree.Entries)
+            {
+                Microsoft.Xna.Framework.Point p = icon.GetLocation();
+                Rectangle XX = new Rectangle(p.X, p.Y, 40, 40);
+                if(XX.Contains(new Point(e.X,e.Y)))
+                {
+                    skillentrylist.SelectedIndex = (skillentrylist.Items.IndexOf(icon));
+                }
+
+            }
+        }
+
+        private void skillentrylist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            panel1.Refresh();
+        }
+
+        private void panel1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            foreach (SkillTreeEntry icon in currentclass.SkillTree.Entries)
+            {
+                Microsoft.Xna.Framework.Point p = icon.GetLocation();
+                Rectangle XX = new Rectangle(p.X, p.Y, 40, 40);
+                if (XX.Contains(new Point(e.X, e.Y)))
+                {
+                    skillentrylist.SelectedIndex = (skillentrylist.Items.IndexOf(icon));
+                }
+
+            }
+            EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
+        }
+
+        private void skillentrylist_DoubleClick(object sender, EventArgs e)
+        {
+
+            EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
         }
     }
 }
