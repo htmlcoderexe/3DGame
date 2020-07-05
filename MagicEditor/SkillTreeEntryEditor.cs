@@ -14,12 +14,12 @@ namespace MagicEditor
     public partial class SkillTreeEntryEditor : Form
     {
         public GameObject.SkillTreeEntry Entry;
-        public MainForm Parent;
+        public MainForm AbilityProvider;
         public SkillTreeEntryEditor(MainForm Parent,SkillTreeEntry Entry)
         {
             InitializeComponent();
             this.Entry = Entry;
-            this.Parent = Parent;
+            this.AbilityProvider = Parent;
             ModularAbility a = Parent.FindAbility(Entry.SkillID);
             SkillName.Text = a.Name;
             learnlevel.Value = (decimal)Entry.LearnLevel;
@@ -34,14 +34,62 @@ namespace MagicEditor
 
         private void ReloadReqList()
         {
+            if (Entry.PreRequisiteSkills == null)
+                return;
             foreach(Tuple<string, int> t in Entry.PreRequisiteSkills)
             {
-                ModularAbility a = Parent.FindAbility(t.Item1);
-                string[] ItemProps = new string[] { a.Name, t.Item2.ToString() };
-                ListViewItem line = new ListViewItem(ItemProps);
-                line.Tag = t.Item1;
-                listView1.Items.Add(line);
+                AddReqItem(t.Item1, t.Item2);
             }
+        }
+
+        private void AddReqItem(string id, int lvl)
+        {
+            ModularAbility a = AbilityProvider.FindAbility(id);
+            string[] ItemProps = new string[] { a.Name, lvl.ToString() };
+            ListViewItem line = new ListViewItem(ItemProps);
+            line.Tag = id;
+            requisitelist.Items.Add(line);
+        }
+
+        private List<Tuple<string, int>> GetPreReqs()
+        {
+            List<Tuple<string, int>> result = new List<Tuple<string, int>>();
+            foreach(ListViewItem item in requisitelist.Items)
+            {
+                string id = (string)item.Tag;
+                string slvl = item.SubItems[1].Text;
+                int lvl = int.Parse(slvl);
+                result.Add(new Tuple<string, int>(id, lvl));
+            }
+            return result;
+        }
+
+        private void requisitelistmenu_Opening(object sender, CancelEventArgs e)
+        {
+            requisitelistmenu.Items[1].Enabled = requisitelist.SelectedItems.Count == 1;
+        }
+
+        private void addRequisiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SkillSelector selector = new SkillSelector(this.AbilityProvider);
+            if(selector.ShowDialog()==DialogResult.OK)
+            {
+                AddReqItem(selector.SelectedID, selector.SelectedLevel);
+
+            }
+        }
+
+        private void removeRequisiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (requisitelist.SelectedItems.Count != 1)
+                return;
+            requisitelist.Items.Remove(requisitelist.SelectedItems[0]);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            List<Tuple<string, int>> g = GetPreReqs();
+            int f = g.Count;
         }
     }
 }

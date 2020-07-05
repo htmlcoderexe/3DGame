@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SkillName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,15 +44,20 @@
             this.maxlvl = new System.Windows.Forms.NumericUpDown();
             this.traininglevel = new System.Windows.Forms.NumericUpDown();
             this.requireitemid = new System.Windows.Forms.TextBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.requisitelist = new System.Windows.Forms.ListView();
             this.skill_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.req_level = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.requisitelistmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addRequisiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeRequisiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.learnlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.column)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.expbase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.expdelta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxlvl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.traininglevel)).BeginInit();
+            this.requisitelistmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // SkillName
@@ -255,18 +261,19 @@
             this.requireitemid.Size = new System.Drawing.Size(120, 20);
             this.requireitemid.TabIndex = 38;
             // 
-            // listView1
+            // requisitelist
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.requisitelist.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.skill_name,
             this.req_level});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(325, 53);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(463, 208);
-            this.listView1.TabIndex = 39;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.requisitelist.ContextMenuStrip = this.requisitelistmenu;
+            this.requisitelist.HideSelection = false;
+            this.requisitelist.Location = new System.Drawing.Point(325, 53);
+            this.requisitelist.Name = "requisitelist";
+            this.requisitelist.Size = new System.Drawing.Size(463, 208);
+            this.requisitelist.TabIndex = 39;
+            this.requisitelist.UseCompatibleStateImageBehavior = false;
+            this.requisitelist.View = System.Windows.Forms.View.Details;
             // 
             // skill_name
             // 
@@ -278,12 +285,46 @@
             this.req_level.Text = "Required level";
             this.req_level.Width = 97;
             // 
+            // requisitelistmenu
+            // 
+            this.requisitelistmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addRequisiteToolStripMenuItem,
+            this.removeRequisiteToolStripMenuItem});
+            this.requisitelistmenu.Name = "requisitelistmenu";
+            this.requisitelistmenu.Size = new System.Drawing.Size(166, 48);
+            this.requisitelistmenu.Opening += new System.ComponentModel.CancelEventHandler(this.requisitelistmenu_Opening);
+            // 
+            // addRequisiteToolStripMenuItem
+            // 
+            this.addRequisiteToolStripMenuItem.Name = "addRequisiteToolStripMenuItem";
+            this.addRequisiteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addRequisiteToolStripMenuItem.Text = "Add requisite";
+            this.addRequisiteToolStripMenuItem.Click += new System.EventHandler(this.addRequisiteToolStripMenuItem_Click);
+            // 
+            // removeRequisiteToolStripMenuItem
+            // 
+            this.removeRequisiteToolStripMenuItem.Name = "removeRequisiteToolStripMenuItem";
+            this.removeRequisiteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.removeRequisiteToolStripMenuItem.Text = "Remove requisite";
+            this.removeRequisiteToolStripMenuItem.Click += new System.EventHandler(this.removeRequisiteToolStripMenuItem_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(371, 328);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 40;
+            this.button1.Text = "Save";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SkillTreeEntryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.requisitelist);
             this.Controls.Add(this.requireitemid);
             this.Controls.Add(this.traininglevel);
             this.Controls.Add(this.maxlvl);
@@ -307,6 +348,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.expdelta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxlvl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.traininglevel)).EndInit();
+            this.requisitelistmenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,8 +371,12 @@
         private System.Windows.Forms.NumericUpDown maxlvl;
         private System.Windows.Forms.NumericUpDown traininglevel;
         private System.Windows.Forms.TextBox requireitemid;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView requisitelist;
         private System.Windows.Forms.ColumnHeader skill_name;
         private System.Windows.Forms.ColumnHeader req_level;
+        private System.Windows.Forms.ContextMenuStrip requisitelistmenu;
+        private System.Windows.Forms.ToolStripMenuItem addRequisiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRequisiteToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -73,6 +73,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SkillSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SkillSelector.Designer.cs">
+      <DependentUpon>SkillSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="SkillTreeEntryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SkillSelector.resx">
+      <DependentUpon>SkillSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SkillTreeEntryEditor.resx">
       <DependentUpon>SkillTreeEntryEditor.cs</DependentUpon>
     </EmbeddedResource>

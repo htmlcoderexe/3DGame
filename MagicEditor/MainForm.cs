@@ -24,6 +24,17 @@ namespace MagicEditor
             InitializeComponent();
         }
 
+
+        public ModularAbility FindAbility(string id)
+        {
+            foreach (ModularAbility a in abilities)
+                if (a.ID == id)
+                    return a;
+            return null;
+        }
+
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             AbilityEffectDefinition.LoadDefinitions();
@@ -60,6 +71,119 @@ namespace MagicEditor
 
             panel1.Refresh();
         }
+
+
+        #region functions used by Abilities tab
+
+        private void EditCurrentAbility()
+        {
+
+            ReloadEffectList();
+            SetIcon(CurrentAbility.Icon);
+
+            this.spellname.Text = CurrentAbility.Name;
+            lockform = true;
+            castbase.Value = (decimal)CurrentAbility.BaseValues["cast_time"];
+            channelbase.Value = (decimal)CurrentAbility.BaseValues["channel_time"];
+            mpbase.Value = (decimal)CurrentAbility.BaseValues["mp_cost"];
+            cdbase.Value = (decimal)CurrentAbility.BaseValues["cooldown"];
+            castdelta.Value = (decimal)CurrentAbility.GrowthValues["cast_time"];
+            channeldelta.Value = (decimal)CurrentAbility.GrowthValues["channel_time"];
+            mpdelta.Value = (decimal)CurrentAbility.GrowthValues["mp_cost"];
+            cddelta.Value = (decimal)CurrentAbility.GrowthValues["cooldown"];
+
+            UpdateDescriptionPreview();
+            lockform = false;
+        }
+
+        private void UpdateBases()
+        {
+            CurrentAbility.BaseValues["cast_time"] = (float)castbase.Value;
+            CurrentAbility.BaseValues["channel_time"] = (float)channelbase.Value;
+            CurrentAbility.BaseValues["mp_cost"] = (float)mpbase.Value;
+            CurrentAbility.BaseValues["cooldown"] = (float)cdbase.Value;
+            CurrentAbility.GrowthValues["cast_time"] = (float)castdelta.Value;
+            CurrentAbility.GrowthValues["channel_time"] = (float)channeldelta.Value;
+            CurrentAbility.GrowthValues["mp_cost"] = (float)mpdelta.Value;
+            CurrentAbility.GrowthValues["cooldown"] = (float)cddelta.Value;
+        }
+
+        private void SetIcon(int IconId)
+        {
+            iconimage.Location = new Point((IconId % 64) * -32, ((int)(IconId / 64f)) * -32);
+        }
+
+        private void ReloadEffectList()
+        {
+            EffectList.Items.Clear();
+            foreach (ITimedEffect effect in CurrentAbility.GetModules())
+            {
+                AbilityEffectDefinition adef = AbilityEffectDefinition.GetDefinition(effect.EffectType);
+                string[] ItemProps = new string[] { adef.FriendlyName, effect.BaseTime.ToString(), effect.BaseDuration.ToString() };
+                ListViewItem line = new ListViewItem(ItemProps, adef.Icon)
+                {
+                    Tag = effect
+                };
+                EffectList.Items.Add(line);
+
+            }
+
+        }
+
+        private void UpdateDescriptionPreview()
+        {
+            CurrentAbility.Level = (int)lvlprev.Value;
+            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
+        }
+
+        private string AddWithAutoname(ModularAbility ab, bool autoaccept = false)
+        {
+            string autoname = "";
+
+            int degree = 0;
+            foreach (ModularAbility a in abilities)
+            {
+                string[] autoparts = a.ID.Split('.');
+                if (autoparts.Length == 2)//current name is an autoname - compare to first piece only
+                {
+
+                    if (autoparts[0] == ab.ID)//matching auto
+                    {
+                        int currentdegree = int.Parse(autoparts[1]) + 1;
+                        if (currentdegree > degree)
+                            degree = currentdegree;
+                    }
+                }
+                else
+                {
+                    if (a.ID == ab.ID)
+                        degree = 1;
+                }
+            }
+
+            if (degree > 0)
+                autoname = ab.ID + "." + degree.ToString();
+
+            //if ab ID already exists, change the ID to autoname and add if autoaccept is true, else do nothing and just return autoname
+            if (autoname != "")
+            {
+                if (autoaccept)
+                {
+
+                    ab.ID = autoname;
+                    abilities.Add(ab);
+                }
+            }
+            else //no collision, just append as normal
+            {
+
+                abilities.Add(ab);
+            }
+            //the return value is useful in determining if a collision occurred - and with autoaccept= false lets user choose to force the name or not
+            return autoname;
+        }
+
+        #endregion
 
 
         #region functions used by Classes tab
@@ -140,117 +264,7 @@ namespace MagicEditor
         }
         #endregion
 
-        #region functions used by Abilities tab
 
-        private void EditCurrentAbility()
-        {
-           
-            ReloadEffectList();
-            SetIcon(CurrentAbility.Icon);
-
-            this.spellname.Text = CurrentAbility.Name;
-            lockform = true;
-            castbase.Value =     (decimal)CurrentAbility.BaseValues["cast_time"];
-            channelbase.Value =  (decimal)CurrentAbility.BaseValues["channel_time"];
-            mpbase.Value =       (decimal)CurrentAbility.BaseValues["mp_cost"];
-            cdbase.Value =       (decimal)CurrentAbility.BaseValues["cooldown"];
-            castdelta.Value =    (decimal)CurrentAbility.GrowthValues["cast_time"];
-            channeldelta.Value = (decimal)CurrentAbility.GrowthValues["channel_time"];
-            mpdelta.Value =      (decimal)CurrentAbility.GrowthValues["mp_cost"];
-            cddelta.Value =      (decimal)CurrentAbility.GrowthValues["cooldown"];
-
-            UpdateDescriptionPreview();
-            lockform = false;
-        }
-
-        private void UpdateBases()
-        {
-            CurrentAbility.BaseValues["cast_time"] =         (float)castbase.Value;
-            CurrentAbility.BaseValues["channel_time"]=       (float)channelbase.Value;
-            CurrentAbility.BaseValues["mp_cost"]=            (float)mpbase.Value;
-            CurrentAbility.BaseValues["cooldown"]=           (float)cdbase.Value;
-            CurrentAbility.GrowthValues["cast_time"]=        (float)castdelta.Value;
-            CurrentAbility.GrowthValues["channel_time"]=     (float)channeldelta.Value;
-            CurrentAbility.GrowthValues["mp_cost"]=          (float)mpdelta.Value;
-            CurrentAbility.GrowthValues["cooldown"] =        (float)cddelta.Value;
-        }
-
-        private void SetIcon(int IconId)
-        {
-            iconimage.Location = new Point((IconId % 64)*-32, ((int)(IconId / 64f))*-32);
-        }
-
-        private void ReloadEffectList()
-        {
-            EffectList.Items.Clear();
-            foreach (ITimedEffect effect in CurrentAbility.GetModules())
-            {
-                AbilityEffectDefinition adef = AbilityEffectDefinition.GetDefinition(effect.EffectType);
-                string[] ItemProps = new string[] { adef.FriendlyName, effect.BaseTime.ToString(), effect.BaseDuration.ToString() };
-                ListViewItem line = new ListViewItem(ItemProps, adef.Icon)
-                {
-                    Tag = effect
-                };
-                EffectList.Items.Add(line);
-
-            }
-
-        }
-
-        private void UpdateDescriptionPreview()
-        {
-            CurrentAbility.Level = (int)lvlprev.Value;
-            descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
-        }
-
-        private string AddWithAutoname(ModularAbility ab, bool autoaccept=false)
-        {
-            string autoname = "";
-
-            int degree = 0;
-            foreach (ModularAbility a in abilities)
-            {
-                string[] autoparts = a.ID.Split('.');
-                if(autoparts.Length==2)//current name is an autoname - compare to first piece only
-                {
-                    
-                    if(autoparts[0]==ab.ID)//matching auto
-                    {
-                        int currentdegree = int.Parse(autoparts[1])+1;
-                        if (currentdegree > degree)
-                            degree = currentdegree;
-                    }
-                }
-                else
-                {
-                    if (a.ID == ab.ID)
-                        degree = 1;
-                }
-            }
-
-            if (degree > 0)
-                autoname = ab.ID + "." + degree.ToString();
-
-            //if ab ID already exists, change the ID to autoname and add if autoaccept is true, else do nothing and just return autoname
-            if (autoname!="")
-            {
-                if(autoaccept)
-                {
-
-                    ab.ID = autoname;
-                    abilities.Add(ab);
-                }
-            }
-            else //no collision, just append as normal
-            {
-
-                abilities.Add(ab);
-            }
-            //the return value is useful in determining if a collision occurred - and with autoaccept= false lets user choose to force the name or not
-            return autoname;
-        }
-
-        #endregion
 
 
         #region GUI wireups for Abilities tab
@@ -381,6 +395,8 @@ namespace MagicEditor
 
         private void abilityselector_DoubleClick(object sender, EventArgs e)
         {
+            if (abilityselector.SelectedItem == null)
+                return;
             CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
             EditCurrentAbility();
         }
@@ -395,16 +411,7 @@ namespace MagicEditor
         #endregion
 
 
-        public ModularAbility FindAbility(string id)
-        {
-            foreach (ModularAbility a in abilities)
-                if (a.ID == id)
-                    return a;
-            return null;
-        }
-
-
-
+        #region GUI wireups for Classes tab
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -538,5 +545,10 @@ namespace MagicEditor
 
             EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
         }
+
+
+
+
+        #endregion
     }
 }
