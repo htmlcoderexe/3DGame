@@ -1,7 +1,20 @@
+# Magic Editor
+
 This program is used to edit various abilities usable in the game. 
 
-Current progress - needs to load/save from disk (to be implemented in GameObjects instead so that the game itself can reuse code), needs to have user interface to switch between editing different abilities ( a list pane) as well as add/remove to said list.
+Current progress - Abilities fully editable, load and save from disk complete (any forgotten attributes like Range like I now realised and any special skill requisites can be added into the custom dictionary used by each skill).
 
-Below screenshot of the editing process:
+Next TODO - saving/loading of class templates with skilltrees.
 
+# Screenshots:
+
+## Editing an ability:
 ![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/MagicEditor/MagicEditorAbilityScreen.PNG)
+
+## Class editor with skill tree:
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/MagicEditor/MagicEditorClassScreen.PNG)
+
+## Selecting prerequisite skills:
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/MagicEditor/MagicEditorPrereq.PNG)
