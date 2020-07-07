@@ -89,7 +89,22 @@ namespace MagicEditor
         private void button1_Click(object sender, EventArgs e)
         {
             List<Tuple<string, int>> g = GetPreReqs();
-            int f = g.Count;
+            SkillTreeEntry result = new SkillTreeEntry()
+            {
+                Name=AbilityProvider.FindAbility(Entry.SkillID).Name,
+                SkillID = Entry.SkillID,
+                LearnLevel = (int)learnlevel.Value,
+                Column = (int)column.Value,
+                TrainingLevel = (int)traininglevel.Value,
+                MaxLevel = (int)maxlvl.Value,
+                ExpBase = (int)expbase.Value,
+                ExpDelta=(int)expdelta.Value,
+                RequireItemID=requireitemid.Text,
+                PreRequisiteSkills=g
+            };
+            Entry = result;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

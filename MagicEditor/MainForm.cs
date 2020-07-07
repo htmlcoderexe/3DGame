@@ -259,9 +259,23 @@ namespace MagicEditor
             SkillTreeEntryEditor editor = new SkillTreeEntryEditor(this, entry);
             if(editor.ShowDialog()==DialogResult.OK)
             {
-                
+                if (skillentrylist.SelectedItems.Count != 1)
+                    return;
+                skillentrylist.Items[skillentrylist.SelectedIndex] = editor.Entry;
             }
         }
+
+        private void AddSkillTree(string id, int level)
+        {
+            SkillTreeEntry e = new SkillTreeEntry()
+            {
+                SkillID = id,
+                LearnLevel = level,
+                Name = FindAbility(id).Name
+            };
+            skillentrylist.Items.Add(e);
+        }
+
         #endregion
 
 
@@ -416,7 +430,10 @@ namespace MagicEditor
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
+            SkillTreeEntry[] array = new SkillTreeEntry[skillentrylist.Items.Count];
+            skillentrylist.Items.CopyTo(array, 0);
+            //foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
+            foreach (SkillTreeEntry entry in array)
             {
                 ModularAbility a = FindAbility(entry.SkillID);
                 Microsoft.Xna.Framework.Point corner = entry.GetLocation();
@@ -424,7 +441,7 @@ namespace MagicEditor
                 if(entry.PreRequisiteSkills!=null)
                 foreach(Tuple<string,int> prereq in entry.PreRequisiteSkills)
                 {
-                    foreach(SkillTreeEntry preentry in currentclass.SkillTree.Entries)
+                    foreach(SkillTreeEntry preentry in array)
                     {
                         if(preentry.SkillID==prereq.Item1)
                         {
@@ -438,7 +455,8 @@ namespace MagicEditor
                 }
                 
             }
-            foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
+            //foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
+            foreach (SkillTreeEntry entry in array)
             {
 
 
@@ -463,6 +481,8 @@ namespace MagicEditor
 
         private void classlist_DoubleClick(object sender, EventArgs e)
         {
+            if (classlist.SelectedItems.Count != 1)
+                return;
             currentclass = (CharacterTemplate)classlist.SelectedItem;
             EditCurrentClass();
         }
@@ -507,7 +527,9 @@ namespace MagicEditor
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
-            foreach(SkillTreeEntry icon in currentclass.SkillTree.Entries)
+            SkillTreeEntry[] array = new SkillTreeEntry[skillentrylist.Items.Count];
+            skillentrylist.Items.CopyTo(array, 0);
+            foreach (SkillTreeEntry icon in array)
             {
                 Microsoft.Xna.Framework.Point p = icon.GetLocation();
                 Rectangle XX = new Rectangle(p.X, p.Y, 40, 40);
@@ -527,7 +549,9 @@ namespace MagicEditor
 
         private void panel1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            foreach (SkillTreeEntry icon in currentclass.SkillTree.Entries)
+            SkillTreeEntry[] array = new SkillTreeEntry[skillentrylist.Items.Count];
+            skillentrylist.Items.CopyTo(array, 0);
+            foreach (SkillTreeEntry icon in array)
             {
                 Microsoft.Xna.Framework.Point p = icon.GetLocation();
                 Rectangle XX = new Rectangle(p.X, p.Y, 40, 40);
@@ -537,18 +561,41 @@ namespace MagicEditor
                 }
 
             }
+            if (skillentrylist.SelectedItems.Count != 1)
+                return;
             EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
         }
 
         private void skillentrylist_DoubleClick(object sender, EventArgs e)
         {
-
+            if (skillentrylist.SelectedItems.Count != 1)
+                return;
             EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
         }
 
 
+        private void skillentrymenu_Opening(object sender, CancelEventArgs e)
+        {
+            skillentrymenu.Items[1].Enabled = skillentrylist.SelectedItems.Count == 1;
+        }
 
+        private void addAbilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SkillSelector selector = new SkillSelector(this);
+            if (selector.ShowDialog() == DialogResult.OK)
+            {
+                AddSkillTree(selector.SelectedID, selector.SelectedLevel);
+
+            }
+        }
+
+        private void removeAbilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SkillTreeEntry removeme = (SkillTreeEntry)skillentrylist.SelectedItem;
+            skillentrylist.Items.Remove(removeme);
+        }
 
         #endregion
+
     }
 }

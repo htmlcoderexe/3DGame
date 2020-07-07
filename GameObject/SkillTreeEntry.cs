@@ -22,6 +22,13 @@ namespace GameObject
         //only used for display
         public string Name { get; set; }
 
+        public SkillTreeEntry()
+        {
+            this.ExpBase = 1;
+            this.ExpDelta = 1;
+            this.MaxLevel = 1;
+        }
+
         public int GetLevel(int ExpTotal)
         {
             return (int)MathHelper.Clamp(

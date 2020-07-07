@@ -88,6 +88,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.classlist = new System.Windows.Forms.ListBox();
             this.comppage = new System.Windows.Forms.TabPage();
+            this.skillentrymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -112,6 +115,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hpvit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mplvl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hplvl)).BeginInit();
+            this.skillentrymenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -152,6 +156,7 @@
             this.addEffectToolStripMenuItem,
             this.removeEffectToolStripMenuItem});
             this.effectmenu.Name = "effectmenu";
+            this.effectmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.effectmenu.Size = new System.Drawing.Size(151, 48);
             this.effectmenu.Opening += new System.ComponentModel.CancelEventHandler(this.effectmenu_Opening);
             // 
@@ -435,6 +440,7 @@
             this.createAbilityToolStripMenuItem,
             this.deleteAbilityToolStripMenuItem});
             this.abilitymenu.Name = "abilitymenu";
+            this.abilitymenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.abilitymenu.Size = new System.Drawing.Size(144, 48);
             this.abilitymenu.Opening += new System.ComponentModel.CancelEventHandler(this.abilitymenu_Opening);
             // 
@@ -755,7 +761,7 @@
             // 
             // skillentrylist
             // 
-            this.skillentrylist.ContextMenuStrip = this.abilitymenu;
+            this.skillentrylist.ContextMenuStrip = this.skillentrymenu;
             this.skillentrylist.DisplayMember = "Name";
             this.skillentrylist.Dock = System.Windows.Forms.DockStyle.Right;
             this.skillentrylist.FormattingEnabled = true;
@@ -805,6 +811,30 @@
             this.comppage.Text = "Components";
             this.comppage.UseVisualStyleBackColor = true;
             // 
+            // skillentrymenu
+            // 
+            this.skillentrymenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addAbilityToolStripMenuItem,
+            this.removeAbilityToolStripMenuItem});
+            this.skillentrymenu.Name = "skillentrymenu";
+            this.skillentrymenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.skillentrymenu.Size = new System.Drawing.Size(153, 48);
+            this.skillentrymenu.Opening += new System.ComponentModel.CancelEventHandler(this.skillentrymenu_Opening);
+            // 
+            // addAbilityToolStripMenuItem
+            // 
+            this.addAbilityToolStripMenuItem.Name = "addAbilityToolStripMenuItem";
+            this.addAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addAbilityToolStripMenuItem.Text = "Add ability";
+            this.addAbilityToolStripMenuItem.Click += new System.EventHandler(this.addAbilityToolStripMenuItem_Click);
+            // 
+            // removeAbilityToolStripMenuItem
+            // 
+            this.removeAbilityToolStripMenuItem.Name = "removeAbilityToolStripMenuItem";
+            this.removeAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAbilityToolStripMenuItem.Text = "Remove ability";
+            this.removeAbilityToolStripMenuItem.Click += new System.EventHandler(this.removeAbilityToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -840,6 +870,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hpvit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mplvl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
+            this.skillentrymenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -904,6 +935,9 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox dmgstat;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ContextMenuStrip skillentrymenu;
+        private System.Windows.Forms.ToolStripMenuItem addAbilityToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeAbilityToolStripMenuItem;
     }
 }
 
