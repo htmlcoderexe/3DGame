@@ -19,6 +19,7 @@ namespace GameObject
         public int ExpDelta { get; set; }
         public string RequireItemID { get; set; }
 
+        public Point ManualOffset { get; set; }
         //only used for display
         public string Name { get; set; }
 
@@ -40,15 +41,15 @@ namespace GameObject
 
         public float GetExpBar(int ExpTotal)
         {
+            
             if (ExpTotal <= 0)
                 ExpTotal = 1;
             if (ExpTotal < ExpBase)
                 return (float)ExpTotal / (float)ExpBase;
-            return (float)((ExpTotal - ExpBase) % ExpDelta) / (float)ExpDelta;
+            return (float)((ExpTotal - ExpBase) % ExpDelta) / (float)(ExpBase+ExpDelta*(GetLevel(ExpTotal)-1));
 
         }
 
-        public Point ManualOffset { get; set; }
 
         public Point GetLocation()
         {

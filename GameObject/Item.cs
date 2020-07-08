@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameObject
 {
-    public class Item :ICloneable, GUI.IActionIcon
+    public class Item :ICloneable, GUI.IActionIcon, Interfaces.IGameID
     {
         public class Types
         {
@@ -52,6 +52,7 @@ namespace GameObject
 
         public int Icon { get; set; }
 
+        public string ID { get; set; }
 
         string IActionIcon.Name { get; set; }
 

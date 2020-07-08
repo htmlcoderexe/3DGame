@@ -135,7 +135,7 @@
             this.EffectList.HideSelection = false;
             this.EffectList.Location = new System.Drawing.Point(447, 3);
             this.EffectList.Name = "EffectList";
-            this.EffectList.Size = new System.Drawing.Size(727, 562);
+            this.EffectList.Size = new System.Drawing.Size(727, 538);
             this.EffectList.SmallImageList = this.icons;
             this.EffectList.TabIndex = 0;
             this.EffectList.UseCompatibleStateImageBehavior = false;
@@ -436,7 +436,7 @@
             this.abilityselector.Location = new System.Drawing.Point(3, 3);
             this.abilityselector.Name = "abilityselector";
             this.abilityselector.ScrollAlwaysVisible = true;
-            this.abilityselector.Size = new System.Drawing.Size(233, 562);
+            this.abilityselector.Size = new System.Drawing.Size(233, 538);
             this.abilityselector.TabIndex = 19;
             this.abilityselector.DoubleClick += new System.EventHandler(this.abilityselector_DoubleClick);
             // 
@@ -470,10 +470,10 @@
             this.tabControl1.Controls.Add(this.classespage);
             this.tabControl1.Controls.Add(this.comppage);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1185, 594);
+            this.tabControl1.Size = new System.Drawing.Size(1185, 570);
             this.tabControl1.TabIndex = 22;
             // 
             // abilitylistpage
@@ -500,7 +500,7 @@
             this.abilitylistpage.Location = new System.Drawing.Point(4, 22);
             this.abilitylistpage.Name = "abilitylistpage";
             this.abilitylistpage.Padding = new System.Windows.Forms.Padding(3);
-            this.abilitylistpage.Size = new System.Drawing.Size(1177, 568);
+            this.abilitylistpage.Size = new System.Drawing.Size(1177, 544);
             this.abilitylistpage.TabIndex = 0;
             this.abilitylistpage.Text = "Abilities";
             this.abilitylistpage.UseVisualStyleBackColor = true;
@@ -874,8 +874,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 594);
-            this.Controls.Add(this.mmenu);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.mmenu);
             this.MainMenuStrip = this.mmenu;
             this.Name = "MainForm";
             this.Text = "Magic Editor v1.0";

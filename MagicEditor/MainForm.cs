@@ -36,9 +36,9 @@ namespace MagicEditor
         {
             AbilityEffectDefinition.LoadDefinitions();
 
-            AbilityFileReader fr = new AbilityFileReader();
+            MagicFileReader fr = new MagicFileReader();
 
-            abilities = fr.ReadFile();
+            abilities = fr.ReadAbilityFile();
             foreach (ModularAbility ability in abilities)
             {
                 abilityselector.Items.Add(ability);
@@ -47,16 +47,8 @@ namespace MagicEditor
             CurrentAbility = abilities[0];
             abilityselector.SelectedIndex = 0;
             EditCurrentAbility();
-
-            //classes evt. load from file, now using this to "populate"
-            //*
-            currentclass = new TestCharacterClass();
-            currentclass.ID = "koldun";
-            currentclass.Name = "Wizard";
-            classes.Add(currentclass);
-            classes.Add(new TestCharacterClass());
-            //*/
-
+            
+            classes=fr.ReadClassFile();
             foreach (CharacterTemplate t in classes)
             {
                 classlist.Items.Add(t);
@@ -72,6 +64,12 @@ namespace MagicEditor
         #endregion
 
         #region Common functions
+
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAll();
+        }
 
         public ModularAbility FindAbility(string id)
         {
@@ -124,6 +122,13 @@ namespace MagicEditor
             }
             //the return value is useful in determining if a collision occurred - and with autoaccept= false lets user choose to force the name or not
             return autoname;
+        }
+
+        private void SaveAll()
+        {
+            MagicFileWriter fw = new MagicFileWriter();
+            fw.WriteAbilityFile(abilities);
+            fw.WriteClassFile(classes);
         }
 
         #endregion
@@ -584,6 +589,7 @@ namespace MagicEditor
             if (skillentrylist.SelectedItems.Count != 1)
                 return;
             EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
+            panel1.Refresh();
         }
 
         private void skillentrylist_DoubleClick(object sender, EventArgs e)
@@ -591,6 +597,7 @@ namespace MagicEditor
             if (skillentrylist.SelectedItems.Count != 1)
                 return;
             EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
+            panel1.Refresh();
         }
         #endregion
 
@@ -607,14 +614,14 @@ namespace MagicEditor
             if (selector.ShowDialog() == DialogResult.OK)
             {
                 AddSkillTree(selector.SelectedID, selector.SelectedLevel);
-
+                panel1.Refresh();
             }
         }
         private void removeAbilityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SkillTreeEntry removeme = (SkillTreeEntry)skillentrylist.SelectedItem;
             skillentrylist.Items.Remove(removeme);
-
+            panel1.Refresh();
             CommitSkillTree();
         }
         #endregion
@@ -661,10 +668,5 @@ namespace MagicEditor
 
         #endregion
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AbilityFileWriter fw = new AbilityFileWriter(abilities);
-            fw.WriteFile();
-        }
     }
 }
