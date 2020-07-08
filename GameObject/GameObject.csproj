@@ -66,6 +66,7 @@
     <Compile Include="EffectiveAbility.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Interfaces\IActionIcon.cs" />
+    <Compile Include="Interfaces\IGameID.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IGameScene.cs" />
     <Compile Include="Interfaces\WorldPosition.cs" />

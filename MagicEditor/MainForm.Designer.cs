@@ -60,7 +60,6 @@
             this.abilitymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveabilities = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.abilitylistpage = new System.Windows.Forms.TabPage();
             this.classespage = new System.Windows.Forms.TabPage();
@@ -91,6 +90,11 @@
             this.skillentrymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.classmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mmenu = new System.Windows.Forms.MenuStrip();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -116,6 +120,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.mplvl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hplvl)).BeginInit();
             this.skillentrymenu.SuspendLayout();
+            this.classmenu.SuspendLayout();
+            this.mmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -127,9 +133,9 @@
             this.EffectList.ContextMenuStrip = this.effectmenu;
             this.EffectList.Dock = System.Windows.Forms.DockStyle.Right;
             this.EffectList.HideSelection = false;
-            this.EffectList.Location = new System.Drawing.Point(700, 3);
+            this.EffectList.Location = new System.Drawing.Point(447, 3);
             this.EffectList.Name = "EffectList";
-            this.EffectList.Size = new System.Drawing.Size(474, 562);
+            this.EffectList.Size = new System.Drawing.Size(727, 562);
             this.EffectList.SmallImageList = this.icons;
             this.EffectList.TabIndex = 0;
             this.EffectList.UseCompatibleStateImageBehavior = false;
@@ -183,7 +189,7 @@
             // 
             // descprev
             // 
-            this.descprev.Location = new System.Drawing.Point(350, 128);
+            this.descprev.Location = new System.Drawing.Point(242, 99);
             this.descprev.Name = "descprev";
             this.descprev.Size = new System.Drawing.Size(199, 181);
             this.descprev.TabIndex = 1;
@@ -192,7 +198,7 @@
             // 
             // lvlprev
             // 
-            this.lvlprev.Location = new System.Drawing.Point(498, 97);
+            this.lvlprev.Location = new System.Drawing.Point(390, 68);
             this.lvlprev.Maximum = new decimal(new int[] {
             10,
             0,
@@ -227,7 +233,7 @@
             // iconcontainer
             // 
             this.iconcontainer.Controls.Add(this.iconimage);
-            this.iconcontainer.Location = new System.Drawing.Point(350, 36);
+            this.iconcontainer.Location = new System.Drawing.Point(242, 7);
             this.iconcontainer.Margin = new System.Windows.Forms.Padding(0);
             this.iconcontainer.Name = "iconcontainer";
             this.iconcontainer.Size = new System.Drawing.Size(32, 32);
@@ -236,7 +242,7 @@
             // spellname
             // 
             this.spellname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.spellname.Location = new System.Drawing.Point(385, 38);
+            this.spellname.Location = new System.Drawing.Point(277, 9);
             this.spellname.Name = "spellname";
             this.spellname.Size = new System.Drawing.Size(164, 46);
             this.spellname.TabIndex = 5;
@@ -251,7 +257,7 @@
             0,
             0,
             65536});
-            this.castbase.Location = new System.Drawing.Point(421, 320);
+            this.castbase.Location = new System.Drawing.Point(313, 291);
             this.castbase.Name = "castbase";
             this.castbase.Size = new System.Drawing.Size(61, 20);
             this.castbase.TabIndex = 6;
@@ -265,7 +271,7 @@
             0,
             0,
             65536});
-            this.channelbase.Location = new System.Drawing.Point(421, 346);
+            this.channelbase.Location = new System.Drawing.Point(313, 317);
             this.channelbase.Name = "channelbase";
             this.channelbase.Size = new System.Drawing.Size(61, 20);
             this.channelbase.TabIndex = 7;
@@ -274,7 +280,7 @@
             // mpbase
             // 
             this.mpbase.DecimalPlaces = 1;
-            this.mpbase.Location = new System.Drawing.Point(421, 372);
+            this.mpbase.Location = new System.Drawing.Point(313, 343);
             this.mpbase.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -288,7 +294,7 @@
             // cdbase
             // 
             this.cdbase.DecimalPlaces = 1;
-            this.cdbase.Location = new System.Drawing.Point(421, 398);
+            this.cdbase.Location = new System.Drawing.Point(313, 369);
             this.cdbase.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -302,7 +308,7 @@
             // cddelta
             // 
             this.cddelta.DecimalPlaces = 1;
-            this.cddelta.Location = new System.Drawing.Point(488, 398);
+            this.cddelta.Location = new System.Drawing.Point(380, 369);
             this.cddelta.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -321,7 +327,7 @@
             // mpdelta
             // 
             this.mpdelta.DecimalPlaces = 1;
-            this.mpdelta.Location = new System.Drawing.Point(488, 372);
+            this.mpdelta.Location = new System.Drawing.Point(380, 343);
             this.mpdelta.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -345,7 +351,7 @@
             0,
             0,
             65536});
-            this.channeldelta.Location = new System.Drawing.Point(488, 346);
+            this.channeldelta.Location = new System.Drawing.Point(380, 317);
             this.channeldelta.Minimum = new decimal(new int[] {
             100,
             0,
@@ -364,7 +370,7 @@
             0,
             0,
             65536});
-            this.castdelta.Location = new System.Drawing.Point(488, 320);
+            this.castdelta.Location = new System.Drawing.Point(380, 291);
             this.castdelta.Minimum = new decimal(new int[] {
             100,
             0,
@@ -378,7 +384,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(347, 322);
+            this.label1.Location = new System.Drawing.Point(239, 293);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 14;
@@ -387,7 +393,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(347, 348);
+            this.label2.Location = new System.Drawing.Point(239, 319);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 15;
@@ -396,7 +402,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(347, 374);
+            this.label3.Location = new System.Drawing.Point(239, 345);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 16;
@@ -405,7 +411,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(347, 400);
+            this.label4.Location = new System.Drawing.Point(239, 371);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 17;
@@ -414,7 +420,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(347, 102);
+            this.label5.Location = new System.Drawing.Point(239, 73);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 18;
@@ -458,16 +464,6 @@
             this.deleteAbilityToolStripMenuItem.Text = "Delete ability";
             this.deleteAbilityToolStripMenuItem.Click += new System.EventHandler(this.deleteAbilityToolStripMenuItem_Click);
             // 
-            // saveabilities
-            // 
-            this.saveabilities.Location = new System.Drawing.Point(250, 6);
-            this.saveabilities.Name = "saveabilities";
-            this.saveabilities.Size = new System.Drawing.Size(75, 42);
-            this.saveabilities.TabIndex = 21;
-            this.saveabilities.Text = "Save abilities";
-            this.saveabilities.UseVisualStyleBackColor = true;
-            this.saveabilities.Click += new System.EventHandler(this.saveabilities_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.abilitylistpage);
@@ -485,7 +481,6 @@
             this.abilitylistpage.Controls.Add(this.abilityselector);
             this.abilitylistpage.Controls.Add(this.EffectList);
             this.abilitylistpage.Controls.Add(this.descprev);
-            this.abilitylistpage.Controls.Add(this.saveabilities);
             this.abilitylistpage.Controls.Add(this.lvlprev);
             this.abilitylistpage.Controls.Add(this.iconcontainer);
             this.abilitylistpage.Controls.Add(this.label5);
@@ -782,14 +777,13 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(407, 562);
             this.panel1.TabIndex = 21;
-            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
             this.panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDoubleClick);
             // 
             // classlist
             // 
-            this.classlist.ContextMenuStrip = this.abilitymenu;
+            this.classlist.ContextMenuStrip = this.classmenu;
             this.classlist.DisplayMember = "Name";
             this.classlist.Dock = System.Windows.Forms.DockStyle.Left;
             this.classlist.FormattingEnabled = true;
@@ -824,23 +818,65 @@
             // addAbilityToolStripMenuItem
             // 
             this.addAbilityToolStripMenuItem.Name = "addAbilityToolStripMenuItem";
-            this.addAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addAbilityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addAbilityToolStripMenuItem.Text = "Add ability";
             this.addAbilityToolStripMenuItem.Click += new System.EventHandler(this.addAbilityToolStripMenuItem_Click);
             // 
             // removeAbilityToolStripMenuItem
             // 
             this.removeAbilityToolStripMenuItem.Name = "removeAbilityToolStripMenuItem";
-            this.removeAbilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAbilityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.removeAbilityToolStripMenuItem.Text = "Remove ability";
             this.removeAbilityToolStripMenuItem.Click += new System.EventHandler(this.removeAbilityToolStripMenuItem_Click);
+            // 
+            // classmenu
+            // 
+            this.classmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createClassToolStripMenuItem,
+            this.deleteClassToolStripMenuItem});
+            this.classmenu.Name = "classmenu";
+            this.classmenu.Size = new System.Drawing.Size(137, 48);
+            this.classmenu.Opening += new System.ComponentModel.CancelEventHandler(this.classmenu_Opening);
+            // 
+            // createClassToolStripMenuItem
+            // 
+            this.createClassToolStripMenuItem.Name = "createClassToolStripMenuItem";
+            this.createClassToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.createClassToolStripMenuItem.Text = "Create class";
+            this.createClassToolStripMenuItem.Click += new System.EventHandler(this.createClassToolStripMenuItem_Click);
+            // 
+            // deleteClassToolStripMenuItem
+            // 
+            this.deleteClassToolStripMenuItem.Name = "deleteClassToolStripMenuItem";
+            this.deleteClassToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.deleteClassToolStripMenuItem.Text = "Delete class";
+            this.deleteClassToolStripMenuItem.Click += new System.EventHandler(this.deleteClassToolStripMenuItem_Click);
+            // 
+            // mmenu
+            // 
+            this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
+            this.mmenu.Location = new System.Drawing.Point(0, 0);
+            this.mmenu.Name = "mmenu";
+            this.mmenu.Size = new System.Drawing.Size(1185, 24);
+            this.mmenu.TabIndex = 25;
+            this.mmenu.Text = "menuStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 594);
+            this.Controls.Add(this.mmenu);
             this.Controls.Add(this.tabControl1);
+            this.MainMenuStrip = this.mmenu;
             this.Name = "MainForm";
             this.Text = "Magic Editor v1.0";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -871,7 +907,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.mplvl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
             this.skillentrymenu.ResumeLayout(false);
+            this.classmenu.ResumeLayout(false);
+            this.mmenu.ResumeLayout(false);
+            this.mmenu.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -907,7 +947,6 @@
         private System.Windows.Forms.ContextMenuStrip abilitymenu;
         private System.Windows.Forms.ToolStripMenuItem createAbilityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteAbilityToolStripMenuItem;
-        private System.Windows.Forms.Button saveabilities;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage abilitylistpage;
         private System.Windows.Forms.TabPage classespage;
@@ -938,6 +977,11 @@
         private System.Windows.Forms.ContextMenuStrip skillentrymenu;
         private System.Windows.Forms.ToolStripMenuItem addAbilityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeAbilityToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip classmenu;
+        private System.Windows.Forms.ToolStripMenuItem createClassToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteClassToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip mmenu;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }
 

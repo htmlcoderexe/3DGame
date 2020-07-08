@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameObject
 {
-    public class ModularAbility : GUI.IActionIcon
+    public class ModularAbility : GUI.IActionIcon,Interfaces.IGameID
     {
         public float CoolDown { get; set; }
         public int Icon { get; set; }

@@ -146,6 +146,10 @@
       <Project>{ffa614ca-bfaf-4e43-b3ed-7d23654940cb}</Project>
       <Name>GameObject</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GUI\GUI.csproj">
+      <Project>{1416F2FF-B454-45AB-92BE-811BFC66F6AD}</Project>
+      <Name>GUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Terrain\Terrain.csproj">
       <Project>{5194618f-fe7f-434f-b5b6-d9dce3357bca}</Project>
       <Name>Terrain</Name>

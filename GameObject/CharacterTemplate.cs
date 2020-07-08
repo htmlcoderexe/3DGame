@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameObject
 {
-    public class CharacterTemplate
+    public class CharacterTemplate : Interfaces.IGameID
     {
         public enum MainStats
         {
@@ -24,5 +24,30 @@ namespace GameObject
         public int HPperLVL { get; set; }
         public int MPperLVL { get; set; }
         public Items.ItemEquip[] StarterEquipment { get; set; }
+
+        public static  CharacterTemplate CreateEmpty(string id)
+        {
+            return new CharacterTemplate()
+            {
+                Name = "<untitled class>",
+                ID = id,
+                Description = "Insert description here!",
+                SkillTree = new SkillTree(),
+                BaseStats = new Dictionary<string, float>()
+                {
+                    ["HP"] = 100f,
+                    ["hpregen"] = 10f,
+                    ["mpregen"] = 10f,
+                    ["movement_speed"] = 5f
+                },
+                DamageStat = MainStats.STR,
+                HPperVIT = 10,
+                MPperINT = 10,
+                HPperLVL = 10,
+                MPperLVL = 10,
+                StarterEquipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max],
+            };
+            
+        }
     }
 }

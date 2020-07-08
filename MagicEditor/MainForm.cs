@@ -14,26 +14,23 @@ namespace MagicEditor
 {
     public partial class MainForm : Form
     {
-        ModularAbility CurrentAbility;
         public List<ModularAbility> abilities = new List<ModularAbility>();
-        CharacterTemplate currentclass;
         public List<CharacterTemplate> classes = new List<CharacterTemplate>();
-        private bool lockform = false;
+
+        #region Internal state
+
+        ModularAbility CurrentAbility;
+        CharacterTemplate currentclass;
+        bool lockform = false;
+
+        #endregion
+
+        #region Initialisation
+
         public MainForm()
         {
             InitializeComponent();
         }
-
-
-        public ModularAbility FindAbility(string id)
-        {
-            foreach (ModularAbility a in abilities)
-                if (a.ID == id)
-                    return a;
-            return null;
-        }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -60,7 +57,7 @@ namespace MagicEditor
             classes.Add(new TestCharacterClass());
             //*/
 
-            foreach(CharacterTemplate t in classes)
+            foreach (CharacterTemplate t in classes)
             {
                 classlist.Items.Add(t);
             }
@@ -71,6 +68,65 @@ namespace MagicEditor
 
             panel1.Refresh();
         }
+
+        #endregion
+
+        #region Common functions
+
+        public ModularAbility FindAbility(string id)
+        {
+            foreach (ModularAbility a in abilities)
+                if (a.ID == id)
+                    return a;
+            return null;
+        }
+
+        private string AddWithAutoname(GameObject.Interfaces.IGameID ab, List<GameObject.Interfaces.IGameID> pool, bool autoaccept = false)
+        {
+            string autoname = "";
+
+            int degree = 0;
+            foreach (GameObject.Interfaces.IGameID a in pool)
+            {
+                string[] autoparts = a.ID.Split('.');
+                if (autoparts.Length == 2)//current name is an autoname - compare to first piece only
+                {
+
+                    if (autoparts[0] == ab.ID)//matching auto
+                    {
+                        int currentdegree = int.Parse(autoparts[1]) + 1;
+                        if (currentdegree > degree)
+                            degree = currentdegree;
+                    }
+                }
+                else
+                {
+                    if (a.ID == ab.ID)
+                        degree = 1;
+                }
+            }
+
+            if (degree > 0)
+                autoname = ab.ID + "." + degree.ToString();
+
+            //if ab ID already exists, change the ID to autoname and add if autoaccept is true, else do nothing and just return autoname
+            if (autoname != "")
+            {
+                if (autoaccept)
+                {
+
+                    ab.ID = autoname;
+                }
+            }
+            else //no collision, just append as normal
+            {
+
+            }
+            //the return value is useful in determining if a collision occurred - and with autoaccept= false lets user choose to force the name or not
+            return autoname;
+        }
+
+        #endregion
 
 
         #region functions used by Abilities tab
@@ -136,55 +192,9 @@ namespace MagicEditor
             descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
         }
 
-        private string AddWithAutoname(ModularAbility ab, bool autoaccept = false)
-        {
-            string autoname = "";
-
-            int degree = 0;
-            foreach (ModularAbility a in abilities)
-            {
-                string[] autoparts = a.ID.Split('.');
-                if (autoparts.Length == 2)//current name is an autoname - compare to first piece only
-                {
-
-                    if (autoparts[0] == ab.ID)//matching auto
-                    {
-                        int currentdegree = int.Parse(autoparts[1]) + 1;
-                        if (currentdegree > degree)
-                            degree = currentdegree;
-                    }
-                }
-                else
-                {
-                    if (a.ID == ab.ID)
-                        degree = 1;
-                }
-            }
-
-            if (degree > 0)
-                autoname = ab.ID + "." + degree.ToString();
-
-            //if ab ID already exists, change the ID to autoname and add if autoaccept is true, else do nothing and just return autoname
-            if (autoname != "")
-            {
-                if (autoaccept)
-                {
-
-                    ab.ID = autoname;
-                    abilities.Add(ab);
-                }
-            }
-            else //no collision, just append as normal
-            {
-
-                abilities.Add(ab);
-            }
-            //the return value is useful in determining if a collision occurred - and with autoaccept= false lets user choose to force the name or not
-            return autoname;
-        }
+       
 
         #endregion
-
 
         #region functions used by Classes tab
 
@@ -243,6 +253,13 @@ namespace MagicEditor
             currentclass.DamageStat = setstat;
         }
 
+        private void CommitSkillTree()
+        {
+
+            SkillTreeEntry[] list = new SkillTreeEntry[skillentrylist.Items.Count];
+            skillentrylist.Items.CopyTo(list, 0);
+            currentclass.SkillTree.Entries = list.ToList();
+        }
 
         private void ReloadSkillTreeList()
         {
@@ -262,6 +279,7 @@ namespace MagicEditor
                 if (skillentrylist.SelectedItems.Count != 1)
                     return;
                 skillentrylist.Items[skillentrylist.SelectedIndex] = editor.Entry;
+                CommitSkillTree();
             }
         }
 
@@ -274,29 +292,15 @@ namespace MagicEditor
                 Name = FindAbility(id).Name
             };
             skillentrylist.Items.Add(e);
+            CommitSkillTree();
         }
 
         #endregion
 
 
-
-
         #region GUI wireups for Abilities tab
 
-        private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (EffectList.SelectedItems.Count != 1)
-                return;
-            ListViewItem item = EffectList.SelectedItems[0];
-            EditAbilityComponent editform = new EditAbilityComponent((ITimedEffect)item.Tag);
-            if (editform.ShowDialog() == DialogResult.OK)
-            {
-
-                ReloadEffectList();
-                UpdateDescriptionPreview();
-            }
-            //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
-        }
+        #region Basic ability editing
 
         private void lvlprev_ValueChanged(object sender, EventArgs e)
         {
@@ -351,6 +355,24 @@ namespace MagicEditor
             UpdateDescriptionPreview();
         }
 
+        #endregion
+
+        #region Effect list + context menu
+
+        private void EffectList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (EffectList.SelectedItems.Count != 1)
+                return;
+            ListViewItem item = EffectList.SelectedItems[0];
+            EditAbilityComponent editform = new EditAbilityComponent((ITimedEffect)item.Tag);
+            if (editform.ShowDialog() == DialogResult.OK)
+            {
+
+                ReloadEffectList();
+                UpdateDescriptionPreview();
+            }
+            //MessageBox.Show(((ITimedEffect)item.Tag).EffectType);
+        }
         private void effectmenu_Opening(object sender, CancelEventArgs e)
         {
             
@@ -381,6 +403,17 @@ namespace MagicEditor
             }
         }
 
+        #endregion
+
+        #region Ability list + context menu
+
+        private void abilityselector_DoubleClick(object sender, EventArgs e)
+        {
+            if (abilityselector.SelectedItem == null)
+                return;
+            CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
+            EditCurrentAbility();
+        }
 
         private void abilitymenu_Opening(object sender, CancelEventArgs e)
         {
@@ -393,7 +426,10 @@ namespace MagicEditor
             if(prompt.ShowDialog()==DialogResult.OK)
             {
                 ModularAbility a = ModularAbility.CreateEmpty(prompt.Input);
-                AddWithAutoname(a, true);
+                List<GameObject.Interfaces.IGameID> abs = abilities.ConvertAll(b => (GameObject.Interfaces.IGameID)b );
+                //this will modify the Name if autoname is needed
+                AddWithAutoname(a,abs, true);
+                abilities.Add(a);
                 abilityselector.Items.Add(a);
             }
         }
@@ -407,23 +443,15 @@ namespace MagicEditor
 
         }
 
-        private void abilityselector_DoubleClick(object sender, EventArgs e)
-        {
-            if (abilityselector.SelectedItem == null)
-                return;
-            CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
-            EditCurrentAbility();
-        }
+        #endregion
 
         private void saveabilities_Click(object sender, EventArgs e)
         {
 
-            AbilityFileWriter fw = new AbilityFileWriter(abilities);
-            fw.WriteFile();
+            
         }
 
         #endregion
-
 
         #region GUI wireups for Classes tab
 
@@ -471,21 +499,10 @@ namespace MagicEditor
             }
 
         }
+        
 
-        private void panel1_Click(object sender, EventArgs e)
-        {
-            //panel1.Refresh();
+        #region Basic editing
 
-            
-        }
-
-        private void classlist_DoubleClick(object sender, EventArgs e)
-        {
-            if (classlist.SelectedItems.Count != 1)
-                return;
-            currentclass = (CharacterTemplate)classlist.SelectedItem;
-            EditCurrentClass();
-        }
 
         private void hplvl_ValueChanged(object sender, EventArgs e)
         {
@@ -525,6 +542,9 @@ namespace MagicEditor
             }
         }
 
+        #endregion
+
+        #region Skill tree editing
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             SkillTreeEntry[] array = new SkillTreeEntry[skillentrylist.Items.Count];
@@ -572,7 +592,9 @@ namespace MagicEditor
                 return;
             EditSkillEntry((SkillTreeEntry)skillentrylist.SelectedItem);
         }
+        #endregion
 
+        #region Skill list context menu
 
         private void skillentrymenu_Opening(object sender, CancelEventArgs e)
         {
@@ -588,14 +610,61 @@ namespace MagicEditor
 
             }
         }
-
         private void removeAbilityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SkillTreeEntry removeme = (SkillTreeEntry)skillentrylist.SelectedItem;
             skillentrylist.Items.Remove(removeme);
+
+            CommitSkillTree();
         }
+        #endregion
+
+        #region Class list+context menu
+
+
+        private void classlist_DoubleClick(object sender, EventArgs e)
+        {
+            if (classlist.SelectedItems.Count != 1)
+                return;
+            currentclass = (CharacterTemplate)classlist.SelectedItem;
+            EditCurrentClass();
+            panel1.Refresh();
+        }
+
+        private void classmenu_Opening(object sender, CancelEventArgs e)
+        {
+            classmenu.Items[1].Enabled = classlist.SelectedItems.Count == 1;
+        }
+
+        private void createClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                CharacterTemplate a = CharacterTemplate.CreateEmpty(prompt.Input);
+                List<GameObject.Interfaces.IGameID> abs = classes.ConvertAll(b => (GameObject.Interfaces.IGameID)b);
+                //this will modify the Name if autoname is needed
+                AddWithAutoname(a, abs, true);
+                classes.Add(a);
+               classlist.Items.Add(a);
+            }
+        }
+
+        private void deleteClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CharacterTemplate removeme = (CharacterTemplate)classlist.SelectedItem;
+            classes.Remove(removeme);
+            classlist.Items.Remove(removeme);
+            classlist.SelectedIndex = 0;
+        }
+        #endregion
 
         #endregion
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbilityFileWriter fw = new AbilityFileWriter(abilities);
+            fw.WriteFile();
+        }
     }
 }
