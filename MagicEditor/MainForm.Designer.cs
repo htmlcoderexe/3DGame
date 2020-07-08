@@ -95,6 +95,9 @@
             this.deleteClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Range = new System.Windows.Forms.Label();
+            this.rangebase = new System.Windows.Forms.NumericUpDown();
+            this.rangedelta = new System.Windows.Forms.NumericUpDown();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -122,6 +125,8 @@
             this.skillentrymenu.SuspendLayout();
             this.classmenu.SuspendLayout();
             this.mmenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rangebase)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).BeginInit();
             this.SuspendLayout();
             // 
             // EffectList
@@ -478,6 +483,9 @@
             // 
             // abilitylistpage
             // 
+            this.abilitylistpage.Controls.Add(this.Range);
+            this.abilitylistpage.Controls.Add(this.rangebase);
+            this.abilitylistpage.Controls.Add(this.rangedelta);
             this.abilitylistpage.Controls.Add(this.abilityselector);
             this.abilitylistpage.Controls.Add(this.EffectList);
             this.abilitylistpage.Controls.Add(this.descprev);
@@ -869,6 +877,48 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
+            // Range
+            // 
+            this.Range.AutoSize = true;
+            this.Range.Location = new System.Drawing.Point(239, 397);
+            this.Range.Name = "Range";
+            this.Range.Size = new System.Drawing.Size(39, 13);
+            this.Range.TabIndex = 22;
+            this.Range.Text = "Range";
+            // 
+            // rangebase
+            // 
+            this.rangebase.DecimalPlaces = 1;
+            this.rangebase.Location = new System.Drawing.Point(313, 395);
+            this.rangebase.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.rangebase.Name = "rangebase";
+            this.rangebase.Size = new System.Drawing.Size(61, 20);
+            this.rangebase.TabIndex = 20;
+            this.rangebase.ValueChanged += new System.EventHandler(this.cddelta_ValueChanged);
+            // 
+            // rangedelta
+            // 
+            this.rangedelta.DecimalPlaces = 1;
+            this.rangedelta.Location = new System.Drawing.Point(380, 395);
+            this.rangedelta.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.rangedelta.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.rangedelta.Name = "rangedelta";
+            this.rangedelta.Size = new System.Drawing.Size(61, 20);
+            this.rangedelta.TabIndex = 21;
+            this.rangedelta.ValueChanged += new System.EventHandler(this.cddelta_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -910,6 +960,8 @@
             this.classmenu.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rangebase)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -982,6 +1034,9 @@
         private System.Windows.Forms.ToolStripMenuItem deleteClassToolStripMenuItem;
         private System.Windows.Forms.MenuStrip mmenu;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.Label Range;
+        private System.Windows.Forms.NumericUpDown rangebase;
+        private System.Windows.Forms.NumericUpDown rangedelta;
     }
 }
 

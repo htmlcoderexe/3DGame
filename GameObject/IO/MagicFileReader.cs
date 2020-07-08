@@ -1,11 +1,12 @@
-﻿using System;
+﻿using GameObject.AbilityLogic;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameObject.AbilityLogic
+namespace GameObject.IO
 {
     public class MagicFileReader
     {

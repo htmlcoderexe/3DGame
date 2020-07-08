@@ -1,5 +1,6 @@
 ﻿using GameObject;
 using GameObject.AbilityLogic;
+using GameObject.IO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -152,6 +153,8 @@ namespace MagicEditor
             channeldelta.Value = (decimal)CurrentAbility.GrowthValues["channel_time"];
             mpdelta.Value = (decimal)CurrentAbility.GrowthValues["mp_cost"];
             cddelta.Value = (decimal)CurrentAbility.GrowthValues["cooldown"];
+            rangebase.Value = (decimal)CurrentAbility.BaseValues["range"];
+            rangedelta.Value = (decimal)CurrentAbility.GrowthValues["range"];
 
             UpdateDescriptionPreview();
             lockform = false;
@@ -167,6 +170,8 @@ namespace MagicEditor
             CurrentAbility.GrowthValues["channel_time"] = (float)channeldelta.Value;
             CurrentAbility.GrowthValues["mp_cost"] = (float)mpdelta.Value;
             CurrentAbility.GrowthValues["cooldown"] = (float)cddelta.Value;
+            CurrentAbility.BaseValues["range"] = (float)rangebase.Value;
+            CurrentAbility.GrowthValues["range"] = (float)rangebase.Value;
         }
 
         private void SetIcon(int IconId)
