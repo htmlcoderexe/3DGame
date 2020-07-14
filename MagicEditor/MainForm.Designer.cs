@@ -1003,7 +1003,7 @@
             this.Controls.Add(this.mmenu);
             this.MainMenuStrip = this.mmenu;
             this.Name = "MainForm";
-            this.Text = "Magic Editor v1.0";
+            this.Text = "Magic Editor v1.1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.effectmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).EndInit();

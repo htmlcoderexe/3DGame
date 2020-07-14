@@ -19,7 +19,7 @@ namespace GameObject.IO
         {
             string fileName;
             if (FileName == "")
-                FileName = "gamedata\\abilities.gdf";
+                FileName = "gamedata\\abilities.gdf"; //#TODO: some sort of config file that can ship with the game/editor to point to a consistent location
             fileName = FileName;
             List<ModularAbility> abilities;
             abilities = new List<ModularAbility>();
