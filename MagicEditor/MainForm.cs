@@ -21,7 +21,7 @@ namespace MagicEditor
         #region Internal state
 
         ModularAbility CurrentAbility;
-        CharacterTemplate currentclass;
+        CharacterTemplate CurrentClass;
         bool lockform = false;
 
         #endregion
@@ -40,23 +40,39 @@ namespace MagicEditor
             MagicFileReader fr = new MagicFileReader();
 
             abilities = fr.ReadAbilityFile();
-            foreach (ModularAbility ability in abilities)
+            if(abilities.Count>0)
             {
-                abilityselector.Items.Add(ability);
-            }
 
-            CurrentAbility = abilities[0];
-            abilityselector.SelectedIndex = 0;
+                foreach (ModularAbility ability in abilities)
+                {
+                    abilityselector.Items.Add(ability);
+                }
+
+                CurrentAbility = abilities[0];
+                abilityselector.SelectedIndex = 0;
+            }
+            else
+            {
+                CurrentAbility = null;
+            }
             EditCurrentAbility();
             
             classes=fr.ReadClassFile();
-            foreach (CharacterTemplate t in classes)
+            if(classes.Count>0)
             {
-                classlist.Items.Add(t);
-            }
 
-            currentclass = classes[0];
-            classlist.SelectedIndex = 0;
+                foreach (CharacterTemplate t in classes)
+                {
+                    classlist.Items.Add(t);
+                }
+
+                CurrentClass = classes[0];
+                classlist.SelectedIndex = 0;
+            }
+            else
+            {
+                CurrentAbility = null;
+            }
             EditCurrentClass();
 
             panel1.Refresh();
@@ -139,7 +155,19 @@ namespace MagicEditor
 
         private void EditCurrentAbility()
         {
-
+            if(CurrentAbility==null)
+            {
+                abilitygroupbasics.Hide();
+                abilitygroupid.Hide();
+                noabilitywarning.Show();
+                EffectList.Enabled = false;
+                EffectList.Items.Clear();
+                return;
+            }
+            abilitygroupbasics.Show();
+            abilitygroupid.Show();
+            noabilitywarning.Hide();
+            EffectList.Enabled = true;
             ReloadEffectList();
             SetIcon(CurrentAbility.Icon);
 
@@ -210,35 +238,50 @@ namespace MagicEditor
 
         private void EditCurrentClass()
         {
+            if (CurrentClass == null)
+            {
+                classgroupbasics.Hide();
+                classgroupid.Hide();
+                noclasswarning.Show();
+                skillentrylist.Enabled = false;
+                skillentrylist.Items.Clear();
+                panel1.Enabled = false;
+                return;
+            }
+            classgroupbasics.Show();
+            classgroupid.Show();
+            noclasswarning.Hide();
+            skillentrylist.Enabled = true;
+            panel1.Enabled = true;
             ReloadSkillTreeList();
             lockform = true;
-            classname.Text = currentclass.Name;
-            classdesc.Text = currentclass.Description;
-            hplvl.Value = currentclass.HPperLVL;
-            mplvl.Value = currentclass.MPperLVL;
-            hpvit.Value = currentclass.HPperVIT;
-            mpint.Value = currentclass.MPperINT;
-            basehp.Value =  (decimal)currentclass.BaseStats["HP"];
-            hpregen.Value = (decimal)currentclass.BaseStats["hpregen"];
-            mpregen.Value = (decimal)currentclass.BaseStats["mpregen"];
-            speed.Value =   (decimal)currentclass.BaseStats["movement_speed"];
+            classname.Text = CurrentClass.Name;
+            classdesc.Text = CurrentClass.Description;
+            hplvl.Value = CurrentClass.HPperLVL;
+            mplvl.Value = CurrentClass.MPperLVL;
+            hpvit.Value = CurrentClass.HPperVIT;
+            mpint.Value = CurrentClass.MPperINT;
+            basehp.Value =  (decimal)CurrentClass.BaseStats["HP"];
+            hpregen.Value = (decimal)CurrentClass.BaseStats["hpregen"];
+            mpregen.Value = (decimal)CurrentClass.BaseStats["mpregen"];
+            speed.Value =   (decimal)CurrentClass.BaseStats["movement_speed"];
 
-            int stat = (int)currentclass.DamageStat;
+            int stat = (int)CurrentClass.DamageStat;
             dmgstat.SelectedIndex = stat;
             lockform = false;
         }
 
         private void SaveClassBasics()
         {
-            currentclass.HPperLVL = (int)hplvl.Value;
-            currentclass.MPperLVL = (int)mplvl.Value;
-            currentclass.HPperVIT = (int)hpvit.Value;
-            currentclass.MPperINT = (int)mpint.Value;
+            CurrentClass.HPperLVL = (int)hplvl.Value;
+            CurrentClass.MPperLVL = (int)mplvl.Value;
+            CurrentClass.HPperVIT = (int)hpvit.Value;
+            CurrentClass.MPperINT = (int)mpint.Value;
 
-            currentclass.BaseStats["HP"] = (float)basehp.Value;
-            currentclass.BaseStats["hpregen"] = (float)hpregen.Value;
-            currentclass.BaseStats["mpregen"] = (float)mpregen.Value;
-            currentclass.BaseStats["movement_speed"] = (float)speed.Value;
+            CurrentClass.BaseStats["HP"] = (float)basehp.Value;
+            CurrentClass.BaseStats["hpregen"] = (float)hpregen.Value;
+            CurrentClass.BaseStats["mpregen"] = (float)mpregen.Value;
+            CurrentClass.BaseStats["movement_speed"] = (float)speed.Value;
 
             CharacterTemplate.MainStats setstat;
             switch(dmgstat.SelectedIndex)
@@ -260,7 +303,7 @@ namespace MagicEditor
                         break;
                     }
             }
-            currentclass.DamageStat = setstat;
+            CurrentClass.DamageStat = setstat;
         }
 
         private void CommitSkillTree()
@@ -268,17 +311,28 @@ namespace MagicEditor
 
             SkillTreeEntry[] list = new SkillTreeEntry[skillentrylist.Items.Count];
             skillentrylist.Items.CopyTo(list, 0);
-            currentclass.SkillTree.Entries = list.ToList();
+            CurrentClass.SkillTree.Entries = list.ToList();
         }
 
         private void ReloadSkillTreeList()
         {
             skillentrylist.Items.Clear();
-            foreach(SkillTreeEntry e in currentclass.SkillTree.Entries)
+            List<SkillTreeEntry> invalids = new List<SkillTreeEntry>();
+            foreach(SkillTreeEntry e in CurrentClass.SkillTree.Entries)
             {
-                e.Name = FindAbility(e.SkillID).Name;
+                ModularAbility a = FindAbility(e.SkillID);
+
+                if (a == null)
+                {
+                    invalids.Add(e);
+                    MessageBox.Show("The AbilityID \"" + e.SkillID + "\" was not found in the database.", "Invalid AbilityID", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    continue ;
+                }
+                e.Name = a.Name;
                 skillentrylist.Items.Add(e);
             }
+            foreach(SkillTreeEntry e in invalids)
+                CurrentClass.SkillTree.Entries.Remove(e);
         }
 
         private void EditSkillEntry(SkillTreeEntry entry)
@@ -295,11 +349,17 @@ namespace MagicEditor
 
         private void AddSkillTree(string id, int level)
         {
+            ModularAbility a = FindAbility(id);
+            if(a==null)
+            {
+                MessageBox.Show("The AbilityID \""+id+"\" was not found in the database.", "Invalid AbilityID", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
             SkillTreeEntry e = new SkillTreeEntry()
             {
                 SkillID = id,
                 LearnLevel = level,
-                Name = FindAbility(id).Name
+                Name = a.Name
             };
             skillentrylist.Items.Add(e);
             CommitSkillTree();
@@ -441,6 +501,9 @@ namespace MagicEditor
                 AddWithAutoname(a,abs, true);
                 abilities.Add(a);
                 abilityselector.Items.Add(a);
+                CurrentAbility = a;
+                abilityselector.SelectedItem = a;
+                EditCurrentAbility();
             }
         }
 
@@ -450,7 +513,16 @@ namespace MagicEditor
             ModularAbility removeme = (ModularAbility)abilityselector.SelectedItem;
             abilityselector.Items.Remove(removeme);
             abilities.Remove(removeme);
+            if (abilities.Count > 0)
+            {
 
+                abilityselector.SelectedIndex = 0;
+                CurrentAbility = (ModularAbility)abilityselector.SelectedItem;
+            }
+            else
+                CurrentAbility = null;
+            EditCurrentAbility();
+            
         }
 
         #endregion
@@ -473,7 +545,6 @@ namespace MagicEditor
             //foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
             foreach (SkillTreeEntry entry in array)
             {
-                ModularAbility a = FindAbility(entry.SkillID);
                 Microsoft.Xna.Framework.Point corner = entry.GetLocation();
                 corner += new Microsoft.Xna.Framework.Point(SkillTree.ICON_WIDTH / 2, SkillTree.ICON_WIDTH / 2);
                 if(entry.PreRequisiteSkills!=null)
@@ -499,6 +570,8 @@ namespace MagicEditor
 
 
                 ModularAbility a = FindAbility(entry.SkillID);
+                if (a == null)
+                    continue;
                 Microsoft.Xna.Framework.Point corner = entry.GetLocation();
                 int IconId = a.Icon;
                 Point iconsource = new Point((IconId % 64) * 32, ((int)(IconId / 64f)) * 32);
@@ -531,24 +604,24 @@ namespace MagicEditor
         private void classname_DoubleClick(object sender, EventArgs e)
         {
             TextPrompt prompt = new TextPrompt();
-            prompt.Input = currentclass.Name;
+            prompt.Input = CurrentClass.Name;
             if (prompt.ShowDialog() == DialogResult.OK)
             {
-                currentclass.Name = prompt.Input;
-                classname.Text = currentclass.Name;
+                CurrentClass.Name = prompt.Input;
+                classname.Text = CurrentClass.Name;
                 //this refreshes the relevant string on the listbox
-               classlist.Items[classlist.Items.IndexOf(currentclass)] = currentclass;
+               classlist.Items[classlist.Items.IndexOf(CurrentClass)] = CurrentClass;
             }
         }
 
         private void classdesc_DoubleClick(object sender, EventArgs e)
         {
             TextPrompt prompt = new TextPrompt();
-            prompt.Input = currentclass.Description;
+            prompt.Input = CurrentClass.Description;
             if (prompt.ShowDialog() == DialogResult.OK)
             {
-                currentclass.Description = prompt.Input;
-                classdesc.Text = currentclass.Description;
+                CurrentClass.Description = prompt.Input;
+                classdesc.Text = CurrentClass.Description;
             }
         }
 
@@ -638,7 +711,7 @@ namespace MagicEditor
         {
             if (classlist.SelectedItems.Count != 1)
                 return;
-            currentclass = (CharacterTemplate)classlist.SelectedItem;
+            CurrentClass = (CharacterTemplate)classlist.SelectedItem;
             EditCurrentClass();
             panel1.Refresh();
         }
@@ -659,6 +732,9 @@ namespace MagicEditor
                 AddWithAutoname(a, abs, true);
                 classes.Add(a);
                classlist.Items.Add(a);
+                classlist.SelectedItem = a;
+                CurrentClass = a;
+                EditCurrentClass();
             }
         }
 
@@ -667,11 +743,20 @@ namespace MagicEditor
             CharacterTemplate removeme = (CharacterTemplate)classlist.SelectedItem;
             classes.Remove(removeme);
             classlist.Items.Remove(removeme);
-            classlist.SelectedIndex = 0;
+            if (classes.Count > 0)
+                classlist.SelectedIndex = 0;
+            else
+                CurrentClass = null;
+            EditCurrentClass();
         }
         #endregion
 
         #endregion
 
+        private void maintabber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            EditCurrentAbility();
+            EditCurrentClass();
+        }
     }
 }

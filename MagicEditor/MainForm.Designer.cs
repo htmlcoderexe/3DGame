@@ -60,8 +60,14 @@
             this.abilitymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.maintabber = new System.Windows.Forms.TabControl();
             this.abilitylistpage = new System.Windows.Forms.TabPage();
+            this.noabilitywarning = new System.Windows.Forms.Label();
+            this.abilitygroupid = new System.Windows.Forms.GroupBox();
+            this.abilitygroupbasics = new System.Windows.Forms.GroupBox();
+            this.Range = new System.Windows.Forms.Label();
+            this.rangebase = new System.Windows.Forms.NumericUpDown();
+            this.rangedelta = new System.Windows.Forms.NumericUpDown();
             this.classespage = new System.Windows.Forms.TabPage();
             this.label11 = new System.Windows.Forms.Label();
             this.dmgstat = new System.Windows.Forms.ComboBox();
@@ -84,20 +90,20 @@
             this.classdesc = new System.Windows.Forms.Label();
             this.classname = new System.Windows.Forms.Label();
             this.skillentrylist = new System.Windows.Forms.ListBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.classlist = new System.Windows.Forms.ListBox();
-            this.comppage = new System.Windows.Forms.TabPage();
             this.skillentrymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.classlist = new System.Windows.Forms.ListBox();
             this.classmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comppage = new System.Windows.Forms.TabPage();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Range = new System.Windows.Forms.Label();
-            this.rangebase = new System.Windows.Forms.NumericUpDown();
-            this.rangedelta = new System.Windows.Forms.NumericUpDown();
+            this.classgroupbasics = new System.Windows.Forms.GroupBox();
+            this.classgroupid = new System.Windows.Forms.GroupBox();
+            this.noclasswarning = new System.Windows.Forms.Label();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -111,8 +117,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.channeldelta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.castdelta)).BeginInit();
             this.abilitymenu.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.maintabber.SuspendLayout();
             this.abilitylistpage.SuspendLayout();
+            this.abilitygroupid.SuspendLayout();
+            this.abilitygroupbasics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rangebase)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).BeginInit();
             this.classespage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mpregen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speed)).BeginInit();
@@ -125,8 +135,8 @@
             this.skillentrymenu.SuspendLayout();
             this.classmenu.SuspendLayout();
             this.mmenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rangebase)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).BeginInit();
+            this.classgroupbasics.SuspendLayout();
+            this.classgroupid.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -138,9 +148,9 @@
             this.EffectList.ContextMenuStrip = this.effectmenu;
             this.EffectList.Dock = System.Windows.Forms.DockStyle.Right;
             this.EffectList.HideSelection = false;
-            this.EffectList.Location = new System.Drawing.Point(447, 3);
+            this.EffectList.Location = new System.Drawing.Point(478, 3);
             this.EffectList.Name = "EffectList";
-            this.EffectList.Size = new System.Drawing.Size(727, 538);
+            this.EffectList.Size = new System.Drawing.Size(696, 562);
             this.EffectList.SmallImageList = this.icons;
             this.EffectList.TabIndex = 0;
             this.EffectList.UseCompatibleStateImageBehavior = false;
@@ -194,7 +204,7 @@
             // 
             // descprev
             // 
-            this.descprev.Location = new System.Drawing.Point(242, 99);
+            this.descprev.Location = new System.Drawing.Point(9, 115);
             this.descprev.Name = "descprev";
             this.descprev.Size = new System.Drawing.Size(199, 181);
             this.descprev.TabIndex = 1;
@@ -203,7 +213,7 @@
             // 
             // lvlprev
             // 
-            this.lvlprev.Location = new System.Drawing.Point(390, 68);
+            this.lvlprev.Location = new System.Drawing.Point(157, 84);
             this.lvlprev.Maximum = new decimal(new int[] {
             10,
             0,
@@ -238,7 +248,7 @@
             // iconcontainer
             // 
             this.iconcontainer.Controls.Add(this.iconimage);
-            this.iconcontainer.Location = new System.Drawing.Point(242, 7);
+            this.iconcontainer.Location = new System.Drawing.Point(9, 23);
             this.iconcontainer.Margin = new System.Windows.Forms.Padding(0);
             this.iconcontainer.Name = "iconcontainer";
             this.iconcontainer.Size = new System.Drawing.Size(32, 32);
@@ -247,7 +257,7 @@
             // spellname
             // 
             this.spellname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.spellname.Location = new System.Drawing.Point(277, 9);
+            this.spellname.Location = new System.Drawing.Point(44, 25);
             this.spellname.Name = "spellname";
             this.spellname.Size = new System.Drawing.Size(164, 46);
             this.spellname.TabIndex = 5;
@@ -262,7 +272,7 @@
             0,
             0,
             65536});
-            this.castbase.Location = new System.Drawing.Point(313, 291);
+            this.castbase.Location = new System.Drawing.Point(80, 17);
             this.castbase.Name = "castbase";
             this.castbase.Size = new System.Drawing.Size(61, 20);
             this.castbase.TabIndex = 6;
@@ -276,7 +286,7 @@
             0,
             0,
             65536});
-            this.channelbase.Location = new System.Drawing.Point(313, 317);
+            this.channelbase.Location = new System.Drawing.Point(80, 43);
             this.channelbase.Name = "channelbase";
             this.channelbase.Size = new System.Drawing.Size(61, 20);
             this.channelbase.TabIndex = 7;
@@ -285,7 +295,7 @@
             // mpbase
             // 
             this.mpbase.DecimalPlaces = 1;
-            this.mpbase.Location = new System.Drawing.Point(313, 343);
+            this.mpbase.Location = new System.Drawing.Point(80, 69);
             this.mpbase.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -299,7 +309,7 @@
             // cdbase
             // 
             this.cdbase.DecimalPlaces = 1;
-            this.cdbase.Location = new System.Drawing.Point(313, 369);
+            this.cdbase.Location = new System.Drawing.Point(80, 95);
             this.cdbase.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -313,7 +323,7 @@
             // cddelta
             // 
             this.cddelta.DecimalPlaces = 1;
-            this.cddelta.Location = new System.Drawing.Point(380, 369);
+            this.cddelta.Location = new System.Drawing.Point(147, 95);
             this.cddelta.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -332,7 +342,7 @@
             // mpdelta
             // 
             this.mpdelta.DecimalPlaces = 1;
-            this.mpdelta.Location = new System.Drawing.Point(380, 343);
+            this.mpdelta.Location = new System.Drawing.Point(147, 69);
             this.mpdelta.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -356,7 +366,7 @@
             0,
             0,
             65536});
-            this.channeldelta.Location = new System.Drawing.Point(380, 317);
+            this.channeldelta.Location = new System.Drawing.Point(147, 43);
             this.channeldelta.Minimum = new decimal(new int[] {
             100,
             0,
@@ -375,7 +385,7 @@
             0,
             0,
             65536});
-            this.castdelta.Location = new System.Drawing.Point(380, 291);
+            this.castdelta.Location = new System.Drawing.Point(147, 17);
             this.castdelta.Minimum = new decimal(new int[] {
             100,
             0,
@@ -389,7 +399,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(239, 293);
+            this.label1.Location = new System.Drawing.Point(6, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 14;
@@ -398,7 +408,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(239, 319);
+            this.label2.Location = new System.Drawing.Point(6, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 15;
@@ -407,7 +417,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(239, 345);
+            this.label3.Location = new System.Drawing.Point(6, 71);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 16;
@@ -416,7 +426,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(239, 371);
+            this.label4.Location = new System.Drawing.Point(6, 97);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 17;
@@ -425,7 +435,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(239, 73);
+            this.label5.Location = new System.Drawing.Point(6, 89);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 18;
@@ -441,7 +451,7 @@
             this.abilityselector.Location = new System.Drawing.Point(3, 3);
             this.abilityselector.Name = "abilityselector";
             this.abilityselector.ScrollAlwaysVisible = true;
-            this.abilityselector.Size = new System.Drawing.Size(233, 538);
+            this.abilityselector.Size = new System.Drawing.Size(233, 562);
             this.abilityselector.TabIndex = 19;
             this.abilityselector.DoubleClick += new System.EventHandler(this.abilityselector_DoubleClick);
             // 
@@ -469,72 +479,130 @@
             this.deleteAbilityToolStripMenuItem.Text = "Delete ability";
             this.deleteAbilityToolStripMenuItem.Click += new System.EventHandler(this.deleteAbilityToolStripMenuItem_Click);
             // 
-            // tabControl1
+            // maintabber
             // 
-            this.tabControl1.Controls.Add(this.abilitylistpage);
-            this.tabControl1.Controls.Add(this.classespage);
-            this.tabControl1.Controls.Add(this.comppage);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 24);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1185, 570);
-            this.tabControl1.TabIndex = 22;
+            this.maintabber.Controls.Add(this.abilitylistpage);
+            this.maintabber.Controls.Add(this.classespage);
+            this.maintabber.Controls.Add(this.comppage);
+            this.maintabber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.maintabber.Location = new System.Drawing.Point(0, 24);
+            this.maintabber.Name = "maintabber";
+            this.maintabber.SelectedIndex = 0;
+            this.maintabber.Size = new System.Drawing.Size(1185, 594);
+            this.maintabber.TabIndex = 22;
+            this.maintabber.SelectedIndexChanged += new System.EventHandler(this.maintabber_SelectedIndexChanged);
             // 
             // abilitylistpage
             // 
-            this.abilitylistpage.Controls.Add(this.Range);
-            this.abilitylistpage.Controls.Add(this.rangebase);
-            this.abilitylistpage.Controls.Add(this.rangedelta);
+            this.abilitylistpage.Controls.Add(this.noabilitywarning);
+            this.abilitylistpage.Controls.Add(this.abilitygroupid);
+            this.abilitylistpage.Controls.Add(this.abilitygroupbasics);
             this.abilitylistpage.Controls.Add(this.abilityselector);
             this.abilitylistpage.Controls.Add(this.EffectList);
-            this.abilitylistpage.Controls.Add(this.descprev);
-            this.abilitylistpage.Controls.Add(this.lvlprev);
-            this.abilitylistpage.Controls.Add(this.iconcontainer);
-            this.abilitylistpage.Controls.Add(this.label5);
-            this.abilitylistpage.Controls.Add(this.spellname);
-            this.abilitylistpage.Controls.Add(this.label4);
-            this.abilitylistpage.Controls.Add(this.castbase);
-            this.abilitylistpage.Controls.Add(this.label3);
-            this.abilitylistpage.Controls.Add(this.channelbase);
-            this.abilitylistpage.Controls.Add(this.label2);
-            this.abilitylistpage.Controls.Add(this.mpbase);
-            this.abilitylistpage.Controls.Add(this.label1);
-            this.abilitylistpage.Controls.Add(this.cdbase);
-            this.abilitylistpage.Controls.Add(this.cddelta);
-            this.abilitylistpage.Controls.Add(this.castdelta);
-            this.abilitylistpage.Controls.Add(this.mpdelta);
-            this.abilitylistpage.Controls.Add(this.channeldelta);
             this.abilitylistpage.Location = new System.Drawing.Point(4, 22);
             this.abilitylistpage.Name = "abilitylistpage";
             this.abilitylistpage.Padding = new System.Windows.Forms.Padding(3);
-            this.abilitylistpage.Size = new System.Drawing.Size(1177, 544);
+            this.abilitylistpage.Size = new System.Drawing.Size(1177, 568);
             this.abilitylistpage.TabIndex = 0;
             this.abilitylistpage.Text = "Abilities";
             this.abilitylistpage.UseVisualStyleBackColor = true;
             // 
+            // noabilitywarning
+            // 
+            this.noabilitywarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noabilitywarning.ForeColor = System.Drawing.Color.Red;
+            this.noabilitywarning.Location = new System.Drawing.Point(288, 156);
+            this.noabilitywarning.Name = "noabilitywarning";
+            this.noabilitywarning.Size = new System.Drawing.Size(132, 104);
+            this.noabilitywarning.TabIndex = 25;
+            this.noabilitywarning.Text = "Please create an ability to edit first!";
+            this.noabilitywarning.Visible = false;
+            // 
+            // abilitygroupid
+            // 
+            this.abilitygroupid.Controls.Add(this.descprev);
+            this.abilitygroupid.Controls.Add(this.spellname);
+            this.abilitygroupid.Controls.Add(this.label5);
+            this.abilitygroupid.Controls.Add(this.iconcontainer);
+            this.abilitygroupid.Controls.Add(this.lvlprev);
+            this.abilitygroupid.Location = new System.Drawing.Point(245, 6);
+            this.abilitygroupid.Name = "abilitygroupid";
+            this.abilitygroupid.Size = new System.Drawing.Size(227, 326);
+            this.abilitygroupid.TabIndex = 24;
+            this.abilitygroupid.TabStop = false;
+            this.abilitygroupid.Text = "Name && desciption";
+            // 
+            // abilitygroupbasics
+            // 
+            this.abilitygroupbasics.Controls.Add(this.castbase);
+            this.abilitygroupbasics.Controls.Add(this.Range);
+            this.abilitygroupbasics.Controls.Add(this.channeldelta);
+            this.abilitygroupbasics.Controls.Add(this.rangebase);
+            this.abilitygroupbasics.Controls.Add(this.mpdelta);
+            this.abilitygroupbasics.Controls.Add(this.rangedelta);
+            this.abilitygroupbasics.Controls.Add(this.castdelta);
+            this.abilitygroupbasics.Controls.Add(this.cddelta);
+            this.abilitygroupbasics.Controls.Add(this.cdbase);
+            this.abilitygroupbasics.Controls.Add(this.label1);
+            this.abilitygroupbasics.Controls.Add(this.mpbase);
+            this.abilitygroupbasics.Controls.Add(this.label2);
+            this.abilitygroupbasics.Controls.Add(this.channelbase);
+            this.abilitygroupbasics.Controls.Add(this.label3);
+            this.abilitygroupbasics.Controls.Add(this.label4);
+            this.abilitygroupbasics.Location = new System.Drawing.Point(245, 338);
+            this.abilitygroupbasics.Name = "abilitygroupbasics";
+            this.abilitygroupbasics.Size = new System.Drawing.Size(227, 155);
+            this.abilitygroupbasics.TabIndex = 23;
+            this.abilitygroupbasics.TabStop = false;
+            this.abilitygroupbasics.Text = "Basics";
+            // 
+            // Range
+            // 
+            this.Range.AutoSize = true;
+            this.Range.Location = new System.Drawing.Point(6, 123);
+            this.Range.Name = "Range";
+            this.Range.Size = new System.Drawing.Size(39, 13);
+            this.Range.TabIndex = 22;
+            this.Range.Text = "Range";
+            // 
+            // rangebase
+            // 
+            this.rangebase.DecimalPlaces = 1;
+            this.rangebase.Location = new System.Drawing.Point(80, 121);
+            this.rangebase.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.rangebase.Name = "rangebase";
+            this.rangebase.Size = new System.Drawing.Size(61, 20);
+            this.rangebase.TabIndex = 20;
+            this.rangebase.ValueChanged += new System.EventHandler(this.cddelta_ValueChanged);
+            // 
+            // rangedelta
+            // 
+            this.rangedelta.DecimalPlaces = 1;
+            this.rangedelta.Location = new System.Drawing.Point(147, 121);
+            this.rangedelta.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.rangedelta.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.rangedelta.Name = "rangedelta";
+            this.rangedelta.Size = new System.Drawing.Size(61, 20);
+            this.rangedelta.TabIndex = 21;
+            this.rangedelta.ValueChanged += new System.EventHandler(this.cddelta_ValueChanged);
+            // 
             // classespage
             // 
-            this.classespage.Controls.Add(this.label11);
-            this.classespage.Controls.Add(this.dmgstat);
-            this.classespage.Controls.Add(this.label15);
-            this.classespage.Controls.Add(this.label14);
-            this.classespage.Controls.Add(this.label13);
-            this.classespage.Controls.Add(this.label12);
-            this.classespage.Controls.Add(this.mpregen);
-            this.classespage.Controls.Add(this.speed);
-            this.classespage.Controls.Add(this.hpregen);
-            this.classespage.Controls.Add(this.basehp);
-            this.classespage.Controls.Add(this.mpint);
-            this.classespage.Controls.Add(this.hpvit);
-            this.classespage.Controls.Add(this.mplvl);
-            this.classespage.Controls.Add(this.hplvl);
-            this.classespage.Controls.Add(this.label9);
-            this.classespage.Controls.Add(this.label10);
-            this.classespage.Controls.Add(this.label8);
-            this.classespage.Controls.Add(this.label7);
-            this.classespage.Controls.Add(this.classdesc);
-            this.classespage.Controls.Add(this.classname);
+            this.classespage.Controls.Add(this.noclasswarning);
+            this.classespage.Controls.Add(this.classgroupid);
+            this.classespage.Controls.Add(this.classgroupbasics);
             this.classespage.Controls.Add(this.skillentrylist);
             this.classespage.Controls.Add(this.panel1);
             this.classespage.Controls.Add(this.classlist);
@@ -549,7 +617,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(242, 493);
+            this.label11.Location = new System.Drawing.Point(6, 273);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(70, 13);
             this.label11.TabIndex = 42;
@@ -563,7 +631,7 @@
             "STR",
             "DEX",
             "INT"});
-            this.dmgstat.Location = new System.Drawing.Point(332, 490);
+            this.dmgstat.Location = new System.Drawing.Point(96, 270);
             this.dmgstat.Name = "dmgstat";
             this.dmgstat.Size = new System.Drawing.Size(121, 21);
             this.dmgstat.TabIndex = 41;
@@ -572,7 +640,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(242, 451);
+            this.label15.Location = new System.Drawing.Point(6, 231);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(82, 13);
             this.label15.TabIndex = 40;
@@ -581,7 +649,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(242, 425);
+            this.label14.Location = new System.Drawing.Point(6, 205);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(56, 13);
             this.label14.TabIndex = 39;
@@ -590,7 +658,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(242, 399);
+            this.label13.Location = new System.Drawing.Point(6, 179);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(55, 13);
             this.label13.TabIndex = 38;
@@ -599,7 +667,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(242, 373);
+            this.label12.Location = new System.Drawing.Point(6, 153);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(64, 13);
             this.label12.TabIndex = 37;
@@ -608,7 +676,7 @@
             // mpregen
             // 
             this.mpregen.DecimalPlaces = 1;
-            this.mpregen.Location = new System.Drawing.Point(333, 423);
+            this.mpregen.Location = new System.Drawing.Point(97, 203);
             this.mpregen.Name = "mpregen";
             this.mpregen.Size = new System.Drawing.Size(120, 20);
             this.mpregen.TabIndex = 36;
@@ -622,7 +690,7 @@
             // speed
             // 
             this.speed.DecimalPlaces = 1;
-            this.speed.Location = new System.Drawing.Point(333, 449);
+            this.speed.Location = new System.Drawing.Point(97, 229);
             this.speed.Minimum = new decimal(new int[] {
             1,
             0,
@@ -641,7 +709,7 @@
             // hpregen
             // 
             this.hpregen.DecimalPlaces = 1;
-            this.hpregen.Location = new System.Drawing.Point(333, 397);
+            this.hpregen.Location = new System.Drawing.Point(97, 177);
             this.hpregen.Name = "hpregen";
             this.hpregen.Size = new System.Drawing.Size(120, 20);
             this.hpregen.TabIndex = 34;
@@ -654,7 +722,7 @@
             // 
             // basehp
             // 
-            this.basehp.Location = new System.Drawing.Point(333, 371);
+            this.basehp.Location = new System.Drawing.Point(97, 151);
             this.basehp.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -677,7 +745,7 @@
             // 
             // mpint
             // 
-            this.mpint.Location = new System.Drawing.Point(333, 320);
+            this.mpint.Location = new System.Drawing.Point(97, 100);
             this.mpint.Name = "mpint";
             this.mpint.Size = new System.Drawing.Size(120, 20);
             this.mpint.TabIndex = 31;
@@ -685,7 +753,7 @@
             // 
             // hpvit
             // 
-            this.hpvit.Location = new System.Drawing.Point(333, 294);
+            this.hpvit.Location = new System.Drawing.Point(97, 74);
             this.hpvit.Name = "hpvit";
             this.hpvit.Size = new System.Drawing.Size(120, 20);
             this.hpvit.TabIndex = 30;
@@ -693,7 +761,7 @@
             // 
             // mplvl
             // 
-            this.mplvl.Location = new System.Drawing.Point(333, 268);
+            this.mplvl.Location = new System.Drawing.Point(97, 48);
             this.mplvl.Name = "mplvl";
             this.mplvl.Size = new System.Drawing.Size(120, 20);
             this.mplvl.TabIndex = 29;
@@ -701,7 +769,7 @@
             // 
             // hplvl
             // 
-            this.hplvl.Location = new System.Drawing.Point(333, 242);
+            this.hplvl.Location = new System.Drawing.Point(97, 22);
             this.hplvl.Name = "hplvl";
             this.hplvl.Size = new System.Drawing.Size(120, 20);
             this.hplvl.TabIndex = 29;
@@ -710,7 +778,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(242, 322);
+            this.label9.Location = new System.Drawing.Point(6, 102);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 13);
             this.label9.TabIndex = 28;
@@ -719,7 +787,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(242, 296);
+            this.label10.Location = new System.Drawing.Point(6, 76);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 27;
@@ -728,7 +796,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(242, 270);
+            this.label8.Location = new System.Drawing.Point(6, 50);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(69, 13);
             this.label8.TabIndex = 26;
@@ -737,7 +805,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(242, 244);
+            this.label7.Location = new System.Drawing.Point(6, 24);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(68, 13);
             this.label7.TabIndex = 25;
@@ -745,9 +813,9 @@
             // 
             // classdesc
             // 
-            this.classdesc.Location = new System.Drawing.Point(242, 49);
+            this.classdesc.Location = new System.Drawing.Point(6, 62);
             this.classdesc.Name = "classdesc";
-            this.classdesc.Size = new System.Drawing.Size(199, 181);
+            this.classdesc.Size = new System.Drawing.Size(273, 178);
             this.classdesc.TabIndex = 24;
             this.classdesc.Text = "<>";
             this.classdesc.DoubleClick += new System.EventHandler(this.classdesc_DoubleClick);
@@ -755,7 +823,7 @@
             // classname
             // 
             this.classname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.classname.Location = new System.Drawing.Point(242, 3);
+            this.classname.Location = new System.Drawing.Point(6, 16);
             this.classname.Name = "classname";
             this.classname.Size = new System.Drawing.Size(164, 46);
             this.classname.TabIndex = 23;
@@ -776,6 +844,30 @@
             this.skillentrylist.TabIndex = 22;
             this.skillentrylist.SelectedIndexChanged += new System.EventHandler(this.skillentrylist_SelectedIndexChanged);
             this.skillentrylist.DoubleClick += new System.EventHandler(this.skillentrylist_DoubleClick);
+            // 
+            // skillentrymenu
+            // 
+            this.skillentrymenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addAbilityToolStripMenuItem,
+            this.removeAbilityToolStripMenuItem});
+            this.skillentrymenu.Name = "skillentrymenu";
+            this.skillentrymenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.skillentrymenu.Size = new System.Drawing.Size(153, 48);
+            this.skillentrymenu.Opening += new System.ComponentModel.CancelEventHandler(this.skillentrymenu_Opening);
+            // 
+            // addAbilityToolStripMenuItem
+            // 
+            this.addAbilityToolStripMenuItem.Name = "addAbilityToolStripMenuItem";
+            this.addAbilityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addAbilityToolStripMenuItem.Text = "Add ability";
+            this.addAbilityToolStripMenuItem.Click += new System.EventHandler(this.addAbilityToolStripMenuItem_Click);
+            // 
+            // removeAbilityToolStripMenuItem
+            // 
+            this.removeAbilityToolStripMenuItem.Name = "removeAbilityToolStripMenuItem";
+            this.removeAbilityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.removeAbilityToolStripMenuItem.Text = "Remove ability";
+            this.removeAbilityToolStripMenuItem.Click += new System.EventHandler(this.removeAbilityToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -803,40 +895,6 @@
             this.classlist.TabIndex = 20;
             this.classlist.DoubleClick += new System.EventHandler(this.classlist_DoubleClick);
             // 
-            // comppage
-            // 
-            this.comppage.Location = new System.Drawing.Point(4, 22);
-            this.comppage.Name = "comppage";
-            this.comppage.Padding = new System.Windows.Forms.Padding(3);
-            this.comppage.Size = new System.Drawing.Size(1177, 568);
-            this.comppage.TabIndex = 2;
-            this.comppage.Text = "Components";
-            this.comppage.UseVisualStyleBackColor = true;
-            // 
-            // skillentrymenu
-            // 
-            this.skillentrymenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addAbilityToolStripMenuItem,
-            this.removeAbilityToolStripMenuItem});
-            this.skillentrymenu.Name = "skillentrymenu";
-            this.skillentrymenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.skillentrymenu.Size = new System.Drawing.Size(153, 48);
-            this.skillentrymenu.Opening += new System.ComponentModel.CancelEventHandler(this.skillentrymenu_Opening);
-            // 
-            // addAbilityToolStripMenuItem
-            // 
-            this.addAbilityToolStripMenuItem.Name = "addAbilityToolStripMenuItem";
-            this.addAbilityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addAbilityToolStripMenuItem.Text = "Add ability";
-            this.addAbilityToolStripMenuItem.Click += new System.EventHandler(this.addAbilityToolStripMenuItem_Click);
-            // 
-            // removeAbilityToolStripMenuItem
-            // 
-            this.removeAbilityToolStripMenuItem.Name = "removeAbilityToolStripMenuItem";
-            this.removeAbilityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.removeAbilityToolStripMenuItem.Text = "Remove ability";
-            this.removeAbilityToolStripMenuItem.Click += new System.EventHandler(this.removeAbilityToolStripMenuItem_Click);
-            // 
             // classmenu
             // 
             this.classmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -860,6 +918,16 @@
             this.deleteClassToolStripMenuItem.Text = "Delete class";
             this.deleteClassToolStripMenuItem.Click += new System.EventHandler(this.deleteClassToolStripMenuItem_Click);
             // 
+            // comppage
+            // 
+            this.comppage.Location = new System.Drawing.Point(4, 22);
+            this.comppage.Name = "comppage";
+            this.comppage.Padding = new System.Windows.Forms.Padding(3);
+            this.comppage.Size = new System.Drawing.Size(1177, 568);
+            this.comppage.TabIndex = 2;
+            this.comppage.Text = "Components";
+            this.comppage.UseVisualStyleBackColor = true;
+            // 
             // mmenu
             // 
             this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -877,54 +945,61 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // Range
+            // classgroupbasics
             // 
-            this.Range.AutoSize = true;
-            this.Range.Location = new System.Drawing.Point(239, 397);
-            this.Range.Name = "Range";
-            this.Range.Size = new System.Drawing.Size(39, 13);
-            this.Range.TabIndex = 22;
-            this.Range.Text = "Range";
+            this.classgroupbasics.Controls.Add(this.label15);
+            this.classgroupbasics.Controls.Add(this.label11);
+            this.classgroupbasics.Controls.Add(this.label7);
+            this.classgroupbasics.Controls.Add(this.dmgstat);
+            this.classgroupbasics.Controls.Add(this.label8);
+            this.classgroupbasics.Controls.Add(this.label10);
+            this.classgroupbasics.Controls.Add(this.label14);
+            this.classgroupbasics.Controls.Add(this.label9);
+            this.classgroupbasics.Controls.Add(this.label13);
+            this.classgroupbasics.Controls.Add(this.hplvl);
+            this.classgroupbasics.Controls.Add(this.label12);
+            this.classgroupbasics.Controls.Add(this.mplvl);
+            this.classgroupbasics.Controls.Add(this.mpregen);
+            this.classgroupbasics.Controls.Add(this.hpvit);
+            this.classgroupbasics.Controls.Add(this.speed);
+            this.classgroupbasics.Controls.Add(this.mpint);
+            this.classgroupbasics.Controls.Add(this.hpregen);
+            this.classgroupbasics.Controls.Add(this.basehp);
+            this.classgroupbasics.Location = new System.Drawing.Point(242, 265);
+            this.classgroupbasics.Name = "classgroupbasics";
+            this.classgroupbasics.Size = new System.Drawing.Size(286, 299);
+            this.classgroupbasics.TabIndex = 43;
+            this.classgroupbasics.TabStop = false;
+            this.classgroupbasics.Text = "Basics";
             // 
-            // rangebase
+            // classgroupid
             // 
-            this.rangebase.DecimalPlaces = 1;
-            this.rangebase.Location = new System.Drawing.Point(313, 395);
-            this.rangebase.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.rangebase.Name = "rangebase";
-            this.rangebase.Size = new System.Drawing.Size(61, 20);
-            this.rangebase.TabIndex = 20;
-            this.rangebase.ValueChanged += new System.EventHandler(this.cddelta_ValueChanged);
+            this.classgroupid.Controls.Add(this.classname);
+            this.classgroupid.Controls.Add(this.classdesc);
+            this.classgroupid.Location = new System.Drawing.Point(242, 6);
+            this.classgroupid.Name = "classgroupid";
+            this.classgroupid.Size = new System.Drawing.Size(286, 253);
+            this.classgroupid.TabIndex = 44;
+            this.classgroupid.TabStop = false;
+            this.classgroupid.Text = "Name && description";
             // 
-            // rangedelta
+            // noclasswarning
             // 
-            this.rangedelta.DecimalPlaces = 1;
-            this.rangedelta.Location = new System.Drawing.Point(380, 395);
-            this.rangedelta.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.rangedelta.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
-            this.rangedelta.Name = "rangedelta";
-            this.rangedelta.Size = new System.Drawing.Size(61, 20);
-            this.rangedelta.TabIndex = 21;
-            this.rangedelta.ValueChanged += new System.EventHandler(this.cddelta_ValueChanged);
+            this.noclasswarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noclasswarning.ForeColor = System.Drawing.Color.Red;
+            this.noclasswarning.Location = new System.Drawing.Point(321, 196);
+            this.noclasswarning.Name = "noclasswarning";
+            this.noclasswarning.Size = new System.Drawing.Size(138, 104);
+            this.noclasswarning.TabIndex = 45;
+            this.noclasswarning.Text = "Please create a character class to edit first!";
+            this.noclasswarning.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1185, 594);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(1185, 618);
+            this.Controls.Add(this.maintabber);
             this.Controls.Add(this.mmenu);
             this.MainMenuStrip = this.mmenu;
             this.Name = "MainForm";
@@ -943,11 +1018,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.channeldelta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.castdelta)).EndInit();
             this.abilitymenu.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.maintabber.ResumeLayout(false);
             this.abilitylistpage.ResumeLayout(false);
-            this.abilitylistpage.PerformLayout();
+            this.abilitygroupid.ResumeLayout(false);
+            this.abilitygroupid.PerformLayout();
+            this.abilitygroupbasics.ResumeLayout(false);
+            this.abilitygroupbasics.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rangebase)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).EndInit();
             this.classespage.ResumeLayout(false);
-            this.classespage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mpregen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hpregen)).EndInit();
@@ -960,8 +1039,9 @@
             this.classmenu.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rangebase)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).EndInit();
+            this.classgroupbasics.ResumeLayout(false);
+            this.classgroupbasics.PerformLayout();
+            this.classgroupid.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -999,7 +1079,7 @@
         private System.Windows.Forms.ContextMenuStrip abilitymenu;
         private System.Windows.Forms.ToolStripMenuItem createAbilityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteAbilityToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl maintabber;
         private System.Windows.Forms.TabPage abilitylistpage;
         private System.Windows.Forms.TabPage classespage;
         private System.Windows.Forms.TabPage comppage;
@@ -1037,6 +1117,12 @@
         private System.Windows.Forms.Label Range;
         private System.Windows.Forms.NumericUpDown rangebase;
         private System.Windows.Forms.NumericUpDown rangedelta;
+        private System.Windows.Forms.GroupBox abilitygroupid;
+        private System.Windows.Forms.GroupBox abilitygroupbasics;
+        private System.Windows.Forms.Label noabilitywarning;
+        private System.Windows.Forms.GroupBox classgroupid;
+        private System.Windows.Forms.GroupBox classgroupbasics;
+        private System.Windows.Forms.Label noclasswarning;
     }
 }
 

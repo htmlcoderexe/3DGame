@@ -36,19 +36,30 @@ namespace MagicEditor
         {
             if (Entry.PreRequisiteSkills == null)
                 return;
+            List<Tuple<string, int>> invalids = new List<Tuple<string, int>>();
             foreach(Tuple<string, int> t in Entry.PreRequisiteSkills)
             {
-                AddReqItem(t.Item1, t.Item2);
+                if(!AddReqItem(t.Item1, t.Item2))
+                    invalids.Add(t);
             }
+            foreach (Tuple<string, int> t in invalids)
+                Entry.PreRequisiteSkills.Remove(t);
         }
 
-        private void AddReqItem(string id, int lvl)
+        private bool AddReqItem(string id, int lvl)
         {
             ModularAbility a = AbilityProvider.FindAbility(id);
+            if (a == null)
+            {
+                MessageBox.Show("The AbilityID \"" + id + "\" was not found in the database.", "Invalid AbilityID", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+
+                return false;
+            }
             string[] ItemProps = new string[] { a.Name, lvl.ToString() };
             ListViewItem line = new ListViewItem(ItemProps);
             line.Tag = id;
             requisitelist.Items.Add(line);
+            return true;
         }
 
         private List<Tuple<string, int>> GetPreReqs()

@@ -181,10 +181,12 @@ namespace GameObject
             result.BaseValues.Add("cast_time", 1.0f);
             result.BaseValues.Add("cooldown", 1.0f);
             result.BaseValues.Add("mp_cost", 1f);
+            result.BaseValues.Add("range", 10f);
             result.GrowthValues.Add("channel_time", 0.0f);
             result.GrowthValues.Add("cast_time", 0.0f);
             result.GrowthValues.Add("cooldown", 0.0f);
             result.GrowthValues.Add("mp_cost", 0f);
+            result.GrowthValues.Add("range", 10f);
 
             return result;
         }
