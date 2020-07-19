@@ -37,8 +37,6 @@ Some of these are taken at earlier stages, showing off various features the prev
 
 ![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/11.08.2017-01.062_corrected.png)
 
-![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/201908020329411.png)
-
 ![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/202004260427050.png)
 
 ![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/202007190322141.png)
