@@ -18,7 +18,7 @@ namespace GameObject.MapEntities
         public float CurrentMPBuffer;
         public string Name { get; set; }
         public List<StatBonus> StatBonuses;
-        public List<Ability> Abilities;
+        public List<ModularAbility> Abilities;
         public Camera Camera;
         public Actor Target;
         public bool Walking;
@@ -34,7 +34,7 @@ namespace GameObject.MapEntities
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 1, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.Camera = new Camera();
-            this.Abilities = new List<Ability>();
+            this.Abilities = new List<ModularAbility>();
             CurrentHP = CalculateStat("HP");
             this.PrimaryLootTable = new List<Tuple<int, Item>>();
         }

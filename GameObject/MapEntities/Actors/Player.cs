@@ -66,13 +66,36 @@ namespace GameObject.MapEntities.Actors
             this.Equipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max];
             this.Inventory = new Items.Inventory(64);
             this.Camera.Distance = 15;
+            this.Gravity = false;
+            this.JumpStrength = 10;
+            this.MaxJumps = 2;
             //anything below should be data pulled from character template/saved character
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 5, Type = "movement_speed", Order = StatBonus.StatOrder.Template });
+        }
+
+        public Player(CharacterTemplate CharacterClass, List<ModularAbility> skills)
+        {
+            this.Equipment = (Items.ItemEquip[])CharacterClass.StarterEquipment.Clone();
+            this.Inventory = new Items.Inventory(64);
+            foreach(KeyValuePair<string,float> basestat in CharacterClass.BaseStats)
+            {
+                this.StatBonuses.Add(new StatBonus() {FlatValue=basestat.Value,Type=basestat.Key,Order=StatBonus.StatOrder.Template });
+            }
+            this.Camera.Distance = 15;
             this.Gravity = false;
             this.JumpStrength = 10;
             this.MaxJumps = 2;
+
+            this.Abilities = new List<ModularAbility>();
+            foreach(SkillTreeEntry e in CharacterClass.SkillTree.Entries)
+            {
+                List<ModularAbility> found = skills.Where(x => x.ID == e.SkillID).ToList();
+                if (found.Count != 1)
+                    continue;
+                this.Abilities.Add(found[0]);
+            }
         }
 
         static Dictionary<int, string> _equipMap;

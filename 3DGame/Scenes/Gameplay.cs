@@ -187,7 +187,7 @@ namespace _3DGame.Scenes
 #endregion
 
             #region skills
-            if (kb.IsKeyDown(Keys.F1) && PreviousKbState.IsKeyUp(Keys.F1) && World.Player.Target!=null && !World.Player.Target.IsDead)
+            if (false && kb.IsKeyDown(Keys.F1) && PreviousKbState.IsKeyUp(Keys.F1) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
                 World.Player.Model.ApplyAnimation("StrikeBladeShortRight");
                 World.Player.SetPlayOnce();
@@ -195,7 +195,7 @@ namespace _3DGame.Scenes
                 World.Player.Target.Hit(World.Player.CalculateStat("p_atk") + RNG.Next(0, 30), true, 0);
                 // World.Player.Model.Animation.
             }
-            if (kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
+            if (false && kb.IsKeyDown(Keys.F2) && PreviousKbState.IsKeyUp(Keys.F2) && World.Player.Target!=null && !World.Player.Target.IsDead)
             {
                 Color c = new Color(255, 100, 20);
                 /*
@@ -271,13 +271,31 @@ namespace _3DGame.Scenes
                 //World.Player.Target.
             }
 
-            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3))
+            if (kb.IsKeyDown(Keys.F1) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F1))
             {
-                ModularAbility ab = new GameObject.AbilityLogic.TestAbility();
+                ModularAbility ab = World.Player.Abilities[0];
+                ab.Level = 2;
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
+
+                Console.Write("Used " + ab.Name);
+            }
+            if (kb.IsKeyDown(Keys.F2) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F2))
+            {
+                ModularAbility ab = World.Player.Abilities[1];
                 ab.Level = 2;
                 World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
 
 
+                Console.Write("Used " + ab.Name);
+            }
+            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3))
+            {
+                ModularAbility ab = World.Player.Abilities[2];
+                ab.Level = 2;
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
+
+
+                Console.Write("Used " + ab.Name);
             }
             if (1==2)
                 { 
@@ -559,11 +577,13 @@ namespace _3DGame.Scenes
         {
 
             GameModel.ModelGeometryCompiler.ModelBaseDir = "Scenes\\GameplayAssets\\Models\\";
-
+            GameObject.IO.MagicFileReader mr=new GameObject.IO.MagicFileReader();
+            List<CharacterTemplate> classes = mr.ReadClassFile();
+            List<ModularAbility> skills = mr.ReadAbilityFile();
             RotateMap = true;
             World = new World(device, 11)
             {
-                Player = new GameObject.MapEntities.Actors.Player()
+                Player = new GameObject.MapEntities.Actors.Player(classes[0],skills)
             };
             World.Player.WorldSpawn = World;
             if (OverheadMapTex == null)
@@ -622,8 +642,8 @@ namespace _3DGame.Scenes
 
             GameObject.Items.Material.MaterialTemplates.Load();
 
-            GameObject.AbilityLogic.AbilityLoader l = new GameObject.AbilityLogic.AbilityLoader("Mage");
-            World.Player.Abilities = l.LoadAbilities();
+            //GameObject.AbilityLogic.AbilityLoader l = new GameObject.AbilityLogic.AbilityLoader("Mage");
+            //World.Player.Abilities = l.LoadAbilities();
 
 
             #region GUI - the rest of it
