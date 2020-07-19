@@ -17,7 +17,7 @@ If you use any code from here, I pity you. Please do not try to locate my wherea
 
 * "Infinite" 3D terrain, generated on the fly or ``TODO: port the code that does it from the last attempt`` loaded from disk
 
-* 3D models with bone animation ``TODO: port the code that can load them``
+* 3D models with bone animation 
 
 * Primitive billboarding ``TODO: all the things``
 
@@ -31,6 +31,18 @@ If you use any code from here, I pity you. Please do not try to locate my wherea
 
 * Nice looking water with depth tinting, adapted from [Riemer's](http://www.riemers.net/eng/Tutorials/XNA/Csharp/Series4/The_water_technique.php)
 
+# July 2020 update
+
+Some of these are taken at earlier stages, showing off various features the previous screenshot couldn't do justice for
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/11.08.2017-01.062_corrected.png)
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/201908020329411.png)
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/202004260427050.png)
+
+![screenshot](https://raw.githubusercontent.com/htmlcoderexe/3DGame/master/202007190322141.png)
+ 
 
 
 # What works as of August 2019
