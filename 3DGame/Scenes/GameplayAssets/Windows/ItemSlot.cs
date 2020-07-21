@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameObject;
 using GUI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DGame.Scenes.GameplayAssets
@@ -14,6 +15,9 @@ namespace _3DGame.Scenes.GameplayAssets
         public GUI.IActionIcon Item;
         public bool CanGrab;
         public bool CanPut;
+        public bool RenderCooldown;
+        public bool RenderEXP;
+        public Color Tint;
         public delegate void ItemEventHandler(object sender, ItemEventArgs e);
         public class ItemEventArgs : System.ComponentModel.CancelEventArgs
         {
@@ -32,6 +36,7 @@ namespace _3DGame.Scenes.GameplayAssets
             this.Width = 40;
             this.Height = 40;
             this.CanGrab = true;
+            this.Tint = Color.Gray;
         }
         public override void Render(GraphicsDevice device, Renderer Renderer, int X, int Y)
         {
@@ -40,8 +45,10 @@ namespace _3DGame.Scenes.GameplayAssets
             Renderer.SetTexture(Renderer.WindowSkin);
             Renderer.Rect r = new Renderer.Rect(48, 48, 40, 40); //#TODO: dynamic skin positioning!!
             Renderer.RenderQuad(device, X, Y, Width, Height, r);
+            Renderer.SetColour(Tint);
             if(Item!=null)
-            Item.Render(X+4, Y+4, device, Renderer, false, false);
+            Item.Render(X+4, Y+4, device, Renderer, RenderCooldown, RenderEXP);
+            Renderer.SetColour(Color.Gray);
             base.Render(device, Renderer, X, Y);
         }
         public override void Click(float X, float Y)
@@ -59,8 +66,8 @@ namespace _3DGame.Scenes.GameplayAssets
                 else // take the item
                 {
                     WM.MouseGrab =currentItem;
-                    ItemOut?.Invoke(this, new ItemEventArgs(currentItem));
                     this.Item = null;
+                    ItemOut?.Invoke(this, new ItemEventArgs(currentItem));
                 }
             }
             else //if mouse has something

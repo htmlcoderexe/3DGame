@@ -107,6 +107,15 @@ namespace GameObject.MapEntities
             //that's right, FIRST update object position and THEN its camera
             //otherwise it looks very very jittery for no good reason
             this.Camera.Position = this.Position + new Vector3(0, 1.5f, 0);
+            ModularAbility[] offlist = this.Abilities.ToArray();
+            foreach (ModularAbility a in offlist)
+            {
+
+                a.CoolDown -= dT;
+                if (a.CoolDown < 0)
+                    a.CoolDown = 0;
+            }
+
         }
 
         public void WalkTo(Interfaces.WorldPosition Target)

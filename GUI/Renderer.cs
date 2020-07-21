@@ -330,7 +330,7 @@ namespace GUI
             // GUIEffect.DiffuseColor = new Vector3(0.0f, 0.0f, 0.0f);
             // GUIEffect.Alpha = 0.7f;
             SetTexture(WindowSkin);
-            SetColour(new Color(0, 0, 0), 0);
+            SetColour(new Color(0, 0, 0), 200);
             VertexPositionTexture[] c = GFXUtility.Clock(device, X, Y, Progress, Size);
             device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, c, 0, c.Length / 3);
             SetColour(Color.Gray);

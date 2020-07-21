@@ -58,8 +58,8 @@ namespace GUI
         public static VertexPositionTexture[] Icon(GraphicsDevice device, float X, float Y, int i, int Size = 32)
         {
             VertexPositionTexture[] f = new VertexPositionTexture[6];
-            float stride = 0.0625f;
-            Vector3 TL = PixelToScreen(device, X, Y); Vector2 TLt = GetXYFromInt(16, 16, i);
+            float stride = 1f / 64f;
+            Vector3 TL = PixelToScreen(device, X, Y); Vector2 TLt = GetXYFromInt(64, 64, i);
             Vector3 TR = PixelToScreen(device, X + Size, Y); Vector2 TRt = TLt + new Vector2(1, 0);
             Vector3 BL = PixelToScreen(device, X, Y + Size); Vector2 BLt = TLt + new Vector2(0, 1);
             Vector3 BR = PixelToScreen(device, X + Size, Y + Size); Vector2 BRt = TLt + new Vector2(1, 1);
@@ -588,7 +588,7 @@ namespace GUI
         {
             int vertcount = 15;
             float EI = 0.125f;
-            Vector3 TL = PixelToScreen(device, X, Y); Vector2 TLt = new Vector2(0.75f, 0.25f);
+            Vector3 TL = PixelToScreen(device, X, Y); Vector2 TLt = new Vector2(0.5f, 0.75f);
             Vector3 TR = PixelToScreen(device, X + Size, Y); Vector2 TRt = TLt + new Vector2(0.25f, 0);
             Vector3 BL = PixelToScreen(device, X, Y + Size); Vector2 BLt = TLt + new Vector2(0, 0.25f);
             Vector3 BR = PixelToScreen(device, X + Size, Y + Size); Vector2 BRt = TLt + new Vector2(0.25f, 0.25f);

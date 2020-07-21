@@ -16,5 +16,13 @@ namespace GameObject
         {
             Entries = new List<SkillTreeEntry>();
         }
+
+        public SkillTreeEntry Find(string ID)
+        {
+            foreach (SkillTreeEntry a in this.Entries)
+                if (a.SkillID == ID)
+                    return a;
+            return null;
+        }
     }
 }

@@ -10,6 +10,10 @@ namespace GameObject.MapEntities.Actors
     public class Player : Actor
     {
         /// <summary>
+        /// Stores the skilltree used to load available skills and for binds
+        /// </summary>
+        public SkillTree SkillTree;
+        /// <summary>
         /// Player's current equipment
         /// </summary>
         public Items.ItemEquip[] Equipment;
@@ -83,6 +87,7 @@ namespace GameObject.MapEntities.Actors
             {
                 this.StatBonuses.Add(new StatBonus() {FlatValue=basestat.Value,Type=basestat.Key,Order=StatBonus.StatOrder.Template });
             }
+            this.SkillTree = CharacterClass.SkillTree;
             this.Camera.Distance = 15;
             this.Gravity = false;
             this.JumpStrength = 10;

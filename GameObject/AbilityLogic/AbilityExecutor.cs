@@ -10,6 +10,7 @@ namespace GameObject.AbilityLogic
     {
         public EffectiveAbility ability;
         public MapEntities.Actor Source;
+        public ModularAbility Original;
         public MapEntities.Actor Target;
         //this will get loaded from target selector blocks and will then apply next effect to all targets.
         //should enable different selectors like "user only" "allies within 5m" "enemies in a line in front of user" etc
@@ -17,9 +18,10 @@ namespace GameObject.AbilityLogic
         float Timeline;
         public bool done;
 
-        public AbilityExecutor(EffectiveAbility ability,MapEntities.Actor Source, MapEntities.Actor Target)
+        public AbilityExecutor(ModularAbility ability,MapEntities.Actor Source, MapEntities.Actor Target)
         {
-            this.ability = ability;
+            this.Original = ability;
+            this.ability = ability.GetEffectiveAbility();
             this.Source = Source;
             this.Target = Target;
         }
@@ -46,6 +48,7 @@ namespace GameObject.AbilityLogic
             if (this.ability.EffectTimeline.Count() <= 0)
             {
                 this.done = true;
+                this.Original.CoolDown = ability.MaxCoolDown;
                 return;
             }
             while(Timeline > ability.EffectTimeline.Keys[0])
@@ -78,6 +81,7 @@ namespace GameObject.AbilityLogic
                 if (this.ability.EffectTimeline.Count() <= 0)
                 {
                     this.done = true;
+                    this.Original.CoolDown = ability.MaxCoolDown;
                     break;
                 }
             }

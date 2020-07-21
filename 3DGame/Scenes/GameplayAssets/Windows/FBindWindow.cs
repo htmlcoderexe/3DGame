@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace _3DGame.Scenes.GameplayAssets.Windows
 {
-    public class SkillWindow : GUI.Window
+    public class FBindWindow : GUI.Window
     {
         public GameObject.MapEntities.Actors.Player Player;
         private ItemSlot s;
         private ItemSlot s2;
-        public SkillWindow(GUI.WindowManager WM, GameObject.MapEntities.Actors.Player Player)
+        public FBindWindow(GUI.WindowManager WM, GameObject.MapEntities.Actors.Player Player)
         {
             this.Width = 512;
             this.Height = 64;

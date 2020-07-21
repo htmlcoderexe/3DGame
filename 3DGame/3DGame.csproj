@@ -58,7 +58,8 @@
     <Compile Include="Scenes\GameplayAssets\Windows\MultiActionChoice.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\NavWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\NPCWindow.cs" />
-    <Compile Include="Scenes\GameplayAssets\Windows\SkillWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\FBindWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\SkillTreeWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\TargetWindow.cs" />
   </ItemGroup>

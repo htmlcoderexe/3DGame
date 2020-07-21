@@ -43,6 +43,7 @@ namespace _3DGame.Scenes
         private double spinner;
         private int MapZoomLevel=1;
         private Dictionary<string, GUI.Window> wlist;
+        private List<ModularAbility> abilities;
         //  public System.Threading.Thread QThread;
 
         private void TakeScreenshot(GraphicsDevice device)
@@ -151,7 +152,7 @@ namespace _3DGame.Scenes
                 else
                 {
 
-                    wlist["skills"] = new GameplayAssets.Windows.SkillWindow(WindowManager, World.Player);
+                    wlist["skills"] = new GameplayAssets.Windows.SkillTreeWindow(WindowManager, World.Player,abilities);
                     WindowManager.Add(wlist["skills"]);
                 }
             }
@@ -274,16 +275,14 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.F1) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F1))
             {
                 ModularAbility ab = World.Player.Abilities[0];
-                ab.Level = 2;
-                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab, World.Player, World.Player.Target);
 
                 Console.Write("Used " + ab.Name);
             }
             if (kb.IsKeyDown(Keys.F2) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F2))
             {
                 ModularAbility ab = World.Player.Abilities[1];
-                ab.Level = 2;
-                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab, World.Player, World.Player.Target);
 
 
                 Console.Write("Used " + ab.Name);
@@ -291,8 +290,7 @@ namespace _3DGame.Scenes
             if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null && PreviousKbState.IsKeyUp(Keys.F3))
             {
                 ModularAbility ab = World.Player.Abilities[2];
-                ab.Level = 2;
-                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab.GetEffectiveAbility(), World.Player, World.Player.Target);
+                World.Player.Executor = new GameObject.AbilityLogic.AbilityExecutor(ab, World.Player, World.Player.Target);
 
 
                 Console.Write("Used " + ab.Name);
@@ -580,12 +578,16 @@ namespace _3DGame.Scenes
             GameObject.IO.MagicFileReader mr=new GameObject.IO.MagicFileReader();
             List<CharacterTemplate> classes = mr.ReadClassFile();
             List<ModularAbility> skills = mr.ReadAbilityFile();
+            abilities = skills;
             RotateMap = true;
-            World = new World(device, 11)
+            World = new World(device, 100)
             {
                 Player = new GameObject.MapEntities.Actors.Player(classes[0],skills)
             };
             World.Player.WorldSpawn = World;
+            World.Player.Abilities[0].Level = 1;
+            World.Player.Abilities[1].Level = 2;
+            World.Player.Abilities[2].Level = 5;
             if (OverheadMapTex == null)
                 OverheadMapTex = new RenderTarget2D(device, 256, 256, false, device.PresentationParameters.BackBufferFormat, device.PresentationParameters.DepthStencilFormat);
             b = new SpriteBatch(device);
@@ -657,7 +659,7 @@ namespace _3DGame.Scenes
             WindowManager.Add(wlist["inventory"]);
             wlist["equipment"] = new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player);
             WindowManager.Add(wlist["equipment"]);
-            wlist["skills"] = new GameplayAssets.Windows.SkillWindow(WindowManager, World.Player);
+            wlist["skills"] = new GameplayAssets.Windows.SkillTreeWindow(WindowManager, World.Player,abilities);
             WindowManager.Add(wlist["skills"]);
 
             ScreenResized(device);

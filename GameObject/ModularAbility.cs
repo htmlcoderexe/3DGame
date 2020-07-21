@@ -102,6 +102,14 @@ namespace GameObject
             Renderer.SetTexture(Renderer.AbilityMap);
             Renderer.SetColour(Color.Gray);
             Renderer.RenderIconEx(device, X, Y, this.Icon);
+            if(this.Level<=0)
+            {
+                Renderer.RenderClock(device, X, Y, 0.0f);
+            }
+            if(RenderCooldown && this.CoolDown>0)
+            {
+                Renderer.RenderClock(device, X, Y,  1f-(this.CoolDown / this.MaxCoolDown));
+            }
         }
         
 
@@ -134,7 +142,8 @@ namespace GameObject
             EffectiveAbility result = new EffectiveAbility
             {
                 Level = this.Level,
-                EffectTimeline = new AbilityLogic.EffectTimeline()
+                EffectTimeline = new AbilityLogic.EffectTimeline(),
+                MaxCoolDown=GetValue("cooldown")
             };
 
             //this just pushes all effects onto the timeline for AbilityExecutor, resolving magic constants to actual values

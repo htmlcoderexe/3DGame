@@ -13,5 +13,6 @@ namespace GameObject
         public int Level;
         public float CastTime;
         public float ChannelTime;
+        public float MaxCoolDown;
     }
 }
