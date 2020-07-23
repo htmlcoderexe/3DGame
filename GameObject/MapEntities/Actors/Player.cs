@@ -87,6 +87,8 @@ namespace GameObject.MapEntities.Actors
             {
                 this.StatBonuses.Add(new StatBonus() {FlatValue=basestat.Value,Type=basestat.Key,Order=StatBonus.StatOrder.Template });
             }
+            this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "MP", Order = StatBonus.StatOrder.Template });
+
             this.SkillTree = CharacterClass.SkillTree;
             this.Camera.Distance = 15;
             this.Gravity = false;
