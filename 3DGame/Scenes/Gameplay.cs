@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GameObject.MapEntities.Actors;
 
 namespace _3DGame.Scenes
 {
@@ -44,6 +45,9 @@ namespace _3DGame.Scenes
         private int MapZoomLevel=1;
         private Dictionary<string, GUI.Window> wlist;
         private List<ModularAbility> abilities;
+
+        private List<Monster> Tablist = new List<Monster>();
+        private int Tablistindex = 0;
         //  public System.Threading.Thread QThread;
 
         private void TakeScreenshot(GraphicsDevice device)
@@ -192,6 +196,57 @@ namespace _3DGame.Scenes
             {
                 RotateMap = !RotateMap;
             }
+            #endregion
+
+            #region tabbing
+            if(kb.IsKeyDown(Keys.Tab) && PreviousKbState.IsKeyUp(Keys.Tab))
+            {
+                float Range = 50f;
+                List<Monster> removes = new List<Monster>();
+                List<Monster> adds = new List<Monster>();
+                foreach(Monster m in Tablist)
+                {
+                    if(m.IsDead)
+                    {
+                        removes.Add(m);
+                        continue; //no need to add twice
+                    }
+                    Vector3 dist = (m.Position - World.Player.Position);
+                    if (dist.Length() > Range)
+                        removes.Add(m);
+                    
+                }
+                List < MapEntity > mm= World.LocateNearby(World.Player);
+                foreach(MapEntity e in mm)
+                {
+                    if((e as Monster)!=null)
+                    {
+                        Vector3 dist = (e.Position - World.Player.Position);
+                        if (dist.Length() < Range)
+                            adds.Add((e as Monster));
+                    }
+                }
+                adds = adds.OrderBy(v => ((Vector3)(v.Position - World.Player.Position)).Length()).ToList();
+
+                foreach (Monster r in removes)
+                    Tablist.Remove(r);
+                Tablist.Clear();
+                foreach(Monster a in adds)
+                {
+                   // if (!Tablist.Contains(a))
+                        Tablist.Add(a);
+                }
+                if (Tablist.Count <= 0)
+                    return;
+                if (World.Player.Target == null)
+                    Tablistindex = 0;
+                else
+                    Tablistindex++;
+                if (Tablistindex >= Tablist.Count)
+                    Tablistindex = 0;
+                World.Player.Target = Tablist[Tablistindex];
+            }
+
             #endregion
 
             #region skills
