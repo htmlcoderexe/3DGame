@@ -36,7 +36,7 @@ namespace GameObject.AbilityLogic.GameEffects
             //thisis all a test; normally it shoudl calculate m_atk*int * param /100f(for %), (simplify with a GetBMD call), then just m_atk, then the fixie at the end 
             dmg += Source.CalculateStat("p_atk") * ((float)(int.Parse(Params[0]))) / 100f; //because %
             dmg += int.Parse(Params[2]); //because %
-            Target.Hit(dmg, true, 0); //#TODO: extra magic type param
+            Target.Hit(Source,dmg, true, 0); //#TODO: extra magic type param
             base.Apply(Source, Target,Level);
         }
 

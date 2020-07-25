@@ -166,12 +166,12 @@ namespace GameObject.MapEntities
             Target.Target = this;
         }
 
-        public virtual void Hit(float amount, bool Magic, int Type)
+        public virtual void Hit(Actor Source, float amount, bool Magic, int Type)
         {
             if (_isDead)
                 return;
             this.CurrentHPBuffer -= amount;
-
+            amount = (int)Math.Round(amount);
             this.WorldSpawn.Entities.Add(new DamageParticle(this.Position, amount.ToString(), Color.Red, 0.5f));
         }
 
