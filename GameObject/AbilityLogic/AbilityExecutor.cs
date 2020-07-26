@@ -82,6 +82,7 @@ namespace GameObject.AbilityLogic
                 {
                     this.done = true;
                     this.Original.CoolDown = ability.MaxCoolDown;
+                    Source.CurrentMPBuffer -= this.Original.GetValue("mp_cost");
                     break;
                 }
             }

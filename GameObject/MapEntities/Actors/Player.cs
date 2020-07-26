@@ -62,6 +62,18 @@ namespace GameObject.MapEntities.Actors
             curlvl -= 1;
             return curlvl;
         }
+
+        public void GiveExp(int amount)
+        {
+            int lvl = CalculateLvl(EXP);
+            EXP += amount;
+            int lvlagain = CalculateLvl(EXP);
+            if (lvlagain > lvl)
+            { 
+                Console.Write("^00C000 You have achieved level " + lvlagain.ToString());
+                LearnFromTree();
+            }
+        }
         /// <summary>
         /// Create the player
         /// </summary>
@@ -103,6 +115,7 @@ namespace GameObject.MapEntities.Actors
                     continue;
                 this.Abilities.Add(found[0]);
             }
+            LearnFromTree();
         }
 
         static Dictionary<int, string> _equipMap;
@@ -140,6 +153,26 @@ namespace GameObject.MapEntities.Actors
             return new Tuple<string,Matrix>(_equipMap[slot],_equipTMap[slot]);
         }
 
+        public bool LearnFromTree()
+        {
+            int skillslearned = 0;
+            int lvl = CalculateLvl(EXP);
+            foreach(SkillTreeEntry e in SkillTree.Entries)
+            {
+                if(e.LearnLevel <= lvl && e.RequireItemID=="")
+                {
+                    foreach(ModularAbility a in Abilities)
+                        if(a.Level==0)
+                        {
+                            a.Level = 1;
+                            Console.Write("^00C000 Learned " + a.Name + "^00C000 !");
+                        }
+                }
+            }
+
+
+            return skillslearned > 0;
+        }
         /// <summary>
         /// Checks if specific item can be equipped by the player (based on level, class etc)
         /// </summary>

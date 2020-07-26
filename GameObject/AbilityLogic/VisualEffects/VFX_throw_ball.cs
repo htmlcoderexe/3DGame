@@ -26,10 +26,11 @@ namespace GameObject.AbilityLogic.VisualEffects
                 OnGround = false
             };
             g.Model = null;
-            g.TTL = this.GetDuration(Level);
+            g.TTL = this.GetDuration(Level)+20;
             g.Expires = true;
             g.Target = Target;
             g.FizzleOnGround = true;
+            g.FizzleOnTarget = true;
             g.Particles.Add(ball);
 
             Source.WorldSpawn.Entities.Add(g);

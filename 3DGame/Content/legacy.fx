@@ -103,7 +103,7 @@ Output.clipDistances = dot(mul(inPos,xWorld), ClipPlane0);
     float3 sideVector = normalize(sideVectorRaw);
     float3 upVector = cross(sideVector,eyeVector);
     upVector = normalize(upVector);
-	upVector=xRayDirection;
+	//upVector=xRayDirection;
     float3 finalPosition = center;
     finalPosition += (inTexCoord.x-0.5f)*sideVector*0.5f*xPointSpriteSize;
 	if(xRayLength==0)

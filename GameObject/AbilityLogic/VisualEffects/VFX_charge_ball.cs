@@ -19,8 +19,10 @@ namespace GameObject.AbilityLogic.VisualEffects
             MapEntities.Particles.LightBall ball = new MapEntities.Particles.LightBall(this.Colour,this.Size);
             MapEntities.ParticleGroup g = new MapEntities.ParticleGroup
             {
-                Speed = 15f,
+                Speed = 0f,
                 Position = Source.Position + new Vector3(0, 0.9f, 0),
+                TargetOffset= new Vector3(0, 0.91f, 0),
+                FizzleOnTarget=false,
                 WorldSpawn = Source.WorldSpawn,
                 Gravity = false,
                 OnGround = false

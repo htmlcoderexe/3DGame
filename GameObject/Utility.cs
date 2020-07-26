@@ -28,7 +28,7 @@ namespace GameObject
         }
         public static float GetFloat(string param)
         {
-            float.TryParse(param, out float a);
+            float.TryParse(param, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float a);
             return a;
         }
         public static int GetInt(string param)

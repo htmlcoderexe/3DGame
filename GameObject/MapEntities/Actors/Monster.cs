@@ -35,9 +35,9 @@ namespace GameObject.MapEntities.Actors
             foreach(Player p in players)
             {
                 if (p == mosthateda)
-                    p.EXP += EXPDrop;
+                    p.GiveExp(EXPDrop);
                 else
-                    p.EXP += (int)(Math.Round((float)EXPDrop/2f));
+                    p.GiveExp((int)(Math.Round((float)EXPDrop/2f)));
             }
 
         }

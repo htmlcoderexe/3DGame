@@ -14,6 +14,7 @@ namespace GameObject
     {
         public World WorldSpawn;
         public float AnimationMultiplier = 1.0f;
+        public Vector3 TargetOffset;
         public bool LetPlayOnce = false;
         public void SetPlayOnce()
         {
@@ -158,7 +159,7 @@ namespace GameObject
 
         public void Aim(MapEntity e,bool flatten=true)
         {
-            Aim(e.Position,flatten);
+            Aim(e.Position+TargetOffset,flatten);
         }
         public void Aim(Interfaces.WorldPosition Target,bool flatten)
         {
