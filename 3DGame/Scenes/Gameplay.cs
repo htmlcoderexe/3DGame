@@ -593,7 +593,9 @@ namespace _3DGame.Scenes
 
             Terrain.Console.WriteCallback = new Action<string>(ConsoleWrite);
             _3DGame.Console.WriteCallback = new Action<string>(ConsoleWrite);
-            _3DGame.Console.WriteCallbackEx = new Action<string,List<Action>>(ConsoleWriteEx);
+            _3DGame.Console.WriteCallbackEx = new Action<string, List<Action>>(ConsoleWriteEx);
+            GameObject.Console.WriteCallback = new Action<string>(ConsoleWrite);
+            GameObject.Console.WriteCallbackEx = new Action<string, List<Action>>(ConsoleWriteEx);
             GUI.Console.WriteCallback = new Action<string>(ConsoleWrite);
             #endregion
 

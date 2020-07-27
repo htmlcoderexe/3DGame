@@ -47,6 +47,7 @@
     <Compile Include="AbilityLogic\AbilityEffect.cs" />
     <Compile Include="AbilityLogic\AbilityExecutor.cs" />
     <Compile Include="AbilityLogic\VisualEffects\VFX_snippets.cs" />
+    <Compile Include="Console.cs" />
     <Compile Include="IO\MagicFileReader.cs" />
     <Compile Include="IO\MagicFileWriter.cs" />
     <Compile Include="AbilityLogic\AbilityLoader.cs" />

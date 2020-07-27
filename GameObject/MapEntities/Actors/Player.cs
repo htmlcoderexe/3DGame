@@ -162,7 +162,7 @@ namespace GameObject.MapEntities.Actors
                 if(e.LearnLevel <= lvl && e.RequireItemID=="")
                 {
                     foreach(ModularAbility a in Abilities)
-                        if(a.Level==0)
+                        if(a.ID==e.SkillID && a.Level==0)
                         {
                             a.Level = 1;
                             Console.Write("^00C000 Learned " + a.Name + "^00C000 !");

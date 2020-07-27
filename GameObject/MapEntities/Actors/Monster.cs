@@ -12,7 +12,7 @@ namespace GameObject.MapEntities.Actors
     {
         public float LeashRadius { get; set; }
         public Dictionary<Actor, float> HateList = new Dictionary<Actor, float>();
-        public int EXPDrop = 2;
+        public int EXPDrop = 6;
         public Monster()
         {
             this.DeathCallback = new Action<MapEntity>(DeathAction);
