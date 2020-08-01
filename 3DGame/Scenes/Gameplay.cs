@@ -40,6 +40,7 @@ namespace _3DGame.Scenes
 
         public GUI.Renderer GUIRenderer;
         public static GUI.WindowManager WindowManager;
+        public Dictionary<string, Point> WindowPositions = new Dictionary<string, Point>();
         public MapEntity HoverTarget;
         private double spinner;
         private int MapZoomLevel=1;
@@ -119,53 +120,45 @@ namespace _3DGame.Scenes
             fw.GetFBind(index, World.Player);
         }
 
+        public void ToggleWindow(string key, GUI.Window window)
+        {
+            if (wlist[key] != null && !wlist[key].Closed)
+            {
+                WindowPositions[key] = new Point(wlist[key].X, wlist[key].Y);
+                wlist[key].Close();
+                wlist[key] = null;
+            }
+            else
+            {
+                if(WindowPositions.ContainsKey(key))
+                {
+                    window.X = WindowPositions[key].X;
+                    window.Y = WindowPositions[key].Y;
+                }
+                wlist[key] = window;
+                WindowManager.Add(wlist[key]);
+            }
+        }
+
+
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
 
             #region game windows
             if (kb.IsKeyDown(Keys.E) && PreviousKbState.IsKeyUp(Keys.E))
             {
-               if(wlist["inventory"]!=null && !wlist["inventory"].Closed)
-                {
-                    wlist["inventory"].Close();
-                    wlist["inventory"] = null;
-                }
-               else
-                {
-
-                    wlist["inventory"] = new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player);
-                    WindowManager.Add(wlist["inventory"]);
-                }
+                ToggleWindow("inventory", new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
             }
 
             if (kb.IsKeyDown(Keys.R) && PreviousKbState.IsKeyUp(Keys.R))
             {
-                if (wlist["equipment"] != null && !wlist["equipment"].Closed)
-                {
-                    wlist["equipment"].Close();
-                    wlist["equipment"] = null;
-                }
-                else
-                {
-
-                    wlist["equipment"] = new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player);
-                    WindowManager.Add(wlist["equipment"]);
-                }
+               
+                ToggleWindow("equipment",new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player));
             }
 
             if (kb.IsKeyDown(Keys.T) && PreviousKbState.IsKeyUp(Keys.T))
             {
-                if (wlist["skills"] != null && !wlist["skills"].Closed)
-                {
-                    wlist["skills"].Close();
-                    wlist["skills"] = null;
-                }
-                else
-                {
-
-                    wlist["skills"] = new GameplayAssets.Windows.SkillTreeWindow(WindowManager, World.Player,abilities);
-                    WindowManager.Add(wlist["skills"]);
-                }
+                ToggleWindow("skills", new GameplayAssets.Windows.SkillTreeWindow(WindowManager, World.Player, abilities));
             }
 
 
