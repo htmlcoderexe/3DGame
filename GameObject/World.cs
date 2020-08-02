@@ -33,6 +33,7 @@ namespace GameObject
         }
         public void Render(GraphicsDevice device, float dT, Vector2 Reference,bool Alpha)
         {
+            BoundingFrustum F = new BoundingFrustum(Camera.GetView() * Camera.GetProjection(device));
             MapEntity[] cpy;
             
             
@@ -49,7 +50,7 @@ namespace GameObject
                 
             }
             Player.Render(device, dT, Camera.Position.Reference(),false);
-            Terrain.Render(device, dT, Camera.Position.Reference());
+            Terrain.Render(device, dT, Camera.Position.Reference(),F);
             /*
             BlendState b = new BlendState();
             b.AlphaBlendFunction = BlendFunction.Add;

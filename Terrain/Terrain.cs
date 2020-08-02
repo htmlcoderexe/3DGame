@@ -173,13 +173,16 @@ namespace Terrain
 
         }
 
-        public void Render(GraphicsDevice device, float dT, Vector2 Reference)
+        public void Render(GraphicsDevice device, float dT, Vector2 Reference, BoundingFrustum F)
         {
 
             foreach(KeyValuePair<int,Unit> bv in this.Blocks)
             {
                 Unit block = bv.Value;
                 if (block == null)
+                    continue;
+                BoundingBox bb = new BoundingBox(new Vector3((block.X - Reference.X) * 64 - 10, 0, (block.Y - Reference.Y) * 64 - 10), new Vector3(((block.X - Reference.X) + 1) * 64 + 10, 255, ((block.Y - Reference.Y) + 1) * 64 + 10));
+                if (!F.Intersects(bb))
                     continue;
                 TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["TexturedTinted"];
 
@@ -201,7 +204,7 @@ namespace Terrain
             VertexPositionTexture[] waterVertices = new VertexPositionTexture[6];
             float WH = WorldGenerator.WaterHeight-0.2f;
             waterVertices[0] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * -10), new Vector2(0, 0));//10
-            waterVertices[1] = new VertexPositionTexture(new Vector3(BlockSize*10, WH, BlockSize * 10), new Vector2(1, 1)); //01
+            waterVertices[1] = new VertexPositionTexture(new Vector3(BlockSize * 10, WH, BlockSize * 10), new Vector2(1, 1)); //01
             waterVertices[2] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * 10), new Vector2(0, 1));//00
                 
             waterVertices[3] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * -10), new Vector2(0, 0));//01

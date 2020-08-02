@@ -454,7 +454,7 @@ namespace _3DGame.Scenes
                         else
                             HoverTarget.Click(World.Player);
                     }
-                    else if(kb.IsKeyDown(Keys.LeftShift))
+                    else //if(kb.IsKeyDown(Keys.LeftShift))
                     { 
                     for (int i = 0; i < 1000; i++)
                         {
@@ -619,7 +619,7 @@ namespace _3DGame.Scenes
             #endregion
 
             GameObject.WorldGen.ObjectPopulator p = new GameObject.WorldGen.ObjectPopulator(new Random(1));
-            List<MapEntity> elist = p.GenerateObjectsTest(16);
+            List<MapEntity> elist = p.GenerateObjectsTest(3);
             foreach(MapEntity me in elist)
             {
                 me.WorldSpawn = World;
