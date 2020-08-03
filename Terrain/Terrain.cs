@@ -20,6 +20,8 @@ namespace Terrain
         private WorldGenerator WorldGenerator;
         private VertexBuffer _water;
         public float WaterHeight;
+
+        public int RenderDistance { get; set; }
         /// <summary>
         /// Processes the block queue
         /// </summary>
@@ -95,7 +97,7 @@ namespace Terrain
         public void BorderEvent(int X, int Y)
         {
             // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());
-            int rd = 8;
+            int rd = RenderDistance==0?8:RenderDistance;
             for (int x = X - rd; x < X + rd + 1; x++)
             {
 
@@ -190,7 +192,7 @@ namespace Terrain
 
 
                 Vector3 Light = new Vector3(0.0f, -1.0f, 0.0f);
-                Vector3.Transform(Light, Matrix.CreateRotationX(MathHelper.ToRadians(30)));
+                Vector3.Transform(Light, Matrix.CreateRotationX(MathHelper.ToRadians(60)));
                 TerrainEffect.Parameters["xWorld"].SetValue(worldMatrix);
                 TerrainEffect.Parameters["xLightDirection"].SetValue(Light);
                  TerrainEffect.CurrentTechnique.Passes[0].Apply(); 

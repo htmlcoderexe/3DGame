@@ -533,6 +533,7 @@ namespace _3DGame.Scenes
             {
                 Player = new GameObject.MapEntities.Actors.Player(classes[0],skills)
             };
+            World.Terrain.RenderDistance = 4;
             World.Player.WorldSpawn = World;
             World.Player.Abilities[0].Level = 1;
             World.Player.Abilities[1].Level = 2;
@@ -958,7 +959,7 @@ namespace _3DGame.Scenes
                 //World.Player.UpdateRenderPos();
                 World.Terrain.BorderEvent(World.Player.Position.BX, World.Player.Position.BY);
                 World.Terrain.ProcessQueue();
-                System.Threading.Thread.Sleep(1);
+                System.Threading.Thread.Sleep(10);
                 //  Utility.Trace(World.Player.
 
                 // Program.DW.blockstackmap.Text = "";

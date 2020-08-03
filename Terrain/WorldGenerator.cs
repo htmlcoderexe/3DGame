@@ -130,7 +130,8 @@ namespace Terrain
                     //block.vertices[x + y * BlockSize].Position.Z = y;
 
                 }
-           // Console.Write("^00A000 Generated block at " + X.ToString() + "," + Y.ToString() + ".");
+            // Console.Write("^00A000 Generated block at " + X.ToString() + "," + Y.ToString() + ".");
+
             return block;
         }
 
@@ -204,6 +205,9 @@ namespace Terrain
                 Simplex.Seed = Simplex.Seed ^ (int)0xFFFFFFFF;
               }
                 //hill horizontal scale
+                float random1 = Simplex.CalcPixel2D(MapX + 1112, MapY + 13123, 2f)/512f;
+                float random2 = Simplex.CalcPixel2D(MapX + 1112, MapY + 13123, 1f)/1024f;
+
                 float ground = Simplex.CalcPixel2D(MapX+1112, MapY+13123, 0.0006125f/1f);
                 float beachdist= H - GroundBaseline;
                 float evenness = 16f;
@@ -212,10 +216,10 @@ namespace Terrain
                 ground *= 256f;
                 beachdist /= evenness;
                 beachdist = MathHelper.Clamp(beachdist, 0.0f, 1.0f);
-                float finalground= GroundBaseline + ground * beachdist + Hills * beachdist;
+                float finalground= GroundBaseline + ground * beachdist + Hills * beachdist+(random1+random2)*beachdist;
 
-               
-                v.Position.Y = finalground;
+
+                v.Position.Y = finalground;// + random1 + random2;
 
                 v.MultiTexData.Z = (float)Math.Pow((float)MathHelper.Clamp((((Temp / 2f) - finalground + 76f) / 100f), 0f, 1f),3f) ;
                 if(v.MultiTexData.Z<0.2f)
