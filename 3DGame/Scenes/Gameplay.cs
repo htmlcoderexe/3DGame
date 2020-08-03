@@ -559,6 +559,7 @@ namespace _3DGame.Scenes
             Fonts = new Dictionary<string, SpriteFont>();
             Fonts["font1"]= content.Load<SpriteFont>("font1");
             Fonts["FX"]= content.Load<SpriteFont>("FX");
+            GameModel.Model.TexturePool = Textures;
             #endregion
 
             GameModel.ModelPart.Textures = Textures;

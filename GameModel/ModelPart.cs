@@ -63,6 +63,8 @@ namespace GameModel
             fx.Parameters["xWorld"].SetValue(World);
             fx.Parameters["xBone"].SetValue(a);
             fx.Parameters["xOrigin"].SetValue(Matrix.Identity);
+            if (TextureName != null && TextureName != "" && Model.TexturePool != null && Model.TexturePool.ContainsKey(TextureName))
+                fx.Parameters["xModelSkin"].SetValue(Model.TexturePool[TextureName]);
             fx.CurrentTechnique = fx.Techniques["GameModel"];
             fx.CurrentTechnique.Passes[0].Apply();
             device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, IndexOffset, (int)(IndexLength/3.0f));

@@ -16,6 +16,7 @@ namespace ModelEditor
         SettingsFrm f;
         MainAppFrm mainfrm;
         Effect ModelEffect;
+        Texture2D dummy;
         Camera Camera;
         MouseState PreviousMouseState;
         KeyboardState PreviousKeyboardState;
@@ -55,6 +56,7 @@ namespace ModelEditor
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ModelEffect= Content.Load<Effect>("legacy");
+            dummy = Content.Load<Texture2D>("gray");
            // mainfrm.State.CurrentModel = new GameModel.Model();
             // TODO: use this.Content to load your game content here
         }
@@ -159,6 +161,7 @@ namespace ModelEditor
             ModelEffect.Parameters["xProjection"].SetValue(projectionMatrix);
             ModelEffect.Parameters["xWorld"].SetValue(Matrix.Identity);
             ModelEffect.Parameters["xCamPos"].SetValue(Camera.GetCamVector());
+            ModelEffect.Parameters["xModelSkin"].SetValue(dummy);
             ModelEffect.CurrentTechnique = ModelEffect.Techniques["GameModel"]; 
             GraphicsDevice.Clear(bgColor);
 
