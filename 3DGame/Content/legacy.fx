@@ -5,6 +5,7 @@ Texture xSand;
 Texture xTexture;
 Texture xRefractionMap;
 Texture xReflectionMap;
+Texture xModelSkin;
 
  // -  -  -  -  -  -  - Constants -  -  -  -  -  -  -  - 
 float4x4 World;
@@ -68,6 +69,8 @@ struct PixelToFrame
 sampler WaterBumpMapSampler = sampler_state { texture = <xWaterBumpMap> ; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = wrap;};
 
 sampler TextureSampler = sampler_state { texture = <xTexture>; magfilter = ANISOTROPIC; minfilter = ANISOTROPIC; mipfilter = POINT; AddressU = wrap; AddressV = wrap;};
+
+sampler ModelSampler = sampler_state { texture = <xModelSkin>; magfilter = ANISOTROPIC; minfilter = ANISOTROPIC; mipfilter = POINT; AddressU = wrap; AddressV = wrap;};
 
 sampler GrassSampler = sampler_state { texture = <xGrass>; magfilter = ANISOTROPIC; minfilter = ANISOTROPIC; mipfilter = POINT; AddressU = wrap; AddressV = wrap;};
 
@@ -399,7 +402,7 @@ PixelToFrame GameModelPS(VertexToPixel PSIn)
 	if(PSIn.Fog>1.0f)
 	PSIn.Fog = 1.0f;
 	float4 watercolor = float4(0.0f,0.4f,0.1f,1.0f);
-	Output.Color = PSIn.Color;
+	Output.Color = tex2D(ModelSampler, PSIn.TextureCoords) * 1 * PSIn.Color;
 	
 	
 	

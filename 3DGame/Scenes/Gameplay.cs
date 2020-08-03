@@ -555,7 +555,7 @@ namespace _3DGame.Scenes
             Textures["mapnavring"] = LoadTex2D(device, "graphics\\mapnavring.png");
             Textures["mapoverlay"] = LoadTex2D(device, "graphics\\mapoverlay.png");
             Textures["equipdoll"] = LoadTex2D(device, "graphics\\vitruvian.png");
-
+            Textures["dummy"] = LoadTex2D(device, "graphics\\gray.png");
             Fonts = new Dictionary<string, SpriteFont>();
             Fonts["font1"]= content.Load<SpriteFont>("font1");
             Fonts["FX"]= content.Load<SpriteFont>("FX");
@@ -850,6 +850,7 @@ namespace _3DGame.Scenes
             TerrainEffect.Parameters["xRock"].SetValue(Textures["rock"]);
             TerrainEffect.Parameters["xSand"].SetValue(Textures["sand"]);
             TerrainEffect.Parameters["xTexture"].SetValue(Textures["point_sphere"]);
+            TerrainEffect.Parameters["xModelSkin"].SetValue(Textures["dummy"]);
             TerrainEffect.Parameters["xView"].SetValue(reflectedView);
             //World.View = reflectedView;
             TerrainEffect.Parameters["xReflectionView"].SetValue(reflectedView);
