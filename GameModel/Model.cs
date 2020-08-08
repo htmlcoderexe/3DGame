@@ -11,7 +11,7 @@ namespace GameModel
     public class Model : ModelPart, IDisposable
     {
         public static Dictionary<string, Texture2D> TexturePool;
-
+        public static List<string> TextureList;
         public Dictionary<string, Dictionary<string, PartAnimation>> Choreo;
         private VertexBuffer _VB;
         private IndexBuffer _IB;

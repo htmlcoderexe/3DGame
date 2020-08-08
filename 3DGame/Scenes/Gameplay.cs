@@ -834,6 +834,22 @@ namespace _3DGame.Scenes
 
         public void Render(GraphicsDevice device, float dT)
         {
+            if(GameModel.Model.TextureList!=null)
+            {
+
+                foreach (string texname in GameModel.Model.TextureList)
+                {
+                    string path = GameModel.ModelGeometryCompiler.ModelBaseDir + "\\textures\\" + texname + ".png";
+                    if (!System.IO.File.Exists(path))
+                        continue;
+                    Texture2D tex;
+                    System.IO.FileStream s = new System.IO.FileStream(path, System.IO.FileMode.Open);
+                    tex = Texture2D.FromStream(device, s);
+                    s.Close();
+                    GameModel.Model.TexturePool.Add(texname, tex);
+                }
+                GameModel.Model.TextureList.Clear();
+            }
             RenderTime += dT;
             RasterizerState rs = new RasterizerState
             {
@@ -869,6 +885,8 @@ namespace _3DGame.Scenes
                 
             device.SetRenderTarget(ReflectionMap);
             device.Clear(skyColor);
+
+            //--------------------------------------------------------------------------------------------------------------------------------------------------
             World.Render(device, dT,Vector2.Zero,false);
 
            
@@ -886,6 +904,8 @@ namespace _3DGame.Scenes
              TerrainEffect.Parameters["xFog"].SetValue(true);
             device.SetRenderTarget(RefractionMap);
             device.Clear(skyColor);
+
+            //--------------------------------------------------------------------------------------------------------------------------------------------------
             World.Render(device, dT, Vector2.Zero,false);
             //device.Clear(Color.CornflowerBlue);
             refractionplane = CreatePlane(-World.Terrain.WaterHeight - 690.3f, new Vector3(0, 1, 0), viewMatrix, true, projectionMatrix);
@@ -922,6 +942,7 @@ namespace _3DGame.Scenes
             //World.Terrain.DrawWater(device, dT, (World.Camera.Position ).Reference());
             World.Terrain.DrawWater(device, dT, (World.Camera.Position + World.Camera.GetCamVector()).Reference());
 
+            //--------------------------------------------------------------------------------------------------------------------------------------------------
             World.Render(device, dT, Vector2.Zero, false);
 
              device.SetRenderTarget(Screen);

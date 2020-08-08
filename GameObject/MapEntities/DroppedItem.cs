@@ -14,7 +14,7 @@ namespace GameObject.MapEntities
         {
             this.Item = Item;
             GameModel.Model m = this.Item.GetModel();
-            this.Model = m ?? GameModel.ModelGeometryCompiler.LoadModel("cube");
+            this.Model = m ?? GameModel.ModelGeometryCompiler.LoadModel("planttest");
             this.DisplayName = this.Item.Name;
         }
         public override void Click(Actor Target)

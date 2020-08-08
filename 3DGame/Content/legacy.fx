@@ -404,7 +404,7 @@ PixelToFrame GameModelPS(VertexToPixel PSIn)
 	float4 watercolor = float4(0.0f,0.4f,0.1f,1.0f);
 	Output.Color = tex2D(ModelSampler, PSIn.TextureCoords) * 1 * PSIn.Color;
 	
-	
+	Output.Color = Output.Color*Output.Color.a;
 	
 	
 	
@@ -418,8 +418,9 @@ PixelToFrame GameModelPS(VertexToPixel PSIn)
 	if(xFog)
 		Output.Color = lerp(Output.Color,watercolor,(PSIn.Fog / 1.0f));
 		
-		
-
+		//alpha cutoff
+	if(Output.Color.a < 0.9f)
+	clip(-1);
 	return Output;
 }
 

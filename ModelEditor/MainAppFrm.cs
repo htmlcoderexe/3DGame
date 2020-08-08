@@ -1,4 +1,5 @@
 ﻿using GameModel;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace ModelEditor
             get { return _changes; }
             set { _changes = value;this.Text = value ? "* Model Editor" : "Model Editor"; }
         }
+        public GraphicsDevice device;
         public MainAppFrm()
         {
             Application.EnableVisualStyles();
@@ -72,7 +74,7 @@ namespace ModelEditor
         {
             FileName = filename;
             ProgramState.State.CurrentFilename = filename;
-            Model result;
+            GameModel.Model result;
             string modeldata = System.IO.File.ReadAllText(filename);
             modelcode.Text = modeldata;
             ModelGeometryCompiler.ModelBaseDir = System.IO.Path.GetDirectoryName(filename);
@@ -90,6 +92,7 @@ namespace ModelEditor
                 p.movements.Items.Add(movement.Key);
             p.movements.SelectedIndex = 0;
             Changes = false;
+            CompileAndRun();
         }
 
         private void compileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,8 +105,21 @@ namespace ModelEditor
         {
             ModelGeometryCompiler compiler = new ModelGeometryCompiler(modelcode.Text);
             GameModel.Model result = compiler.ReturnOutput();
+            GameModel.Model.TexturePool = new Dictionary<string, Texture2D>();
+            if(compiler.Textures!=null &&compiler.Textures.Count>0)
+                foreach(string texname in compiler.Textures)
+                {
+                    string path = ModelGeometryCompiler.ModelBaseDir + "\\textures\\" + texname + ".png";
+                    if (!System.IO.File.Exists(path))
+                        continue;
+                    Texture2D tex;
+                    System.IO.FileStream s = new System.IO.FileStream(path, System.IO.FileMode.Open);
+                    tex = Texture2D.FromStream(device, s);
+                    s.Close();
+                    GameModel.Model.TexturePool.Add(texname, tex);
+                }
             result.RebuildSkeleton();
-            result.ApplyAnimation("Walk");
+           // result.ApplyAnimation("Walk");
             ProgramState.State.CurrentModel = result;
         }
 

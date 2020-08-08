@@ -43,7 +43,7 @@ namespace ModelEditor
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            mainfrm.device = GraphicsDevice;
             base.Initialize();
         }
 

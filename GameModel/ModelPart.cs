@@ -55,8 +55,8 @@ namespace GameModel
                     b = b*Dislocation;
                     c.Render(device, Time, b*World, fx,Alpha);
                 }
-            if (Alpha)
-                return;
+           if (Alpha)
+               return;
             World = Dislocation * World;
 
             //fx.Parameters["xWorld2"].SetValue(Matrix.CreateTranslation(0, Y, 0));
