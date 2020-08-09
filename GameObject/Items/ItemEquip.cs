@@ -127,15 +127,15 @@ namespace GameObject.Items
             Color PrimaryColour=this.PrimaryMaterial==null?Color.Gray:this.PrimaryMaterial.Colour;
             Color SecondaryColour=this.SecondaryMaterial==null?PrimaryColour:this.SecondaryMaterial.Colour;
             Color GlowColour=this.Enchant==null?PrimaryColour:this.Enchant.LineColour;
-            int iconindex = (this.SubType%16) + (64 * (int)(this.SubType / 16));
+            int iconindex = (this.SubType%64) + (64 * (int)(this.SubType / 16));
             Renderer.SetTexture(Renderer.InventoryPartsMap);
             Renderer.SetColour(PrimaryColour);
-            Renderer.RenderIconEx(device, X, Y, 32 + iconindex);
+            Renderer.RenderIconEx(device, X, Y, 128 + iconindex);
             Renderer.RenderIconEx(device, X, Y, 0 + iconindex);
             Renderer.SetColour(SecondaryColour);
-            Renderer.RenderIconEx(device, X, Y, 48 + iconindex);
+            Renderer.RenderIconEx(device, X, Y, 192 + iconindex);
             Renderer.SetColour(GlowColour);
-            Renderer.RenderIconEx(device, X, Y, 16 + iconindex);
+            Renderer.RenderIconEx(device, X, Y, 64 + iconindex);
 
             base.Render(X, Y, device, Renderer, RenderCooldown, RenderEXP);
         }
