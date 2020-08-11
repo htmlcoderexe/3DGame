@@ -119,6 +119,8 @@ namespace GameObject.Items
             this.Adjective = Adjectives[RNG.Next(0, Adjectives.Count - 1)];
             this.Subject = Subjects[RNG.Next(0, Subjects.Count - 1)];
             this.SubType = RNG.Next(7);
+            if (this.SubType == 1)
+                this.Variant = RNG.Next(2);
             string[] grades = new string[] { "Common","Uncommon","Rare","Epic" };
             this.NameColour = Items.Material.MaterialTemplates.GradeToColour(grades[RNG.Next(0, grades.Length)]);
         }
@@ -127,15 +129,15 @@ namespace GameObject.Items
             Color PrimaryColour=this.PrimaryMaterial==null?Color.Gray:this.PrimaryMaterial.Colour;
             Color SecondaryColour=this.SecondaryMaterial==null?PrimaryColour:this.SecondaryMaterial.Colour;
             Color GlowColour=this.Enchant==null?PrimaryColour:this.Enchant.LineColour;
-            int iconindex = (this.SubType%64) + (64 * (int)(this.SubType / 16));
+            int subsubtype = this.SubType * 4 + this.Variant;
+            int iconindex = (subsubtype%64) + (192 * (int)((float)subsubtype /64f));
             Renderer.SetTexture(Renderer.InventoryPartsMap);
             Renderer.SetColour(PrimaryColour);
-            Renderer.RenderIconEx(device, X, Y, 128 + iconindex);
             Renderer.RenderIconEx(device, X, Y, 0 + iconindex);
             Renderer.SetColour(SecondaryColour);
-            Renderer.RenderIconEx(device, X, Y, 192 + iconindex);
-            Renderer.SetColour(GlowColour);
             Renderer.RenderIconEx(device, X, Y, 64 + iconindex);
+            Renderer.SetColour(GlowColour);
+            Renderer.RenderIconEx(device, X, Y, 128 + iconindex);
 
             base.Render(X, Y, device, Renderer, RenderCooldown, RenderEXP);
         }
@@ -152,14 +154,20 @@ namespace GameObject.Items
         public override List<string> GetTooltip()
         {
             List<string> tip = base.GetTooltip();
-
-            foreach(ItemBonus b in this.Bonuses)
-            {
-                tip.Add(GUI.Renderer.ColourToCode(b.LineColour)+b.BonusText);
-            }
-            if(this.Enchant!=null)
+            tip.Add("Variant " + this.Variant.ToString());
+            tip.Add("Made from:");
+            if (PrimaryMaterial != null)
+                tip.Add(PrimaryMaterial.GetName());
+            if (SecondaryMaterial != null)
+                tip.Add(SecondaryMaterial.GetName());
+            if (this.Enchant != null)
             {
                 tip.Add(GUI.Renderer.ColourToCode(this.Enchant.LineColour) + this.Enchant.BonusText);
+            }
+
+            foreach (ItemBonus b in this.Bonuses)
+            {
+                tip.Add(GUI.Renderer.ColourToCode(b.LineColour)+b.BonusText);
             }
             return tip ;
         }

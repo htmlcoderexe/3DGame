@@ -44,6 +44,7 @@ namespace GameObject
         public int SellPrice;
         public int Type;
         public int SubType;
+        public int Variant;
         public int StackSize { get; set; }
 
         public float CoolDown { get; set; }
