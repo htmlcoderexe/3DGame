@@ -533,7 +533,7 @@ namespace _3DGame.Scenes
             {
                 Player = new GameObject.MapEntities.Actors.Player(classes[0],skills)
             };
-            World.Terrain.RenderDistance = 4;
+            World.Terrain.RenderDistance = 3;
             World.Player.WorldSpawn = World;
             World.Player.Abilities[0].Level = 1;
             World.Player.Abilities[1].Level = 2;
@@ -674,7 +674,7 @@ namespace _3DGame.Scenes
              //  v1.Z= (World.Player.Position.Z / (-Interfaces.WorldPosition.Stride * zoom));
                 Matrix rm = Matrix.CreateRotationX(MathHelper.PiOver2);
                 Matrix wm = Matrix.CreateTranslation(v1);
-                Matrix sm = Matrix.CreateScale( 1f / ((float)WorldPosition.Stride * zoom));
+                Matrix sm = Matrix.CreateScale( 1f / ((float)WorldPosition.Stride * zoom), 1f / ((float)WorldPosition.Stride * zoom), 2f / ((float)WorldPosition.Stride * zoom));
                 Matrix ym = Matrix.Identity;
                 if (RotateMap)
                     ym = Matrix.CreateRotationZ(MathHelper.ToRadians(World.Camera.Yaw + 180f));

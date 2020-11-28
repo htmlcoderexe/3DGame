@@ -17,10 +17,11 @@ namespace Terrain
         public int BlockSize;
         public Queue<Vector2> Queue;
         public Thread QThread;
-        private WorldGenerator WorldGenerator;
+        public WorldGenerator WorldGenerator;
         private VertexBuffer _water;
         public float WaterHeight;
-
+        int LastX;
+        int LastY;
         public int RenderDistance { get; set; }
         /// <summary>
         /// Processes the block queue
@@ -31,13 +32,20 @@ namespace Terrain
             while (Queue.Count > 0)
             {
                 Vector2 b = this.Queue.Dequeue();
+                int rd = RenderDistance == 0 ? 8 : RenderDistance;
                 // Unit blk = WorldLoader.Load((int)b.X, (int)b.Y);
                 // blk = WorldGenerator.GenerateBlock((int)b.X, (int)b.Y, 64);
+                //Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd
                 Unit blk=null;
                 if (blk == null)
                 {
+                    if(Math.Abs(b.X - LastX) > rd || Math.Abs(b.Y - LastY) > rd)
+                    continue;
+                    if (b.X < 0 || b.Y < 0)
+                        continue;
                     blk = WorldGenerator.GenerateBlock((int)b.X, (int)b.Y);
-                    //Volatile.Console.Write("^00FF00 Generated " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
+                    Console.Write("^00FF00 Generated " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
+                    
                 }
                 else
                 {
@@ -96,6 +104,8 @@ namespace Terrain
         }
         public void BorderEvent(int X, int Y)
         {
+            LastX = X;
+            LastY = Y;
             // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());
             int rd = RenderDistance==0?8:RenderDistance;
             for (int x = X - rd; x < X + rd + 1; x++)
@@ -183,7 +193,7 @@ namespace Terrain
                 Unit block = bv.Value;
                 if (block == null)
                     continue;
-                BoundingBox bb = new BoundingBox(new Vector3((block.X - Reference.X) * 64 - 10, 0, (block.Y - Reference.Y) * 64 - 10), new Vector3(((block.X - Reference.X) + 1) * 64 + 10, 255, ((block.Y - Reference.Y) + 1) * 64 + 10));
+                BoundingBox bb = new BoundingBox(new Vector3((block.X - Reference.X) * BlockSize - 10, -1255, (block.Y - Reference.Y) * BlockSize - 10), new Vector3(((block.X - Reference.X) + 1) * BlockSize + 10, 1255, ((block.Y - Reference.Y) + 1) * BlockSize + 10));
                 if (!F.Intersects(bb))
                     continue;
                 TerrainEffect.CurrentTechnique = TerrainEffect.Techniques["TexturedTinted"];

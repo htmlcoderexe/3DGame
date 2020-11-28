@@ -14,7 +14,7 @@ namespace GameObject.MapEntities
         {
             this.Item = Item;
             GameModel.Model m = this.Item.GetModel();
-            this.Model = m ?? GameModel.ModelGeometryCompiler.LoadModel("planttest");
+            this.Model = m ?? GameModel.ModelGeometryCompiler.LoadModel("tree_spruce1");
             this.DisplayName = this.Item.GetName();
             
         }

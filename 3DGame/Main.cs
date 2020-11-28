@@ -11,13 +11,16 @@ namespace _3DGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Interfaces.IGameScene CurrentScene;
+        public static Microsoft.Xna.Framework.Content.ContentManager ContentRef;
+        public static GraphicsDevice GraphicsRef;
+        public static Interfaces.IGameScene CurrentScene;
         public Main()
         {
             this.IsFixedTimeStep = false;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            CurrentScene = new Scenes.Gameplay();
+            //CurrentScene = new Scenes.Gameplay();
+            CurrentScene = new Scenes.CreateWorld();
             graphics.PreferredBackBufferHeight = 960;
             graphics.PreferredBackBufferWidth = 1600;
 
@@ -58,6 +61,8 @@ namespace _3DGame
         /// </summary>
         protected override void LoadContent()
         {
+            GraphicsRef = GraphicsDevice;
+            ContentRef = Content;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             CurrentScene.Init(GraphicsDevice,Content);
@@ -73,6 +78,12 @@ namespace _3DGame
             CurrentScene.Dispose();
             // TODO: Unload any non ContentManager content here
         }
+
+        public static void ReloadScene()
+        {
+            CurrentScene.Init(GraphicsRef, ContentRef);
+        }
+
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,

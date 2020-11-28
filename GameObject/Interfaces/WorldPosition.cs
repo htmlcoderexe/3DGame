@@ -9,7 +9,7 @@ namespace GameObject.Interfaces
 {
     public struct WorldPosition
     {
-       public const int Stride=64;
+       public const int Stride=128;
        public float X;
        public float Y;
        public float Z;

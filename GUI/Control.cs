@@ -13,6 +13,19 @@ namespace GUI
     {
         List<Control> _controls;
         WindowManager _wm;
+
+        public delegate void ClickEventHandler(object sender, ClickEventArgs eventArgs);
+        public class ClickEventArgs
+        {
+            public int X;
+            public int Y;
+            public ClickEventArgs(int X, int Y)
+            {
+                this.X = X;
+                this.Y = Y;
+            }
+        }
+        public event ClickEventHandler OnClick;
         /// <summary>
         /// If control is not visible, it loses collision and is not rendered.
         /// </summary>
@@ -165,6 +178,7 @@ namespace GUI
             {
 
                 this.Click(X, Y);
+                OnClick?.Invoke(this, new ClickEventArgs((int)X, (int)Y));
             }
             foreach (Control c in this.Controls)
             {
