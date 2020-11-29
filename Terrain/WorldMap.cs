@@ -81,6 +81,7 @@ namespace Terrain
         public float[,] ElevationData { get; set; }
         public float[,] TemperatureData { get; set; }
         public float[,] HumidityData { get; set; }
+        public float[,] OceanDistanceField { get; set; }
         public static Color TILE_UNFILLED { get; }
         public static Color TILE_PLAIN { get; }
         public static Color TILE_RIVER { get; }
@@ -98,6 +99,7 @@ namespace Terrain
             ElevationData= new float[Width, Height];
             TemperatureData= new float[Width, Height];
             HumidityData = new float[Width, Height];
+            OceanDistanceField = new float[Width, Height];
         }
 
         public Texture2D TilesToTexture(GraphicsDevice device)
@@ -113,8 +115,15 @@ namespace Terrain
             return output;
         }
         public Color GetTerrainColour(int x, int y)
-    {
+        {
+            TileType tile =TileData[x, y];
+            if (tile == TileType.Ocean)
+                return TILE_OCEAN;
+            float dOF = OceanDistanceField[x, y];
+            float R = MathHelper.Clamp(dOF * 2f, 0f, 1f);
+            float G = MathHelper.Clamp((1f-dOF) * 2f, 0f, 1f);
+            return new Color(R, G, 0);
             return Color.Multiply(GetTileColour(TileData[x, y]), ((TileData[x, y] == TileType.Plain|| TileData[x, y] == TileType.River) ? MathHelper.Clamp(1f - ElevationData[x, y] * 0.5f, 0.5f, 1f) : 1f));
-    }
+        }
     }
 }

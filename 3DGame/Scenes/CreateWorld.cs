@@ -66,6 +66,7 @@ namespace _3DGame.Scenes
                     if (map.TileData[x, y] == Terrain.WorldMap.TileType.Unfilled)
                         map.ElevationData[x, y] = 0.1f;
                         Terrain.WorldGen.WorldMapFeatureGenerator.Replace(map, Terrain.WorldMap.TileType.Unfilled, Terrain.WorldMap.TileType.Plain);
+            Terrain.WorldGen.WorldMapFeatureGenerator.DoOceanDistanceField(map);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 100);
 
             map.TileData[36, 14] = Terrain.WorldMap.TileType.Beach;

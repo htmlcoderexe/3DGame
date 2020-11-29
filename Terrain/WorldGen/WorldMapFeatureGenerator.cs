@@ -369,5 +369,76 @@ namespace Terrain.WorldGen
                     if (map.TileData[x, y] == From)
                         map.TileData[x, y] = To;
         }
+
+
+
+        public static void DoOceanDistanceField(WorldMap map)
+        {
+            //pass 1: set all to something stupid like 9999 except ocean
+            float MAX = 9999f;
+            float Highest = 0f;
+            float[] neighbourhood = new float[8];
+            for (int x = 0; x < map.Width; x++)
+                for (int y = 0; y < map.Height; y++)
+                {
+                    if (map.TileData[x, y] == WorldMap.TileType.Ocean)
+                        map.OceanDistanceField[x, y] = 0;
+                    else
+                        map.OceanDistanceField[x, y] = MAX;
+
+                }
+            //pass 2 & 3: pathfind
+            for (int x = 1; x < map.Width - 1; x++)
+                for (int y = 1; y < map.Height - 1; y++)
+                {
+                    neighbourhood[0] = map.OceanDistanceField[x - 1, y - 1];
+                    neighbourhood[1] = map.OceanDistanceField[x, y - 1];
+                    neighbourhood[2] = map.OceanDistanceField[x + 1, y - 1];
+                    neighbourhood[3] = map.OceanDistanceField[x - 1, y];
+                    neighbourhood[4] = map.OceanDistanceField[x + 1, y];
+                    neighbourhood[5] = map.OceanDistanceField[x - 1, y + 1];
+                    neighbourhood[6] = map.OceanDistanceField[x, y + 1];
+                    neighbourhood[7] = map.OceanDistanceField[x + 1, y + 1];
+                    float smallest = neighbourhood.Min();
+                    map.OceanDistanceField[x, y] = smallest + 1;
+                }
+            for (int x = map.Width - 2; x > 0 ; x--)
+                for (int y = map.Height - 2; y > 0; y--)
+                {
+                    neighbourhood[0] = map.OceanDistanceField[x - 1, y - 1];
+                    neighbourhood[1] = map.OceanDistanceField[x, y - 1];
+                    neighbourhood[2] = map.OceanDistanceField[x + 1, y - 1];
+                    neighbourhood[3] = map.OceanDistanceField[x - 1, y];
+                    neighbourhood[4] = map.OceanDistanceField[x + 1, y];
+                    neighbourhood[5] = map.OceanDistanceField[x - 1, y + 1];
+                    neighbourhood[6] = map.OceanDistanceField[x, y + 1];
+                    neighbourhood[7] = map.OceanDistanceField[x + 1, y + 1];
+                    float smallest = neighbourhood.Min();
+                    map.OceanDistanceField[x, y] = smallest + 1;
+                    if (Highest < smallest + 1)
+                        Highest = smallest + 1;
+                }
+            //pass 4: normalisation
+            if (Highest!=0)
+            for (int x = 1; x < map.Width - 1; x++)
+                for (int y = 1; y < map.Height - 1; y++)
+                {
+                    map.OceanDistanceField[x, y] /= Highest;
+                }
+        }
+
+
+
+        public static void DoTemperature(WorldMap map)
+        {
+            float step = 1f/(float)map.Height;
+            for(int x=0;x<map.Width;x++)
+                for(int y=0;y<map.Height;y++)
+                {
+
+
+                }
+        }
+
     }
 }
