@@ -14,6 +14,7 @@ namespace Terrain
         private int[] _indices;
         private int[] _indices2;
         private int BlockSize;
+        private string BlockTitle = "";
         public float WaterHeight = 80f;
         public int Seed;
         public WorldMap Map;
@@ -253,6 +254,16 @@ namespace Terrain
             slideB -= 0.5f;
             widthA = MathHelper.Clamp(widthA, rivermin, rivermax);
             widthB = MathHelper.Clamp(widthB, rivermin, rivermax);
+
+            if(Horizontal)
+            {
+                BlockTitle = "LW:" + widthA.ToString("F2") + " RW:" + widthB.ToString("F2") + " LS: " + slideA.ToString("F2") + " RS:" + slideB.ToString("F2");
+            }
+            else
+            {
+                BlockTitle = "TW:" + widthA.ToString("F2") + " BW:" + widthB.ToString("F2") + " TS: " + slideA.ToString("F2") + " BS:" + slideB.ToString("F2");
+
+            }
             for (int x = 0; x < (BlockSize + 1 + (Horizontal ? 2 : 0)); x++)
                 for (int y = 0; y < (BlockSize + 1 + (Horizontal ? 0 : 2)); y++)
                 {
@@ -262,6 +273,8 @@ namespace Terrain
                     // TerrainVertex v = GainVertex(x - 1, y - 1, X, Y);
                     offset = GainDepth(M,W, widthA, widthB, slideA, slideB,strength);
                     offset = MathHelper.Clamp(offset, 0, 999f);
+                    if (offset > 0)
+                        _vertices[(x + (Horizontal ? 0 : 1) + ((y + (Horizontal ? 1 : 0)) * (BlockSize + 1 + 2)))].MultiTexData.Z = 1f;
                     _vertices[(x+(Horizontal?0:1) + ((y + (Horizontal ? 1 : 0)) * (BlockSize + 1 + 2)))].Position -= new Vector3(0, offset, 0) ;
                 }
         }
@@ -288,7 +301,7 @@ namespace Terrain
             edgestart = MathHelper.Clamp(edgestart, 0f, 1f);
             float edgeend = 0.5f*(1f + modulatedwidth + modulatedwidth);
 
-            float shrinkfactor =  modulatedwidth;
+            float shrinkfactor = 1f;// modulatedwidth;
 
             float param = 0f;
             param = nM  -(0.5f-modulatedwidth/2f);
@@ -329,6 +342,8 @@ namespace Terrain
             float widthT = (Simplex.CalcPixel2D(X, Y - 1, rivernoisescale) + Simplex.CalcPixel2D(X, Y, rivernoisescale)) / 512f;
 
             float widthB = (Simplex.CalcPixel2D(X, Y + 1, rivernoisescale) + Simplex.CalcPixel2D(X, Y, rivernoisescale)) / 512f;
+
+
             float slideL = (Simplex.CalcPixel2D(X - 1, Y, meanderscale) + Simplex.CalcPixel2D(X, Y, meanderscale)) / 512f;     
             float slideR = (Simplex.CalcPixel2D(X + 1, Y, meanderscale) + Simplex.CalcPixel2D(X, Y, meanderscale)) / 512f;
             float slideT = (Simplex.CalcPixel2D(X, Y - 1, meanderscale) + Simplex.CalcPixel2D(X, Y, meanderscale)) / 512f;
@@ -336,48 +351,59 @@ namespace Terrain
             float degreebias = 0f;
             Vector2 CornerPoint;
             Vector2 bias = new Vector2(1, 1);
+            float P0 = -1;
+            float P1 = 2 +  BlockSize;
             switch(Corner)
             {
 
                 case RIVER_CORNER_TL:
                     {
-                        CornerPoint = new Vector2(1, 1);
+                        CornerPoint = new Vector2(P0, P0);
                         Width0 = widthT;
                         Width1 = widthL;
                         Slide0 = slideT;
                         Slide1 = slideL;
+                        Slide0 -= 0.5f;
+                        Slide1 -= 0.5f;
                         degreebias -= 0f;
                         break;
                     }
                 case RIVER_CORNER_TR:
                     {
-                        CornerPoint = new Vector2(1+BlockSize, 1);
+                        CornerPoint = new Vector2(P1, P0);
                         Width0 = widthR;
                         Width1 = widthT;
                         Slide0 = slideR;
-                        Slide1 = slideT;
+                        Slide1 = 1f-slideT;
+                        Slide0 -= 0.5f;
+                        Slide1 -= 0.5f;
                         degreebias -= 90f;
                         bias = new Vector2(1, 0);
                         break;
                     }
                 case RIVER_CORNER_BL:
                     {
-                        CornerPoint = new Vector2(1, 1 + BlockSize);
+                        CornerPoint = new Vector2(P0, P1);
                         Width0 = widthL;
                         Width1 = widthB;
-                        Slide0 = slideL;
+                        Slide0 = 1-slideL;
                         Slide1 = slideB; //
+
+                        Slide0 -= 0.5f;
+                        Slide1 -= 0.5f;
                         degreebias += 90f;
                         bias = new Vector2(0, 1);
                         break;
                     }
                 default:
                     {
-                        CornerPoint = new Vector2(1 + BlockSize, 1 + BlockSize);
+                        CornerPoint = new Vector2(P1, P1);
                         Width0 = widthB;
                         Width1 = widthR;
-                        Slide0 = slideB; //
-                        Slide1 = slideR; //
+                        Slide0 = 1f-slideB; //
+                        Slide1 = 1f-slideR; //
+                        Slide0 -= 0.5f;
+                        Slide1 -= 0.5f;
                         degreebias += 180f;
                         bias = new Vector2(1, 1);
                         break;
@@ -387,12 +413,12 @@ namespace Terrain
 
             Width1 = MathHelper.Clamp(Width1, rivermin, rivermax);
             Width0 = MathHelper.Clamp(Width0, rivermin, rivermax);
-            Slide0 -= 0.5f;
-            Slide1 -= 0.5f;
-            for (int x = 0; x < (BlockSize + 1+2 ); x++)
+
+            BlockTitle = "W0:" + Width0.ToString("F2") + " W1:" + Width1.ToString("F2") + " S0: " + Slide0.ToString("F2") + " S1:" + Slide1.ToString("F2");
+            for (int x = 0; x < (BlockSize + 1 +2); x++)
                 for (int y = 0; y < (BlockSize + 1+2 ); y++)
                 {
-                    Vector2 pointer =  (new Vector2(x, y))- CornerPoint;
+                    Vector2 pointer =  (new Vector2(x-1, y-1))- CornerPoint;
                     float M = pointer.Length();
                     pointer = Vector2.Normalize(pointer);
                     float degrees = MathHelper.ToDegrees((float)Math.Atan2(pointer.Y, pointer.X));
@@ -403,12 +429,19 @@ namespace Terrain
                     degrees = degrees % 360;
                     degrees /= 90f;
                     float W = degrees;
+                    if (W < 0f || W > 1f)
+                        W /= 0f;
+                    W *= (BlockSize + 1);
+                   // Slide0 = -0.2f;
+                   // Slide1 = 0.2f;
                     offset = GainDepth(M, W, Width0, Width1, Slide0, Slide1, strength);
                    // offset = ((float)Math.Pow((((float)(Z) - mid) / strength), pow) * -1f) + (float)Math.Pow(mid / strength, pow) * MathHelper.Lerp(Width0, Width1, Z/ (float)(BlockSize + 1 + 2)); ;
                     // TerrainVertex v = GainVertex(x - 1, y - 1, X, Y);
                     offset = MathHelper.Clamp(offset, 0, 999f);
+                    if (offset > 0)
+                        _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].MultiTexData.Z = 1f;
                     _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Position -= new Vector3(0, offset, 0);
-                   // _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Color = new Color(W, 0f, 0f);
+                    //_vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Color = new Color(W/(BlockSize+1+2), 0f, 0f);
                 }
 
         }
@@ -496,6 +529,7 @@ namespace Terrain
         }
         public Unit GenerateBlock(int X, int Y)
         {
+            BlockTitle = "";
             Unit block = new Unit();
             block.X = X;
             block.Y = Y;
@@ -519,7 +553,7 @@ namespace Terrain
 
                 }
             // Console.Write("^00A000 Generated block at " + X.ToString() + "," + Y.ToString() + ".");
-
+            block.Name = BlockTitle;
             return block;
         }
 
@@ -697,13 +731,16 @@ namespace Terrain
             int MapX = X + DX * (BlockSize);
             int MapY = Y + DY * (BlockSize);
             //get lerped "rough" elevation
+            
             float Elevation =  GetBilineaer(X,Y,DX,DY,Map.ElevationData);
             //return v;
+            //*
             float base1 = Simplex.CalcPixel2D(MapX + 1112, MapY + 13123, 1f / 1024f) / 1f;
             H = 80f + Elevation * base1;
             float random2 = Simplex.CalcPixel2D(MapX + 1112, MapY + 13123, 1f / 32f) / 256f;
             random2 += Simplex.CalcPixel2D(MapX + 1112, MapY + 13123, 1f / 512f) / 32f;
             H += random2;
+            //*/
             bool isRiver = false;
             v.Position.Y = H;// 90f;// H;
             //return v;

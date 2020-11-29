@@ -16,6 +16,7 @@ namespace Terrain
         public VertexBuffer buffer;
         public IndexBuffer ibuffer;
         public float[,] heightmap;
+        public string Name = "";
         public void Render(GraphicsDevice device, float dT)
         {
             //set buffer if it doesn't exist

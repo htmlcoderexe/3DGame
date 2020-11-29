@@ -102,6 +102,13 @@ namespace Terrain
                 return -1;
             return blk.GetHeight(position.X, position.Z);
         }
+        public string GetPlaceName(Vector2 Block)
+        {
+            Unit blk = GetBlock((int)Block.X, (int)Block.Y);
+            if (blk == null)
+                return "unknown";
+            return blk.Name;
+        }
         public void BorderEvent(int X, int Y)
         {
             LastX = X;

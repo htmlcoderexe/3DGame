@@ -16,10 +16,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         {
             this.WM = Gameplay.WindowManager;
             this.Player = Player;
-            this.Width = 276;
+            this.Width = 296;
             this.Height = 300;
             this.AnchorRight = true;
-            Placename = new GUI.Controls.RichTextDisplay("World", 256, 20, WM)
+            Placename = new GUI.Controls.RichTextDisplay("World", 286, 20, WM)
             {
                 Y = 0,
                 X = 4
@@ -45,6 +45,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             int Y = (int)(Player.Position.Z + Player.Position.BY * WorldPosition.Stride);
             int H = (int)Player.Position.Y;
             playerloc = X + ", " + Y+" H" + H;
+            Placename.SetText(Player.WorldSpawn.Terrain.GetPlaceName(new Microsoft.Xna.Framework.Vector2(Player.Position.BX, Player.Position.BY)));
             this.Coords.SetText(playerloc);
             base.Update(dT);
         }
