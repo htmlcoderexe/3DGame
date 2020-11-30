@@ -57,9 +57,10 @@ namespace _3DGame.Scenes
             int seed = new System.Random().Next(100);
             Terrain.WorldGen.Simplex.Seed = seed;
             Terrain.WorldGen.WorldMapFeatureGenerator.Seed = seed;
-            Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 440);
-            Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 500, 320, 240);
-            Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 430, 500, 350, 200);
+            //Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 440);
+            //Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 500, 320, 240);
+            //Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 430, 500, 350, 200);
+            Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 640);
             Terrain.WorldGen.WorldMapFeatureGenerator.FillOcean(map);
             for (int x = 0; x < map.Width; x++)
                 for (int y = 0; y < map.Height; y++)
@@ -67,6 +68,7 @@ namespace _3DGame.Scenes
                         map.ElevationData[x, y] = 0.1f;
                         Terrain.WorldGen.WorldMapFeatureGenerator.Replace(map, Terrain.WorldMap.TileType.Unfilled, Terrain.WorldMap.TileType.Plain);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoOceanDistanceField(map);
+            Terrain.WorldGen.WorldMapFeatureGenerator.DoTemperature(map);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 100);
 
             map.TileData[36, 14] = Terrain.WorldMap.TileType.Beach;

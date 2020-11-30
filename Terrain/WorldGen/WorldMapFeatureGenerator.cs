@@ -391,6 +391,7 @@ namespace Terrain.WorldGen
             for (int x = 1; x < map.Width - 1; x++)
                 for (int y = 1; y < map.Height - 1; y++)
                 {
+                    //iterate over 8 neighbours, pick the smallest, add 1
                     neighbourhood[0] = map.OceanDistanceField[x - 1, y - 1];
                     neighbourhood[1] = map.OceanDistanceField[x, y - 1];
                     neighbourhood[2] = map.OceanDistanceField[x + 1, y - 1];
@@ -402,9 +403,11 @@ namespace Terrain.WorldGen
                     float smallest = neighbourhood.Min();
                     map.OceanDistanceField[x, y] = smallest + 1;
                 }
+            //go from the other direction now
             for (int x = map.Width - 2; x > 0 ; x--)
                 for (int y = map.Height - 2; y > 0; y--)
                 {
+                    //iterate over 8 neighbours, pick the smallest, add 1
                     neighbourhood[0] = map.OceanDistanceField[x - 1, y - 1];
                     neighbourhood[1] = map.OceanDistanceField[x, y - 1];
                     neighbourhood[2] = map.OceanDistanceField[x + 1, y - 1];
@@ -415,6 +418,7 @@ namespace Terrain.WorldGen
                     neighbourhood[7] = map.OceanDistanceField[x + 1, y + 1];
                     float smallest = neighbourhood.Min();
                     map.OceanDistanceField[x, y] = smallest + 1;
+                    //find the furthest value - use it as a 1 in the next step
                     if (Highest < smallest + 1)
                         Highest = smallest + 1;
                 }
@@ -431,12 +435,18 @@ namespace Terrain.WorldGen
 
         public static void DoTemperature(WorldMap map)
         {
+            //closer to the ocean the temperature "wants" to be more average
+            float oceaninfluence = 0.25f;
             float step = 1f/(float)map.Height;
             for(int x=0;x<map.Width;x++)
                 for(int y=0;y<map.Height;y++)
                 {
-
-
+                    float oceandist = map.OceanDistanceField[x, y];
+                    oceandist *= oceaninfluence;
+                    oceandist += (1f - oceaninfluence);
+                    float gradient = (float)y * step;
+                    float temp = MathHelper.Lerp(0.5f, gradient, oceandist);
+                    map.TemperatureData[x, y] = temp;
                 }
         }
 

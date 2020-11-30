@@ -134,14 +134,14 @@ namespace Terrain
                         }
                         else
                         {
-                            Do3SideRiver(X, Y, RIVER_SIDE_LEFT);
+                            Do3SideRiver(X, Y, RIVER_SIDE_RIGHT);
                         }
                     }
                     else
                     {   //TBrL
                         if (L)
                         {
-                            Do3SideRiver(X, Y, RIVER_SIDE_RIGHT);
+                            Do3SideRiver(X, Y, RIVER_SIDE_LEFT);
                         }
                         else
                         {
@@ -155,7 +155,7 @@ namespace Terrain
                     {   //TbRL
                         if (L)
                         {
-                            Do3SideRiver(X, Y, RIVER_SIDE_BOTTOM);
+                            Do3SideRiver(X, Y, RIVER_SIDE_TOP);
                         }
                         else
                         {
@@ -183,7 +183,7 @@ namespace Terrain
                     {   //tBRL
                         if (L)
                         {
-                            Do3SideRiver(X, Y, RIVER_SIDE_TOP);
+                            Do3SideRiver(X, Y, RIVER_SIDE_BOTTOM);
                         }
                         else
                         {
@@ -447,6 +447,80 @@ namespace Terrain
         }
         public void Do3SideRiver(int X, int Y, int side)
         {
+            TerrainVertex[] Original = new TerrainVertex[_vertices.Length];
+            _vertices.CopyTo(Original, 0);
+            TerrainVertex[] Layer1 = new TerrainVertex[_vertices.Length];
+            TerrainVertex[] Layer2 = new TerrainVertex[_vertices.Length];
+            switch (side)
+            {
+                case RIVER_SIDE_BOTTOM:
+                    {
+                        DoCurvedRiver(X, Y, RIVER_CORNER_BL);
+                        _vertices.CopyTo(Layer1, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoCurvedRiver(X, Y, RIVER_CORNER_BR);
+                        _vertices.CopyTo(Layer2, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoStraightRiver(X, Y, true);
+                        break;
+                    }
+                case RIVER_SIDE_TOP:
+                    {
+                        DoCurvedRiver(X, Y, RIVER_CORNER_TL);
+                        _vertices.CopyTo(Layer1, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoCurvedRiver(X, Y, RIVER_CORNER_TR);
+                        _vertices.CopyTo(Layer2, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoStraightRiver(X, Y, true);
+                        break;
+                    }
+                case RIVER_SIDE_RIGHT:
+                    {
+                        DoCurvedRiver(X, Y, RIVER_CORNER_TR);
+                        _vertices.CopyTo(Layer1, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoCurvedRiver(X, Y, RIVER_CORNER_BR);
+                        _vertices.CopyTo(Layer2, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoStraightRiver(X, Y, false);
+                        break;
+                    }
+                default:
+                    {
+                        DoCurvedRiver(X, Y, RIVER_CORNER_TL);
+                        _vertices.CopyTo(Layer1, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoCurvedRiver(X, Y, RIVER_CORNER_BL);
+                        _vertices.CopyTo(Layer2, 0);
+                        Original.CopyTo(_vertices, 0);
+                        DoStraightRiver(X, Y, false);
+                        break;
+                    }
+            }
+
+            for (int x = 0; x < (BlockSize + 1 + 2); x++)
+                for (int y = 0; y < (BlockSize + 1 + 2); y++)
+                {
+                    TerrainVertex a = _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))];
+                    TerrainVertex b = Layer1[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))];
+                    TerrainVertex c = Layer2[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))];
+                    Vector3 o = a.Position;
+                    float H = o.Y;
+                    float L1 = b.Position.Y;
+                    float L2 = c.Position.Y;
+                    float Z = a.MultiTexData.Z;
+                    if (Z < b.MultiTexData.Z)
+                        Z = b.MultiTexData.Z;
+                    if (Z < c.MultiTexData.Z)
+                        Z = c.MultiTexData.Z;
+                    if (H > L1)
+                        H = L1;
+                    if (H > L2)
+                        H = L2;
+                    _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Position = new Vector3(o.X, H, o.Z);
+                }
+
 
         }
         public void DoRiverPond(int X, int Y)
@@ -746,15 +820,17 @@ namespace Terrain
             //return v;
             try
             {
-                v.Color = Map.GetTerrainColour(DX, DY);
+                v.Color = Map.GetGrassColour(DX, DY);
                 isRiver = Map.TileData[DX, DY] == WorldMap.TileType.River;
+                
             }
             catch (Exception)
             {
 
                 v.Color = Color.Red;
             }
-
+            if (v.Position.Y < 80f)
+                v.MultiTexData.Z = 1f;
             if (Elevation <= 0.0f&&!isRiver)
                 H = 70f;
             return v;

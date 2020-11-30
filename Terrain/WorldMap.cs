@@ -54,7 +54,7 @@ namespace Terrain
                 case TileType.Plain:
                     return TILE_PLAIN;
                 case TileType.River:
-                    return TILE_PLAIN;
+                    return TILE_RIVER;
                 case TileType.Lake:
                     return TILE_LAKE;
                 case TileType.Mountain:
@@ -117,13 +117,45 @@ namespace Terrain
         public Color GetTerrainColour(int x, int y)
         {
             TileType tile =TileData[x, y];
-            if (tile == TileType.Ocean)
-                return TILE_OCEAN;
-            float dOF = OceanDistanceField[x, y];
-            float R = MathHelper.Clamp(dOF * 2f, 0f, 1f);
-            float G = MathHelper.Clamp((1f-dOF) * 2f, 0f, 1f);
-            return new Color(R, G, 0);
-            return Color.Multiply(GetTileColour(TileData[x, y]), ((TileData[x, y] == TileType.Plain|| TileData[x, y] == TileType.River) ? MathHelper.Clamp(1f - ElevationData[x, y] * 0.5f, 0.5f, 1f) : 1f));
+            if (tile == TileType.Plain)
+                return GetGrassColour(x,y);
+            
+            return GetTileColour(TileData[x, y]);
+        }
+
+        public Color GetGrassColour(int x, int y)
+        {
+            float dOF = TemperatureData[x, y];
+
+
+
+            return ColourScale(dOF);
+        }
+
+        public Color ColourScale(float M)
+        {
+            float step = 0.25f;
+            Color A = new Color(0, 0, 255);
+            Color B = new Color(0, 255, 255);
+            Color C = new Color(0, 255, 0);
+            Color D = new Color(255, 255, 0);
+            Color E = new Color(255, 0, 0);
+            List<Color> Scale = new List<Color>();
+            Scale.Add(A);
+            Scale.Add(B);
+            Scale.Add(C);
+            Scale.Add(D);
+            Scale.Add(E);
+            step = 1f / (float)(Scale.Count() - 1);
+            int offset = 0;
+            for (int i = 0; i < Scale.Count - 1; i++)
+            { 
+                if (M < step)
+                    return Color.Lerp(Scale[offset+i], Scale[offset+1+i], M / step);
+                M -= step;
+
+            }
+            return Color.Black;
         }
     }
 }
