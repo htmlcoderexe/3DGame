@@ -82,6 +82,7 @@ namespace Terrain
         public float[,] TemperatureData { get; set; }
         public float[,] HumidityData { get; set; }
         public float[,] OceanDistanceField { get; set; }
+        public float[,] RiverDistanceField { get; set; }
         public static Color TILE_UNFILLED { get; }
         public static Color TILE_PLAIN { get; }
         public static Color TILE_RIVER { get; }
@@ -100,6 +101,7 @@ namespace Terrain
             TemperatureData= new float[Width, Height];
             HumidityData = new float[Width, Height];
             OceanDistanceField = new float[Width, Height];
+            RiverDistanceField = new float[Width, Height];
         }
 
         public Texture2D TilesToTexture(GraphicsDevice device)
@@ -125,9 +127,10 @@ namespace Terrain
 
         public Color GetGrassColour(int x, int y)
         {
-            float dOF = TemperatureData[x, y];
-
-
+            float dOF = OceanDistanceField[x, y];
+          // dOF = TemperatureData[x, y];
+            dOF = RiverDistanceField[x, y];
+            dOF = HumidityData[x, y];
 
             return ColourScale(dOF);
         }
@@ -135,12 +138,14 @@ namespace Terrain
         public Color ColourScale(float M)
         {
             float step = 0.25f;
+            Color Z = new Color(255, 0, 255);
             Color A = new Color(0, 0, 255);
             Color B = new Color(0, 255, 255);
             Color C = new Color(0, 255, 0);
             Color D = new Color(255, 255, 0);
             Color E = new Color(255, 0, 0);
             List<Color> Scale = new List<Color>();
+            Scale.Add(Z);
             Scale.Add(A);
             Scale.Add(B);
             Scale.Add(C);

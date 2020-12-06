@@ -21,13 +21,17 @@ namespace _3DGame
             Content.RootDirectory = "Content";
             //CurrentScene = new Scenes.Gameplay();
             CurrentScene = new Scenes.CreateWorld();
-            graphics.PreferredBackBufferHeight = 960;
-            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
 
             graphics.PreparingDeviceSettings += new System.EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
+           // graphics.IsFullScreen = true;
             Window.ClientSizeChanged += new System.EventHandler<System.EventArgs>(Window_ClientSizeChanged);
-            Window.AllowUserResizing = true;
+            //Window.AllowUserResizing = true;
+            Window.Position = new Point();
+            Window.IsBorderless = true;
             this.IsMouseVisible = true;
+            graphics.ApplyChanges();
         }
         void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {

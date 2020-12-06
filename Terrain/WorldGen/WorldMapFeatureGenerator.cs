@@ -9,6 +9,11 @@ namespace Terrain.WorldGen
 {
     public static class WorldMapFeatureGenerator
     {
+        public const int DIR_W = 0;
+        public const int DIR_N = 1;
+        public const int DIR_E = 2;
+        public const int DIR_S = 3;
+
 
         static IRandomProvider _rng;
 
@@ -20,6 +25,7 @@ namespace Terrain.WorldGen
         {
             get
             {
+                //Lazy init to default windows generator
                 if (_rng == null)
                     _rng = new WinRNG(Seed);
                 return _rng;
@@ -178,15 +184,21 @@ namespace Terrain.WorldGen
         /// <param name="amount">Amount of rivers</param>
         public static void DoRivers(WorldMap map, int amount)
         {
+            List<Point> l;
             for (int i = 0; i < amount; i++)
-                DoRiver(map);
+            {
+                l= DoRiver(map);
+                if (l.Count() < 2)
+                    i--;
+            }
+                
         }
 
         /// <summary>
         /// Creates a single random river
         /// </summary>
         /// <param name="map">WorldMap to use</param>
-        public static void DoRiver(WorldMap map)
+        public static List<Point> DoRiver(WorldMap map)
         {
             int x = 0;
             int y = 0;
@@ -289,6 +301,7 @@ namespace Terrain.WorldGen
                 if (map.TileData[p.X ,p.Y + 1] != WorldMap.TileType.River)
                     map.ElevationData[p.X, p.Y + 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[p.X , p.Y + 1], 0f, 999f)), 2f);
             }
+            return visited;
         }
 
         /// <summary>
@@ -372,7 +385,7 @@ namespace Terrain.WorldGen
 
 
 
-        public static void DoOceanDistanceField(WorldMap map)
+        public static float[,] DoDistanceField(WorldMap map, float[,] DistanceField, WorldMap.TileType Target)
         {
             //pass 1: set all to something stupid like 9999 except ocean
             float MAX = 9999f;
@@ -381,10 +394,10 @@ namespace Terrain.WorldGen
             for (int x = 0; x < map.Width; x++)
                 for (int y = 0; y < map.Height; y++)
                 {
-                    if (map.TileData[x, y] == WorldMap.TileType.Ocean)
-                        map.OceanDistanceField[x, y] = 0;
+                    if (map.TileData[x, y] == Target)
+                        DistanceField[x, y] = 0;
                     else
-                        map.OceanDistanceField[x, y] = MAX;
+                        DistanceField[x, y] = MAX;
 
                 }
             //pass 2 & 3: pathfind
@@ -392,45 +405,105 @@ namespace Terrain.WorldGen
                 for (int y = 1; y < map.Height - 1; y++)
                 {
                     //iterate over 8 neighbours, pick the smallest, add 1
-                    neighbourhood[0] = map.OceanDistanceField[x - 1, y - 1];
-                    neighbourhood[1] = map.OceanDistanceField[x, y - 1];
-                    neighbourhood[2] = map.OceanDistanceField[x + 1, y - 1];
-                    neighbourhood[3] = map.OceanDistanceField[x - 1, y];
-                    neighbourhood[4] = map.OceanDistanceField[x + 1, y];
-                    neighbourhood[5] = map.OceanDistanceField[x - 1, y + 1];
-                    neighbourhood[6] = map.OceanDistanceField[x, y + 1];
-                    neighbourhood[7] = map.OceanDistanceField[x + 1, y + 1];
+                    neighbourhood[0] = DistanceField[x - 1, y - 1];
+                    neighbourhood[1] = DistanceField[x, y - 1];
+                    neighbourhood[2] = DistanceField[x + 1, y - 1];
+                    neighbourhood[3] = DistanceField[x - 1, y];
+                    neighbourhood[4] = DistanceField[x + 1, y];
+                    neighbourhood[5] = DistanceField[x - 1, y + 1];
+                    neighbourhood[6] = DistanceField[x, y + 1];
+                    neighbourhood[7] = DistanceField[x + 1, y + 1];
                     float smallest = neighbourhood.Min();
-                    map.OceanDistanceField[x, y] = smallest + 1;
+                    if(smallest<MAX && smallest<DistanceField[x,y])
+                    DistanceField[x, y] = smallest + 1;
                 }
             //go from the other direction now
             for (int x = map.Width - 2; x > 0 ; x--)
                 for (int y = map.Height - 2; y > 0; y--)
                 {
                     //iterate over 8 neighbours, pick the smallest, add 1
-                    neighbourhood[0] = map.OceanDistanceField[x - 1, y - 1];
-                    neighbourhood[1] = map.OceanDistanceField[x, y - 1];
-                    neighbourhood[2] = map.OceanDistanceField[x + 1, y - 1];
-                    neighbourhood[3] = map.OceanDistanceField[x - 1, y];
-                    neighbourhood[4] = map.OceanDistanceField[x + 1, y];
-                    neighbourhood[5] = map.OceanDistanceField[x - 1, y + 1];
-                    neighbourhood[6] = map.OceanDistanceField[x, y + 1];
-                    neighbourhood[7] = map.OceanDistanceField[x + 1, y + 1];
+                    neighbourhood[0] = DistanceField[x - 1, y - 1];
+                    neighbourhood[1] = DistanceField[x, y - 1];
+                    neighbourhood[2] = DistanceField[x + 1, y - 1];
+                    neighbourhood[3] = DistanceField[x - 1, y];
+                    neighbourhood[4] = DistanceField[x + 1, y];
+                    neighbourhood[5] = DistanceField[x - 1, y + 1];
+                    neighbourhood[6] = DistanceField[x, y + 1];
+                    neighbourhood[7] = DistanceField[x + 1, y + 1];
                     float smallest = neighbourhood.Min();
-                    map.OceanDistanceField[x, y] = smallest + 1;
-                    //find the furthest value - use it as a 1 in the next step
-                    if (Highest < smallest + 1)
-                        Highest = smallest + 1;
+                    if (smallest < MAX && smallest < DistanceField[x, y])
+                    {
+
+                        DistanceField[x, y] = smallest + 1;
+                        //find the furthest value - use it as a 1 in the next step
+                        if (Highest < smallest + 1)
+                            Highest = smallest + 1;
+                    }
                 }
             //pass 4: normalisation
             if (Highest!=0)
             for (int x = 1; x < map.Width - 1; x++)
                 for (int y = 1; y < map.Height - 1; y++)
                 {
-                    map.OceanDistanceField[x, y] /= Highest;
+                    DistanceField[x, y] /= Highest;
                 }
+            return DistanceField;
         }
 
+        public static int LookRayTile(int X, int Y, int Direction, int distance, WorldMap map, WorldMap.TileType Tile)
+        {
+            int D = 9999;
+            int dX = 0;
+            int dY = 0;
+            if (Direction == DIR_E)
+                dX = 1;
+            if (Direction == DIR_W)
+                dX = -1;
+            if (Direction == DIR_N)
+                dY = -1;
+            if (Direction == DIR_S)
+                dY = 1;
+            for(int i=0;i<distance;i++)
+            {
+                X += dX;
+                Y += dY;
+                if (X < 0 || X >= map.Width || Y < 0 || Y > map.Height)
+                    return D;
+                WorldMap.TileType Target = map.TileData[X, Y];
+                if (Target == Tile)
+                    return i;
+            }
+
+            return D;
+        }
+
+        public static void DoHumidity(WorldMap map)
+        {
+            float waterinfluence = 0.95f;
+            float step = 1f / (float)map.Width;
+            for (int x = 0; x < map.Width; x++)
+                for (int y = 0; y < map.Height; y++)
+                {
+                    float O = map.OceanDistanceField[x, y];
+                    float R = map.RiverDistanceField[x, y];
+                    float H = Math.Min(O,R );
+                    H *= waterinfluence;
+                    H += (1f - waterinfluence);
+                    float G = (float)(map.Width-x) * step;
+                    int mntdist = LookRayTile(x,y,DIR_W, 10, map, WorldMap.TileType.Mountain);
+                    float mntinfluence = 1f;
+                    if(mntdist<=10)
+                    {
+                        mntinfluence = (float)mntdist / 10f;
+                    }
+                    G *= mntinfluence;
+                    float tmp = MathHelper.Lerp(0.5f, G, H);
+                   // tmp = O;
+                    map.HumidityData[x, y] = tmp;
+
+                }
+        }
+    
 
 
         public static void DoTemperature(WorldMap map)
@@ -448,6 +521,18 @@ namespace Terrain.WorldGen
                     float temp = MathHelper.Lerp(0.5f, gradient, oceandist);
                     map.TemperatureData[x, y] = temp;
                 }
+        }
+
+        public static void DoMountains(WorldMap map, int amount)
+        {
+            for(int i=0;i<amount;i++)
+            {
+                int X = RNG.NextInt(0, map.Width);
+                int Y = RNG.NextInt(0, map.Height);
+                WorldMap.TileType Target = map.TileData[X, Y];
+                if (Target != WorldMap.TileType.Ocean && Target != WorldMap.TileType.River)
+                    map.TileData[X, Y] = WorldMap.TileType.Mountain;
+            }
         }
 
     }

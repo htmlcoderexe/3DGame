@@ -15,6 +15,7 @@ namespace GameObject
         public float Pitch;
         public float Yaw;
         public float Distance;
+        public float FoV=45f;
         public Camera()
         {
             this.Position = new Vector3(0, 0, 0);
@@ -90,7 +91,7 @@ namespace GameObject
         {
             return Matrix.CreatePerspectiveFieldOfView(
            // MathHelper.ToRadians(_3drpg.Terrain.GameSettings.FOV),
-           MathHelper.ToRadians(30),
+           MathHelper.ToRadians(FoV),
             (float)GraphicsDevice.Viewport.Width /
             (float)GraphicsDevice.Viewport.Height,
             0.5f,

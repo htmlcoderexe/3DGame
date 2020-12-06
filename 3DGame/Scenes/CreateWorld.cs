@@ -67,10 +67,12 @@ namespace _3DGame.Scenes
                     if (map.TileData[x, y] == Terrain.WorldMap.TileType.Unfilled)
                         map.ElevationData[x, y] = 0.1f;
                         Terrain.WorldGen.WorldMapFeatureGenerator.Replace(map, Terrain.WorldMap.TileType.Unfilled, Terrain.WorldMap.TileType.Plain);
-            Terrain.WorldGen.WorldMapFeatureGenerator.DoOceanDistanceField(map);
+            map.OceanDistanceField=Terrain.WorldGen.WorldMapFeatureGenerator.DoDistanceField(map, map.OceanDistanceField, Terrain.WorldMap.TileType.Ocean);
+            Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 10);
+            map.RiverDistanceField=Terrain.WorldGen.WorldMapFeatureGenerator.DoDistanceField(map, map.RiverDistanceField, Terrain.WorldMap.TileType.River);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoTemperature(map);
-            Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 100);
-
+            Terrain.WorldGen.WorldMapFeatureGenerator.DoMountains(map, 6666);
+            Terrain.WorldGen.WorldMapFeatureGenerator.DoHumidity(map);
             map.TileData[36, 14] = Terrain.WorldMap.TileType.Beach;
             Texture2D result = map.TilesToTexture(device);
             CreateWorldAssets.Windows.MapWindow mw = new CreateWorldAssets.Windows.MapWindow(result);

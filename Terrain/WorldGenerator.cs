@@ -519,6 +519,7 @@ namespace Terrain
                     if (H > L2)
                         H = L2;
                     _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Position = new Vector3(o.X, H, o.Z);
+                    _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].MultiTexData.Z = Z;
                 }
 
 

@@ -533,7 +533,7 @@ namespace _3DGame.Scenes
             {
                 Player = new GameObject.MapEntities.Actors.Player(classes[0],skills)
             };
-            World.Terrain.RenderDistance = 3;
+            World.Terrain.RenderDistance = 5;
             World.Player.WorldSpawn = World;
             World.Player.Abilities[0].Level = 1;
             World.Player.Abilities[1].Level = 2;
