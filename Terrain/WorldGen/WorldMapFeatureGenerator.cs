@@ -479,7 +479,9 @@ namespace Terrain.WorldGen
 
         public static void DoHumidity(WorldMap map)
         {
-            float waterinfluence = 0.95f;
+            float waterinfluence = 0.80f;
+            float mntradius = 60f;
+            float mntinfluence = 0.75f;
             float step = 1f / (float)map.Width;
             for (int x = 0; x < map.Width; x++)
                 for (int y = 0; y < map.Height; y++)
@@ -490,13 +492,13 @@ namespace Terrain.WorldGen
                     H *= waterinfluence;
                     H += (1f - waterinfluence);
                     float G = (float)(map.Width-x) * step;
-                    int mntdist = LookRayTile(x,y,DIR_W, 10, map, WorldMap.TileType.Mountain);
-                    float mntinfluence = 1f;
-                    if(mntdist<=10)
+                    int mntdist = LookRayTile(x,y,DIR_W, (int)mntradius, map, WorldMap.TileType.Mountain);
+                    float mntrange = 1f;
+                    if(mntdist<=mntradius)
                     {
-                        mntinfluence = (float)mntdist / 10f;
+                        mntrange = (float)mntdist / mntradius;
                     }
-                    G *= mntinfluence;
+                    G *=(mntinfluence+ mntrange*(1f-mntinfluence));
                     float tmp = MathHelper.Lerp(0.5f, G, H);
                    // tmp = O;
                     map.HumidityData[x, y] = tmp;
@@ -525,7 +527,46 @@ namespace Terrain.WorldGen
 
         public static void DoMountains(WorldMap map, int amount)
         {
-            for(int i=0;i<amount;i++)
+            int cutoff = 200;
+            int cutoff2 = 160;
+            int cutoff3 = 128;
+            float MountainSizeDivisor = 1f / 32f;
+            float MountainSpreadDivisor = 1f / 128f;
+            float MountainFrequencyDivisor = 1f / 512f;
+            float Noise1 = 1f / 4f;
+            float Noise2 = 1f / 6f;
+            for (int x = 1; x < map.Width-1; x++)
+                for (int y = 1; y < map.Height-1; y++)
+                {
+                    int H = (int)Simplex.CalcPixel2D(x, y, MountainSizeDivisor);
+                    int M = (int)Simplex.CalcPixel2D(x, y, MountainFrequencyDivisor);
+                    int S = (int)Simplex.CalcPixel2D(x, y, MountainSpreadDivisor);
+                    int N1 = (int)Simplex.CalcPixel2D(x, y, Noise1);
+                    int N2 = (int)Simplex.CalcPixel2D(x, y, Noise2);
+                    if (H>cutoff && M>cutoff2 && S>cutoff3 &&N1>cutoff3 &&N2>cutoff3)
+                    {
+
+                        WorldMap.TileType Target = map.TileData[x, y];
+                        if (Target != WorldMap.TileType.Ocean && Target != WorldMap.TileType.River)
+                        {
+                            map.TileData[x, y] = WorldMap.TileType.Mountain;
+                            map.ElevationData[x, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y], 0f, 999f)), 1f/6f);
+
+                            if (map.TileData[x - 1, y] != WorldMap.TileType.Mountain)
+                                map.ElevationData[x - 1, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x - 1, y], 0f, 999f)), 1f/2f);
+                            if (map.TileData[x + 1,y] != WorldMap.TileType.Mountain)
+                                map.ElevationData[x + 1, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x + 1, y], 0f, 999f)), 1f / 2f);
+                            if (map.TileData[x, y - 1] != WorldMap.TileType.Mountain)
+                                map.ElevationData[x, y - 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y - 1], 0f, 999f)), 1f / 2f);
+                            if (map.TileData[x, y + 1] != WorldMap.TileType.Mountain)
+                                map.ElevationData[x,y + 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y + 1], 0f, 999f)), 1f / 2f);
+                        }
+                           
+                    }
+
+                }
+            /*/
+            for (int i=0;i<amount;i++)
             {
                 int X = RNG.NextInt(0, map.Width);
                 int Y = RNG.NextInt(0, map.Height);
@@ -533,6 +574,7 @@ namespace Terrain.WorldGen
                 if (Target != WorldMap.TileType.Ocean && Target != WorldMap.TileType.River)
                     map.TileData[X, Y] = WorldMap.TileType.Mountain;
             }
+            //*/
         }
 
     }
