@@ -47,6 +47,8 @@
     <Compile Include="Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldGenerator.cs" />
+    <Compile Include="WorldGen\Delaunay.cs" />
+    <Compile Include="WorldGen\DisjointTree.cs" />
     <Compile Include="WorldGen\IRandomProvider.cs" />
     <Compile Include="WorldGen\Perlin.cs" />
     <Compile Include="WorldGen\Simplex.cs" />

@@ -182,16 +182,24 @@ namespace Terrain.WorldGen
         /// </summary>
         /// <param name="map">WorldMap to use</param>
         /// <param name="amount">Amount of rivers</param>
-        public static void DoRivers(WorldMap map, int amount)
+        public static List<Point> DoRivers(WorldMap map, int amount)
         {
             List<Point> l;
+            List<Point> all = new List<Point>();
             for (int i = 0; i < amount; i++)
             {
                 l= DoRiver(map);
-                if (l.Count() < 2)
+                if (l.Count() > 1)
+                {
+                    all.AddRange(l);
+                }
+                else
+                {
                     i--;
+                }
+                    
             }
-                
+            return all;
         }
 
         /// <summary>
@@ -375,6 +383,12 @@ namespace Terrain.WorldGen
             FloodFill(map, 1, 1, WorldMap.TileType.Unfilled, WorldMap.TileType.Ocean);
         }
 
+        /// <summary>
+        /// Simple search and replace.
+        /// </summary>
+        /// <param name="map">Working map</param>
+        /// <param name="From">Tile to replace</param>
+        /// <param name="To">Replacement tile</param>
         public static void Replace(WorldMap map, WorldMap.TileType From, WorldMap.TileType To)
         {
             for (int x = 0; x < map.Width; x++)
@@ -384,10 +398,16 @@ namespace Terrain.WorldGen
         }
 
 
-
+        /// <summary>
+        /// Populates a float 2D array with distance values on a given map from given tile type
+        /// </summary>
+        /// <param name="map">Working map</param>
+        /// <param name="DistanceField">Initial 2D distance field</param>
+        /// <param name="Target">Tile to calculate distances from</param>
+        /// <returns>Computed 2D array distance field</returns>
         public static float[,] DoDistanceField(WorldMap map, float[,] DistanceField, WorldMap.TileType Target)
         {
-            //pass 1: set all to something stupid like 9999 except ocean
+            //pass 1: set all to something stupid like 9999 except target
             float MAX = 9999f;
             float Highest = 0f;
             float[] neighbourhood = new float[8];
@@ -414,6 +434,7 @@ namespace Terrain.WorldGen
                     neighbourhood[6] = DistanceField[x, y + 1];
                     neighbourhood[7] = DistanceField[x + 1, y + 1];
                     float smallest = neighbourhood.Min();
+                    //do not make any changes if no neighbours are lower and not the default value
                     if(smallest<MAX && smallest<DistanceField[x,y])
                     DistanceField[x, y] = smallest + 1;
                 }
@@ -431,11 +452,12 @@ namespace Terrain.WorldGen
                     neighbourhood[6] = DistanceField[x, y + 1];
                     neighbourhood[7] = DistanceField[x + 1, y + 1];
                     float smallest = neighbourhood.Min();
+                    //do not make any changes if no neighbours are lower and not the default value
                     if (smallest < MAX && smallest < DistanceField[x, y])
                     {
-
+                        //add 1 to the distance - regardless if diagonal or straight
                         DistanceField[x, y] = smallest + 1;
-                        //find the furthest value - use it as a 1 in the next step
+                        //find the furthest value - use it for scaling down to highest being 1.0f and lowest being 0.0f
                         if (Highest < smallest + 1)
                             Highest = smallest + 1;
                     }
@@ -450,7 +472,18 @@ namespace Terrain.WorldGen
             return DistanceField;
         }
 
-        public static int LookRayTile(int X, int Y, int Direction, int distance, WorldMap map, WorldMap.TileType Tile)
+
+        /// <summary>
+        /// Check for presence of a specific tile type in a specific direction (orthogonal)
+        /// </summary>
+        /// <param name="map">Working map</param>
+        /// <param name="X">Starting point</param>
+        /// <param name="Y">Starting point</param>
+        /// <param name="Direction">Direction 0,1,2,3 - West is 0 and then clockwise</param>
+        /// <param name="distance">Maximum distance to look</param>
+        /// <param name="Tile"></param>
+        /// <returns>distance or 9999 if not found</returns>
+        public static int LookRayTile(WorldMap map, int X, int Y, int Direction, int distance,  WorldMap.TileType Tile)
         {
             int D = 9999;
             int dX = 0;
@@ -477,6 +510,12 @@ namespace Terrain.WorldGen
             return D;
         }
 
+
+
+        /// <summary>
+        /// Computes humidity based on water distance, wind gradient (fixed) and mountain rain shadows.
+        /// </summary>
+        /// <param name="map">Working map</param>
         public static void DoHumidity(WorldMap map)
         {
             float waterinfluence = 0.80f;
@@ -492,7 +531,7 @@ namespace Terrain.WorldGen
                     H *= waterinfluence;
                     H += (1f - waterinfluence);
                     float G = (float)(map.Width-x) * step;
-                    int mntdist = LookRayTile(x,y,DIR_W, (int)mntradius, map, WorldMap.TileType.Mountain);
+                    int mntdist = LookRayTile(map, x,y,DIR_W, (int)mntradius,  WorldMap.TileType.Mountain);
                     float mntrange = 1f;
                     if(mntdist<=mntradius)
                     {
@@ -507,7 +546,10 @@ namespace Terrain.WorldGen
         }
     
 
-
+        /// <summary>
+        /// Computes temperature based on ocean distance and heat gradient (fixed, colder North and hotter South)
+        /// </summary>
+        /// <param name="map">Working map</param>
         public static void DoTemperature(WorldMap map)
         {
             //closer to the ocean the temperature "wants" to be more average
@@ -525,6 +567,11 @@ namespace Terrain.WorldGen
                 }
         }
 
+        /// <summary>
+        /// Places mountain tiles
+        /// </summary>
+        /// <param name="map">Working map</param>
+        /// <param name="amount">Amount to place - currently unused</param>
         public static void DoMountains(WorldMap map, int amount)
         {
             int cutoff = 200;
@@ -550,16 +597,17 @@ namespace Terrain.WorldGen
                         if (Target != WorldMap.TileType.Ocean && Target != WorldMap.TileType.River)
                         {
                             map.TileData[x, y] = WorldMap.TileType.Mountain;
-                            map.ElevationData[x, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y], 0f, 999f)), 1f/6f);
-
+                            //greatly raise actual mountain tiles
+                            map.ElevationData[x, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y], 0f, 999f)), 1f/10f);
+                            //raise tiles around them too
                             if (map.TileData[x - 1, y] != WorldMap.TileType.Mountain)
-                                map.ElevationData[x - 1, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x - 1, y], 0f, 999f)), 1f/2f);
+                                map.ElevationData[x - 1, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x - 1, y], 0f, 999f)), 1f/3f);
                             if (map.TileData[x + 1,y] != WorldMap.TileType.Mountain)
-                                map.ElevationData[x + 1, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x + 1, y], 0f, 999f)), 1f / 2f);
+                                map.ElevationData[x + 1, y] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x + 1, y], 0f, 999f)), 1f / 3f);
                             if (map.TileData[x, y - 1] != WorldMap.TileType.Mountain)
-                                map.ElevationData[x, y - 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y - 1], 0f, 999f)), 1f / 2f);
+                                map.ElevationData[x, y - 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y - 1], 0f, 999f)), 1f / 3f);
                             if (map.TileData[x, y + 1] != WorldMap.TileType.Mountain)
-                                map.ElevationData[x,y + 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y + 1], 0f, 999f)), 1f / 2f);
+                                map.ElevationData[x,y + 1] = (float)Math.Pow((MathHelper.Clamp(map.ElevationData[x, y + 1], 0f, 999f)), 1f / 3f);
                         }
                            
                     }
@@ -576,6 +624,26 @@ namespace Terrain.WorldGen
             }
             //*/
         }
+
+
+        public static Point PlaceTown(WorldMap map, List<Point> Previous, float Separation, List<Point> Rivers)
+        {
+            Point T= new Point(0, 0);
+
+            while(true)
+            {
+                int X = RNG.NextInt(0, map.Width);
+                int Y = RNG.NextInt(0, map.Height);
+            }
+
+            return T;
+        }
+
+
+
+
+
+
 
     }
 }

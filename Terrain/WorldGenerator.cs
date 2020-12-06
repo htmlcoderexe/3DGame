@@ -817,23 +817,27 @@ namespace Terrain
             H += random2;
             //*/
             bool isRiver = false;
-            v.Position.Y = H;// 90f;// H;
+            bool isMountain = false;// 90f;// H;
             //return v;
             try
             {
                 v.Color = Map.GetGrassColour(DX, DY);
                 isRiver = Map.TileData[DX, DY] == WorldMap.TileType.River;
-                
+                isMountain = Map.TileData[DX, DY] == WorldMap.TileType.Mountain;
+
             }
             catch (Exception)
             {
 
                 v.Color = Color.Red;
             }
+         //   if (Elevation <= 0.0f&&!isRiver)
+           //     H = 70f;
+
+            v.Position.Y = H;
+
             if (v.Position.Y < 80f)
                 v.MultiTexData.Z = 1f;
-            if (Elevation <= 0.0f&&!isRiver)
-                H = 70f;
             return v;
         }
         #endregion
