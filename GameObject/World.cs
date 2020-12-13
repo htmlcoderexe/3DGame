@@ -87,21 +87,30 @@ namespace GameObject
             if (Player.Gravity)
             SetGravity(Player,dT);
         }
+        /// <summary>
+        /// Drops the entity if it is not flying and or sticks it to the terrain
+        /// </summary>
+        /// <param name="e">Entity</param>
+        /// <param name="dT">Time amount</param>
         private void SetGravity(MapEntity e, float dT)
         {
             if(e.Gravity && !e.OnGround)
             {
+                //non-flying and not stuck to terrain
                 e.VerticalSpeed -= GravityAcceleration * dT;
             }
             else
             {
+                //for now set to 0, eventually only do it for stuck entities - fliers may use this
                 e.VerticalSpeed = 0;
             }
             float h = 0.0f;
             float len = 0.2f;
+            //get the horisontal angle in rad
             Matrix yaw = Matrix.CreateRotationY(-e.Heading * (float)Math.PI / 180f);
+            //center point height
             h = Terrain.GetHeight(e.Position.Truncate(), e.Position.Reference());
-           
+            //sample a cross shape of heights around centre to determine tilting for entities that follow terrain curve
             WorldPosition fp = e.Position+Vector3.Transform(new Vector3(0.1f, 0, 0), yaw);
             WorldPosition bp = e.Position + Vector3.Transform(new Vector3(-0.1f, 0, 0), yaw);
             WorldPosition lp = e.Position + Vector3.Transform(new Vector3(0, 0, -0.1f), yaw);
@@ -112,7 +121,7 @@ namespace GameObject
             b = Terrain.GetHeight(bp.Truncate(), bp.Reference());
             l = Terrain.GetHeight(lp.Truncate(), lp.Reference());
             r = Terrain.GetHeight(rp.Truncate(), rp.Reference());
-
+            //if entity is lower than terrain, set it to terrain
             if (e.Position.Y < h )
             {
                 e.Position.Y = h;
@@ -120,6 +129,7 @@ namespace GameObject
                 e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r), len));
                 e.OnGround = true;
             }
+            //if entity is stuck to ground, keep it stuck and aligned
             else if(e.OnGround)
             {
                 e.Position.Y = h;
@@ -127,13 +137,23 @@ namespace GameObject
                 e.Roll = MathHelper.ToDegrees((float)Math.Atan2((l - r), len));
 
             }
+            //anything else
             else
             {
+                e.Roll = 0;
+                e.Pitch = 0;
                 e.OnGround = false;
+            }
+            //reset if not sticking to terrain: #TODO refactor the branching so we don't have to do it
+            if(!e.StickToTerrainCurvature)
+            {
+
+                e.Roll = 0;
+                e.Pitch = 0;
             }
         }
         private void UpdateEntities(float dT)
-        {
+        {  
             MapEntity e;
             int i = 0;
             while(i<this.Entities.Count)
