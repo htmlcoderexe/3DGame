@@ -27,7 +27,7 @@ namespace GameObject
         float aTimer = 0;
         public bool Gravity;
         public bool StickToTerrainCurvature;
-        public float Heading;
+        public float Heading; 
         public float Roll;
         public Action<MapEntity> DeathCallback;
         public float Pitch
@@ -129,10 +129,17 @@ namespace GameObject
         public virtual void Update(float dT)
         {
             // this.Heading += dT*10;
+            float dH = 0.1f;
             Vector3 Movevector = new Vector3(dT, 0, 0);
             Vector3 advance = Point(Movevector, OnGround || Gravity);
-            this.Position += advance*Speed;
-            if(!OnGround && Gravity)
+            Interfaces.WorldPosition next = this.Position + advance * Speed;
+
+            float h1 = WorldSpawn.Terrain.GetHeight(this.Position.Truncate(), this.Position.Reference());
+            float h2 = WorldSpawn.Terrain.GetHeight(next.Truncate(), next.Reference());
+            if (h2-h1 < dH)
+                this.Position = next;
+
+            if (!OnGround && Gravity)
             this.Position.Y+= this.VerticalSpeed*dT;
             if(this.Model!=null)
             {
