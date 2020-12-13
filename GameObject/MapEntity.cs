@@ -26,6 +26,7 @@ namespace GameObject
         public Interfaces.WorldPosition Position;
         float aTimer = 0;
         public bool Gravity;
+        public bool StickToTerrainCurvature;
         public float Heading;
         public float Roll;
         public Action<MapEntity> DeathCallback;
