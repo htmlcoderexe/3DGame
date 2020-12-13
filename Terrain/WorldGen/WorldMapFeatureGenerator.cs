@@ -518,7 +518,7 @@ namespace Terrain.WorldGen
         /// <param name="map">Working map</param>
         public static void DoHumidity(WorldMap map)
         {
-            float waterinfluence = 0.80f;
+            float waterinfluence = 0.99980f;
             float mntradius = 60f;
             float mntinfluence = 0.75f;
             float step = 1f / (float)map.Width;
@@ -528,8 +528,9 @@ namespace Terrain.WorldGen
                     float O = map.OceanDistanceField[x, y];
                     float R = map.RiverDistanceField[x, y];
                     float H = Math.Min(O,R );
-                    H *= waterinfluence;
-                    H += (1f - waterinfluence);
+                    //H *= waterinfluence;
+                    //  H += (1f - waterinfluence);
+                    H = 1f - H;
                     float G = (float)(map.Width-x) * step;
                     int mntdist = LookRayTile(map, x,y,DIR_W, (int)mntradius,  WorldMap.TileType.Mountain);
                     float mntrange = 1f;
@@ -538,8 +539,9 @@ namespace Terrain.WorldGen
                         mntrange = (float)mntdist / mntradius;
                     }
                     G *=(mntinfluence+ mntrange*(1f-mntinfluence));
-                    float tmp = MathHelper.Lerp(0.5f, G, H);
-                   // tmp = O;
+                    float tmp = Math.Max(G, H);
+                     //tmp = H;
+                    tmp = (float)Math.Pow(tmp,4);
                     map.HumidityData[x, y] = tmp;
 
                 }
@@ -562,8 +564,10 @@ namespace Terrain.WorldGen
                     oceandist *= oceaninfluence;
                     oceandist += (1f - oceaninfluence);
                     float gradient = (float)y * step;
-                    float temp = MathHelper.Lerp(0.5f, gradient, oceandist);
-                    map.TemperatureData[x, y] = temp;
+                    float tmp = MathHelper.Lerp(0.5f, gradient, oceandist);
+                    // temp = 1f;
+                    tmp = (float)Math.Pow(tmp, 1f/2f);
+                    map.TemperatureData[x, y] = tmp;
                 }
         }
 
@@ -626,17 +630,53 @@ namespace Terrain.WorldGen
         }
 
 
-        public static Point PlaceTown(WorldMap map, List<Point> Previous, float Separation, List<Point> Rivers)
+        public static Point PlaceTown(WorldMap map, List<Point> Previous, float Separation, List<Point> Rivers, float RiverPreference)
         {
-            Point T= new Point(0, 0);
-
-            while(true)
+            int X=0;
+            int Y=0;
+            bool found = false;
+            while(!found)
             {
-                int X = RNG.NextInt(0, map.Width);
-                int Y = RNG.NextInt(0, map.Height);
+                X = RNG.NextInt(0, map.Width);
+                Y = RNG.NextInt(0, map.Height);
+                Vector2 current = new Vector2(X, Y);
+                float dist = 9999f;
+                float smallest = dist;
+                foreach(Point p in Rivers)
+                {
+                    Vector2 rpoint = new Vector2(p.X, p.Y);
+                    dist = (rpoint - current).Length();
+                    if(dist<RiverPreference && dist< smallest)
+                    {
+                        smallest = dist;
+                        X = p.X;
+                        Y = p.Y;
+                    }
+                }
+                current = new Vector2(X, Y);
+                foreach (Point p in Previous)
+                {
+                    Vector2 rpoint = new Vector2(p.X, p.Y);
+                    dist = (rpoint - current).Length();
+                    if (dist < Separation)
+                        continue;
+                }
+                found = true;
             }
 
-            return T;
+            return new Point(X, Y);
+        }
+
+        public static List<Point> PlaceTownCentres(WorldMap map, int amount, float Separation, List<Point> Rivers, float RiverPreference)
+        {
+            List<Point> Centres = new List<Point>();
+
+            for(int i=0;i<amount;i++)
+            {
+                Centres.Add(PlaceTown(map, Centres, Separation, Rivers, RiverPreference));
+            }
+
+            return Centres;
         }
 
 

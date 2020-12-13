@@ -54,6 +54,10 @@ namespace _3DGame.Scenes
             b = new SpriteBatch(device);
 
             map = new Terrain.WorldMap(800, 800);
+            Texture2D colortex= Texture2D.FromStream(device, new System.IO.FileStream("graphics\\minecraftgrass.png", System.IO.FileMode.Open));
+            map.ColourMap = new Color[colortex.Width * colortex.Height];
+            colortex.GetData<Color>(map.ColourMap);
+            map.ColourMapSize = new Point(colortex.Width, colortex.Height);
             int seed = new System.Random().Next(100);
             Terrain.WorldGen.Simplex.Seed = seed;
             Terrain.WorldGen.WorldMapFeatureGenerator.Seed = seed;
@@ -68,11 +72,12 @@ namespace _3DGame.Scenes
                         map.ElevationData[x, y] = 0.1f;
                         Terrain.WorldGen.WorldMapFeatureGenerator.Replace(map, Terrain.WorldMap.TileType.Unfilled, Terrain.WorldMap.TileType.Plain);
             map.OceanDistanceField=Terrain.WorldGen.WorldMapFeatureGenerator.DoDistanceField(map, map.OceanDistanceField, Terrain.WorldMap.TileType.Ocean);
-            Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 10);
+            List<Point> rivers=Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 10);
             map.RiverDistanceField=Terrain.WorldGen.WorldMapFeatureGenerator.DoDistanceField(map, map.RiverDistanceField, Terrain.WorldMap.TileType.River);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoTemperature(map);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoMountains(map, 6666);
             Terrain.WorldGen.WorldMapFeatureGenerator.DoHumidity(map);
+            map.Towns=Terrain.WorldGen.WorldMapFeatureGenerator.PlaceTownCentres(map, 200, 60, rivers, 30);
             map.TileData[36, 14] = Terrain.WorldMap.TileType.Beach;
             Texture2D result = map.TilesToTexture(device);
             CreateWorldAssets.Windows.MapWindow mw = new CreateWorldAssets.Windows.MapWindow(result);

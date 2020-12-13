@@ -90,7 +90,10 @@ namespace Terrain
         public static Color TILE_MOUNTAIN { get; }
         public static Color TILE_BEACH { get; }
         public static Color TILE_OCEAN { get; }
-
+        public Color[] ColourMap;
+        public Point ColourMapSize;
+        public List<Point> Towns;
+        public Dictionary<int, WorldGen.WorldComponents.Location> Locations;
         public WorldMap(int Height, int Width)
         {
             this.Height = Height;
@@ -102,6 +105,8 @@ namespace Terrain
             HumidityData = new float[Width, Height];
             OceanDistanceField = new float[Width, Height];
             RiverDistanceField = new float[Width, Height];
+            this.Locations = new Dictionary<int, WorldGen.WorldComponents.Location>();
+            Towns = new List<Point>();
         }
 
         public Texture2D TilesToTexture(GraphicsDevice device)
@@ -118,21 +123,30 @@ namespace Terrain
         }
         public Color GetTerrainColour(int x, int y)
         {
+            if (Towns.Contains(new Point(x, y)))
+                return Color.Magenta;
             TileType tile =TileData[x, y];
             if (tile == TileType.Plain)
                 return GetGrassColour(x,y);
-            
             return GetTileColour(TileData[x, y]);
         }
 
         public Color GetGrassColour(int x, int y)
         {
-            float dOF = OceanDistanceField[x, y];
+            //float dOF = OceanDistanceField[x, y];
           // dOF = TemperatureData[x, y];
-            dOF = RiverDistanceField[x, y];
-            dOF = HumidityData[x, y];
-
-            return ColourScale(dOF);
+            //dOF = RiverDistanceField[x, y];
+            float H = HumidityData[x, y];
+            float T = TemperatureData[x, y];
+            H *= T;
+            H = 1f - H;
+            T = 1f - T;
+            H *= ColourMapSize.Y;
+            T *= ColourMapSize.X;
+            int tX = (int)T;
+            int tY = (int)H;
+            return ColourMap[tX + tY * ColourMapSize.X];
+            //return ColourScale(dOF);
         }
 
         public Color ColourScale(float M)
