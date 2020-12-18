@@ -78,7 +78,7 @@ namespace _3DGame.Scenes
             WorldMapFeatureGenerator.DoTemperature(map);
             WorldMapFeatureGenerator.DoMountains(map, 6666);
             WorldMapFeatureGenerator.DoHumidity(map);
-            map.Towns=WorldMapFeatureGenerator.PlaceTownCentres(map, 200, 60, rivers, 30);
+            map.Towns=WorldMapFeatureGenerator.PlaceTownCentres(map, 50, 60, rivers, 30);
             WorldMapFeatureGenerator.GrowTowns(map, 3, 20);
             map.TileData[36, 14] = Terrain.WorldMap.TileType.Beach;
             Texture2D result = map.TilesToTexture(device);

@@ -662,6 +662,8 @@ namespace Terrain.WorldGen
                     if (dist < Separation)
                         continue;
                 }
+                if (map.OceanDistanceField[X, Y] == 0)
+                    continue;
                 found = true;
             }
 
@@ -707,6 +709,8 @@ namespace Terrain.WorldGen
         public static void GrowTown(WorldMap map, int Min, int Max, Point Centre)
         {
             int amount = RNG.NextInt(Min, Max);
+            amount = (int)((float)amount*(float)amount/(float)Max);
+            amount = (int)MathHelper.Max(Min, amount);
             int LocationID = map.Locations.Count();
             List<Point> Town = new List<Point>{Centre};
             for (int i=0;i<amount;i++)
