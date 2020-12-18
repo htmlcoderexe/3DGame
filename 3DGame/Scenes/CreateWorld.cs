@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Terrain.WorldGen;
 
 namespace _3DGame.Scenes
 {
@@ -59,25 +60,26 @@ namespace _3DGame.Scenes
             colortex.GetData<Color>(map.ColourMap);
             map.ColourMapSize = new Point(colortex.Width, colortex.Height);
             int seed = new System.Random().Next(100);
-            Terrain.WorldGen.Simplex.Seed = seed;
-            Terrain.WorldGen.WorldMapFeatureGenerator.Seed = seed;
-            //Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 440);
-            //Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 500, 320, 240);
-            //Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 430, 500, 350, 200);
-            Terrain.WorldGen.WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 640);
-            Terrain.WorldGen.WorldMapFeatureGenerator.FillOcean(map);
+            Simplex.Seed = seed;
+            WorldMapFeatureGenerator.Seed = seed;
+            //WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 440);
+            //WorldMapFeatureGenerator.MakeEllipse(map, 30, 500, 320, 240);
+            //WorldMapFeatureGenerator.MakeEllipse(map, 430, 500, 350, 200);
+            WorldMapFeatureGenerator.MakeEllipse(map, 30, 30, 720, 640);
+            WorldMapFeatureGenerator.FillOcean(map);
             for (int x = 0; x < map.Width; x++)
                 for (int y = 0; y < map.Height; y++)
                     if (map.TileData[x, y] == Terrain.WorldMap.TileType.Unfilled)
                         map.ElevationData[x, y] = 0.1f;
-                        Terrain.WorldGen.WorldMapFeatureGenerator.Replace(map, Terrain.WorldMap.TileType.Unfilled, Terrain.WorldMap.TileType.Plain);
-            map.OceanDistanceField=Terrain.WorldGen.WorldMapFeatureGenerator.DoDistanceField(map, map.OceanDistanceField, Terrain.WorldMap.TileType.Ocean);
-            List<Point> rivers=Terrain.WorldGen.WorldMapFeatureGenerator.DoRivers(map, 10);
-            map.RiverDistanceField=Terrain.WorldGen.WorldMapFeatureGenerator.DoDistanceField(map, map.RiverDistanceField, Terrain.WorldMap.TileType.River);
-            Terrain.WorldGen.WorldMapFeatureGenerator.DoTemperature(map);
-            Terrain.WorldGen.WorldMapFeatureGenerator.DoMountains(map, 6666);
-            Terrain.WorldGen.WorldMapFeatureGenerator.DoHumidity(map);
-            map.Towns=Terrain.WorldGen.WorldMapFeatureGenerator.PlaceTownCentres(map, 200, 60, rivers, 30);
+                        WorldMapFeatureGenerator.Replace(map, Terrain.WorldMap.TileType.Unfilled, Terrain.WorldMap.TileType.Plain);
+            map.OceanDistanceField=WorldMapFeatureGenerator.DoDistanceField(map, map.OceanDistanceField, Terrain.WorldMap.TileType.Ocean);
+            List<Point> rivers=WorldMapFeatureGenerator.DoRivers(map, 10);
+            map.RiverDistanceField=WorldMapFeatureGenerator.DoDistanceField(map, map.RiverDistanceField, Terrain.WorldMap.TileType.River);
+            WorldMapFeatureGenerator.DoTemperature(map);
+            WorldMapFeatureGenerator.DoMountains(map, 6666);
+            WorldMapFeatureGenerator.DoHumidity(map);
+            map.Towns=WorldMapFeatureGenerator.PlaceTownCentres(map, 200, 60, rivers, 30);
+            WorldMapFeatureGenerator.GrowTowns(map, 3, 20);
             map.TileData[36, 14] = Terrain.WorldMap.TileType.Beach;
             Texture2D result = map.TilesToTexture(device);
             CreateWorldAssets.Windows.MapWindow mw = new CreateWorldAssets.Windows.MapWindow(result);

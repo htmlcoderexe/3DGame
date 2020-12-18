@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Terrain.WorldGen;
+using Terrain.WorldGen.WorldComponents;
 
 namespace Terrain
 {
@@ -103,7 +104,8 @@ namespace Terrain
             {
                 if (Map.TileData[X, Y] == WorldMap.TileType.River)
                     DoRiver(X, Y);
-
+                Location l = Map.Locations[Map.LocationData[X, Y]];
+                BlockTitle = l.Name + " " + l.Modifier ?? "";
             }
             catch (Exception)
             {
@@ -254,7 +256,7 @@ namespace Terrain
             slideB -= 0.5f;
             widthA = MathHelper.Clamp(widthA, rivermin, rivermax);
             widthB = MathHelper.Clamp(widthB, rivermin, rivermax);
-
+            /*
             if(Horizontal)
             {
                 BlockTitle = "LW:" + widthA.ToString("F2") + " RW:" + widthB.ToString("F2") + " LS: " + slideA.ToString("F2") + " RS:" + slideB.ToString("F2");
@@ -264,6 +266,7 @@ namespace Terrain
                 BlockTitle = "TW:" + widthA.ToString("F2") + " BW:" + widthB.ToString("F2") + " TS: " + slideA.ToString("F2") + " BS:" + slideB.ToString("F2");
 
             }
+            //*/
             for (int x = 0; x < (BlockSize + 1 + (Horizontal ? 2 : 0)); x++)
                 for (int y = 0; y < (BlockSize + 1 + (Horizontal ? 0 : 2)); y++)
                 {

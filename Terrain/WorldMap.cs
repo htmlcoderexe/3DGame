@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terrain.WorldGen.WorldComponents;
 
 namespace Terrain
 {
@@ -83,6 +84,7 @@ namespace Terrain
         public float[,] HumidityData { get; set; }
         public float[,] OceanDistanceField { get; set; }
         public float[,] RiverDistanceField { get; set; }
+        public int[,] LocationData {get;set;}
         public static Color TILE_UNFILLED { get; }
         public static Color TILE_PLAIN { get; }
         public static Color TILE_RIVER { get; }
@@ -105,7 +107,9 @@ namespace Terrain
             HumidityData = new float[Width, Height];
             OceanDistanceField = new float[Width, Height];
             RiverDistanceField = new float[Width, Height];
-            this.Locations = new Dictionary<int, WorldGen.WorldComponents.Location>();
+            LocationData = new int[Width, Height];
+            this.Locations = new Dictionary<int, Location>();
+            Locations.Add(0, Location.Unknown);
             Towns = new List<Point>();
         }
 
@@ -123,7 +127,10 @@ namespace Terrain
         }
         public Color GetTerrainColour(int x, int y)
         {
-            if (Towns.Contains(new Point(x, y)))
+            //if (Towns.Contains(new Point(x, y)))
+            //  return Color.Magenta;
+            Location loc = Locations[LocationData[x, y]];
+            if (loc.Type == Location.LocationType.Town)
                 return Color.Magenta;
             TileType tile =TileData[x, y];
             if (tile == TileType.Plain)

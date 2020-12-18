@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terrain.WorldGen.WorldComponents;
 
 namespace Terrain.WorldGen
 {
@@ -679,7 +680,61 @@ namespace Terrain.WorldGen
             return Centres;
         }
 
+        public static void GrowTowns(WorldMap map, int Min, int Max)
+        {
+            foreach(Point t in map.Towns)
+            {
+                GrowTown(map, Min, Max, t);
+            }
+        }
 
+        public static Point RandomAdjacent(Point p)
+        {
+            List<Point> options = new List<Point>()
+            {
+                new Point(p.X,p.Y-1),
+                new Point(p.X,p.Y+1),
+                new Point(p.X-1,p.Y),
+                new Point(p.X+1,p.Y)
+            };
+
+            return options[RNG.NextInt(0, 3)];
+        }
+        public static string GetRandomTownName()
+        {
+            return "Town #" + RNG.NextInt(0, 65536);
+        }
+        public static void GrowTown(WorldMap map, int Min, int Max, Point Centre)
+        {
+            int amount = RNG.NextInt(Min, Max);
+            int LocationID = map.Locations.Count();
+            List<Point> Town = new List<Point>{Centre};
+            for (int i=0;i<amount;i++)
+            {
+                int nextI = RNG.NextInt(0, Town.Count);
+                Point growth = new Point();
+                Point next = Town[nextI];
+                int loopguard = 0; //if after 100+ rolls none of the squares picked are free, we are in a corner
+                do
+                {
+                    growth = RandomAdjacent(next);
+                    loopguard++;
+                } while (Town.Contains(growth) && loopguard<129 && growth.X>=0 && growth.X< map.Width && growth.Y>=0 && growth.Y< map.Height);
+                Town.Add(growth);
+            }
+            Location loc = new Location()
+            {
+                Type = Location.LocationType.Town,
+                 Name=GetRandomTownName(),
+                  Safe=true
+            };
+            map.Locations.Add(LocationID, loc);
+            foreach(Point p in Town)
+            {
+                if(p.X >= 0 && p.X < map.Width && p.Y >= 0 && p.Y < map.Height)
+                map.LocationData[p.X, p.Y] = LocationID;
+            }
+        }
 
 
 
