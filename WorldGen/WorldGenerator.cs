@@ -20,10 +20,11 @@ namespace WorldGen
         public float WaterHeight = 80f;
         public int Seed;
         public WorldInfo.WorldMap Map;
-        public WorldGenerator(int BlockSize,int Seed=4)
+        public WorldGenerator(int BlockSize, Terrain.Terrain terrainref, int Seed = 4)
         {
             this.Seed = Seed;
             this.BlockSize = BlockSize;
+            TerrainRef = terrainref;
         }
         const int RIVER_SIDE_TOP = 0;
         const int RIVER_SIDE_RIGHT = 1;
@@ -94,7 +95,7 @@ namespace WorldGen
             for (int x = 0; x < (BlockSize + 1+2); x++)
                 for (int y = 0; y < (BlockSize  +1+2); y++)
                 {
-                    
+                    //this is where height of each point is actually set
                     TerrainVertex v = GainVertex(x-1, y-1, X, Y);
                     _vertices[(x) + (y * (BlockSize + 1 + 2))] = v;
                 }
@@ -562,9 +563,10 @@ namespace WorldGen
                         continue;
                     if (b.X < 0 || b.Y < 0)
                         continue;
+                    //create terrain block
                     blk = GenerateBlock((int)b.X, (int)b.Y);
                     Terrain.Console.Write("^00FF00 Generated " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
-
+                    //code to place NPCs and other crap goes here!!
                 }
                 else
                 {
