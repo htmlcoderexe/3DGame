@@ -709,7 +709,9 @@ namespace Terrain.WorldGen
         public static void GrowTown(WorldMap map, int Min, int Max, Point Centre)
         {
             int amount = RNG.NextInt(Min, Max);
-            amount = (int)((float)amount*(float)amount/(float)Max);
+            float fAmount = (float)amount;
+            float fMax = (float)Max;
+            amount = (int)(fAmount*fAmount*fAmount*fAmount/fMax/fMax/fMax);
             amount = (int)MathHelper.Max(Min, amount);
             int LocationID = map.Locations.Count();
             List<Point> Town = new List<Point>{Centre};
