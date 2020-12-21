@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terrain.WorldGen
+namespace WorldGen
 {
     //wrapper for System.Random - will be replaced with something more stable
     public class WinRNG : IRandomProvider

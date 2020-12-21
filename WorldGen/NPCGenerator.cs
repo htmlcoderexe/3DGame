@@ -1,4 +1,5 @@
-﻿using GameObject;
+﻿//using GameObject;
+using GameObject;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameObject.WorldGen
+namespace WorldGen
 {
     public class NPCGenerator
     {
@@ -28,9 +29,9 @@ namespace GameObject.WorldGen
             return results;
         }
 
-        public MapEntities.Actors.NPC GenerateOneNPC()
+        public GameObject.MapEntities.Actors.NPC GenerateOneNPC()
         {
-            MapEntities.Actors.NPC npc = new MapEntities.Actors.NPC("Hello. I am an NPC.");
+            GameObject.MapEntities.Actors.NPC npc = new GameObject.MapEntities.Actors.NPC("Hello. I am an NPC.");
             Vector3 pos = new Vector3(RNG.Next(63), 0, RNG.Next(63));
             npc.Position = pos;
             npc.Heading = RNG.Next(350);

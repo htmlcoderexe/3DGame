@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace Terrain.WorldGen
+namespace WorldGen
 {
     public class DisTreeItem
     {

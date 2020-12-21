@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terrain.WorldGen.WorldComponents
+namespace WorldInfo
 {
     public struct PersonEvent
     {

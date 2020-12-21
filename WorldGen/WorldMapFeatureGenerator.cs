@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terrain.WorldGen.WorldComponents;
+using WorldInfo;
 
-namespace Terrain.WorldGen
+namespace WorldGen
 {
     public static class WorldMapFeatureGenerator
     {

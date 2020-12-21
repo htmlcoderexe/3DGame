@@ -108,9 +108,6 @@
     <Compile Include="TestCharacterClass.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="World.cs" />
-    <Compile Include="WorldGen\MonsterGenerator.cs" />
-    <Compile Include="WorldGen\NPCGenerator.cs" />
-    <Compile Include="WorldGen\ObjectPopulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameModel\GameModel.csproj">

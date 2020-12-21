@@ -1,13 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terrain.WorldGen.WorldComponents;
 
-namespace Terrain
+namespace WorldInfo
 {
     public class WorldMap
     {
@@ -95,7 +91,7 @@ namespace Terrain
         public Color[] ColourMap;
         public Point ColourMapSize;
         public List<Point> Towns;
-        public Dictionary<int, WorldGen.WorldComponents.Location> Locations;
+        public Dictionary<int, WorldInfo.Location> Locations;
         public WorldMap(int Height, int Width)
         {
             this.Height = Height;

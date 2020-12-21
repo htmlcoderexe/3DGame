@@ -17,49 +17,12 @@ namespace Terrain
         public int BlockSize;
         public Queue<Vector2> Queue;
         public Thread QThread;
-        public WorldGenerator WorldGenerator;
+        //ublic WorldGen.WorldGenerator WorldGenerator;
         private VertexBuffer _water;
         public float WaterHeight;
         int LastX;
         int LastY;
         public int RenderDistance { get; set; }
-        /// <summary>
-        /// Processes the block queue
-        /// </summary>
-        public void ProcessQueue()
-        {
-            //I am not sure why the function never exits, however, this is the intended behaviour.
-            while (Queue.Count > 0)
-            {
-                Vector2 b = this.Queue.Dequeue();
-                int rd = RenderDistance == 0 ? 8 : RenderDistance;
-                // Unit blk = WorldLoader.Load((int)b.X, (int)b.Y);
-                // blk = WorldGenerator.GenerateBlock((int)b.X, (int)b.Y, 64);
-                //Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd
-                Unit blk=null;
-                if (blk == null)
-                {
-                    if(Math.Abs(b.X - LastX) > rd || Math.Abs(b.Y - LastY) > rd)
-                    continue;
-                    if (b.X < 0 || b.Y < 0)
-                        continue;
-                    blk = WorldGenerator.GenerateBlock((int)b.X, (int)b.Y);
-                    Console.Write("^00FF00 Generated " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
-                    
-                }
-                else
-                {
-                    //  Volatile.Console.Write("^00FF00 Loaded " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
-                }
-                lock (blk)
-                {
-                    this.Blocks.GetOrAdd(blk.X+blk.Y*BlockSize,blk);
-                }
-
-            }
-
-
-        }
         public bool BlockLoaded(int X, int Y)
         {
             bool found = false;
@@ -109,46 +72,7 @@ namespace Terrain
                 return "unknown";
             return blk.Name;
         }
-        public void BorderEvent(int X, int Y)
-        {
-            LastX = X;
-            LastY = Y;
-            // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());
-            int rd = RenderDistance==0?8:RenderDistance;
-            for (int x = X - rd; x < X + rd + 1; x++)
-            {
-
-                for (int y = Y - rd; y < Y + rd + 1; y++)
-                {
-                    if (!this.BlockLoaded(x, y))
-                    {
-                        this.Queue.Enqueue(new Vector2(x, y));
-                    }
-
-
-                }
-                List<KeyValuePair<int, Unit>> tmp = new List<KeyValuePair<int, Unit>>();
-                Unit d;
-                lock (tmp)
-                {
-                    foreach (KeyValuePair<int, Unit> blk in this.Blocks)
-                {
-                    if (Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd)
-                    {
-                        tmp.Add(blk);
-                    }
-
-                }
-                    foreach (KeyValuePair<int,Unit> blk in tmp)
-                    {
-                        //WorldLoader.Save(blk, blk.X, blk.Y);
-                        this.Blocks.TryRemove(blk.Key, out d);
-
-                    }
-                }
-            }
-
-        }
+        
 
         public Terrain(int BlockSize, int Seed=4)
         {
@@ -156,8 +80,8 @@ namespace Terrain
 
             this.Blocks = new ConcurrentDictionary<int,Unit>();
             this.Queue = new Queue<Vector2>();
-            WorldGenerator = new WorldGenerator(BlockSize,Seed);
-            this.WaterHeight = WorldGenerator.WaterHeight;
+           // WorldGenerator = new WorldGenerator(BlockSize,Seed);
+          //  this.WaterHeight = WorldGenerator.WaterHeight;
             lock (this.Queue) { 
         }
             //*/
@@ -221,7 +145,7 @@ namespace Terrain
         public void SetUpWaterVertices(GraphicsDevice device)
         {
             VertexPositionTexture[] waterVertices = new VertexPositionTexture[6];
-            float WH = WorldGenerator.WaterHeight-0.2f;
+            float WH = WaterHeight-0.2f;
             waterVertices[0] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * -10), new Vector2(0, 0));//10
             waterVertices[1] = new VertexPositionTexture(new Vector3(BlockSize * 10, WH, BlockSize * 10), new Vector2(1, 1)); //01
             waterVertices[2] = new VertexPositionTexture(new Vector3(BlockSize * -10, WH, BlockSize * 10), new Vector2(0, 1));//00

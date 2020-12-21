@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameObject.Interfaces;
-using GameObject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

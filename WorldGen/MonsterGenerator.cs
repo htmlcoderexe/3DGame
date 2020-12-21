@@ -1,5 +1,7 @@
 ﻿using GameObject.Items;
 using GameObject;
+using GameObject.MapEntities;
+using GameObject.MapEntities.Actors;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameObject.WorldGen
+namespace WorldGen
 {
     public class MonsterGenerator
     {
@@ -28,9 +30,9 @@ namespace GameObject.WorldGen
             return results;
         }
 
-        public MapEntities.Actors.Monster GenerateOneMonster()
+        public Monster GenerateOneMonster()
         {
-            MapEntities.Actors.Monster monster = new MapEntities.Actors.Monster();
+            Monster monster = new Monster();
             monster.Model = GameModel.ModelGeometryCompiler.LoadModel("default");
             monster.DisplayName = "monster. kill me please.";
             Vector3 pos = new Vector3(RNG.Next(63), 0, RNG.Next(63));
@@ -38,18 +40,18 @@ namespace GameObject.WorldGen
             monster.LeashRadius = 30;
             monster.PrimaryLootRollCount = 2;
             monster.PrimaryLootTable = new List<Tuple<int, Item>>();
-            Items.ItemConsumable potA = new Items.ItemConsumable
+            ItemConsumable potA = new ItemConsumable
             {
                 Colour = new Color(200, 50, 0),
                 Name = "HP potion"
             };
-            Items.ItemConsumable potB = new Items.ItemConsumable
+            ItemConsumable potB = new ItemConsumable
             {
                 Colour = new Color(0, 100, 200),
                 Name = "MP potion"
             };
-            Items.Material matA = Items.Material.MaterialTemplates.GetRandomMaterial();
-            Items.ItemEquip weapA = new Items.ItemEquip();
+            Material matA = Material.MaterialTemplates.GetRandomMaterial();
+            ItemEquip weapA = new ItemEquip();
 
             BonusPool p = BonusPool.Load("heavy_0_10");
             weapA.Bonuses.Add(p.PickBonus());
@@ -67,9 +69,9 @@ namespace GameObject.WorldGen
 
         }
 
-        public MapEntities.EntitySpawner PackMonster(MapEntities.Actors.Monster tpl)
+        public EntitySpawner PackMonster(Monster tpl)
         {
-            MapEntities.EntitySpawner s = new MapEntities.EntitySpawner();
+            EntitySpawner s = new EntitySpawner();
             s.Entity = tpl;
             s.Interval = 15;
             s.CountDown = 2;

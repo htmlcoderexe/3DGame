@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameObject", "GameObject\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicEditor", "MagicEditor\MagicEditor.csproj", "{B3277067-7A6C-4849-B972-32EA05762D65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen", "WorldGen\WorldGen.csproj", "{E5DB570A-1011-4E8E-A105-0D53805DF2B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldInfo", "WorldInfo\WorldInfo.csproj", "{EF163BC5-6C20-4C63-9119-9EE13D129D9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,22 @@ Global
 		{B3277067-7A6C-4849-B972-32EA05762D65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3277067-7A6C-4849-B972-32EA05762D65}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3277067-7A6C-4849-B972-32EA05762D65}.Release|x86.Build.0 = Release|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{E5DB570A-1011-4E8E-A105-0D53805DF2B6}.Release|x86.Build.0 = Release|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Debug|x86.Build.0 = Debug|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF163BC5-6C20-4C63-9119-9EE13D129D9F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

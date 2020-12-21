@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terrain.WorldGen
+namespace WorldGen
 {
     /// <summary>
     /// Implementation of the Perlin simplex noise, an improved Perlin noise algorithm.

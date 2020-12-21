@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Terrain.WorldGen;
-using Terrain.WorldGen.WorldComponents;
+using Terrain;
+using WorldInfo;
 
-namespace Terrain
+namespace WorldGen
 {
     public class WorldGenerator
     {
-        private TerrainVertex[] _vertices;
+        Terrain.Terrain TerrainRef;
+        int LastX;
+        int LastY;
+        private Terrain.TerrainVertex[] _vertices;
         private int[] _indices;
         private int[] _indices2;
         private int BlockSize;
         private string BlockTitle = "";
         public float WaterHeight = 80f;
         public int Seed;
-        public WorldMap Map;
+        public WorldInfo.WorldMap Map;
         public WorldGenerator(int BlockSize,int Seed=4)
         {
             this.Seed = Seed;
@@ -539,6 +540,87 @@ namespace Terrain
         {
 
         }
+
+
+        /// <summary>
+        /// Processes the block queue
+        /// </summary>
+        public void ProcessQueue()
+        {
+            //I am not sure why the function never exits, however, this is the intended behaviour.
+            while (TerrainRef.Queue.Count > 0)
+            {
+                Vector2 b = TerrainRef.Queue.Dequeue();
+                int rd = TerrainRef.RenderDistance == 0 ? 8 : TerrainRef.RenderDistance;
+                // Unit blk = WorldLoader.Load((int)b.X, (int)b.Y);
+                // blk = WorldGenerator.GenerateBlock((int)b.X, (int)b.Y, 64);
+                //Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd
+                Unit blk = null;
+                if (blk == null)
+                {
+                    if (Math.Abs(b.X - LastX) > rd || Math.Abs(b.Y - LastY) > rd)
+                        continue;
+                    if (b.X < 0 || b.Y < 0)
+                        continue;
+                    blk = GenerateBlock((int)b.X, (int)b.Y);
+                    Terrain.Console.Write("^00FF00 Generated " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
+
+                }
+                else
+                {
+                    //  Volatile.Console.Write("^00FF00 Loaded " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
+                }
+                lock (blk)
+                {
+                    TerrainRef.Blocks.GetOrAdd(blk.X + blk.Y * BlockSize, blk);
+                }
+
+            }
+
+
+        }
+
+        public void BorderEvent(int X, int Y)
+        {
+            LastX = X;
+            LastY = Y;
+            // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());
+            int rd = TerrainRef.RenderDistance == 0 ? 8 : TerrainRef.RenderDistance;
+            for (int x = X - rd; x < X + rd + 1; x++)
+            {
+
+                for (int y = Y - rd; y < Y + rd + 1; y++)
+                {
+                    if (!TerrainRef.BlockLoaded(x, y))
+                    {
+                        TerrainRef.Queue.Enqueue(new Vector2(x, y));
+                    }
+
+
+                }
+                List<KeyValuePair<int, Unit>> tmp = new List<KeyValuePair<int, Unit>>();
+                Unit d;
+                lock (tmp)
+                {
+                    foreach (KeyValuePair<int, Unit> blk in TerrainRef.Blocks)
+                    {
+                        if (Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd)
+                        {
+                            tmp.Add(blk);
+                        }
+
+                    }
+                    foreach (KeyValuePair<int, Unit> blk in tmp)
+                    {
+                        //WorldLoader.Save(blk, blk.X, blk.Y);
+                        TerrainRef.Blocks.TryRemove(blk.Key, out d);
+
+                    }
+                }
+            }
+
+        }
+
         public void CalculateNormals()
         {
             for (int i = 0; i < _indices2.Length / 3; i++)
@@ -634,6 +716,8 @@ namespace Terrain
             block.Name = BlockTitle;
             return block;
         }
+
+
 
 
         //this function calculates the actual height/colour/etc of a vertex. 

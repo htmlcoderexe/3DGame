@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5194618F-FE7F-434F-B5B6-D9DCE3357BCA}</ProjectGuid>
+    <ProjectGuid>{E5DB570A-1011-4E8E-A105-0D53805DF2B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Terrain</RootNamespace>
-    <AssemblyName>Terrain</AssemblyName>
+    <RootNamespace>WorldGen</RootNamespace>
+    <AssemblyName>WorldGen</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,19 +42,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Console.cs" />
-    <Compile Include="Terrain.cs" />
-    <Compile Include="TerrainVertex.cs" />
-    <Compile Include="Unit.cs" />
+    <Compile Include="MonsterGenerator.cs" />
+    <Compile Include="NPCGenerator.cs" />
+    <Compile Include="ObjectPopulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorldGenerator.cs" />
+    <Compile Include="Delaunay.cs" />
+    <Compile Include="DisjointTree.cs" />
+    <Compile Include="IRandomProvider.cs" />
+    <Compile Include="Perlin.cs" />
+    <Compile Include="Simplex.cs" />
+    <Compile Include="WinRNG.cs" />
+    <Compile Include="WorldMapFeatureGenerator.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GameModel\GameModel.csproj">
+      <Project>{a3377de7-8e2e-456d-8120-61c21730eac5}</Project>
+      <Name>GameModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameObject\GameObject.csproj">
+      <Project>{ffa614ca-bfaf-4e43-b3ed-7d23654940cb}</Project>
+      <Name>GameObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Terrain\Terrain.csproj">
+      <Project>{5194618f-fe7f-434f-b5b6-d9dce3357bca}</Project>
+      <Name>Terrain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorldInfo\WorldInfo.csproj">
+      <Project>{ef163bc5-6c20-4c63-9119-9ee13d129d9f}</Project>
+      <Name>WorldInfo</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

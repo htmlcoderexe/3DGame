@@ -26,7 +26,7 @@ namespace _3DGame.Scenes.CreateWorldAssets.Windows
             Scenes.Gameplay worldscene = new Gameplay();
             _3DGame.Main.CurrentScene = worldscene;
             Main.ReloadScene();
-            worldscene.World.Terrain.WorldGenerator.Map = CreateWorld.map;
+            worldscene.Generator.Map = CreateWorld.map;
             worldscene.World.Player.Position.BX = (int)X;
             worldscene.World.Player.Position.BY = (int)Y;
         }

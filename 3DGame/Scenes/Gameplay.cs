@@ -26,6 +26,7 @@ namespace _3DGame.Scenes
         float RenderTime = 0.0f;
 
         public GameObject.World World;
+        public WorldGen.WorldGenerator Generator;
         public Effect TerrainEffect;
         public BasicEffect ModelEffect;
         public SpriteBatch b;
@@ -620,7 +621,7 @@ namespace _3DGame.Scenes
             ScreenResized(device);
             #endregion
 
-            GameObject.WorldGen.ObjectPopulator p = new GameObject.WorldGen.ObjectPopulator(new Random(1));
+            WorldGen.ObjectPopulator p = new WorldGen.ObjectPopulator(new Random(1));
             List<MapEntity> elist = p.GenerateObjectsTest(3);
             foreach(MapEntity me in elist)
             {
@@ -980,8 +981,8 @@ namespace _3DGame.Scenes
             while (true)
             {
                 //World.Player.UpdateRenderPos();
-                World.Terrain.BorderEvent(World.Player.Position.BX, World.Player.Position.BY);
-                World.Terrain.ProcessQueue();
+                Generator.BorderEvent(World.Player.Position.BX, World.Player.Position.BY);
+                Generator.ProcessQueue();
                 System.Threading.Thread.Sleep(10);
                 //  Utility.Trace(World.Player.
 

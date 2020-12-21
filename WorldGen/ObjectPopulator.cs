@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameObject.WorldGen
+namespace WorldGen
 {
     public class ObjectPopulator
     {
