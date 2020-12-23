@@ -9,7 +9,7 @@ namespace WorldGen
 {
     public class WorldGenerator
     {
-        Terrain.Terrain TerrainRef;
+        GameObject.World WorldRef;
         int LastX;
         int LastY;
         private Terrain.TerrainVertex[] _vertices;
@@ -20,11 +20,11 @@ namespace WorldGen
         public float WaterHeight = 80f;
         public int Seed;
         public WorldInfo.WorldMap Map;
-        public WorldGenerator(int BlockSize, Terrain.Terrain terrainref, int Seed = 4)
+        public WorldGenerator(int BlockSize, GameObject.World WorldRef, int Seed = 4)
         {
             this.Seed = Seed;
             this.BlockSize = BlockSize;
-            TerrainRef = terrainref;
+            this.WorldRef=WorldRef;
         }
         const int RIVER_SIDE_TOP = 0;
         const int RIVER_SIDE_RIGHT = 1;
@@ -549,14 +549,19 @@ namespace WorldGen
         public void ProcessQueue()
         {
             //I am not sure why the function never exits, however, this is the intended behaviour.
-            while (TerrainRef.Queue.Count > 0)
+            while (WorldRef.Terrain.Queue.Count > 0)
             {
-                Vector2 b = TerrainRef.Queue.Dequeue();
-                int rd = TerrainRef.RenderDistance == 0 ? 8 : TerrainRef.RenderDistance;
+                Vector2 b = WorldRef.Terrain.Queue.Dequeue();
+                int rd = WorldRef.Terrain.RenderDistance == 0 ? 8 : WorldRef.Terrain.RenderDistance;
                 // Unit blk = WorldLoader.Load((int)b.X, (int)b.Y);
                 // blk = WorldGenerator.GenerateBlock((int)b.X, (int)b.Y, 64);
                 //Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd
                 Unit blk = null;
+                WinRNG rng = new WinRNG(this.Seed);
+                NPCGenerator npcgen = new NPCGenerator(rng);
+                if (Map == null)
+                    continue;
+                Location l = Map.Locations[Map.LocationData[(int)b.X, (int)b.Y]];
                 if (blk == null)
                 {
                     if (Math.Abs(b.X - LastX) > rd || Math.Abs(b.Y - LastY) > rd)
@@ -567,6 +572,22 @@ namespace WorldGen
                     blk = GenerateBlock((int)b.X, (int)b.Y);
                     Terrain.Console.Write("^00FF00 Generated " + ((int)b.X).ToString() + "." + ((int)b.Y).ToString());
                     //code to place NPCs and other crap goes here!!
+                    if(l.Type== Location.LocationType.Town)
+                    {
+                        int amount = rng.NextInt(5,20);
+                        for(int i= 0;i<amount;i++)
+                        {
+
+                            GameObject.MapEntities.Actors.NPC npc = npcgen.GenerateOneNPC();
+                            npc.Position.BX = (int)b.X;
+                            npc.Position.BY = (int)b.Y;
+                            npc.Position += new Vector3(rng.NextInt(1, BlockSize - 1), -1, rng.NextInt(1, BlockSize - 1));
+                            npc.WorldSpawn = WorldRef;
+                            npc.Greeting = "Hello, I live in " + l.Name;
+                            WorldRef.Entities.Add(npc);
+                        }
+
+                    }
                 }
                 else
                 {
@@ -574,7 +595,7 @@ namespace WorldGen
                 }
                 lock (blk)
                 {
-                    TerrainRef.Blocks.GetOrAdd(blk.X + blk.Y * BlockSize, blk);
+                    WorldRef.Terrain.Blocks.GetOrAdd(blk.X + blk.Y * BlockSize, blk);
                 }
 
             }
@@ -582,20 +603,26 @@ namespace WorldGen
 
         }
 
+
+        /// <summary>
+        /// This is called whenever the player crosses a terrain unit boundary and causes more to be generated.
+        /// </summary>
+        /// <param name="X">new BX coordinate</param>
+        /// <param name="Y">new BY coordinate</param>
         public void BorderEvent(int X, int Y)
         {
             LastX = X;
             LastY = Y;
             // Utility.Trace(fixedX.ToString() + "," + fixedY.ToString());
-            int rd = TerrainRef.RenderDistance == 0 ? 8 : TerrainRef.RenderDistance;
+            int rd = WorldRef.Terrain.RenderDistance == 0 ? 8 : WorldRef.Terrain.RenderDistance;
             for (int x = X - rd; x < X + rd + 1; x++)
             {
 
                 for (int y = Y - rd; y < Y + rd + 1; y++)
                 {
-                    if (!TerrainRef.BlockLoaded(x, y))
+                    if (!WorldRef.Terrain.BlockLoaded(x, y))
                     {
-                        TerrainRef.Queue.Enqueue(new Vector2(x, y));
+                        WorldRef.Terrain.Queue.Enqueue(new Vector2(x, y));
                     }
 
 
@@ -604,7 +631,7 @@ namespace WorldGen
                 Unit d;
                 lock (tmp)
                 {
-                    foreach (KeyValuePair<int, Unit> blk in TerrainRef.Blocks)
+                    foreach (KeyValuePair<int, Unit> blk in WorldRef.Terrain.Blocks)
                     {
                         if (Math.Abs(blk.Value.X - X) > rd || Math.Abs(blk.Value.Y - Y) > rd)
                         {
@@ -615,7 +642,7 @@ namespace WorldGen
                     foreach (KeyValuePair<int, Unit> blk in tmp)
                     {
                         //WorldLoader.Save(blk, blk.X, blk.Y);
-                        TerrainRef.Blocks.TryRemove(blk.Key, out d);
+                        WorldRef.Terrain.Blocks.TryRemove(blk.Key, out d);
 
                     }
                 }

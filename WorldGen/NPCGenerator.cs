@@ -11,9 +11,9 @@ namespace WorldGen
 {
     public class NPCGenerator
     {
-        private System.Random RNG;
+        private IRandomProvider RNG;
 
-        public NPCGenerator(System.Random RNG)
+        public NPCGenerator(IRandomProvider RNG)
         {
             this.RNG = RNG;
         }
@@ -32,9 +32,9 @@ namespace WorldGen
         public GameObject.MapEntities.Actors.NPC GenerateOneNPC()
         {
             GameObject.MapEntities.Actors.NPC npc = new GameObject.MapEntities.Actors.NPC("Hello. I am an NPC.");
-            Vector3 pos = new Vector3(RNG.Next(63), 0, RNG.Next(63));
+            Vector3 pos = new Vector3(RNG.NextInt(63), 0, RNG.NextInt(63));
             npc.Position = pos;
-            npc.Heading = RNG.Next(350);
+            npc.Heading = RNG.NextInt(350);
             npc.DisplayName = "npc";
             return npc;
         }

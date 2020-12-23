@@ -451,7 +451,16 @@ namespace _3DGame.Scenes
                     if(HoverTarget!=null)
                     {
                         if (World.Player.Target == HoverTarget)
+                        {
                             HoverTarget.DoubleClick(World.Player);
+                            if(World.Player.Target is NPC npc)
+                            {
+                                GUI.Window w = new Scenes.GameplayAssets.Windows.NPCWindow(Scenes.Gameplay.WindowManager, npc);
+                                WindowManager.Add(w);
+                                w.Visible = true;
+                            }
+                        }
+                            
                         else
                             HoverTarget.Click(World.Player);
                     }
@@ -535,7 +544,7 @@ namespace _3DGame.Scenes
                 Player = new GameObject.MapEntities.Actors.Player(classes[0],skills)
             };
             World.Terrain.RenderDistance = 3;
-            Generator = new WorldGen.WorldGenerator(World.Terrain.BlockSize, World.Terrain, 4);
+            Generator = new WorldGen.WorldGenerator(World.Terrain.BlockSize, World, 4);
             World.Terrain.WaterHeight = Generator.WaterHeight;
             World.Player.WorldSpawn = World;
             World.Player.Abilities[0].Level = 1;
@@ -623,14 +632,14 @@ namespace _3DGame.Scenes
             ScreenResized(device);
             #endregion
 
-            WorldGen.ObjectPopulator p = new WorldGen.ObjectPopulator(new Random(1));
-            List<MapEntity> elist = p.GenerateObjectsTest(3);
-            foreach(MapEntity me in elist)
+            /*WorldGen.ObjectPopulator p = new WorldGen.ObjectPopulator(new Random(1));
+           List<MapEntity> elist = p.GenerateObjectsTest(3);
+           foreach(MapEntity me in elist)
             {
                 me.WorldSpawn = World;
                 World.Entities.Add(me);
             }
-
+           //*/
 
         }
         public static Plane CreatePlane(float height, Vector3 planeNormalDirection, Matrix currentViewMatrix, bool clipSide, Matrix projectionMatrix)

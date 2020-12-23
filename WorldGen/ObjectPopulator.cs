@@ -9,9 +9,9 @@ namespace WorldGen
 {
     public class ObjectPopulator
     {
-        private System.Random RNG;
+        private IRandomProvider RNG;
 
-        public ObjectPopulator(System.Random RNG)
+        public ObjectPopulator(IRandomProvider RNG)
         {
             this.RNG = RNG;
         }

@@ -13,9 +13,9 @@ namespace WorldGen
 {
     public class MonsterGenerator
     {
-        private System.Random RNG;
+        private IRandomProvider RNG;
 
-        public MonsterGenerator(System.Random RNG)
+        public MonsterGenerator(IRandomProvider RNG)
         {
             this.RNG = RNG;
         }
@@ -35,7 +35,7 @@ namespace WorldGen
             Monster monster = new Monster();
             monster.Model = GameModel.ModelGeometryCompiler.LoadModel("default");
             monster.DisplayName = "monster. kill me please.";
-            Vector3 pos = new Vector3(RNG.Next(63), 0, RNG.Next(63));
+            Vector3 pos = new Vector3(RNG.NextInt(63), 0, RNG.NextInt(63));
             monster.Position = pos;
             monster.LeashRadius = 30;
             monster.PrimaryLootRollCount = 2;
@@ -56,7 +56,7 @@ namespace WorldGen
             BonusPool p = BonusPool.Load("heavy_0_10");
             weapA.Bonuses.Add(p.PickBonus());
             weapA.Bonuses.Add(p.PickBonus());
-            weapA.SubType = RNG.Next(0, 1) * 4;
+            weapA.SubType = RNG.NextInt(0, 1) * 4;
             weapA.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             weapA.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             monster.PrimaryLootTable.Add(new Tuple<int, Item>(5, potA));
