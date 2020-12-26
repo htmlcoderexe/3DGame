@@ -659,48 +659,46 @@ namespace WorldGen
             _vertices = new TerrainVertex[(BlockSize+2) * (BlockSize +2)*4];
             _indices2 = new int[(BlockSize + 2) * (BlockSize + 2) * 6];
             _indices = new int[BlockSize * BlockSize * 6];
-            int icounter = 0;
-            int i2counter = 0;
-            int vcounter = 0;
             for (int y = 0; y < BlockSize + 2; y++)
                 for (int x = 0; x < BlockSize + 2; x++)
                 {
                     //y * 4 * (BlockSize + 2) + x 
-                    int vindex = (BlockSize + 2) * y * 4 + x * 4;
+                    int vindex2 = (BlockSize + 2) * y * 4 + x * 4;
+                    int vindex = (BlockSize) * y * 4 + x * 4;
                     int iindex2 = (BlockSize + 2) * y * 6 + x * 6;
                     int iindex = (BlockSize ) * y * 6 + x * 6;
-                    _vertices[vindex + 0].Position.Y = heightmap[x, y];
-                    _vertices[vindex + 1].Position.Y = heightmap[x+1, y];
-                    _vertices[vindex + 2].Position.Y = heightmap[x, y+1];
-                    _vertices[vindex + 3].Position.Y = heightmap[x+1, y+1];
+                    _vertices[vindex2 + 0].Position.Y = heightmap[x, y];
+                    _vertices[vindex2 + 1].Position.Y = heightmap[x+1, y];
+                    _vertices[vindex2 + 2].Position.Y = heightmap[x, y+1];
+                    _vertices[vindex2 + 3].Position.Y = heightmap[x+1, y+1];
                                 
-                    _vertices[vindex + 0].Position.X = x - 1;
-                    _vertices[vindex + 1].Position.X = x;
-                    _vertices[vindex + 2].Position.X = x - 1;
-                    _vertices[vindex + 3].Position.X = x;
+                    _vertices[vindex2 + 0].Position.X = x - 1;
+                    _vertices[vindex2 + 1].Position.X = x;
+                    _vertices[vindex2 + 2].Position.X = x - 1;
+                    _vertices[vindex2 + 3].Position.X = x;
                                 
-                    _vertices[vindex + 0].Position.Z = y - 1;
-                    _vertices[vindex + 1].Position.Z = y - 1;
-                    _vertices[vindex + 2].Position.Z = y;
-                    _vertices[vindex + 3].Position.Z = y;
+                    _vertices[vindex2 + 0].Position.Z = y - 1;
+                    _vertices[vindex2 + 1].Position.Z = y - 1;
+                    _vertices[vindex2 + 2].Position.Z = y;
+                    _vertices[vindex2 + 3].Position.Z = y;
 
-                    _vertices[vindex + 0].TextureCoordinate = new Vector2(0, 0);
-                    _vertices[vindex + 1].TextureCoordinate = new Vector2(0.9125f, 0);
-                    _vertices[vindex + 2].TextureCoordinate = new Vector2(0, 0.9125f);
-                    _vertices[vindex + 3].TextureCoordinate = new Vector2(0.9125f, 0.9125f);
+                    _vertices[vindex2 + 0].TextureCoordinate = new Vector2(0, 0);
+                    _vertices[vindex2 + 1].TextureCoordinate = new Vector2(0.9125f, 0);
+                    _vertices[vindex2 + 2].TextureCoordinate = new Vector2(0, 0.9125f);
+                    _vertices[vindex2 + 3].TextureCoordinate = new Vector2(0.9125f, 0.9125f);
 
 
-                    _vertices[vindex + 0].Color=Color.Gray;
-                    _vertices[vindex + 1].Color=Color.Gray;
-                    _vertices[vindex + 2].Color=Color.Gray;
-                    _vertices[vindex + 3].Color = Color.Gray;
+                    _vertices[vindex2 + 0].Color=Color.Gray;
+                    _vertices[vindex2 + 1].Color=Color.Gray;
+                    _vertices[vindex2 + 2].Color=Color.Gray;
+                    _vertices[vindex2 + 3].Color = Color.Gray;
 
-                    _indices2[iindex2] = vindex;
-                    _indices2[iindex2 + 1] = vindex + 1;
-                    _indices2[iindex2 + 2] = vindex + 2;
-                    _indices2[iindex2 + 3] = vindex + 1;
-                    _indices2[iindex2 + 4] = vindex + 3;
-                    _indices2[iindex2 + 5] = vindex + 2;
+                    _indices2[iindex2] = vindex2;
+                    _indices2[iindex2 + 1] = vindex2 + 1;
+                    _indices2[iindex2 + 2] = vindex2 + 2;
+                    _indices2[iindex2 + 3] = vindex2 + 1;
+                    _indices2[iindex2 + 4] = vindex2 + 3;
+                    _indices2[iindex2 + 5] = vindex2 + 2;
                     if(x<BlockSize&&y<BlockSize)
                     {
 
@@ -710,10 +708,7 @@ namespace WorldGen
                         _indices[iindex + 3] = vindex + 1;
                         _indices[iindex + 4] = vindex + 3;
                         _indices[iindex + 5] = vindex + 2;
-                        icounter += 6;
                     }
-                    i2counter += 6;
-                    vcounter += 4;
 
 
 
@@ -797,8 +792,10 @@ namespace WorldGen
             SetupVertexField(_heightmap);
             //CreateIndices();
             CalculateNormals();
+            block.indices = _indices2;
+            block.vertices = _vertices;// new TerrainVertex[(BlockSize * 2 ) * (BlockSize * 2 )];
             block.indices = _indices;
-            block.vertices = new TerrainVertex[(BlockSize * 2 ) * (BlockSize * 2 )];
+            block.vertices= new TerrainVertex[(BlockSize * 2) * (BlockSize * 2)]; 
             block.heightmap = new float[BlockSize+1, BlockSize+1];
             TerrainVertex current;
             int x = 0;
@@ -816,6 +813,7 @@ namespace WorldGen
             for (x = 0; x < BlockSize; x++)
                 for (y = 0; y < BlockSize; y++)
                 {
+                    //*
                     block.vertices[(y * 4 * BlockSize) + (x * 4) + 0] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 0];
                     block.vertices[(y * 4 * BlockSize) + (x * 4) + 1] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 1];
                     block.vertices[(y * 4 * BlockSize) + (x * 4) + 2] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 2];
@@ -831,6 +829,7 @@ namespace WorldGen
                     block.vertices[(y * 4 * BlockSize) + (x * 4) + 3].Position.Z = y+1;
                     //*/
                 }
+
             TerrainVertex probe1 = block.vertices[(y - 1) * 4 * BlockSize + (x - 1) * 4];
             TerrainVertex probe2 = block.vertices[(y - 1) * 4 * BlockSize + (x - 2) * 4];
             TerrainVertex probe3 = block.vertices[(y - 1) * 4 * BlockSize + (x - 1) * 4+1];
