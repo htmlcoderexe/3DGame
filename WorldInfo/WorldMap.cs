@@ -148,6 +148,7 @@ namespace WorldInfo
             T *= ColourMapSize.X;
             int tX = (int)T;
             int tY = (int)H;
+            //return Color.Green;
             return ColourMap[tX + tY * ColourMapSize.X];
             //return ColourScale(dOF);
         }

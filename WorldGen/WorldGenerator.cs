@@ -15,6 +15,8 @@ namespace WorldGen
         private Terrain.TerrainVertex[] _vertices;
         private int[] _indices;
         private int[] _indices2;
+        public float[,] _heightmap;
+        public int[,] _tilemap;
         private int BlockSize;
         private string BlockTitle = "";
         public float WaterHeight = 80f;
@@ -91,13 +93,15 @@ namespace WorldGen
         }
         public void SetHeights(int X, int Y)
         {
+            _heightmap = new float[BlockSize + 1+2, BlockSize + 1+2];
+            _tilemap = new int[BlockSize, BlockSize];
             //generate initial geometry
             for (int x = 0; x < (BlockSize + 1+2); x++)
                 for (int y = 0; y < (BlockSize  +1+2); y++)
                 {
                     //this is where height of each point is actually set
-                    TerrainVertex v = GainVertex(x-1, y-1, X, Y);
-                    _vertices[(x) + (y * (BlockSize + 1 + 2))] = v;
+                    float f = GainVertex(x, y, X, Y);
+                    _heightmap[x, y]=f;
                 }
             //rivers
             if (this.Map == null)
@@ -278,9 +282,13 @@ namespace WorldGen
                     // TerrainVertex v = GainVertex(x - 1, y - 1, X, Y);
                     offset = GainDepth(M,W, widthA, widthB, slideA, slideB,strength);
                     offset = MathHelper.Clamp(offset, 0, 999f);
+                    /*
                     if (offset > 0)
                         _vertices[(x + (Horizontal ? 0 : 1) + ((y + (Horizontal ? 1 : 0)) * (BlockSize + 1 + 2)))].MultiTexData.Z = 1f;
                     _vertices[(x+(Horizontal?0:1) + ((y + (Horizontal ? 1 : 0)) * (BlockSize + 1 + 2)))].Position -= new Vector3(0, offset, 0) ;
+
+                    //*/
+                    _heightmap[x, y] -= offset;
                 }
         }
         public float GainDepth(float M,float W, float widthA, float widthB, float slideA, float slideB,float depth)
@@ -420,10 +428,10 @@ namespace WorldGen
             Width0 = MathHelper.Clamp(Width0, rivermin, rivermax);
 
             BlockTitle = "W0:" + Width0.ToString("F2") + " W1:" + Width1.ToString("F2") + " S0: " + Slide0.ToString("F2") + " S1:" + Slide1.ToString("F2");
-            for (int x = 0; x < (BlockSize + 1 +2); x++)
-                for (int y = 0; y < (BlockSize + 1+2 ); y++)
+            for (int x = 0; x < (BlockSize + 1 + 2); x++)
+                for (int y = 0; y < (BlockSize + 1 + 2); y++)
                 {
-                    Vector2 pointer =  (new Vector2(x-1, y-1))- CornerPoint;
+                    Vector2 pointer = (new Vector2(x - 1, y - 1)) - CornerPoint;
                     float M = pointer.Length();
                     pointer = Vector2.Normalize(pointer);
                     float degrees = MathHelper.ToDegrees((float)Math.Atan2(pointer.Y, pointer.X));
@@ -437,68 +445,70 @@ namespace WorldGen
                     if (W < 0f || W > 1f)
                         W /= 0f;
                     W *= (BlockSize + 1);
-                   // Slide0 = -0.2f;
-                   // Slide1 = 0.2f;
+                    // Slide0 = -0.2f;
+                    // Slide1 = 0.2f;
                     offset = GainDepth(M, W, Width0, Width1, Slide0, Slide1, strength);
-                   // offset = ((float)Math.Pow((((float)(Z) - mid) / strength), pow) * -1f) + (float)Math.Pow(mid / strength, pow) * MathHelper.Lerp(Width0, Width1, Z/ (float)(BlockSize + 1 + 2)); ;
+                    // offset = ((float)Math.Pow((((float)(Z) - mid) / strength), pow) * -1f) + (float)Math.Pow(mid / strength, pow) * MathHelper.Lerp(Width0, Width1, Z/ (float)(BlockSize + 1 + 2)); ;
                     // TerrainVertex v = GainVertex(x - 1, y - 1, X, Y);
                     offset = MathHelper.Clamp(offset, 0, 999f);
+                    /* #TODO: do something with the tilemap here
                     if (offset > 0)
                         _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].MultiTexData.Z = 1f;
-                    _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Position -= new Vector3(0, offset, 0);
+                    //*/
+                    _heightmap[x, y]-=offset;
                     //_vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Color = new Color(W/(BlockSize+1+2), 0f, 0f);
                 }
 
         }
         public void Do3SideRiver(int X, int Y, int side)
         {
-            TerrainVertex[] Original = new TerrainVertex[_vertices.Length];
-            _vertices.CopyTo(Original, 0);
-            TerrainVertex[] Layer1 = new TerrainVertex[_vertices.Length];
-            TerrainVertex[] Layer2 = new TerrainVertex[_vertices.Length];
+            float[,] Original = new float[_heightmap.GetLength(0), _heightmap.GetLength(1)];
+            _heightmap.CopyTo(Original, 0);
+            float[,] Layer1 = new float[_heightmap.GetLength(0), _heightmap.GetLength(1)];
+            float[,] Layer2 = new float[_heightmap.GetLength(0), _heightmap.GetLength(1)];
             switch (side)
             {
                 case RIVER_SIDE_BOTTOM:
                     {
                         DoCurvedRiver(X, Y, RIVER_CORNER_BL);
-                        _vertices.CopyTo(Layer1, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer1, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoCurvedRiver(X, Y, RIVER_CORNER_BR);
-                        _vertices.CopyTo(Layer2, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer2, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoStraightRiver(X, Y, true);
                         break;
                     }
                 case RIVER_SIDE_TOP:
                     {
                         DoCurvedRiver(X, Y, RIVER_CORNER_TL);
-                        _vertices.CopyTo(Layer1, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer1, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoCurvedRiver(X, Y, RIVER_CORNER_TR);
-                        _vertices.CopyTo(Layer2, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer2, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoStraightRiver(X, Y, true);
                         break;
                     }
                 case RIVER_SIDE_RIGHT:
                     {
                         DoCurvedRiver(X, Y, RIVER_CORNER_TR);
-                        _vertices.CopyTo(Layer1, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer1, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoCurvedRiver(X, Y, RIVER_CORNER_BR);
-                        _vertices.CopyTo(Layer2, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer2, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoStraightRiver(X, Y, false);
                         break;
                     }
                 default:
                     {
                         DoCurvedRiver(X, Y, RIVER_CORNER_TL);
-                        _vertices.CopyTo(Layer1, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer1, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoCurvedRiver(X, Y, RIVER_CORNER_BL);
-                        _vertices.CopyTo(Layer2, 0);
-                        Original.CopyTo(_vertices, 0);
+                        _heightmap.CopyTo(Layer2, 0);
+                        Original.CopyTo(_heightmap, 0);
                         DoStraightRiver(X, Y, false);
                         break;
                     }
@@ -507,24 +517,16 @@ namespace WorldGen
             for (int x = 0; x < (BlockSize + 1 + 2); x++)
                 for (int y = 0; y < (BlockSize + 1 + 2); y++)
                 {
-                    TerrainVertex a = _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))];
-                    TerrainVertex b = Layer1[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))];
-                    TerrainVertex c = Layer2[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))];
-                    Vector3 o = a.Position;
-                    float H = o.Y;
-                    float L1 = b.Position.Y;
-                    float L2 = c.Position.Y;
-                    float Z = a.MultiTexData.Z;
-                    if (Z < b.MultiTexData.Z)
-                        Z = b.MultiTexData.Z;
-                    if (Z < c.MultiTexData.Z)
-                        Z = c.MultiTexData.Z;
-                    if (H > L1)
-                        H = L1;
-                    if (H > L2)
-                        H = L2;
-                    _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].Position = new Vector3(o.X, H, o.Z);
-                    _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].MultiTexData.Z = Z;
+                    float a = _heightmap[x,y];
+                    float b = Layer1[x, y];
+                    float c = Layer2[x, y];
+                    float H = a;
+                    if (H > b)
+                        H = b;
+                    if (H > c)
+                        H = c;
+                    _heightmap[x, y] = H;
+                  //  _vertices[(x + 0) + ((y + 0) * (BlockSize + 1 + 2))].MultiTexData.Z = Z; //reminder to convert this to tile system
                 }
 
 
@@ -650,6 +652,74 @@ namespace WorldGen
 
         }
 
+
+
+        public void SetupVertexField(float[,] heightmap)
+        {
+            _vertices = new TerrainVertex[(BlockSize+2) * (BlockSize +2)*4];
+            _indices2 = new int[(BlockSize + 2) * (BlockSize + 2) * 6];
+            _indices = new int[BlockSize * BlockSize * 6];
+            int icounter = 0;
+            int i2counter = 0;
+            int vcounter = 0;
+            for (int y = 0; y < BlockSize + 2; y++)
+                for (int x = 0; x < BlockSize + 2; x++)
+                {
+                    //y * 4 * (BlockSize + 2) + x 
+                    int vindex = (BlockSize + 2) * y * 4 + x * 4;
+                    int iindex2 = (BlockSize + 2) * y * 6 + x * 6;
+                    int iindex = (BlockSize ) * y * 6 + x * 6;
+                    _vertices[vindex + 0].Position.Y = heightmap[x, y];
+                    _vertices[vindex + 1].Position.Y = heightmap[x+1, y];
+                    _vertices[vindex + 2].Position.Y = heightmap[x, y+1];
+                    _vertices[vindex + 3].Position.Y = heightmap[x+1, y+1];
+                                
+                    _vertices[vindex + 0].Position.X = x - 1;
+                    _vertices[vindex + 1].Position.X = x;
+                    _vertices[vindex + 2].Position.X = x - 1;
+                    _vertices[vindex + 3].Position.X = x;
+                                
+                    _vertices[vindex + 0].Position.Z = y - 1;
+                    _vertices[vindex + 1].Position.Z = y - 1;
+                    _vertices[vindex + 2].Position.Z = y;
+                    _vertices[vindex + 3].Position.Z = y;
+
+                    _vertices[vindex + 0].TextureCoordinate = new Vector2(0, 0);
+                    _vertices[vindex + 1].TextureCoordinate = new Vector2(0.9125f, 0);
+                    _vertices[vindex + 2].TextureCoordinate = new Vector2(0, 0.9125f);
+                    _vertices[vindex + 3].TextureCoordinate = new Vector2(0.9125f, 0.9125f);
+
+
+                    _vertices[vindex + 0].Color=Color.Gray;
+                    _vertices[vindex + 1].Color=Color.Gray;
+                    _vertices[vindex + 2].Color=Color.Gray;
+                    _vertices[vindex + 3].Color = Color.Gray;
+
+                    _indices2[iindex2] = vindex;
+                    _indices2[iindex2 + 1] = vindex + 1;
+                    _indices2[iindex2 + 2] = vindex + 2;
+                    _indices2[iindex2 + 3] = vindex + 1;
+                    _indices2[iindex2 + 4] = vindex + 3;
+                    _indices2[iindex2 + 5] = vindex + 2;
+                    if(x<BlockSize&&y<BlockSize)
+                    {
+
+                        _indices[iindex] = vindex;
+                        _indices[iindex + 1] = vindex + 1;
+                        _indices[iindex + 2] = vindex + 2;
+                        _indices[iindex + 3] = vindex + 1;
+                        _indices[iindex + 4] = vindex + 3;
+                        _indices[iindex + 5] = vindex + 2;
+                        icounter += 6;
+                    }
+                    i2counter += 6;
+                    vcounter += 4;
+
+
+
+                }
+        }
+
         public void CalculateNormals()
         {
             for (int i = 0; i < _indices2.Length / 3; i++)
@@ -724,23 +794,46 @@ namespace WorldGen
             block.Y = Y;
             CreateGrid();
             SetHeights(X,Y);
-            CreateIndices();
+            SetupVertexField(_heightmap);
+            //CreateIndices();
             CalculateNormals();
             block.indices = _indices;
-            block.vertices = new TerrainVertex[(BlockSize + 1 ) * (BlockSize + 1 )];
+            block.vertices = new TerrainVertex[(BlockSize * 2 ) * (BlockSize * 2 )];
             block.heightmap = new float[BlockSize+1, BlockSize+1];
             TerrainVertex current;
-            int x, y;
+            int x = 0;
+            int y = 0 ;
             for (x = 0; x < BlockSize+1; x++)
                 for (y = 0; y < BlockSize+1; y++)
                 {
-                    current = _vertices[(x + 1) + ((y + 1) * (BlockSize + 1 + 2))];
-                    block.vertices[x + y * (BlockSize+1)] = current;
-                    block.heightmap[x, y] = current.Position.Y;
+                    block.heightmap[x, y] = _heightmap[x+1,y+1];
                    // block.vertices[x + y * BlockSize].Position.X = x;
                     //block.vertices[x + y * BlockSize].Position.Z = y;
 
                 }
+
+
+            for (x = 0; x < BlockSize; x++)
+                for (y = 0; y < BlockSize; y++)
+                {
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 0] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 0];
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 1] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 1];
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 2] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 2];
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 3] = _vertices[(1 + y) * 4 * (BlockSize + 2) + (1 + x) * 4 + 3];
+                    /*
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 0].Position.X = x;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 1].Position.X = x+1;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 2].Position.X = x;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 3].Position.X = x+1;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 0].Position.Z = y;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 1].Position.Z = y;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 2].Position.Z = y+1;
+                    block.vertices[(y * 4 * BlockSize) + (x * 4) + 3].Position.Z = y+1;
+                    //*/
+                }
+            TerrainVertex probe1 = block.vertices[(y - 1) * 4 * BlockSize + (x - 1) * 4];
+            TerrainVertex probe2 = block.vertices[(y - 1) * 4 * BlockSize + (x - 2) * 4];
+            TerrainVertex probe3 = block.vertices[(y - 1) * 4 * BlockSize + (x - 1) * 4+1];
             // Console.Write("^00A000 Generated block at " + X.ToString() + "," + Y.ToString() + ".");
             block.Name = BlockTitle;
             return block;
@@ -903,7 +996,7 @@ namespace WorldGen
             return TL + BR + TR + BL;
         }
 
-        TerrainVertex GainVertex(int X, int Y, int DX, int DY, int Seed = 0)
+        float GainVertex(int X, int Y, int DX, int DY, int Seed = 0)
         {
             TerrainVertex v = new TerrainVertex();
 
@@ -915,8 +1008,8 @@ namespace WorldGen
             //this will contain calculated height
             float H = 0;
             if (this.Map == null)
-            { 
-                return v;
+            {
+                return 0;// v;
             }
             //return v;
             int MapX = X + DX * (BlockSize);
@@ -954,7 +1047,7 @@ namespace WorldGen
 
             if (v.Position.Y < 80f)
                 v.MultiTexData.Z = 1f;
-            return v;
+            return v.Position.Y;
         }
         #endregion
 

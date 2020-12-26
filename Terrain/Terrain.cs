@@ -82,8 +82,10 @@ namespace Terrain
             this.Queue = new Queue<Vector2>();
            // WorldGenerator = new WorldGenerator(BlockSize,Seed);
           //  this.WaterHeight = WorldGenerator.WaterHeight;
-            lock (this.Queue) { 
-        }
+            lock (this.Queue)
+            {
+                
+            }
             //*/
         }
 

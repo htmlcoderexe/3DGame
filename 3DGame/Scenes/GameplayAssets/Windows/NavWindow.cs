@@ -44,7 +44,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             int X = (int)(Player.Position.X + Player.Position.BX * WorldPosition.Stride);
             int Y = (int)(Player.Position.Z + Player.Position.BY * WorldPosition.Stride);
             int H = (int)Player.Position.Y;
-            playerloc = X + ", " + Y+" H" + H;
+            playerloc = X + ", " + Y+" H" + H+" LX:"+ (int)(Player.Position.X)+" LY:"+ (int)(Player.Position.Z);
             Placename.SetText(Player.WorldSpawn.Terrain.GetPlaceName(new Microsoft.Xna.Framework.Vector2(Player.Position.BX, Player.Position.BY)));
             this.Coords.SetText(playerloc);
             base.Update(dT);
