@@ -664,41 +664,53 @@ namespace WorldGen
         public static Vector2 GetUVForTile(int TileNumber, int VertexNumber)
         {
             float Stride = Terrain.Terrain.TileAmount;
+            float TexelOffset = Terrain.Terrain.TileMapUVTexelOffset;
             float X = (float)TileNumber % Stride;
             float Y = (int)((float)TileNumber / Stride);
             Vector2 template = new Vector2();
+            Vector2 offset = new Vector2();
             switch(VertexNumber)
             {
                 case 1:
                     {
                         template = new Vector2(1, 0);
+                        offset = new Vector2(-TexelOffset, TexelOffset);
                         break;
                     }
                 case 2:
                     {
                         template = new Vector2(0, 1);
+                        offset = new Vector2(TexelOffset, -TexelOffset);
                         break;
                     }
                 case 3:
                     {
                         template = new Vector2(1,1);
+                        offset = new Vector2(-TexelOffset, -TexelOffset);
                         break;
                     }
 
                 default:
                     {
                         template = new Vector2(0, 0);
+                        offset = new Vector2(TexelOffset, TexelOffset);
                         break;
                     }
 
             }
             template *= Terrain.Terrain.TileMapUVStep;
             Vector2 mask = new Vector2(X * Terrain.Terrain.TileMapUVStep, Y * Terrain.Terrain.TileMapUVStep);
-            return template + mask;
+            return template + mask+offset;
 
         }
 
-        public void SetTile(int X, int Y, int ID)
+        /// <summary>
+        /// Sets specific tile's vertices to a UV. Use BEFORE collapsing the unit into final form without edges. #TODO I thinkI don't really need the edges anymore lol
+        /// </summary>
+        /// <param name="X">X in the unit</param>
+        /// <param name="Y">Y in the unit</param>
+        /// <param name="ID">TileID</param>
+        public void SetTileID(int X, int Y, int ID)
         {
             int vindex=GetQuadStartingVertexIndex(X, Y, BlockSize + 2);
             _vertices[vindex + 0].TextureCoordinate = GetUVForTile(ID, 0);
@@ -706,6 +718,16 @@ namespace WorldGen
             _vertices[vindex + 2].TextureCoordinate = GetUVForTile(ID, 2);
             _vertices[vindex + 3].TextureCoordinate = GetUVForTile(ID, 3);
 
+        }
+        /// <summary>
+        /// Sets specific tile's vertices to a colour. Use BEFORE collapsing the unit into final form without edges. #TODO I thinkI don't really need the edges anymore lol
+        /// </summary>
+        /// <param name="X">X in the unit</param>
+        /// <param name="Y">Y in the unit</param>
+        /// <param name="Colour">Colour to use</param>
+        public void SetTileColour(int X, int Y, Color Colour)
+        {
+            int vindex = GetQuadStartingVertexIndex(X, Y, BlockSize + 2);
         }
 
         public void SetupVertexField(float[,] heightmap)
@@ -736,10 +758,10 @@ namespace WorldGen
                     _vertices[vindex2 + 2].Position.Z = y;
                     _vertices[vindex2 + 3].Position.Z = y;
 
-                    _vertices[vindex2 + 0].TextureCoordinate = new Vector2(0, 0);
-                    _vertices[vindex2 + 1].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep, 0);
-                    _vertices[vindex2 + 2].TextureCoordinate = new Vector2(0, Terrain.Terrain.TileMapUVStep);
-                    _vertices[vindex2 + 3].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep, Terrain.Terrain.TileMapUVStep);
+                    _vertices[vindex2 + 0].TextureCoordinate = new Vector2(0+Terrain.Terrain.TileMapUVTexelOffset, 0 + Terrain.Terrain.TileMapUVTexelOffset);
+                    _vertices[vindex2 + 1].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset, 0 + Terrain.Terrain.TileMapUVTexelOffset);
+                    _vertices[vindex2 + 2].TextureCoordinate = new Vector2(0 + Terrain.Terrain.TileMapUVTexelOffset, Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset);
+                    _vertices[vindex2 + 3].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset, Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset);
 
 
                     _vertices[vindex2 + 0].Color=Color.Gray;
@@ -799,7 +821,9 @@ namespace WorldGen
             CreateGrid();
             SetHeights(X,Y);
             SetupVertexField(_heightmap);
-            SetTile(50, 50, 112);
+            SetTileID(50, 50, 1);
+            SetTileColour(51, 50, Color.Red);
+            SetTileColour(49, 50, Color.Green);
             CalculateNormals();
             block.indices = _indices2;
             block.vertices = _vertices;// new TerrainVertex[(BlockSize * 2 ) * (BlockSize * 2 )];

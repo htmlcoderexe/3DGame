@@ -557,7 +557,7 @@ namespace _3DGame.Scenes
 
             #region load game textures
             Textures = new Dictionary<string, Texture2D>();
-            Textures["grass_overworld"] = LoadTex2D(device, "graphics\\grassB.png");
+            Textures["grass_overworld"] = LoadTex2D(device, "graphics\\terraintiles.png");
             Textures["waterbump"] = LoadTex2D(device, "graphics\\waterbump.jpg");
             Textures["rock"] = LoadTex2D(device, "graphics\\rock.jpg");
             Textures["sand"] = LoadTex2D(device, "graphics\\sand.png");

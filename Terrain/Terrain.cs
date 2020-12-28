@@ -22,6 +22,7 @@ namespace Terrain
         public float WaterHeight;
         public const float TileMapUVStep = 0.0625f;
         public const int TileAmount = 16;
+        public const float TileMapUVTexelOffset = 0.00025f;
 
         int LastX;
         int LastY;
