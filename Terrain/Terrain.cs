@@ -22,6 +22,7 @@ namespace Terrain
         public float WaterHeight;
         public const float TileMapUVStep = 0.0625f;
         public const int TileAmount = 16;
+        //this is used to sample the middle of texels to prevent ugly edge bleeding
         public const float TileMapUVTexelOffset = 0.00025f;
 
         int LastX;

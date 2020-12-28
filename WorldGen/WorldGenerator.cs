@@ -738,43 +738,49 @@ namespace WorldGen
             for (int y = 0; y < BlockSize + 2; y++)
                 for (int x = 0; x < BlockSize + 2; x++)
                 {
-                    //y * 4 * (BlockSize + 2) + x 
+                    //Calculate relevant offsets into the index/vertex arrays
+                    //#TODO: ditch the padded edges as they're unneeded with the tile system
                     int vindex2 = GetQuadStartingVertexIndex(x, y, BlockSize + 2);
                     int vindex = GetQuadStartingVertexIndex(x, y, BlockSize);
                     int iindex2 = GetQuadStartingIndexIndex(x, y, BlockSize + 2);
                     int iindex = GetQuadStartingIndexIndex(x, y, BlockSize);
+
+                    //set heights of a tile's corners based on heightmap
                     _vertices[vindex2 + 0].Position.Y = heightmap[x, y];
                     _vertices[vindex2 + 1].Position.Y = heightmap[x+1, y];
                     _vertices[vindex2 + 2].Position.Y = heightmap[x, y+1];
                     _vertices[vindex2 + 3].Position.Y = heightmap[x+1, y+1];
-                                
+                    //put the corners in their spot of the plane
                     _vertices[vindex2 + 0].Position.X = x - 1;
                     _vertices[vindex2 + 1].Position.X = x;
                     _vertices[vindex2 + 2].Position.X = x - 1;
                     _vertices[vindex2 + 3].Position.X = x;
-                                
+                    //Z is north/south!
                     _vertices[vindex2 + 0].Position.Z = y - 1;
                     _vertices[vindex2 + 1].Position.Z = y - 1;
                     _vertices[vindex2 + 2].Position.Z = y;
                     _vertices[vindex2 + 3].Position.Z = y;
-
+                    //set texture coordinates corresponding to Tile 0 - note texel offsets to prevent bleed
                     _vertices[vindex2 + 0].TextureCoordinate = new Vector2(0+Terrain.Terrain.TileMapUVTexelOffset, 0 + Terrain.Terrain.TileMapUVTexelOffset);
                     _vertices[vindex2 + 1].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset, 0 + Terrain.Terrain.TileMapUVTexelOffset);
                     _vertices[vindex2 + 2].TextureCoordinate = new Vector2(0 + Terrain.Terrain.TileMapUVTexelOffset, Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset);
                     _vertices[vindex2 + 3].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset, Terrain.Terrain.TileMapUVStep - Terrain.Terrain.TileMapUVTexelOffset);
 
-
+                    //default colour is 0.5 gray, should work with untinted tiles if needed
                     _vertices[vindex2 + 0].Color=Color.Gray;
                     _vertices[vindex2 + 1].Color=Color.Gray;
                     _vertices[vindex2 + 2].Color=Color.Gray;
                     _vertices[vindex2 + 3].Color = Color.Gray;
 
+                    //set indices on padded geometry
                     _indices2[iindex2] = vindex2;
                     _indices2[iindex2 + 1] = vindex2 + 1;
                     _indices2[iindex2 + 2] = vindex2 + 2;
                     _indices2[iindex2 + 3] = vindex2 + 1;
                     _indices2[iindex2 + 4] = vindex2 + 3;
                     _indices2[iindex2 + 5] = vindex2 + 2;
+
+                    //set indices on unpadded geometry
                     if(x<BlockSize&&y<BlockSize)
                     {
 
@@ -790,22 +796,24 @@ namespace WorldGen
 
                 }
         }
-
+        
         public void CalculateNormals()
         {
+            
             for (int i = 0; i < _indices2.Length / 3; i++)
             {
-                int index3 = _indices2[i * 3 + 2];
+                //this simply takes indices in threes, 
                 int index1 = _indices2[i * 3];
                 int index2 = _indices2[i * 3 + 1];
-
+                int index3 = _indices2[i * 3 + 2];
+                //computes a normal for the triangle from the vertices
                 Vector3 side1 =_vertices[index1].Position -_vertices[index3].Position;
                 Vector3 side2 =_vertices[index1].Position -_vertices[index2].Position;
                 Vector3 normal = Vector3.Cross(side1, side2);
-                
-               _vertices[index1].Normal = normal;
-               _vertices[index2].Normal = normal;
-               _vertices[index3].Normal = normal;
+                // and writes it into  the vertices
+                _vertices[index1].Normal = normal;
+                _vertices[index2].Normal = normal;
+                _vertices[index3].Normal = normal;
             }
         }
         public void FinalizeGrid()
