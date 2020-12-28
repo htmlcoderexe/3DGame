@@ -781,54 +781,9 @@ namespace WorldGen
                 Vector3 side2 =_vertices[index1].Position -_vertices[index2].Position;
                 Vector3 normal = Vector3.Cross(side1, side2);
                 
-               _vertices[index1].Normal += normal;
-               _vertices[index2].Normal += normal;
-               _vertices[index3].Normal += normal;
-            }
-        }
-        public void CreateIndices()
-        {
-            _indices = new int[(BlockSize) * (BlockSize) * 6];
-            _indices2 = new int[(BlockSize+2) * (BlockSize+2) * 6];
-            int counter = 0;
-            for (int y = 0; y < (BlockSize); y++)
-            {
-                for (int x = 0; x < (BlockSize); x++)
-                {
-
-                    int lowerLeft = x + (y + 1) * (BlockSize + 1);
-                    int lowerRight = (x + 1) + (y + 1) * (BlockSize + 1);
-                    int topLeft = x + y * (BlockSize + 1);
-                    int topRight = (x + 1) + y * (BlockSize + 1);
-
-                    _indices[counter++] = topLeft;
-                    _indices[counter++] = lowerRight;
-                    _indices[counter++] = lowerLeft;
-
-                    _indices[counter++] = topLeft;
-                    _indices[counter++] = topRight;
-                    _indices[counter++] = lowerRight;
-                }
-            }
-            counter = 0;
-            for (int y = 0; y < (BlockSize+2); y++)
-            {
-                for (int x = 0; x < (BlockSize+2); x++)
-                {
-
-                    int lowerLeft = x + (y + 1) * (BlockSize + 1+2);
-                    int lowerRight = (x + 1) + (y + 1) * (BlockSize + 1+2);
-                    int topLeft = x + y * (BlockSize + 1 + 2);
-                    int topRight = (x + 1) + y * (BlockSize + 1 + 2);
-
-                    _indices2[counter++] = topLeft;
-                    _indices2[counter++] = lowerRight;
-                    _indices2[counter++] = lowerLeft;
-                            
-                    _indices2[counter++] = topLeft;
-                    _indices2[counter++] = topRight;
-                    _indices2[counter++] = lowerRight;
-                }
+               _vertices[index1].Normal = normal;
+               _vertices[index2].Normal = normal;
+               _vertices[index3].Normal = normal;
             }
         }
         public void FinalizeGrid()
@@ -845,7 +800,6 @@ namespace WorldGen
             SetHeights(X,Y);
             SetupVertexField(_heightmap);
             SetTile(50, 50, 112);
-            //CreateIndices();
             CalculateNormals();
             block.indices = _indices2;
             block.vertices = _vertices;// new TerrainVertex[(BlockSize * 2 ) * (BlockSize * 2 )];
