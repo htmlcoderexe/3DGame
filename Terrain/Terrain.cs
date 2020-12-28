@@ -20,8 +20,12 @@ namespace Terrain
         //ublic WorldGen.WorldGenerator WorldGenerator;
         private VertexBuffer _water;
         public float WaterHeight;
+        public const float TileMapUVStep = 0.0625f;
+        public const int TileAmount = 16;
+
         int LastX;
         int LastY;
+
         public int RenderDistance { get; set; }
         public bool BlockLoaded(int X, int Y)
         {

@@ -652,7 +652,61 @@ namespace WorldGen
 
         }
 
+        public static int GetQuadStartingVertexIndex(int X, int Y, int Width)
+        {
+            return Width * Y * 4 + X * 4;
+        }
+        public static int GetQuadStartingIndexIndex(int X, int Y, int Width)
+        {
+            return Width * Y * 6 + X * 6;
+        }
 
+        public static Vector2 GetUVForTile(int TileNumber, int VertexNumber)
+        {
+            float Stride = Terrain.Terrain.TileAmount;
+            float X = (float)TileNumber % Stride;
+            float Y = (int)((float)TileNumber / Stride);
+            Vector2 template = new Vector2();
+            switch(VertexNumber)
+            {
+                case 1:
+                    {
+                        template = new Vector2(1, 0);
+                        break;
+                    }
+                case 2:
+                    {
+                        template = new Vector2(0, 1);
+                        break;
+                    }
+                case 3:
+                    {
+                        template = new Vector2(1,1);
+                        break;
+                    }
+
+                default:
+                    {
+                        template = new Vector2(0, 0);
+                        break;
+                    }
+
+            }
+            template *= Terrain.Terrain.TileMapUVStep;
+            Vector2 mask = new Vector2(X * Terrain.Terrain.TileMapUVStep, Y * Terrain.Terrain.TileMapUVStep);
+            return template + mask;
+
+        }
+
+        public void SetTile(int X, int Y, int ID)
+        {
+            int vindex=GetQuadStartingVertexIndex(X, Y, BlockSize + 2);
+            _vertices[vindex + 0].TextureCoordinate = GetUVForTile(ID, 0);
+            _vertices[vindex + 1].TextureCoordinate = GetUVForTile(ID, 1);
+            _vertices[vindex + 2].TextureCoordinate = GetUVForTile(ID, 2);
+            _vertices[vindex + 3].TextureCoordinate = GetUVForTile(ID, 3);
+
+        }
 
         public void SetupVertexField(float[,] heightmap)
         {
@@ -663,10 +717,10 @@ namespace WorldGen
                 for (int x = 0; x < BlockSize + 2; x++)
                 {
                     //y * 4 * (BlockSize + 2) + x 
-                    int vindex2 = (BlockSize + 2) * y * 4 + x * 4;
-                    int vindex = (BlockSize) * y * 4 + x * 4;
-                    int iindex2 = (BlockSize + 2) * y * 6 + x * 6;
-                    int iindex = (BlockSize ) * y * 6 + x * 6;
+                    int vindex2 = GetQuadStartingVertexIndex(x, y, BlockSize + 2);
+                    int vindex = GetQuadStartingVertexIndex(x, y, BlockSize);
+                    int iindex2 = GetQuadStartingIndexIndex(x, y, BlockSize + 2);
+                    int iindex = GetQuadStartingIndexIndex(x, y, BlockSize);
                     _vertices[vindex2 + 0].Position.Y = heightmap[x, y];
                     _vertices[vindex2 + 1].Position.Y = heightmap[x+1, y];
                     _vertices[vindex2 + 2].Position.Y = heightmap[x, y+1];
@@ -683,9 +737,9 @@ namespace WorldGen
                     _vertices[vindex2 + 3].Position.Z = y;
 
                     _vertices[vindex2 + 0].TextureCoordinate = new Vector2(0, 0);
-                    _vertices[vindex2 + 1].TextureCoordinate = new Vector2(0.9125f, 0);
-                    _vertices[vindex2 + 2].TextureCoordinate = new Vector2(0, 0.9125f);
-                    _vertices[vindex2 + 3].TextureCoordinate = new Vector2(0.9125f, 0.9125f);
+                    _vertices[vindex2 + 1].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep, 0);
+                    _vertices[vindex2 + 2].TextureCoordinate = new Vector2(0, Terrain.Terrain.TileMapUVStep);
+                    _vertices[vindex2 + 3].TextureCoordinate = new Vector2(Terrain.Terrain.TileMapUVStep, Terrain.Terrain.TileMapUVStep);
 
 
                     _vertices[vindex2 + 0].Color=Color.Gray;
@@ -790,6 +844,7 @@ namespace WorldGen
             CreateGrid();
             SetHeights(X,Y);
             SetupVertexField(_heightmap);
+            SetTile(50, 50, 112);
             //CreateIndices();
             CalculateNormals();
             block.indices = _indices2;
