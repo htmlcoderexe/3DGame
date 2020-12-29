@@ -728,6 +728,10 @@ namespace WorldGen
         public void SetTileColour(int X, int Y, Color Colour)
         {
             int vindex = GetQuadStartingVertexIndex(X, Y, BlockSize + 2);
+            _vertices[vindex + 0].Color=Colour;
+            _vertices[vindex + 1].Color=Colour;
+            _vertices[vindex + 2].Color=Colour;
+            _vertices[vindex + 3].Color = Colour;
         }
 
         public void SetupVertexField(float[,] heightmap)
