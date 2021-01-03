@@ -826,6 +826,9 @@ namespace WorldGen
         }
         public Unit GenerateBlock(int X, int Y)
         {
+
+            int x = 0;
+            int y = 0;
             BlockTitle = "";
             Unit block = new Unit();
             block.X = X;
@@ -836,6 +839,13 @@ namespace WorldGen
             SetTileID(50, 50, 1);
             SetTileColour(51, 50, Color.Red);
             SetTileColour(49, 50, Color.Green);
+            /*
+            for (x = 0; x < BlockSize; x++)
+                for (y = 0; y < BlockSize; y++)
+                {
+                    SetTileID(x, y, 2);
+                }
+            //*/
             CalculateNormals();
             block.indices = _indices2;
             block.vertices = _vertices;// new TerrainVertex[(BlockSize * 2 ) * (BlockSize * 2 )];
@@ -843,8 +853,6 @@ namespace WorldGen
             block.vertices= new TerrainVertex[(BlockSize * 2) * (BlockSize * 2)]; 
             block.heightmap = new float[BlockSize+1, BlockSize+1];
             TerrainVertex current;
-            int x = 0;
-            int y = 0 ;
             for (x = 0; x < BlockSize+1; x++)
                 for (y = 0; y < BlockSize+1; y++)
                 {
