@@ -1,6 +1,7 @@
 #beginmodel "dude1"
 	#choreo "humanoid"
 	#offset 0 0.75 0
+	#height 1.30
 	#beginsymbols
 		$body=127:127:127
 		$bodycentre=76:76:76

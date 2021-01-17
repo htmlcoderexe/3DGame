@@ -807,7 +807,15 @@ namespace _3DGame.Scenes
                 distance = labelorigin - playerorigin;
                 if (distance.Length() > 50)
                     continue;
-                labelorigin.Y += 2.5f;//todo implement object height
+                if (NPC.Model != null)
+                {
+                    labelorigin.Y += NPC.Model.Height;
+                }
+                else
+                {
+                    labelorigin.Y += 2.5f;
+                }
+                //todo implement object height
                 projectedlabelorigin = batch.GraphicsDevice.Viewport.Project(labelorigin, World.Camera.GetProjection(batch.GraphicsDevice), World.Camera.GetView(), Matrix.Identity);
                 if (projectedlabelorigin.Z > 1)
                     continue;
@@ -819,7 +827,7 @@ namespace _3DGame.Scenes
                 if (NPC.DisplayName == null)
                     NPC.DisplayName = "<MissingNo.>";
                 stringsize = GUIRenderer.UIFont.MeasureString(NPC.DisplayName);
-                renderlocation = new Vector2((int)(projectedlabelorigin.X - (stringsize.X / 2f)), (int)(projectedlabelorigin.Y));
+                renderlocation = new Vector2((int)(projectedlabelorigin.X - (stringsize.X / 2f)), (int)(projectedlabelorigin.Y)-stringsize.Y);
                 batch.DrawString(GUIRenderer.UIFont, NPC.DisplayName, renderlocation, colour, 0f, Vector2.Zero, 1f, SpriteEffects.None, projectedlabelorigin.Z);
 
                 if(NPC is GameObject.MapEntities.DamageParticle ppp)
@@ -829,6 +837,7 @@ namespace _3DGame.Scenes
                     distance = labelorigin - playerorigin;
                     if (distance.Length() > 50)
                         continue;
+                    
                     labelorigin.Y += 2.5f;//todo implement object height
                     projectedlabelorigin = batch.GraphicsDevice.Viewport.Project(labelorigin, World.Camera.GetProjection(batch.GraphicsDevice), World.Camera.GetView(), Matrix.Identity);
                     if (projectedlabelorigin.Z > 1)

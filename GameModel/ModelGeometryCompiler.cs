@@ -224,6 +224,7 @@ namespace GameModel
             List<ModelPart> p = new List<ModelPart>();
             string choreoname = "";
             Vector3 offset= Vector3.Zero;
+            float height = 0;
             string command = ls.Next();
             while(command!="#endmodel")
             {
@@ -261,6 +262,13 @@ namespace GameModel
                             offset = new Vector3(X, Y, Z);
                             break;
                         }
+                    case "#height":
+                        {
+                            float X;
+                            X = ls.NextFloat();
+                            height = X;
+                            break;
+                        }
                     default:
                         {
                             //throw error here or something
@@ -281,6 +289,7 @@ namespace GameModel
             Output.Choreo = LoadChoreo(System.IO.File.ReadAllText(choreofname));
             Output.ChoreoName = choreoname;
             Output.Offset = offset;
+            Output.Height = height;
             ls = null;
 
         }

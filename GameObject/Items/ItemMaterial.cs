@@ -85,33 +85,6 @@ namespace GameObject.Items
                 }
 
             }
-            public static Color GradeToColour(string Grade)
-            {
-                switch (Grade)
-                {
-                    case "Uncommon":
-                        {
-                            return new Color(120, 100, 255);
-                        }
-                    case "Common":
-                        {
-                            return  Color.White;
-                        }
-                    case "Rare":
-                        {
-                            return new Color(192, 0, 255);
-                            
-                        }
-                    case "Epic":
-                        {
-                            return new Color(255, 100, 20);
-                        }
-                    default:
-                        {
-                            return Color.Gray;
-                        }
-                }
-            }
             static Material MaterialFromLine(string Line)
             {
                 string[] parts = Line.Split(':');

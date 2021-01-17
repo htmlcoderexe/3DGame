@@ -101,21 +101,24 @@ namespace _3DGame.Scenes.GameplayAssets
 
         }
 
-        private void OKButton_Clicked(object sender, EventArgs e)
+        GameObject.Item MakeRandomMat()
         {
             GameObject.Item Item;
             Item = GameObject.Items.Material.MaterialTemplates.GetRandomMaterial();
             Item.SubType = GameObject.RNG.Next(GameObject.Items.Material.MaterialType.Max);
-            Item.Description= "A " + GameObject.Items.Material.MaterialType.GetTypeName(Item.SubType) +" made from "+Item.Name+". Used in crafting equipment.";
-            this.OKButton.Title = Item.GetName();
-            this.slot.Item = Item;
+            Item.Description = "A " + GameObject.Items.Material.MaterialType.GetTypeName(Item.SubType) + " made from " + Item.Name + ". Used in crafting equipment.";
+            return Item;
+        }
+
+        GameObject.Item MakeRandomEquip()
+        {
             ItemEquip eq = new ItemEquip();
-            BonusPool p=BonusPool.Load("heavy_0_10");
+            BonusPool p = BonusPool.Load("heavy_0_10");
             eq.Bonuses.Add(p.PickBonus());
             eq.Bonuses.Add(p.PickBonus());
-            Enchantment enc=new Enchantment();
-            int enctype =GameObject.RNG.Next(0, 3);
-            switch(enctype)
+            Enchantment enc = new Enchantment();
+            int enctype = GameObject.RNG.Next(0, 3);
+            switch (enctype)
             {
                 case 0:
                     {
@@ -138,7 +141,7 @@ namespace _3DGame.Scenes.GameplayAssets
                         enc.Multiplier = 0.33f;
                         break;
                     }
-            } 
+            }
             eq.Enchant = enc;
             eq.SubType = GameObject.RNG.Next(0, 10);
             if (eq.SubType == 7)
@@ -149,9 +152,28 @@ namespace _3DGame.Scenes.GameplayAssets
                 eq.SubType = 15;
             eq.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             eq.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
-            List<string> ToolTip = eq.GetTooltip();
-            this.slot.Item = eq;
-            Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(eq.NameColour)+ "["+eq.GetName()+"] ^ENDLINK .^FFFFFF Click name to see more.",new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
+            return eq;
+        }
+
+        GameObject.Item MakeRandomGem()
+        {
+            int Level = GameObject.RNG.Next(8);
+            string stat = ItemGemstone.StatGemColours.Keys.ToList()[GameObject.RNG.Next(ItemGemstone.StatGemColours.Keys.Count())];
+            ItemGemstone gem = new ItemGemstone(stat,Level+1);
+
+            return gem;
+        }
+
+        private void OKButton_Clicked(object sender, EventArgs e)
+        {
+            GameObject.Item Item=MakeRandomMat();
+           // this.slot.Item = Item;
+
+            Item = MakeRandomEquip();
+            Item = MakeRandomGem();
+            List<string> ToolTip = Item.GetTooltip();
+            this.slot.Item = Item;
+            Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(Item.NameColour) + "[" + Item.GetName() + "] ^ENDLINK .^FFFFFF Click name to see more.", new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
                 WM.Add(tip); })});
             //this.Player.EquipItem(eq);
             this.Title = this.Player.CalculateStat("HP").ToString();

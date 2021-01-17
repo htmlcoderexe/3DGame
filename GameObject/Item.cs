@@ -19,6 +19,33 @@ namespace GameObject
             public const int Equip = 3;
             public const int Consumable = 4;
         }
+        public static Color GradeToColour(string Grade)
+        {
+            switch (Grade)
+            {
+                case "Uncommon":
+                    {
+                        return new Color(120, 100, 255);
+                    }
+                case "Common":
+                    {
+                        return Color.White;
+                    }
+                case "Rare":
+                    {
+                        return new Color(192, 0, 255);
+
+                    }
+                case "Epic":
+                    {
+                        return new Color(255, 100, 20);
+                    }
+                default:
+                    {
+                        return Color.Gray;
+                    }
+            }
+        }
         public virtual bool CanStackWith(Item other)
         {
             if (this.Name != other.Name)

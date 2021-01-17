@@ -122,7 +122,7 @@ namespace GameObject.Items
             if (this.SubType == 1)
                 this.Variant = RNG.Next(2);
             string[] grades = new string[] { "Common","Uncommon","Rare","Epic" };
-            this.NameColour = Items.Material.MaterialTemplates.GradeToColour(grades[RNG.Next(0, grades.Length)]);
+            this.NameColour = Item.GradeToColour(grades[RNG.Next(0, grades.Length)]);
         }
         public override void Render(int X, int Y, GraphicsDevice device, Renderer Renderer, bool RenderCooldown = false, bool RenderEXP = false)
         {

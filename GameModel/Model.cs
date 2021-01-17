@@ -18,6 +18,7 @@ namespace GameModel
         private Dictionary<string, List<ModelPart>> AnimationMapping;
         private float maxlen=0;
         public Vector3 Offset;
+        public float Height;
         public bool Dirty = true;
         public float CurrentAnimationLength {
             get

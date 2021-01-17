@@ -80,6 +80,7 @@
     <Compile Include="Items\ItemBonus.cs" />
     <Compile Include="Items\ItemConsumable.cs" />
     <Compile Include="Items\ItemEquip.cs" />
+    <Compile Include="Items\ItemGemstone.cs" />
     <Compile Include="Items\ItemMaterial.cs" />
     <Compile Include="MapEntities\Actor.cs" />
     <Compile Include="MapEntities\ActorLogic\StatObject.cs" />
