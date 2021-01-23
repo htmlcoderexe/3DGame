@@ -1,6 +1,7 @@
 ﻿using GameObject.Interactions;
 using GameObject.Interactions.NPCCommands;
 using GUI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,18 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
     {
         bool Hot = false;
         bool md = false;
+        public Color Colour = new Color(102, 25, 0);
+        public Color HotColour = new Color(173,43,0);   
         void OpenShop(NPCShop shop)
         {
             ShopWindow w = new ShopWindow(shop);
+            Window p = this.GetParentWindow();
+            if(p!=null)
+            {
+                w.X = p.X;
+                w.Y = p.Y;
+                p.Close();
+            }
             WM.Add(w);
             w.Visible = true;
         }
@@ -25,7 +35,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         public static NPCMenuItem Close()
         {
             NPCMenuItem close = new NPCMenuItem("Exit");
-            close.OnClick += new ClickEventHandler((sender, m) => close.CloseWindow());
+            close.OnClick += new ClickEventHandler((sender, m) => close.GetParentWindow()?.Close());
             return close;
         }
 
@@ -69,6 +79,9 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             float textwidth = GFXUtility.StrW(this.Title, this.WM.Renderer.UIFont);
             float offsetX = 3f;
             float offsetY = (this.Height - 16f) / 2f;
+            Renderer.SetColour(Hot ? HotColour : Colour);
+            Renderer.RenderBar(device, X+this.X, Y+this.Y, this.Width, this.Height, 1f, 2);
+            Renderer.SetColour(Color.Gray);
             Renderer.RenderSmallText(device, offsetX + X + this.X, offsetY + Y + this.Y, this.Title, Microsoft.Xna.Framework.Color.White, false, true);
             this.Hot = false;
         }

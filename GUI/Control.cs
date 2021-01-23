@@ -246,12 +246,13 @@ namespace GUI
 
 
         }
+        
 
         /// <summary>
-        /// Closes the window this control belongs to
+        /// Gets the window this control belongs to
         /// </summary>
         /// <returns>true on success, false on failure (orphaned control)</returns>
-        public bool CloseWindow()
+        public Window GetParentWindow()
         {
             Control p = this.Parent;
             //traverse up a parent tree - windows have no parent so it will exit once it hits one, closing it.
@@ -260,12 +261,12 @@ namespace GUI
             {
                 if (p is Window w)
                 {
-                    w.Close();
-                    return true;
+                    return w;
                 }
                 p = p.Parent;
             }
-            return false;
+            return null;
+
         }
     }
 
