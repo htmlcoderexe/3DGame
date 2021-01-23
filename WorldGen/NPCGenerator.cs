@@ -32,6 +32,9 @@ namespace WorldGen
         public GameObject.MapEntities.Actors.NPC GenerateOneNPC()
         {
             GameObject.MapEntities.Actors.NPC npc = new GameObject.MapEntities.Actors.NPC("Hello. I am an NPC.");
+            npc.Commands = new List<GameObject.Interactions.NPCCommand>();
+
+            npc.Commands.Add(new GameObject.Interactions.NPCCommands.OpenShop() { Label = "Shop" });
             Vector3 pos = new Vector3(RNG.NextInt(63), 0, RNG.NextInt(63));
             npc.Position = pos;
             npc.Heading = RNG.NextInt(350);

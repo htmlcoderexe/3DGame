@@ -169,12 +169,21 @@ namespace GameObject
         private void RemoveDeadEntities()
         {
             this._deadEntities.Clear();
-            foreach (MapEntity e in this.Entities)
+            try
             {
-                MapEntity ed = e;
-                if (ed.IsDead)
-                    _deadEntities.Add(ed);
-                ed = null;
+
+                foreach (MapEntity e in this.Entities)
+                {
+                    MapEntity ed = e;
+                    if (ed.IsDead)
+                        _deadEntities.Add(ed);
+                    ed = null;
+                }
+            }
+            catch (Exception e)
+            {
+
+                return;
             }
             foreach (MapEntity e in this._deadEntities)
             {

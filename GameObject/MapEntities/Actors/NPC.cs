@@ -10,6 +10,7 @@ namespace GameObject.MapEntities.Actors
     public class NPC : Actor
     {
         public string Greeting;
+        public List<Interactions.NPCCommand> Commands;
         public NPC(string Greeting)
         {
             this.Greeting = Greeting;

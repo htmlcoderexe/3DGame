@@ -59,8 +59,10 @@
     <Compile Include="Scenes\GameplayAssets\Windows\ItemSlot.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\MultiActionChoice.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\NavWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\NPCMenuItem.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\NPCWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\FBindWindow.cs" />
+    <Compile Include="Scenes\GameplayAssets\Windows\ShopWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\SkillTreeWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\StatusWindow.cs" />
     <Compile Include="Scenes\GameplayAssets\Windows\TargetWindow.cs" />

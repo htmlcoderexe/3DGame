@@ -246,6 +246,27 @@ namespace GUI
 
 
         }
+
+        /// <summary>
+        /// Closes the window this control belongs to
+        /// </summary>
+        /// <returns>true on success, false on failure (orphaned control)</returns>
+        public bool CloseWindow()
+        {
+            Control p = this.Parent;
+            //traverse up a parent tree - windows have no parent so it will exit once it hits one, closing it.
+
+            while (p != null)
+            {
+                if (p is Window w)
+                {
+                    w.Close();
+                    return true;
+                }
+                p = p.Parent;
+            }
+            return false;
+        }
     }
 
 }
