@@ -30,6 +30,10 @@ namespace GameObject.MapEntities.Actors
         /// </summary>
         public int EXP;
         /// <summary>
+        /// How much bux player has
+        /// </summary>
+        public int Money;
+        /// <summary>
         /// Calculates EXP to achieve specific level from previous.
         /// </summary>
         /// <param name="lvl"></param>
@@ -85,6 +89,7 @@ namespace GameObject.MapEntities.Actors
             this.Gravity = false;
             this.JumpStrength = 10;
             this.MaxJumps = 2;
+
             //anything below should be data pulled from character template/saved character
             this.StatBonuses.Add(new StatBonus() { FlatValue = 100, Type = "HP", Order = StatBonus.StatOrder.Template });
             this.StatBonuses.Add(new StatBonus() { FlatValue = 15, Type = "hpregen", Order = StatBonus.StatOrder.Template });
@@ -106,6 +111,10 @@ namespace GameObject.MapEntities.Actors
             this.Gravity = false;
             this.JumpStrength = 10;
             this.MaxJumps = 2;
+
+            this.Money = 100000;
+
+
 
             this.Abilities = new List<ModularAbility>();
             foreach(SkillTreeEntry e in CharacterClass.SkillTree.Entries)

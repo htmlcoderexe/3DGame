@@ -40,6 +40,7 @@ namespace GameObject.Items
             this.Level = Level;
             this.Stat = Stat;
             this.Name = this.Stat + " gem";
+            this.Boost = -5 + Level * 10;
             this.NameColour = GradeToColour("Common");
             switch(Level)
             {
@@ -66,11 +67,25 @@ namespace GameObject.Items
                         this.NameColour = GradeToColour("Epic");
                         break;
                     }
+                case 14:
+                case 15:
+                case 16:
+                    {
+                        this.NameColour = GradeToColour("Legendary");
+                        break;
+                    }
                 default:
                     {
                         break;
                     }
             }
+        }
+
+        public override bool CanStackWith(Item other)
+        {
+            if (this.Level != (other as ItemGemstone)?.Level)
+                return false;
+            return base.CanStackWith(other);
         }
 
         public override void Render(int X, int Y, GraphicsDevice device, Renderer Renderer, bool RenderCooldown = false, bool RenderEXP = false)

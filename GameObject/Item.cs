@@ -23,7 +23,7 @@ namespace GameObject
         {
             switch (Grade)
             {
-                case "Uncommon":
+                case "Rare":
                     {
                         return new Color(120, 100, 255);
                     }
@@ -31,20 +31,47 @@ namespace GameObject
                     {
                         return Color.White;
                     }
-                case "Rare":
+                case "Epic":
                     {
                         return new Color(192, 0, 255);
 
                     }
-                case "Epic":
+                case "Legendary":
                     {
                         return new Color(255, 100, 20);
+                    }
+                case "Uncommon":
+                    {
+                        return new Color(0, 204, 0);
                     }
                 default:
                     {
                         return Color.Gray;
                     }
             }
+        }
+        public static string FormatMoney(int Amount, bool UseColours=true)
+        {
+
+            string raw = Amount.ToString();
+            string buffer = "";
+            for(int i=0;i<raw.Length;i++)
+            {
+                if (i > 1 && (i) % 3 == 0)
+                {
+                    buffer = " " + buffer;
+                }
+                buffer = raw[raw.Length-1-i] +buffer;
+            }
+            string prefix = "";
+            if(UseColours)
+            {
+                if (Amount >= 5000)
+                    prefix = "^FFFF7F ";
+                if (Amount >= 50000)
+                    prefix = "^FF7F00 ";
+            }
+            return prefix+buffer;
         }
         public virtual bool CanStackWith(Item other)
         {

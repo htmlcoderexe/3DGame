@@ -455,7 +455,7 @@ namespace _3DGame.Scenes
                             HoverTarget.DoubleClick(World.Player);
                             if(World.Player.Target is NPC npc)
                             {
-                                GUI.Window w = new Scenes.GameplayAssets.Windows.NPCWindow(Scenes.Gameplay.WindowManager, npc);
+                                GUI.Window w = new Scenes.GameplayAssets.Windows.NPCWindow(Scenes.Gameplay.WindowManager, npc, World.Player);
                                 WindowManager.Add(w);
                                 w.Visible = true;
                             }

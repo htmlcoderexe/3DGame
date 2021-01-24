@@ -61,7 +61,7 @@ namespace GameObject.Items
                 this.Backup[firstempty] = Item;
                 return null;
             }
-            return null;
+            return Item;
         }
         public Item AddItem(Item Item, int Position)
         {

@@ -17,10 +17,11 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         bool Hot = false;
         bool md = false;
         public Color Colour = new Color(102, 25, 0);
-        public Color HotColour = new Color(173,43,0);   
+        public Color HotColour = new Color(173,43,0);
+        GameObject.MapEntities.Actors.Player player;
         void OpenShop(NPCShop shop)
         {
-            ShopWindow w = new ShopWindow(shop);
+            ShopWindow w = new ShopWindow(shop,player);
             Window p = this.GetParentWindow();
             if(p!=null)
             {
@@ -34,24 +35,25 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         //Exit option at the end of any menu
         public static NPCMenuItem Close()
         {
-            NPCMenuItem close = new NPCMenuItem("Exit");
+            NPCMenuItem close = new NPCMenuItem(null, "Exit");
             close.OnClick += new ClickEventHandler((sender, m) => close.GetParentWindow()?.Close());
             return close;
         }
 
-        public NPCMenuItem(string Label)
+        public NPCMenuItem(GameObject.MapEntities.Actors.Player Player, string Label)
         {
             this.Title = Label;
             this.Height = 20;
             this.Width = 300;
-
+            player = Player;
         }
 
-        public NPCMenuItem(NPCCommand command)
+        public NPCMenuItem(GameObject.MapEntities.Actors.Player Player, NPCCommand command)
         {
             this.Title = command.Label;
             this.Height = 20;
             this.Width = 300;
+            player = Player;
             if (command is OpenShop shop)
             {
                 this.OnClick += new ClickEventHandler((sender, m) => OpenShop(shop.Shop));

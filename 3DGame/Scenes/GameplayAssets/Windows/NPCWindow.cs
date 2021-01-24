@@ -8,8 +8,10 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 {
     public class NPCWindow : GUI.Window
     {
-        public NPCWindow(GUI.WindowManager WM,GameObject.MapEntities.Actors.NPC NPC)
+        public GameObject.MapEntities.Actors.Player Player;
+        public NPCWindow(GUI.WindowManager WM,GameObject.MapEntities.Actors.NPC NPC, GameObject.MapEntities.Actors.Player Player)
         {
+            this.Player = Player;
             this.Width = 320;
             this.Height = 512;
             GUI.Controls.RichTextDisplay greeting = new GUI.Controls.RichTextDisplay(NPC.Greeting,180, 200, WM);
@@ -20,7 +22,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             {
                 for(int i=0;i<NPC.Commands.Count;i++)
                 {
-                    NPCMenuItem mi = new NPCMenuItem(NPC.Commands[i])
+                    NPCMenuItem mi = new NPCMenuItem(Player, NPC.Commands[i])
                     {
                         Y = yoffset
                     };
