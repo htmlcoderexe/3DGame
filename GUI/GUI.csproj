@@ -51,11 +51,13 @@
     <Compile Include="Controls\TextureContainer.cs" />
     <Compile Include="GFXUtility.cs" />
     <Compile Include="IAction.cs" />
+    <Compile Include="ModalWindow.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolTipWindow.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowManager.cs" />
+    <Compile Include="Windows\MessageBox.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

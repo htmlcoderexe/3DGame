@@ -34,6 +34,8 @@ namespace GUI
 
         public MouseState PreviousMouseState { get; set; }
         private List<Window> closedwindows;
+
+        public ModalWindow Modal { get; set; }
         public WindowManager()
         {
             this.Windows = new List<Window>();
@@ -137,6 +139,11 @@ namespace GUI
         public void Add(Window Window)
         {
             Window.WM = this;
+            if (Window is ModalWindow mw)
+            {
+                mw.Center();
+                this.Modal = mw;
+            }
             this.Windows.Add(Window);
         }
         public bool HandleMouse(MouseState Mouse, float dT)
@@ -167,6 +174,9 @@ namespace GUI
                     return true;
                 }
                 PreviousMouseState = Mouse;
+
+                if (Modal != null)
+                    return true;
                 return false;
             }
             Window.MouseMove(MouseX - Window.X, MouseY - Window.Y);
@@ -229,6 +239,11 @@ namespace GUI
         public Window GetWindow(float X, float Y)
         {
             Window wnd = null;
+
+            if(Modal!=null)
+            {
+                return (Modal.CheckCollision(X, Y) ? Modal : null);
+            }
 
             for (int i = this.Windows.Count - 1; i >= 0; i--)
             {

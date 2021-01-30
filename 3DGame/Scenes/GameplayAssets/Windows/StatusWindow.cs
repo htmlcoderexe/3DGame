@@ -166,17 +166,38 @@ namespace _3DGame.Scenes.GameplayAssets
 
         private void OKButton_Clicked(object sender, EventArgs e)
         {
-            GameObject.Item Item=MakeRandomMat();
-           // this.slot.Item = Item;
+            // this.slot.Item = Item;
 
-            Item = MakeRandomEquip();
-            Item = MakeRandomGem();
-            List<string> ToolTip = Item.GetTooltip();
-            this.slot.Item = Item;
-            Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(Item.NameColour) + "[" + Item.GetName() + "] ^ENDLINK .^FFFFFF Click name to see more.", new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
+            GUI.Windows.MessageBox mb = new GUI.Windows.MessageBox(this, "MessageBox test", "This is a test", GUI.Windows.MessageBox.ButtonOptions.OKCancel);
+            //so modals don't quite work like in winforms but should do the trick in our case:
+            //an active modal window prevents the mouse from doing anything except in the modal window,
+            //effectively ensuring the code in the callback attached to the event that fires when
+            //the window is closed by any means is executed before any other GUI actions can happen
+            //for example, a callback for a yes/no box may check the result and apply an action to its owner window
+            //such as proceeding/not proceeding with an action or making a choice
+            //here we simply change the title of this window based on which button was clicked
+            //a different modal window may ask for a text input or for a number
+            mb.ModalWindowClosed += Mb_ModalWindowClosed;
+            //lambdas are just as good
+            //mb.ModalWindowClosed+= new ModalWindow.ModalWindowClosedHandler((mbx,result,owner)=> owner.Title = result == ModalWindow.DialogResult.OK ? "Clicked OK" : "Clicked Cancel");
+            //this shows the modal, this MUST be the last line in the calling method unless you know what you're doing
+            WM.Add(mb);
+            //anything after this WILL execute BEFORE the modal is closed.
+        }
+
+        private void Mb_ModalWindowClosed(object sender, ModalWindow.DialogResult result, Window owner)
+        {
+            if(result == ModalWindow.DialogResult.OK)
+            {
+                GameObject.Item Item = MakeRandomMat();
+
+                Item = MakeRandomEquip();
+                Item = MakeRandomGem();
+                List<string> ToolTip = Item.GetTooltip();
+                this.slot.Item = Item;
+                Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(Item.NameColour) + "[" + Item.GetName() + "] ^ENDLINK .^FFFFFF Click name to see more.", new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
                 WM.Add(tip); })});
-            //this.Player.EquipItem(eq);
-            this.Title = this.Player.CalculateStat("HP").ToString();
+            }
         }
     }
 }

@@ -159,6 +159,13 @@ namespace GUI
 
         }
 
+        public void Center()
+        {
+            this.X = (int)(WM.Screen.X - this.Width) / 2;
+            this.Y = (int)(WM.Screen.Y - this.Height) / 2;
+
+        }
+
         public Window()
         {
             this.Controls = new List<Control>();
