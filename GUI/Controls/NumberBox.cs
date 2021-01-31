@@ -30,6 +30,8 @@ namespace GUI.Controls
             {
                 EditedText += Character;
             }
+            if (editmode && EditedText == "" && Character == '-')
+                EditedText += Character;
             if (!editmode && Character == '+')
                 Value++;
             if (!editmode && Character == '-')
@@ -76,11 +78,13 @@ namespace GUI.Controls
                 //upper half=up, lower half = down
                 if(Y<8)
                 {
-                    Value++;
+                    if (Value < 2000000000)
+                        Value++;
                 }
                 else
                 {
-                    Value--;
+                    if(Value>-2000000000)
+                        Value--;
                 }
             }
             //else go to edit mode to allow direct input of numbers
@@ -101,7 +105,14 @@ namespace GUI.Controls
             //otherwise set value to input
             else
             {
-                //no need for tryparse as only 0..9 is guaranteed as input
+                //normally no need for tryparse as only 0..9 is guaranteed as input
+                //but what if user puts in something larger than MAXINT?
+                long bigint = long.Parse(EditedText);
+                //yeah 2000 million is as good as the arbitrary looking Po2-1
+                if (bigint > 2000000000)
+                    EditedText = "2000000000";
+                if (bigint < -2000000000)
+                    EditedText = "-2000000000";
                 this.Value = int.Parse(EditedText);
                 //reset edited text
                 EditedText = "";
