@@ -63,3 +63,11 @@
 /processorParam:TextureFormat=Color
 /build:FX.png
 
+#begin LargeFontX.png
+/importer:TextureImporter
+/processor:FontTextureProcessor
+/processorParam:FirstCharacter= 
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Color
+/build:LargeFontX.png
+

@@ -28,7 +28,7 @@ namespace GUI
         public Control LastClickedControl;
         public string NotificationText;
         public float NotificationTimeout;
-        float NotificationTime = 100;
+        float NotificationTime = 2;
         public Renderer Renderer;
         public KeyboardState PreviousKbState { get; set; }
 
@@ -131,9 +131,9 @@ namespace GUI
                 int CX = (int)((float)device.Viewport.Width / 2f);
                 int CY = (int)((float)device.Viewport.Height / 2f);
                 float scale = NotificationTime / 2.0f;
-                float A = Math.Min(1.0f, this.NotificationTimeout / this.NotificationTime);
+                float A = Math.Min(0.3f, this.NotificationTimeout / this.NotificationTime);
                 Color c = new Color(1.0f, 1.0f, 0.9f, A);
-              //TODO  GUIDraw.RenderBigText(device, CX, CY, this.NotificationText, c, true);
+                Renderer.RenderBigText(device, CX, CY, this.NotificationText, c, true);
             }
         }
         public void Add(Window Window)

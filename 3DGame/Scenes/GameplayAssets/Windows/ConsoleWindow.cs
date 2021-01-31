@@ -62,6 +62,26 @@ namespace _3DGame.Scenes.GameplayAssets
         private void ProcessCommand(string command, string[] args)
         {
             Console.Write("Command: ^FFFF00 \"" + command + "\"^FFFFFF with ^00FF00 " + (args == null ? "0" : args.Length.ToString() )+ " ^FFFFFF arguments.");
+
+            switch(command)
+            {
+                case "notify":
+                    {
+                        Notify(args);
+                        break;
+                    }
+                default:
+                    {
+                        Console.Write("^FF0000 Unknown command ^FFFF00 " + command + "^FF0000 .");
+                        break;
+                    }
+            }
+        }
+
+        public void Notify(string[] args)
+        {
+            string notification = string.Join(" ", args);
+            WM.Notify(notification, true);
         }
 
         public void AppendMessage(string Message, List<System.Action> Links)

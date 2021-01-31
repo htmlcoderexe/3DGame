@@ -584,8 +584,10 @@ namespace _3DGame.Scenes
             Textures["equipdoll"] = LoadTex2D(device, "graphics\\vitruvian.png");
             Textures["dummy"] = LoadTex2D(device, "graphics\\gray.png");
             Fonts = new Dictionary<string, SpriteFont>();
-            Fonts["font1"]= content.Load<SpriteFont>("font1");
+            Fonts["font1"] = content.Load<SpriteFont>("font1");
             Fonts["font1"].DefaultCharacter = '#';
+            Fonts["fontN"] = content.Load<SpriteFont>("LargeFontX");
+            Fonts["fontN"].DefaultCharacter = '#';
             Fonts["FX"]= content.Load<SpriteFont>("FX");
             GameModel.Model.TexturePool = Textures;
             #endregion
@@ -607,6 +609,7 @@ namespace _3DGame.Scenes
             GUIRenderer.AbilityMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\icons.png", System.IO.FileMode.Open));
             GUIRenderer.GUIEffect = content.Load<Effect>("GUI");
             GUIRenderer.UIFont = Fonts["font1"];
+            GUIRenderer.FloatFont = Fonts["fontN"];
             WindowManager = new GUI.WindowManager();
             WindowManager.Renderer = GUIRenderer;
             wlist = new Dictionary<string, GUI.Window>();
