@@ -60,6 +60,7 @@
     <Compile Include="Window.cs" />
     <Compile Include="WindowManager.cs" />
     <Compile Include="Windows\MessageBox.cs" />
+    <Compile Include="Windows\TextPrompt.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

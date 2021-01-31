@@ -174,7 +174,8 @@ namespace _3DGame.Scenes.GameplayAssets
         {
             // this.slot.Item = Item;
 
-            GUI.Windows.MessageBox mb = new GUI.Windows.MessageBox(this, "MessageBox test", "This is a test", GUI.Windows.MessageBox.ButtonOptions.OKCancel);
+            //GUI.Windows.MessageBox mb = new GUI.Windows.MessageBox(this, "MessageBox test", "This is a test", GUI.Windows.MessageBox.ButtonOptions.OKCancel);
+            GUI.Windows.TextPrompt mb = new GUI.Windows.TextPrompt(this, "Text input", "Please enter text:", "default");
             //so modals don't quite work like in winforms but should do the trick in our case:
             //an active modal window prevents the mouse from doing anything except in the modal window,
             //effectively ensuring the code in the callback attached to the event that fires when
@@ -195,15 +196,20 @@ namespace _3DGame.Scenes.GameplayAssets
         {
             if(result == ModalWindow.DialogResult.OK)
             {
-                GameObject.Item Item = MakeRandomMat();
-
-                Item = MakeRandomEquip();
-                Item = MakeRandomGem();
-                List<string> ToolTip = Item.GetTooltip();
-                this.slot.Item = Item;
-                Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(Item.NameColour) + "[" + Item.GetName() + "] ^ENDLINK .^FFFFFF Click name to see more.", new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
-                WM.Add(tip); })});
+                this.Title = (sender as GUI.Windows.TextPrompt)?.TextResult;
             }
+        }
+
+        private void MakeNewItem()
+        {
+            GameObject.Item Item = MakeRandomMat();
+
+            Item = MakeRandomEquip();
+            Item = MakeRandomGem();
+            List<string> ToolTip = Item.GetTooltip();
+            this.slot.Item = Item;
+            Console.WriteEx("New item is ^BEGINLINK " + Renderer.ColourToCode(Item.NameColour) + "[" + Item.GetName() + "] ^ENDLINK .^FFFFFF Click name to see more.", new List<Action> { new Action(() => {ToolTipWindow tip = new ToolTipWindow(this.WM,ToolTip, WM.MouseX, WM.MouseY, false);
+                WM.Add(tip); })});
         }
     }
 }
