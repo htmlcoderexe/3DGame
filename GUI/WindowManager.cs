@@ -21,7 +21,7 @@ namespace GUI
         public int MouseX;
         public int MouseY;
         public Vector2 Screen;
-      //  public Interfaces.ITextInput FocusedText;
+        public ITextInput FocusedText;
        // public ToolTip ToolTip;
         public float MouseStillSeconds;
         public IActionIcon MouseGrab;
@@ -145,6 +145,11 @@ namespace GUI
                 this.Modal = mw;
             }
             this.Windows.Add(Window);
+        }
+        public void HandleTextInput(char Character, Keys Key)
+        {
+            // if (Character=='x')
+            FocusedText?.SendCharacter(Character);
         }
         public bool HandleMouse(MouseState Mouse, float dT)
         {

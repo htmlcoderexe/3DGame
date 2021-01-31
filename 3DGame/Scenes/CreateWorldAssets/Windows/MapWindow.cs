@@ -13,7 +13,7 @@ namespace _3DGame.Scenes.CreateWorldAssets.Windows
 
         public MapWindow(Texture2D MapTex)
         {
-            this.WM = CreateWorld.WindowManager;
+            this.WM = Main.CurrentScene.WindowManager;
             this.Width = 820;
             this.Height = 830;
             TextureContainer map = new TextureContainer(MapTex, WM);

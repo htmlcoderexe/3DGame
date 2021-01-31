@@ -9,6 +9,11 @@ namespace _3DGame
     /// </summary>
     public class Main : Game
     {
+
+        private void HandleTextInput(object sender, TextInputEventArgs e)
+        {
+            CurrentScene.WindowManager.HandleTextInput(e.Character, e.Key);
+        }
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static Microsoft.Xna.Framework.Content.ContentManager ContentRef;
@@ -16,6 +21,8 @@ namespace _3DGame
         public static Interfaces.IGameScene CurrentScene;
         public Main()
         {
+            Window.TextInput += HandleTextInput;
+
             this.IsFixedTimeStep = false;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

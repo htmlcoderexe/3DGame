@@ -174,7 +174,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             this.Width = 360;
             this.Height = 420;
             this.shop = shop;
-            this.WM = Gameplay.WindowManager;
+            this.WM = Main.CurrentScene.WindowManager;
             this._basket = new List<Tuple<GameObject.Item, int>>();
             this._basketslots = new ItemSlot[8];
             this.Player = Player;

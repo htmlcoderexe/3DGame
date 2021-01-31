@@ -20,7 +20,7 @@ namespace _3DGame.Scenes
         public SpriteBatch b;
         public RenderTarget2D Screen { get; set; }
         public GUI.Renderer GUIRenderer;
-        public static GUI.WindowManager WindowManager;
+        public GUI.WindowManager WindowManager { get; set; }
         public static Dictionary<string, SpriteFont> Fonts;
 
         public static WorldMap map;

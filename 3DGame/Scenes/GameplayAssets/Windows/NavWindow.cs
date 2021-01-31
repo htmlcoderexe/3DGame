@@ -14,7 +14,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         GUI.Controls.RichTextDisplay Coords;
         public NavWindow(GameObject.MapEntities.Actors.Player Player, Microsoft.Xna.Framework.Graphics.Texture2D tex)
         {
-            this.WM = Gameplay.WindowManager;
+            this.WM = Main.CurrentScene.WindowManager;
             this.Player = Player;
             this.Width = 296;
             this.Height = 300;

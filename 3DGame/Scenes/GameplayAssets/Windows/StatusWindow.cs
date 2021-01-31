@@ -74,6 +74,12 @@ namespace _3DGame.Scenes.GameplayAssets
                 Y = 39
             };
             this.AddControl(EXPBar);
+
+            GUI.Controls.TextBox box = new GUI.Controls.TextBox();
+            box.Height = 20;
+            box.Width = 200;
+            box.Y = 100;
+            AddControl(box);
             // this.AddControl(Texst);
         }
 

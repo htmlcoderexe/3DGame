@@ -18,7 +18,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
         public List<MultiChoiceCommand> Choices;
         public MultiActionChoice()
         {
-            this.WM = Gameplay.WindowManager;
+            this.WM = Main.CurrentScene.WindowManager;
             this.Width = 300;
             this.Choices = new List<MultiChoiceCommand>();
         }

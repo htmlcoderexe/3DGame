@@ -18,5 +18,6 @@ namespace _3DGame.Interfaces
         void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT);
         void Init(GraphicsDevice device,ContentManager content);
         void ScreenResized(GraphicsDevice device);
+        GUI.WindowManager WindowManager { get; set; }
     }
 }

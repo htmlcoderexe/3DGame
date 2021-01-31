@@ -40,7 +40,7 @@ namespace _3DGame.Scenes
         public bool RotateMap { get; private set; }
 
         public GUI.Renderer GUIRenderer;
-        public static GUI.WindowManager WindowManager;
+        public GUI.WindowManager WindowManager { get; set; }
         public Dictionary<string, Point> WindowPositions = new Dictionary<string, Point>();
         public MapEntity HoverTarget;
         private double spinner;
@@ -455,7 +455,7 @@ namespace _3DGame.Scenes
                             HoverTarget.DoubleClick(World.Player);
                             if(World.Player.Target is NPC npc)
                             {
-                                GUI.Window w = new Scenes.GameplayAssets.Windows.NPCWindow(Scenes.Gameplay.WindowManager, npc, World.Player);
+                                GUI.Window w = new Scenes.GameplayAssets.Windows.NPCWindow(Main.CurrentScene.WindowManager, npc, World.Player);
                                 WindowManager.Add(w);
                                 w.Visible = true;
                             }

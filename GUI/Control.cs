@@ -178,6 +178,14 @@ namespace GUI
             {
 
                 this.Click(X, Y);
+                if(this is ITextInput input)
+                {
+                    this.WM.FocusedText = input;
+                }
+                else
+                {
+                    this.WM.FocusedText = null;
+                }
                 OnClick?.Invoke(this, new ClickEventArgs((int)X, (int)Y));
             }
             foreach (Control c in this.Controls)
