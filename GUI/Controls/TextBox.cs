@@ -58,13 +58,18 @@ namespace GUI.Controls
             //text offset from edge of the textbox
             float offsetX = 3f;
             float offsetY = 2f;
-            //use the 48x16 block, at offset 0,48, with 2px edges
-            Renderer.Slice9 slice = new Renderer.Slice9(0, 48, 48, 16, 2, 2, 2, 2);
+            //use the 32x16 block, at offset 0,48, with 2px edges
+            Renderer.Slice9 slice = new Renderer.Slice9(0, 48, 32, 16, 2, 2, 2, 2);
             //draw textbox background
             Renderer.RenderFrame(device, X + this.X, Y + this.Y, this.Width, this.Height, slice);
             //draw text
             Renderer.RenderSmallText(device, offsetX + X + this.X, offsetY + Y + this.Y, this.Text ?? " ", Microsoft.Xna.Framework.Color.White, false, true);
             base.Render(device, Renderer, X, Y);
+        }
+
+        public void LoseFocus()
+        {
+            
         }
     }
 }

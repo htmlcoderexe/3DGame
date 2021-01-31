@@ -11,5 +11,6 @@ namespace GUI
         bool MultiLine { get; set; }
         void SendCharacter(char Character);
         void Submit();
+        void LoseFocus();
     }
 }

@@ -184,6 +184,7 @@ namespace GUI
                 }
                 else
                 {
+                    this.WM.FocusedText?.LoseFocus();
                     this.WM.FocusedText = null;
                 }
                 OnClick?.Invoke(this, new ClickEventArgs((int)X, (int)Y));
