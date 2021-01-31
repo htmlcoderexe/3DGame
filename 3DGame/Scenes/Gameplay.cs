@@ -15,7 +15,7 @@ using GameObject.MapEntities.Actors;
 
 namespace _3DGame.Scenes
 {
-    class Gameplay : Interfaces.IGameScene
+    public class Gameplay : Interfaces.IGameScene
     {
         public KeyboardState PreviousKbState { get; set; }
 
@@ -595,7 +595,7 @@ namespace _3DGame.Scenes
             WindowManager = new GUI.WindowManager();
             WindowManager.Renderer = GUIRenderer;
             wlist = new Dictionary<string, GUI.Window>();
-            wlist["console"] = new GameplayAssets.ConsoleWindow(WindowManager);
+            wlist["console"] = new GameplayAssets.ConsoleWindow(WindowManager, this);
             WindowManager.Add(wlist["console"]);
 
 
