@@ -51,6 +51,8 @@ namespace _3DGame.Scenes
             GUIRenderer.AbilityMap = Texture2D.FromStream(device, new System.IO.FileStream("graphics\\icons.png", System.IO.FileMode.Open));
             GUIRenderer.GUIEffect = content.Load<Effect>("GUI");
             GUIRenderer.UIFont = Fonts["font1"];
+
+            Fonts["font1"].DefaultCharacter = '#';
             WindowManager = new GUI.WindowManager();
             WindowManager.Renderer = GUIRenderer;
             b = new SpriteBatch(device);

@@ -14,6 +14,8 @@ namespace GUI.Controls
 
         public bool MultiLine { get; set; }
 
+        public bool KeepFocusOnSubmit { get; set; }
+
         //Processes character input.
         //if backspace, deletes last character if any
         //if enter and not multiline, triggers the submit event
@@ -28,6 +30,7 @@ namespace GUI.Controls
             if (Character == (char)Keys.Enter && !MultiLine)
             {
                 Submit();
+                if(!KeepFocusOnSubmit)
                 this.GetParentWindow().WM.FocusedText = null;
                 return;
             }
@@ -43,6 +46,11 @@ namespace GUI.Controls
         public void Submit()
         {
             OnSubmit?.Invoke(this, this.Text);
+        }
+
+        public void Clear()
+        {
+            this.Text = "";
         }
 
         public override void Render(GraphicsDevice device, Renderer Renderer, int X, int Y)

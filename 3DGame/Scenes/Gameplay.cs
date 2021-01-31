@@ -570,6 +570,7 @@ namespace _3DGame.Scenes
             Textures["dummy"] = LoadTex2D(device, "graphics\\gray.png");
             Fonts = new Dictionary<string, SpriteFont>();
             Fonts["font1"]= content.Load<SpriteFont>("font1");
+            Fonts["font1"].DefaultCharacter = '#';
             Fonts["FX"]= content.Load<SpriteFont>("FX");
             GameModel.Model.TexturePool = Textures;
             #endregion
