@@ -148,7 +148,6 @@ namespace GUI
         }
         public void HandleTextInput(char Character, Keys Key)
         {
-            // if (Character=='x')
             FocusedText?.SendCharacter(Character);
         }
         public bool HandleMouse(MouseState Mouse, float dT)

@@ -144,27 +144,7 @@ namespace _3DGame.Scenes
 
         public void HandleInput(GraphicsDevice device, MouseState mouse, KeyboardState kb, float dT)
         {
-
-            #region game windows
-            if (kb.IsKeyDown(Keys.E) && PreviousKbState.IsKeyUp(Keys.E))
-            {
-                ToggleWindow("inventory", new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
-            }
-
-            if (kb.IsKeyDown(Keys.R) && PreviousKbState.IsKeyUp(Keys.R))
-            {
-               
-                ToggleWindow("equipment",new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player));
-            }
-
-            if (kb.IsKeyDown(Keys.T) && PreviousKbState.IsKeyUp(Keys.T))
-            {
-                ToggleWindow("skills", new GameplayAssets.Windows.SkillTreeWindow(WindowManager, World.Player, abilities));
-            }
-
-
-            #endregion
-
+            //the screenshot key should work regardless of anything
             #region screenshot
             if (kb.IsKeyDown(Keys.F12) && PreviousKbState.IsKeyUp(Keys.F12))
             {
@@ -172,216 +152,260 @@ namespace _3DGame.Scenes
             }
 
             #endregion
+            bool KeyboardHandled = WindowManager.FocusedText != null;
 
-            #region map controls
-            if (kb.IsKeyDown(Keys.Add) && PreviousKbState.IsKeyUp(Keys.Add))
-            {
-                MapZoomLevel++;
-                if (MapZoomLevel > 4)
-                    MapZoomLevel = 4;
-            }
-            if (kb.IsKeyDown(Keys.Subtract) && PreviousKbState.IsKeyUp(Keys.Subtract))
-            {
-                MapZoomLevel--;
-                if (MapZoomLevel < 1)
-                    MapZoomLevel = 1;
-            }
-            if (kb.IsKeyDown(Keys.Multiply) && PreviousKbState.IsKeyUp(Keys.Multiply))
-            {
-                RotateMap = !RotateMap;
-            }
-            #endregion
+            #region all keyboard stuff
 
-            #region tabbing
-            if(kb.IsKeyDown(Keys.Tab) && PreviousKbState.IsKeyUp(Keys.Tab))
+            if(!KeyboardHandled)
             {
-                float Range = 50f;
-                List<Monster> removes = new List<Monster>();
-                List<Monster> adds = new List<Monster>();
-                foreach(Monster m in Tablist)
+
+
+                #region game windows
+                if (kb.IsKeyDown(Keys.E) && PreviousKbState.IsKeyUp(Keys.E))
                 {
-                    if(m.IsDead)
-                    {
-                        removes.Add(m);
-                        continue; //no need to add twice
-                    }
-                    Vector3 dist = (m.Position - World.Player.Position);
-                    if (dist.Length() > Range)
-                        removes.Add(m);
-                    
+                    ToggleWindow("inventory", new GameplayAssets.Windows.InventoryWindow(WindowManager, World.Player));
                 }
-                List < MapEntity > mm= World.LocateNearby(World.Player);
-                foreach(MapEntity e in mm)
-                {
-                    if((e as Monster)!=null)
-                    {
-                        Vector3 dist = (e.Position - World.Player.Position);
-                        if (dist.Length() < Range)
-                            adds.Add((e as Monster));
-                    }
-                }
-                adds = adds.OrderBy(v => ((Vector3)(v.Position - World.Player.Position)).Length()).ToList();
 
-                foreach (Monster r in removes)
-                    Tablist.Remove(r);
-                Tablist.Clear();
-                foreach(Monster a in adds)
+                if (kb.IsKeyDown(Keys.R) && PreviousKbState.IsKeyUp(Keys.R))
                 {
-                   // if (!Tablist.Contains(a))
+
+                    ToggleWindow("equipment", new GameplayAssets.Windows.EquipWindow(WindowManager, World.Player));
+                }
+
+                if (kb.IsKeyDown(Keys.T) && PreviousKbState.IsKeyUp(Keys.T))
+                {
+                    ToggleWindow("skills", new GameplayAssets.Windows.SkillTreeWindow(WindowManager, World.Player, abilities));
+                }
+
+
+
+
+                #endregion
+
+                #region map controls
+                if (kb.IsKeyDown(Keys.Add) && PreviousKbState.IsKeyUp(Keys.Add))
+                {
+                    MapZoomLevel++;
+                    if (MapZoomLevel > 4)
+                        MapZoomLevel = 4;
+                }
+                if (kb.IsKeyDown(Keys.Subtract) && PreviousKbState.IsKeyUp(Keys.Subtract))
+                {
+                    MapZoomLevel--;
+                    if (MapZoomLevel < 1)
+                        MapZoomLevel = 1;
+                }
+                if (kb.IsKeyDown(Keys.Multiply) && PreviousKbState.IsKeyUp(Keys.Multiply))
+                {
+                    RotateMap = !RotateMap;
+                }
+                #endregion
+
+                #region tabbing
+                if (kb.IsKeyDown(Keys.Tab) && PreviousKbState.IsKeyUp(Keys.Tab))
+                {
+                    float Range = 50f;
+                    List<Monster> removes = new List<Monster>();
+                    List<Monster> adds = new List<Monster>();
+                    foreach (Monster m in Tablist)
+                    {
+                        if (m.IsDead)
+                        {
+                            removes.Add(m);
+                            continue; //no need to add twice
+                        }
+                        Vector3 dist = (m.Position - World.Player.Position);
+                        if (dist.Length() > Range)
+                            removes.Add(m);
+
+                    }
+                    List<MapEntity> mm = World.LocateNearby(World.Player);
+                    foreach (MapEntity e in mm)
+                    {
+                        if ((e as Monster) != null)
+                        {
+                            Vector3 dist = (e.Position - World.Player.Position);
+                            if (dist.Length() < Range)
+                                adds.Add((e as Monster));
+                        }
+                    }
+                    adds = adds.OrderBy(v => ((Vector3)(v.Position - World.Player.Position)).Length()).ToList();
+
+                    foreach (Monster r in removes)
+                        Tablist.Remove(r);
+                    Tablist.Clear();
+                    foreach (Monster a in adds)
+                    {
+                        // if (!Tablist.Contains(a))
                         Tablist.Add(a);
+                    }
+                    if (Tablist.Count <= 0)
+                        return;
+                    if (World.Player.Target == null)
+                        Tablistindex = 0;
+                    else
+                        Tablistindex++;
+                    if (Tablistindex >= Tablist.Count)
+                        Tablistindex = 0;
+                    World.Player.Target = Tablist[Tablistindex];
                 }
-                if (Tablist.Count <= 0)
-                    return;
-                if (World.Player.Target == null)
-                    Tablistindex = 0;
-                else
-                    Tablistindex++;
-                if (Tablistindex >= Tablist.Count)
-                    Tablistindex = 0;
-                World.Player.Target = Tablist[Tablistindex];
-            }
 
-            #endregion
+                #endregion
 
-            #region skills
-            //later on target requirement also goes away as each skill checks individually
+                #region skills
+                //later on target requirement also goes away as each skill checks individually
 
-            if (kb.IsKeyDown(Keys.F1) && World.Player.Target != null)
-            {
-                InvokeFBind(0);
-            }
-            if (kb.IsKeyDown(Keys.F2) && World.Player.Target != null)
-            {
-
-                InvokeFBind(1);
-            }
-            if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null)
-            {
-
-                InvokeFBind(2);
-            }
-            if (kb.IsKeyDown(Keys.F4) && World.Player.Target != null)
-            {
-
-                InvokeFBind(3);
-            }
-            if (kb.IsKeyDown(Keys.F5) && World.Player.Target != null)
-            {
-                InvokeFBind(4);
-            }
-            if (kb.IsKeyDown(Keys.F6) && World.Player.Target != null)
-            {
-
-                InvokeFBind(5);
-            }
-            if (kb.IsKeyDown(Keys.F7) && World.Player.Target != null)
-            {
-
-                InvokeFBind(6);
-            }
-            if (kb.IsKeyDown(Keys.F8) && World.Player.Target != null)
-            {
-
-                InvokeFBind(7);
-            }
-
-            #endregion
-
-            #region gravity debug
-            if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
-            {
-                World.Player.Gravity = !World.Player.Gravity;
-            }
-            if (kb.IsKeyDown(Keys.F10) && PreviousKbState.IsKeyUp(Keys.F10))
-            {
-                World.Entities.Clear();
-                World.Entities.Clear();
-            }
-#endregion
-
-            #region jumping
-            if (kb.IsKeyDown(Keys.Space) && (PreviousKbState.IsKeyUp(Keys.Space) ))
-            {
-                
-                if (!World.Player.Gravity)
+                if (kb.IsKeyDown(Keys.F1) && World.Player.Target != null)
                 {
-                    World.Player.Position.Y += 1.1f;
+                    InvokeFBind(0);
                 }
-                else
+                if (kb.IsKeyDown(Keys.F2) && World.Player.Target != null)
                 {
-                    
+
+                    InvokeFBind(1);
+                }
+                if (kb.IsKeyDown(Keys.F3) && World.Player.Target != null)
+                {
+
+                    InvokeFBind(2);
+                }
+                if (kb.IsKeyDown(Keys.F4) && World.Player.Target != null)
+                {
+
+                    InvokeFBind(3);
+                }
+                if (kb.IsKeyDown(Keys.F5) && World.Player.Target != null)
+                {
+                    InvokeFBind(4);
+                }
+                if (kb.IsKeyDown(Keys.F6) && World.Player.Target != null)
+                {
+
+                    InvokeFBind(5);
+                }
+                if (kb.IsKeyDown(Keys.F7) && World.Player.Target != null)
+                {
+
+                    InvokeFBind(6);
+                }
+                if (kb.IsKeyDown(Keys.F8) && World.Player.Target != null)
+                {
+
+                    InvokeFBind(7);
+                }
+
+                #endregion
+
+                #region gravity debug
+                if (kb.IsKeyDown(Keys.F) && PreviousKbState.IsKeyUp(Keys.F))
+                {
+                    World.Player.Gravity = !World.Player.Gravity;
+                }
+                if (kb.IsKeyDown(Keys.F10) && PreviousKbState.IsKeyUp(Keys.F10))
+                {
+                    World.Entities.Clear();
+                    World.Entities.Clear();
+                }
+                #endregion
+
+                #region jumping
+                if (kb.IsKeyDown(Keys.Space) && (PreviousKbState.IsKeyUp(Keys.Space)))
+                {
+
+                    if (!World.Player.Gravity)
+                    {
+                        World.Player.Position.Y += 1.1f;
+                    }
+                    else
+                    {
+
                         World.Player.Jump();
-                    
+
+                    }
                 }
-            }
-            #endregion
+                #endregion
 
-            #region WASD and forced walking
-            if (World.Player.Executor == null)
-            {
-                if (kb.IsKeyDown(Keys.D))
+                #region WASD and forced walking
+                if (World.Player.Executor == null)
                 {
-                    World.Player.Walking = false;
-                    World.Player.Speed = World.Player.GetMovementSpeed();
+                    if (kb.IsKeyDown(Keys.D))
+                    {
+                        World.Player.Walking = false;
+                        World.Player.Speed = World.Player.GetMovementSpeed();
 
-                    World.Player.Heading = World.Camera.Yaw - 180f;
-                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                    World.Player.Model.ApplyAnimation("Walk");
-                }
-                else if (kb.IsKeyDown(Keys.A))
-                {
-                    World.Player.Walking = false;
-                    World.Player.Speed = World.Player.GetMovementSpeed();
+                        World.Player.Heading = World.Camera.Yaw - 180f;
+                        World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                        World.Player.Model.ApplyAnimation("Walk");
+                    }
+                    else if (kb.IsKeyDown(Keys.A))
+                    {
+                        World.Player.Walking = false;
+                        World.Player.Speed = World.Player.GetMovementSpeed();
 
-                    World.Player.Heading = World.Camera.Yaw - 0f;
-                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                    World.Player.Model.ApplyAnimation("Walk");
-                }
+                        World.Player.Heading = World.Camera.Yaw - 0f;
+                        World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                        World.Player.Model.ApplyAnimation("Walk");
+                    }
 
 
-                else if (kb.IsKeyDown(Keys.S))
-                {
-                    World.Player.Walking = false;
-                    World.Player.Speed = World.Player.GetMovementSpeed();
+                    else if (kb.IsKeyDown(Keys.S))
+                    {
+                        World.Player.Walking = false;
+                        World.Player.Speed = World.Player.GetMovementSpeed();
 
-                    World.Player.Heading = World.Camera.Yaw - 90f;
-                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                    World.Player.Model.ApplyAnimation("Walk");
-                }
-                else if (kb.IsKeyDown(Keys.W))
-                {
-                    World.Player.Walking = false;
+                        World.Player.Heading = World.Camera.Yaw - 90f;
+                        World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                        World.Player.Model.ApplyAnimation("Walk");
+                    }
+                    else if (kb.IsKeyDown(Keys.W))
+                    {
+                        World.Player.Walking = false;
 
-                    World.Player.Speed = World.Player.GetMovementSpeed();
+                        World.Player.Speed = World.Player.GetMovementSpeed();
 
-                    World.Player.Heading = World.Camera.Yaw + 90f;
-                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                    World.Player.Model.ApplyAnimation("Walk");
-                }
-                else if (World.Player.Walking)
-                {
-                    //World.Player.Speed = World.Player.GetMovementSpeed() ;
-                    World.Player.AnimationMultiplier = World.Player.Speed / 10f;
-                    World.Player.Model.ApplyAnimation("Walk");
+                        World.Player.Heading = World.Camera.Yaw + 90f;
+                        World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                        World.Player.Model.ApplyAnimation("Walk");
+                    }
+                    else if (World.Player.Walking)
+                    {
+                        //World.Player.Speed = World.Player.GetMovementSpeed() ;
+                        World.Player.AnimationMultiplier = World.Player.Speed / 10f;
+                        World.Player.Model.ApplyAnimation("Walk");
+                    }
+                    else
+                    {
+                        World.Player.Speed = 0;
+                        World.Player.AnimationMultiplier = 1f;
+                        if (!World.Player.LetPlayOnce)
+                            World.Player.Model.ApplyAnimation("Straighten");
+
+                    }
                 }
                 else
                 {
-                    World.Player.Speed = 0;
-                    World.Player.AnimationMultiplier = 1f;
+
+                    // World.Player.AnimationMultiplier = 1f;
                     if (!World.Player.LetPlayOnce)
                         World.Player.Model.ApplyAnimation("Straighten");
-
                 }
-            }
-            else
-            {
+                #endregion
 
-               // World.Player.AnimationMultiplier = 1f;
-                if (!World.Player.LetPlayOnce)
-                    World.Player.Model.ApplyAnimation("Straighten");
+
+                #region zooming
+                if (kb.IsKeyDown(Keys.Up))
+                    World.Camera.Distance *= 0.99f;
+                if (kb.IsKeyDown(Keys.Down))
+                    World.Camera.Distance /= 0.99f;
+                World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 1010f);
+                //World.Player.Position += mv;
+                #endregion
+
+
+
             }
+
             #endregion
-
 
             /* idk wtf this is
             if (kb.IsKeyUp(Keys.W) && kb.IsKeyUp(Keys.S))
@@ -396,15 +420,6 @@ namespace _3DGame.Scenes
                 mv.Y += 0.0f;
             }
              //*/
-            #region zooming
-            if (kb.IsKeyDown(Keys.Up))
-                World.Camera.Distance *= 0.99f;
-            if (kb.IsKeyDown(Keys.Down))
-                World.Camera.Distance /= 0.99f;
-            World.Camera.Distance = MathHelper.Clamp(World.Camera.Distance, 0.01f, 1010f);
-            //World.Player.Position += mv;
-#endregion
-
             #region mouse code!!
             WindowManager.MouseX = mouse.X;
             WindowManager.MouseY = mouse.Y;
