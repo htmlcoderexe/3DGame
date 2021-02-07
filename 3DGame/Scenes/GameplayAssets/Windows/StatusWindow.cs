@@ -63,30 +63,46 @@ namespace _3DGame.Scenes.GameplayAssets
             this.AddControl(EXPBar);
             //all these will be moved to a separate GUI testing window someday ;_;
 
+
             this.OKButton = new GUI.Controls.Button("Make something!");
             this.OKButton.Clicked += OKButton_Clicked;
             this.OKButton.Width = 128;
             this.OKButton.Height = 48;
-            this.OKButton.X = 64;
-            this.OKButton.Y = 49;
+            this.OKButton.X = 0;
+            this.OKButton.Y = 200;
             this.AddControl(this.OKButton);
 
             this.slot = new ItemSlot(null);
             this.slot.X = 0;
             this.slot.Y = 49;
-            this.Controls.Add(this.slot);
+            this.slot.Y = 0;
+          //  this.Controls.Add(this.slot);
 
             GUI.Controls.TextBox box = new GUI.Controls.TextBox();
             box.Height = 20;
             box.Width = 200;
             box.Y = 100;
-            AddControl(box);
+            box.Y = 0;
+           // AddControl(box);
             GUI.Controls.NumberBox nbox = new GUI.Controls.NumberBox();
             nbox.Height = 20;
             nbox.Width = 200;
             nbox.Y = 130;
+            nbox.Y = 0;
             nbox.Value = 1204;
-            AddControl(nbox);
+           // AddControl(nbox);
+
+
+
+            GUI.Controls.TabbedView tabs = new GUI.Controls.TabbedView();
+            AddControl(tabs);
+            tabs.Width = 200;
+            tabs.AddTab("first", new List<Control>() { slot });
+            tabs.AddTab("second", new List<Control>() { nbox });
+            tabs.AddTab("thirddd", new List<Control>() { box });
+            tabs.Y = 100;
+            tabs.Height = 52;
+            tabs.SetActiveTab(0);
             // this.AddControl(Texst);
         }
 
@@ -197,6 +213,7 @@ namespace _3DGame.Scenes.GameplayAssets
             //this shows the modal, this MUST be the last line in the calling method unless you know what you're doing
             WM.Add(mb);
             //anything after this WILL execute BEFORE the modal is closed.
+            slot.Item = MakeRandomMat();
         }
 
         private void Mb_ModalWindowClosed(object sender, ModalWindow.DialogResult result, Window owner)

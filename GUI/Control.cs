@@ -129,7 +129,7 @@ namespace GUI
         /// <param name="Y">Y</param>
         public virtual void Click(float X, float Y)
         {
-            
+            //Console.Write(this.GetType().ToString() + ": " + (int)X + "," + (int)Y);
 
         }
         /// <summary>
@@ -169,8 +169,7 @@ namespace GUI
         /// <param name="Y">Y</param>
         public virtual void MouseUp(float X, float Y)
         {
-            //  Volatile.Console.Write("mouseup event - " + X.ToString() + "," + Y.ToString() + "@" + this.Title);
-
+            
             //this more or less emulates Windows behaviour
             //you can mousedown, move out and back in again and releasing will click the control
             //otherwise mouseup wastes the click

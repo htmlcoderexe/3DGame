@@ -44,11 +44,13 @@
     <Compile Include="Console.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\NumberBox.cs" />
     <Compile Include="Controls\ProgressBar.cs" />
     <Compile Include="Controls\RichTextDisplay.cs" />
     <Compile Include="Controls\RichText\ActionLink.cs" />
     <Compile Include="Controls\RichText\RichTextMultiLine.cs" />
+    <Compile Include="Controls\TabbedView.cs" />
     <Compile Include="Controls\TextBox.cs" />
     <Compile Include="Controls\TextureContainer.cs" />
     <Compile Include="GFXUtility.cs" />
