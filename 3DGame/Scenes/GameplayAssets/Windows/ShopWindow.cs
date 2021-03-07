@@ -44,10 +44,11 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
             TotalLabel.SetText(moneystring);
         }
 
-        void AddToBasket(int Index, int amount)
+        void AddToBasket(int tab, int Index, int amount)
         {
-            GameObject.Item soldItem = (GameObject.Item)shop.Selling[Index].Item1.Clone();
-            int price = shop.Selling[Index].Item2 - ((int)(shop.Selling[Index].Item2 * (float)shop.Selling[Index].Item3/100f));
+            Tuple<GameObject.Item, int, int> SellEntry = shop.Selling[tab].Item2[Index];
+            GameObject.Item soldItem = (GameObject.Item)SellEntry.Item1.Clone();
+            int price = SellEntry.Item2 - ((int)(SellEntry.Item2 * (float)SellEntry.Item3/100f));
             Tuple<GameObject.Item, int> removed = null;
             bool stacked = false;
             foreach (Tuple<GameObject.Item, int> lineItem in _basket)
@@ -92,27 +93,40 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
 
             int sellX = 0;
             int sellY = 0;
-            for (int y = 0; y < ShopHeight; y++)
-                for (int x = 0; x < ShopWidth; x++)
-                {
-                    int index = y * ShopWidth + x;
-                    ItemSlot i;
-                    if (index < shop.Selling.Count)
+            GUI.Controls.TabbedView tabbie = new GUI.Controls.TabbedView();
+            tabbie.Width = 320;
+            tabbie.Height = 160;
+            AddControl(tabbie);
+            for (int t=0;t<shop.Selling.Count;t++)
+            {
+                List<GUI.Control> tab = new List<GUI.Control>();
+                string tabname = shop.Selling[t].Item1;
+                List<Tuple<GameObject.Item, int, int>> tabentry = shop.Selling[t].Item2;
+                for (int y = 0; y < ShopHeight; y++)
+                    for (int x = 0; x < ShopWidth; x++)
                     {
-                        i = new ItemSlot(shop.Selling[index].Item1);
-                        i.OnClick += new ClickEventHandler((sender, m) => AddToBasket(index, 1));
-                    }
-                    else
-                    {
-                        i = new ItemSlot(null);
-                    }
-                    i.CanGrab = false;
-                    i.CanPut = false;
-                    i.X = x * i.Width + sellX;
-                    i.Y = y * i.Height + sellY;
 
-                    AddControl(i);
-                }
+                        int index = y * ShopWidth + x;
+                        int tabindex = t;
+                        ItemSlot i;
+                        if (index < tabentry.Count)
+                        {
+                            i = new ItemSlot(tabentry[index].Item1);
+                            i.OnClick += new ClickEventHandler((sender, m) => AddToBasket(tabindex,index, 1));
+                        }
+                        else
+                        {
+                            i = new ItemSlot(null);
+                        }
+                        i.CanGrab = false;
+                        i.CanPut = false;
+                        i.X = x * i.Width + sellX;
+                        i.Y = y * i.Height + sellY;
+                        tab.Add(i);
+                    }
+                tabbie.AddTab(tabname, tab);
+            }
+            tabbie.SetActiveTab(0);
         }
 
         void SetupBasket()
