@@ -17,6 +17,8 @@ namespace _3DGame.Scenes.GameplayAssets
         private GUI.Controls.ProgressBar HPBar;
         private GUI.Controls.ProgressBar MPBar;
         private GUI.Controls.ProgressBar EXPBar;
+        private ItemSlot cs;
+        private ItemSlot rs;
         public override void Close()
         {
             
@@ -69,7 +71,7 @@ namespace _3DGame.Scenes.GameplayAssets
             this.OKButton.Width = 128;
             this.OKButton.Height = 48;
             this.OKButton.X = 0;
-            this.OKButton.Y = 200;
+            this.OKButton.Y = 300;
             this.AddControl(this.OKButton);
 
             this.slot = new ItemSlot(null);
@@ -90,7 +92,26 @@ namespace _3DGame.Scenes.GameplayAssets
             nbox.Y = 130;
             nbox.Y = 0;
             nbox.Value = 1204;
-           // AddControl(nbox);
+            // AddControl(nbox);
+
+            ////
+            GameObject.ItemLogic.CraftingRecipe cc = new GameObject.ItemLogic.CraftingRecipe();
+            GameObject.Item result = MakeRandomEquip();
+            GameObject.Item comp = MakeRandomMat();
+            cc.Components.Add(new Tuple<GameObject.Item, int>(comp, 1));
+            cc.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { result }, 1));
+
+            rs = new ItemSlot(result);
+            rs.X = 40;
+            cs = new ItemSlot(comp);
+            cs.X = 10;
+            cs.Y = 50;
+
+            GUI.Controls.Button craftb = new GUI.Controls.Button("Craft");
+            craftb.Y = 100;
+            craftb.Width = 150;
+            craftb.Height = 32;
+            craftb.OnClick += CraftTest;
 
 
 
@@ -98,12 +119,29 @@ namespace _3DGame.Scenes.GameplayAssets
             AddControl(tabs);
             tabs.Width = 200;
             tabs.AddTab("first", new List<Control>() { slot });
-            tabs.AddTab("second", new List<Control>() { nbox });
+            tabs.AddTab("second", new List<Control>() { cs,rs,craftb });
             tabs.AddTab("thirddd", new List<Control>() { box });
             tabs.Y = 100;
-            tabs.Height = 52;
+            tabs.Height = 152;
             tabs.SetActiveTab(0);
             // this.AddControl(Texst);
+        }
+
+        private void CraftTest(object sender, ClickEventArgs eventArgs)
+        {
+            GameObject.Item i = Player.Inventory.FindItem(cs.Item as GameObject.Item);
+            GameObject.Item o=null;
+            Player.Inventory.Prepare();
+            if (i!=null)
+            {
+                i.StackSize--;
+                o=Player.Inventory.AddItem(rs.Item as GameObject.Item);
+            }
+            if (o == null)
+                Player.Inventory.Commit();
+            else
+                Player.Inventory.Rollback();
+
         }
 
         public override void Update(float dT)
@@ -195,24 +233,24 @@ namespace _3DGame.Scenes.GameplayAssets
 
         private void OKButton_Clicked(object sender, EventArgs e)
         {
-            // this.slot.Item = Item;
-
-            //GUI.Windows.MessageBox mb = new GUI.Windows.MessageBox(this, "MessageBox test", "This is a test", GUI.Windows.MessageBox.ButtonOptions.OKCancel);
-            GUI.Windows.TextPrompt mb = new GUI.Windows.TextPrompt(this, "Text input", "Please enter text:", "default");
-            //so modals don't quite work like in winforms but should do the trick in our case:
-            //an active modal window prevents the mouse from doing anything except in the modal window,
-            //effectively ensuring the code in the callback attached to the event that fires when
-            //the window is closed by any means is executed before any other GUI actions can happen
-            //for example, a callback for a yes/no box may check the result and apply an action to its owner window
-            //such as proceeding/not proceeding with an action or making a choice
-            //here we simply change the title of this window based on which button was clicked
-            //a different modal window may ask for a text input or for a number
-            mb.ModalWindowClosed += Mb_ModalWindowClosed;
-            //lambdas are just as good
-            //mb.ModalWindowClosed+= new ModalWindow.ModalWindowClosedHandler((mbx,result,owner)=> owner.Title = result == ModalWindow.DialogResult.OK ? "Clicked OK" : "Clicked Cancel");
-            //this shows the modal, this MUST be the last line in the calling method unless you know what you're doing
-            WM.Add(mb);
-            //anything after this WILL execute BEFORE the modal is closed.
+            //// this.slot.Item = Item;
+            //
+            ////GUI.Windows.MessageBox mb = new GUI.Windows.MessageBox(this, "MessageBox test", "This is a test", GUI.Windows.MessageBox.ButtonOptions.OKCancel);
+            //GUI.Windows.TextPrompt mb = new GUI.Windows.TextPrompt(this, "Text input", "Please enter text:", "default");
+            ////so modals don't quite work like in winforms but should do the trick in our case:
+            ////an active modal window prevents the mouse from doing anything except in the modal window,
+            ////effectively ensuring the code in the callback attached to the event that fires when
+            ////the window is closed by any means is executed before any other GUI actions can happen
+            ////for example, a callback for a yes/no box may check the result and apply an action to its owner window
+            ////such as proceeding/not proceeding with an action or making a choice
+            ////here we simply change the title of this window based on which button was clicked
+            ////a different modal window may ask for a text input or for a number
+            //mb.ModalWindowClosed += Mb_ModalWindowClosed;
+            ////lambdas are just as good
+            ////mb.ModalWindowClosed+= new ModalWindow.ModalWindowClosedHandler((mbx,result,owner)=> owner.Title = result == ModalWindow.DialogResult.OK ? "Clicked OK" : "Clicked Cancel");
+            ////this shows the modal, this MUST be the last line in the calling method unless you know what you're doing
+            //WM.Add(mb);
+            ////anything after this WILL execute BEFORE the modal is closed.
             slot.Item = MakeRandomMat();
         }
 

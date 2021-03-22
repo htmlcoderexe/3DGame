@@ -146,7 +146,7 @@ namespace GameObject.Items
         {
             Renderer.SetColour(this.Colour);
             Renderer.SetTexture(Renderer.InventoryPartsMap);
-            Renderer.RenderIconEx(device, X, Y, 128 + this.SubType); //body
+            Renderer.RenderIconEx(device, X, Y, 2048 + this.SubType); //body
             //base.Render(device, X, Y, RenderCooldown, RenderEXP);
             Renderer.SetColour(new Color(127, 127, 127, 127));
             // Volatile.Console.Write("a");
@@ -175,7 +175,7 @@ namespace GameObject.Items
             m.Hardness = this.Hardness;
             m.Colour = this.Colour;
             m.NameColour = this.NameColour;
-            m.StackSize++;
+            m.StackSize=1;
             return m;
         }
         public override List<string> GetTooltip()

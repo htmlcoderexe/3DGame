@@ -22,6 +22,11 @@ namespace GameObject.Items
             this.Items.CopyTo(Backup, 0);
 
         }
+        public void Rollback()
+        {
+            this.Items.CopyTo(Backup, 0);
+
+        }
         public void Commit()
         {
             this.Backup.CopyTo(Items, 0);
@@ -84,6 +89,26 @@ namespace GameObject.Items
                 }
 
 
+            }
+            return null;
+        }
+
+        public Item FindItem(Item Item)
+        {
+            int firstofkind = -1;
+            for (int i = 0; i < this.Backup.Length; i++)
+            {
+                if (this.Backup[i] != null && this.Backup[i].CanStackWith(Item))
+                {
+                    firstofkind = i;
+                    break;
+                }
+
+
+            }
+            if (firstofkind != -1)
+            {
+                return this.Backup[firstofkind];
             }
             return null;
         }

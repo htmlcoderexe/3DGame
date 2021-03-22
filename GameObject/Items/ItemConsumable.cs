@@ -19,8 +19,7 @@ namespace GameObject.Items
         {
             Renderer.SetColour(this.Colour);
             Renderer.SetTexture(Renderer.InventoryPartsMap);
-            Renderer.RenderIconEx(device, X, Y, 144 + this.SubType);
-            //base.Render(device, X, Y, RenderCooldown, RenderEXP);
+            Renderer.RenderIconEx(device, X, Y, 64*33 + this.SubType);
             Renderer.SetColour(new Color(127, 127, 127,127));
             base.Render(X, Y, device, Renderer, RenderCooldown, RenderEXP);
         }

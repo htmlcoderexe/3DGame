@@ -35,5 +35,19 @@ namespace GameObject
                 Init();
             return _random.NextDouble();
         }
+
+        public static int PickWeighted(List<int> Inputs)
+        {
+            int Total = Inputs.Sum();
+            int pick = Next(Total);
+            int running = 0;
+            for(int i=0;i<Inputs.Count();i++)
+            {
+                running += Inputs[i];
+                if (pick < running)
+                    return i;
+            }
+            return -1;//should not happen but well
+        }
     }
 }
