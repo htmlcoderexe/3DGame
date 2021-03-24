@@ -80,17 +80,22 @@ namespace _3DGame.Scenes.GameplayAssets
                     return;
                 if (currentItem==null) //put in item
                 {
+                    iargs = new ItemEventArgs(mouseItem);
+                    ItemIn?.Invoke(this, iargs);
                     this.Item = mouseItem;
-                    ItemIn?.Invoke(this, new ItemEventArgs(mouseItem));
                     WM.MouseGrab = null;
 
                 }
                 else //swap items
                 {
+                    iargs = new ItemEventArgs(mouseItem);
+                    ItemIn?.Invoke(this, iargs);
+                    if (iargs.Cancel)
+                        return;
                     this.Item = mouseItem;
-                    ItemIn?.Invoke(this, new ItemEventArgs(mouseItem));
                     WM.MouseGrab = currentItem;
-                    ItemOut?.Invoke(this, new ItemEventArgs(currentItem));
+                    iargs = new ItemEventArgs(mouseItem);
+                    ItemOut?.Invoke(this, iargs);
 
                 }
             }

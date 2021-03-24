@@ -33,8 +33,32 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
                     };
                     //s.BeforeItemChanged += new ItemSlot.ItemEventHandler((sender, e) => { if(((e as ItemSlot.ItemEventArgs).Item as GameObject.Item) ==null) e.Cancel=true; });
                     s.BeforeItemChanged += CheckItem;
-                    s.ItemOut += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = null; });
-                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = ((e as ItemSlot.ItemEventArgs).Item as GameObject.Item); });
+                    s.ItemOut += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = s.Item as GameObject.Item;
+                        Inventory.Prepare();
+                        Inventory.Changed = true;
+                    });
+                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => {
+
+                        GameObject.Item itemin = ((e as ItemSlot.ItemEventArgs).Item as GameObject.Item);
+
+                        if (s.Item != null && itemin != null && itemin.CanStackWith(s.Item as GameObject.Item))
+                        {
+                            itemin.StackSize += (s.Item as GameObject.Item).StackSize;
+                            e.Cancel = true;
+                            s.Item = itemin;
+                            WM.MouseGrab = null;
+                            Inventory.Items[i] = (s.Item as GameObject.Item);
+                            Inventory.Changed = true;
+                        }
+                        else
+                        {
+
+                            Inventory.Prepare();
+                            Inventory.AddItem(itemin, i);
+                            Inventory.Commit();
+                        }
+
+                    });
                     this.AddControl(s);
                 }
         }
@@ -56,8 +80,32 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
                         CanPut = true
                     };
                     s.BeforeItemChanged += CheckItem;
-                    s.ItemOut += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = null; });
-                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = ((e as ItemSlot.ItemEventArgs).Item as GameObject.Item); });
+                    s.ItemOut += new ItemSlot.ItemEventHandler((sender, e) => { Inventory.Items[i] = s.Item as GameObject.Item;
+                        Inventory.Prepare();
+                        Inventory.Changed = true;
+                    });
+                    s.ItemIn += new ItemSlot.ItemEventHandler((sender, e) => {
+
+                        GameObject.Item itemin = ((e as ItemSlot.ItemEventArgs).Item as GameObject.Item);
+
+                        if (s.Item != null && itemin != null && itemin.CanStackWith(s.Item as GameObject.Item))
+                        {
+                            itemin.StackSize += (s.Item as GameObject.Item).StackSize;
+                            e.Cancel = true;
+                            s.Item = itemin;
+                            WM.MouseGrab = null;
+                            Inventory.Items[i] = (s.Item as GameObject.Item);
+                            Inventory.Changed = true;
+                        }
+                        else
+                        {
+
+                            Inventory.Prepare();
+                            Inventory.AddItem(itemin, i);
+                            Inventory.Commit();
+                        }
+
+                    });
                     this.AddControl(s);
                 }
         }

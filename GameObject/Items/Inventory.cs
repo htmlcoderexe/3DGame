@@ -29,6 +29,14 @@ namespace GameObject.Items
         }
         public void Commit()
         {
+            for(int i=0;i<this.Backup.Length;i++)
+            {
+                Item slot = this.Backup[i];
+                if (slot == null)
+                    continue;
+                if (slot.StackSize < 1)
+                    this.Backup[i] = null;
+            }
             this.Backup.CopyTo(Items, 0);
             this.Changed = true;
 
@@ -86,8 +94,9 @@ namespace GameObject.Items
                     int totalstack = this.Backup[Position].StackSize + Item.StackSize;
                     // if(totalstack<=Item.
                     this.Backup[Position].StackSize = totalstack;
+                    return null;
                 }
-
+                return Item;
 
             }
             return null;

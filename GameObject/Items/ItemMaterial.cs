@@ -132,6 +132,7 @@ namespace GameObject.Items
             }
             public static Material GetRandomMaterial()
             {
+                return (Material)Materials[0].Clone();
                 return (Material)Materials[RNG.Next(0, Materials.Count)].Clone();
 
             }

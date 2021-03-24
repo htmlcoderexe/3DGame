@@ -103,10 +103,13 @@ namespace _3DGame.Scenes.GameplayAssets
 
             rs = new ItemSlot(result);
             rs.X = 40;
+            rs.CanGrab = false;
+            rs.CanPut = false;
             cs = new ItemSlot(comp);
             cs.X = 10;
             cs.Y = 50;
-
+            cs.CanGrab = false;
+            cs.CanPut = false;
             GUI.Controls.Button craftb = new GUI.Controls.Button("Craft");
             craftb.Y = 100;
             craftb.Width = 150;
@@ -135,12 +138,25 @@ namespace _3DGame.Scenes.GameplayAssets
             if (i!=null)
             {
                 i.StackSize--;
-                o=Player.Inventory.AddItem(rs.Item as GameObject.Item);
+                o=Player.Inventory.AddItem((GameObject.Item)(rs.Item as GameObject.Item).Clone());
+
+                if (o == null)
+                {
+                    Console.Write("Crafted " + (rs.Item as GameObject.Item).GetName());
+                    Player.Inventory.Commit();
+                }
+
+                else
+                {
+                    Console.Write("^FF0000 Not enough space.");
+                    Player.Inventory.Rollback();
+                }
             }
-            if (o == null)
-                Player.Inventory.Commit();
             else
+            {
+                Console.Write("^FF0000 You don't have [" + (cs.Item as GameObject.Item).GetName() + "]");
                 Player.Inventory.Rollback();
+            }
 
         }
 
@@ -219,6 +235,7 @@ namespace _3DGame.Scenes.GameplayAssets
                 eq.SubType = 15;
             eq.PrimaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
             eq.SecondaryMaterial = Material.MaterialTemplates.GetRandomMaterial();
+            eq.StackSize = 1;
             return eq;
         }
 
