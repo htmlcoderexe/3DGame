@@ -48,6 +48,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
                             s.Item = itemin;
                             WM.MouseGrab = null;
                             Inventory.Items[i] = (s.Item as GameObject.Item);
+                            Inventory.Prepare();
                             Inventory.Changed = true;
                         }
                         else
@@ -95,6 +96,7 @@ namespace _3DGame.Scenes.GameplayAssets.Windows
                             s.Item = itemin;
                             WM.MouseGrab = null;
                             Inventory.Items[i] = (s.Item as GameObject.Item);
+                            Inventory.Prepare();
                             Inventory.Changed = true;
                         }
                         else

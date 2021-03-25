@@ -18,7 +18,9 @@ namespace _3DGame.Scenes.GameplayAssets
         private GUI.Controls.ProgressBar MPBar;
         private GUI.Controls.ProgressBar EXPBar;
         private ItemSlot cs;
+        private ItemSlot cs2;
         private ItemSlot rs;
+        private GameObject.ItemLogic.CraftingRecipe recipe;
         public override void Close()
         {
             
@@ -95,11 +97,13 @@ namespace _3DGame.Scenes.GameplayAssets
             // AddControl(nbox);
 
             ////
-            GameObject.ItemLogic.CraftingRecipe cc = new GameObject.ItemLogic.CraftingRecipe();
+            recipe = new GameObject.ItemLogic.CraftingRecipe();
             GameObject.Item result = MakeRandomEquip();
             GameObject.Item comp = MakeRandomMat();
-            cc.Components.Add(new Tuple<GameObject.Item, int>(comp, 1));
-            cc.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { result }, 1));
+            GameObject.Item comp2 = MakeRandomMat();
+            recipe.Components.Add(new Tuple<GameObject.Item, int>(comp, 1));
+            recipe.Components.Add(new Tuple<GameObject.Item, int>(comp2, 2));
+            recipe.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { result }, 1));
 
             rs = new ItemSlot(result);
             rs.X = 40;
@@ -110,6 +114,11 @@ namespace _3DGame.Scenes.GameplayAssets
             cs.Y = 50;
             cs.CanGrab = false;
             cs.CanPut = false;
+            cs2 = new ItemSlot(comp2);
+            cs2.X = 60;
+            cs2.Y = 50;
+            cs2.CanGrab = false;
+            cs2.CanPut = false;
             GUI.Controls.Button craftb = new GUI.Controls.Button("Craft");
             craftb.Y = 100;
             craftb.Width = 150;
@@ -122,7 +131,7 @@ namespace _3DGame.Scenes.GameplayAssets
             AddControl(tabs);
             tabs.Width = 200;
             tabs.AddTab("first", new List<Control>() { slot });
-            tabs.AddTab("second", new List<Control>() { cs,rs,craftb });
+            tabs.AddTab("second", new List<Control>() { cs,cs2,rs,craftb });
             tabs.AddTab("thirddd", new List<Control>() { box });
             tabs.Y = 100;
             tabs.Height = 152;
@@ -132,30 +141,25 @@ namespace _3DGame.Scenes.GameplayAssets
 
         private void CraftTest(object sender, ClickEventArgs eventArgs)
         {
-            GameObject.Item i = Player.Inventory.FindItem(cs.Item as GameObject.Item);
-            GameObject.Item o=null;
-            Player.Inventory.Prepare();
-            if (i!=null)
+            int amount = recipe.Satisfy(Player.Inventory);
+            if(amount>0)
             {
-                i.StackSize--;
-                o=Player.Inventory.AddItem((GameObject.Item)(rs.Item as GameObject.Item).Clone());
-
-                if (o == null)
+                for(int i=0;i<amount;i++)
                 {
-                    Console.Write("Crafted " + (rs.Item as GameObject.Item).GetName());
-                    Player.Inventory.Commit();
-                }
-
-                else
-                {
-                    Console.Write("^FF0000 Not enough space.");
-                    Player.Inventory.Rollback();
+                    if(recipe.Craft(Player.Inventory))
+                    {
+                        Console.Write("Crafted " + (rs.Item as GameObject.Item).GetName());
+                    }
+                    else
+                    {
+                        Console.Write("^FF0000 Not enough space.");
+                        break;
+                    }
                 }
             }
             else
             {
-                Console.Write("^FF0000 You don't have [" + (cs.Item as GameObject.Item).GetName() + "]");
-                Player.Inventory.Rollback();
+                Console.Write("^FF0000 You don't have necessary items");
             }
 
         }

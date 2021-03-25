@@ -121,5 +121,45 @@ namespace GameObject.Items
             }
             return null;
         }
+
+        public int CountItem(Item Item)
+        {
+            int result = 0;
+            for (int i = 0; i < this.Backup.Length; i++)
+            {
+                if (this.Backup[i] != null && this.Backup[i].CanStackWith(Item))
+                {
+                    result += this.Backup[i].StackSize;
+                }
+            }
+            return result;
+        }
+        public bool RemoveItem(Item Item, int Amount)
+        {
+            //check if inventory in fact contains enough of the item
+            if (CountItem(Item) < Amount)
+                return false;
+
+
+            for (int i = 0; i < this.Backup.Length; i++)
+            {   //check if we can take from current slot
+                if (this.Backup[i] != null && this.Backup[i].CanStackWith(Item))
+                {
+                    int current= this.Backup[i].StackSize;
+                    //this stack is enough
+                    if (current>Amount)
+                    {
+                        this.Backup[i].StackSize -= Amount;
+                        Amount = 0;
+                        return true;
+                    }
+                    //else kill this stack and carry on with removing the rest
+                    Amount -= current;
+                    this.Backup[i] = null;
+                }
+            }
+
+            return true;
+        }
     }
 }
