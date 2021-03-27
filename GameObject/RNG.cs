@@ -40,6 +40,8 @@ namespace GameObject
         {
             int Total = Inputs.Sum();
             int pick = Next(Total);
+            if (pick == 0)
+                return 0;
             int running = 0;
             for(int i=0;i<Inputs.Count();i++)
             {

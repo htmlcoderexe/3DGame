@@ -99,11 +99,16 @@ namespace _3DGame.Scenes.GameplayAssets
             ////
             recipe = new GameObject.ItemLogic.CraftingRecipe();
             GameObject.Item result = MakeRandomEquip();
+            GameObject.Item betterresult =(GameObject.Item) result.Clone();
+            betterresult.NameColour = Color.Red;
             GameObject.Item comp = MakeRandomMat();
             GameObject.Item comp2 = MakeRandomMat();
+            comp.SubType = 1;
+            comp2.SubType = 2;
             recipe.Components.Add(new Tuple<GameObject.Item, int>(comp, 1));
-            recipe.Components.Add(new Tuple<GameObject.Item, int>(comp2, 2));
+           // recipe.Components.Add(new Tuple<GameObject.Item, int>(comp2, 1));
             recipe.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { result }, 1));
+            recipe.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { betterresult }, 1));
 
             rs = new ItemSlot(result);
             rs.X = 40;
