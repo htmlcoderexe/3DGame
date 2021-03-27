@@ -277,7 +277,15 @@ namespace _3DGame.Scenes.GameplayAssets
             ////this shows the modal, this MUST be the last line in the calling method unless you know what you're doing
             //WM.Add(mb);
             ////anything after this WILL execute BEFORE the modal is closed.
-            slot.Item = MakeRandomMat();
+            GameObject.Item newmat= MakeRandomMat();
+            newmat.StackSize = 10;
+            Player.Inventory.Prepare();
+            if (Player.Inventory.AddItem(newmat) == null)
+                Player.Inventory.Commit();
+            else
+                Player.Inventory.Rollback();
+
+           // slot.Item = newmat;
         }
 
         private void Mb_ModalWindowClosed(object sender, ModalWindow.DialogResult result, Window owner)
