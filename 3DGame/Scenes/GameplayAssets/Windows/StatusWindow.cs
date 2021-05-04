@@ -108,7 +108,8 @@ namespace _3DGame.Scenes.GameplayAssets
             recipe.Components.Add(new Tuple<GameObject.Item, int>(comp, 1));
             // recipe.Components.Add(new Tuple<GameObject.Item, int>(comp2, 1));
             recipe.Outputs[0]= new List<GameObject.Item>(){result };
-            recipe.Outputs[1]=new List<GameObject.Item>() { betterresult };
+            recipe.Outputs[1] = new List<GameObject.Item>() { betterresult };
+            recipe.Outputs[2] = new List<GameObject.Item>() { betterresult };
 
             rs = new ItemSlot(result);
             rs.X = 40;
@@ -208,6 +209,8 @@ namespace _3DGame.Scenes.GameplayAssets
             BonusPool p = BonusPool.Load("heavy_0_10");
             eq.Bonuses.Add(p.PickBonus());
             eq.Bonuses.Add(p.PickBonus());
+            eq.ResetSockets(1);
+            eq.Sockets[0] = new ItemGemstone("HP", 4);
             Enchantment enc = new Enchantment();
             int enctype = GameObject.RNG.Next(0, 3);
             switch (enctype)

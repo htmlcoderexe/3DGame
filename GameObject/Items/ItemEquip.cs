@@ -27,6 +27,11 @@ namespace GameObject.Items
         public int EquipmentSlot;
         public int SocketCount;
         public Interfaces.ISocketable[] Sockets;
+        public void ResetSockets(int Count)
+        {
+            Sockets = new Interfaces.ISocketable[Count];
+            SocketCount = Count;
+        }
         /// <summary>
         /// Backing variable for refining level, also used to force recalculation
         /// </summary>

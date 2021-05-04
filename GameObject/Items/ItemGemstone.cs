@@ -28,6 +28,7 @@ namespace GameObject.Items
                     _effect.FlatValue = this.Boost;
                     _effect.LineColour = new Color(96, 255, 255);
                     _effect.Order = StatBonus.StatOrder.Socket;
+                    _effect.Type = this.Stat;
                 }
                 return _effect;
             }
