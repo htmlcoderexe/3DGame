@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameObject.IO
 {
+    /// <summary>
+    /// Writes various files used by the game systems.
+    /// </summary>
     public class MagicFileWriter
     {
         FileStream stream;
@@ -17,7 +20,11 @@ namespace GameObject.IO
 
 
         }
-
+        /// <summary>
+        /// Writes a list of modular abilities to a binary file.
+        /// </summary>
+        /// <param name="Abilities">List of modular abilities to write.</param>
+        /// <param name="FileName">Filename if not default.</param>
         public void WriteAbilityFile(List<ModularAbility> Abilities, string FileName = "")
         {
             string fileName;
@@ -49,6 +56,28 @@ namespace GameObject.IO
             writer.Dispose();
             stream.Dispose();
         }
+
+        public void WriteItemMasterTemplateFile(List<ItemMasterTemplate> Templates, string FileName = "")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\itemmasters.gdf";
+            fileName = FileName;
+            stream = new FileStream(fileName, FileMode.OpenOrCreate);
+            writer = new BinaryWriter(stream);
+            writer.Write(Templates.Count);
+            foreach (ItemMasterTemplate a in Templates)
+                WriteItemMasterTemplate(a);
+            writer.Close();
+            writer.Dispose();
+            stream.Dispose();
+        }
+
+        public void WriteItemMasterTemplate(ItemMasterTemplate a)
+        {
+
+        }
+
 
         private void WriteClass(CharacterTemplate a)
         {

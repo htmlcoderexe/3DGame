@@ -26,7 +26,7 @@ namespace _3DGame.Scenes.GameplayAssets
             
         }
         public StatusWindow(WindowManager WM, GameObject.MapEntities.Actors.Player Player)
-            {
+        {
             this.Player = Player;
             this.WM = WM;
             this.Width = 360;
@@ -50,8 +50,8 @@ namespace _3DGame.Scenes.GameplayAssets
                 Height = 16,
                 Width = 192,
                 Colour = new Color(25, 150, 255),
-                X=3,
-                Y=21
+                X = 3,
+                Y = 21
             };
             this.AddControl(MPBar);
             this.EXPBar = new GUI.Controls.ProgressBar
@@ -80,14 +80,14 @@ namespace _3DGame.Scenes.GameplayAssets
             this.slot.X = 0;
             this.slot.Y = 49;
             this.slot.Y = 0;
-          //  this.Controls.Add(this.slot);
+            //  this.Controls.Add(this.slot);
 
             GUI.Controls.TextBox box = new GUI.Controls.TextBox();
             box.Height = 20;
             box.Width = 200;
             box.Y = 100;
             box.Y = 0;
-           // AddControl(box);
+            // AddControl(box);
             GUI.Controls.NumberBox nbox = new GUI.Controls.NumberBox();
             nbox.Height = 20;
             nbox.Width = 200;
@@ -99,16 +99,16 @@ namespace _3DGame.Scenes.GameplayAssets
             ////
             recipe = new GameObject.ItemLogic.CraftingRecipe();
             GameObject.Item result = MakeRandomEquip();
-            GameObject.Item betterresult =(GameObject.Item) result.Clone();
+            GameObject.Item betterresult = (GameObject.Item)result.Clone();
             betterresult.NameColour = Color.Red;
             GameObject.Item comp = MakeRandomMat();
             GameObject.Item comp2 = MakeRandomMat();
             comp.SubType = 1;
             comp2.SubType = 2;
             recipe.Components.Add(new Tuple<GameObject.Item, int>(comp, 1));
-           // recipe.Components.Add(new Tuple<GameObject.Item, int>(comp2, 1));
-            recipe.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { result }, 1));
-            recipe.Outputs.Add(new Tuple<List<GameObject.Item>, int>(new List<GameObject.Item>() { betterresult }, 1));
+            // recipe.Components.Add(new Tuple<GameObject.Item, int>(comp2, 1));
+            recipe.Outputs[0]= new List<GameObject.Item>(){result };
+            recipe.Outputs[1]=new List<GameObject.Item>() { betterresult };
 
             rs = new ItemSlot(result);
             rs.X = 40;

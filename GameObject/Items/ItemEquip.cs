@@ -10,8 +10,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameObject.Items
 {
-    public class ItemEquip :Item
+    /// <summary>
+    /// Equippable Item that directly modifies a character's stats.
+    /// </summary>
+    public class ItemEquip : Item
     {
+        /// <summary>
+        /// Bonuses on the item applying on equip.
+        /// </summary>
         public List<ItemBonus> Bonuses;
         public Items.Material PrimaryMaterial;
         public Items.Material SecondaryMaterial;
@@ -19,6 +25,112 @@ namespace GameObject.Items
         public string Subject;
         public Enchantment Enchant;
         public int EquipmentSlot;
+        public int SocketCount;
+        public Interfaces.ISocketable[] Sockets;
+        /// <summary>
+        /// Backing variable for refining level, also used to force recalculation
+        /// </summary>
+        private int _refiningLevel = 0;
+        /// <summary>
+        /// Item refining level, affects mainstats
+        /// </summary>
+        public int RefiningLevel
+        {
+            get
+            {
+                return _refiningLevel;
+            }
+            set
+            {
+                if(value!=_refiningLevel)
+                {
+                    _refiningLevel = value;
+                    //delete precalculated mainstats, forcing a recalculation to current refine
+                    _MainStats = null;
+                }
+            }
+        }
+        public const int StatCount= 6;
+        /// <summary>
+        /// Item's "main stat" values
+        /// </summary>
+        public int[] StatValues = new int[StatCount];
+        /// <summary>
+        /// Maps stat values to actor stats
+        /// </summary>
+        public string[] statmapping = new string[] { "HP", "MP", "PAtk", "MAtk", "PDef", "MDef" };
+        /// <summary>
+        /// Maps stat names to tooltip names
+        /// </summary>
+        public string[] statnames = new string[] { "HP", "MP", "Physical Attack", "Magic Attack", "Physical Defence", "Magic Defence" };
+
+        /// <summary>
+        /// Refining multipliers
+        /// </summary>
+        float[] multipliers = new float[]
+        {
+            1.0f,
+            1.01f,1.02f,1.03f,1.05f,
+            1.07f,1.09f,1.012f,1.15f,
+            1.19f,1.24f,1.31f,1.40f,
+            1.51f,1.64f,1.80f,2.0f,
+            2.3f
+        };
+
+        /// <summary>
+        /// Multiplier to apply to mainstats based on refine
+        /// </summary>
+        /// <param name="RefiningLevel">Refining level to calculate multiplier for</param>
+        /// <returns>Multiplier</returns>
+        public float GetRefinerMultiplier(int RefiningLevel)
+        {
+            //bounds checking
+            if (RefiningLevel >= multipliers.Length)
+                RefiningLevel = multipliers.Length - 1;
+            if (RefiningLevel < 0)
+                RefiningLevel = 0;
+            //get result from table
+            return multipliers[RefiningLevel];
+        }
+
+        /// <summary>
+        /// This is the cached version used for (d)equipping
+        /// </summary>
+        List<ItemBonus> _MainStats;
+
+        /// <summary>
+        /// Item's mainstats converted to ItemBonus to apply on equip
+        /// </summary>
+        public List<ItemBonus> MainStats
+        {
+            get
+            {
+                //this always gets overwritten
+                if(_MainStats==null)
+                {
+                    _MainStats = new List<ItemBonus>();
+
+
+                    for (int i = 0; i < StatCount; i++)
+                    {
+                        //add any nonzero mainstats
+                        if (StatValues[i] != 0)
+                        {
+                            ItemBonus b = new ItemBonus
+                            {
+                                //won't ever be displayed anyway
+                                Effecttext = "",
+                                FlatValue = StatValues[i]*GetRefinerMultiplier(this.RefiningLevel), //#TODO make refining affect this
+                                Type = statmapping[i]
+                            };
+                            _MainStats.Add(b);
+                        }
+                    }
+                }
+                return _MainStats;
+            }
+        }
+
         public class EquipSlot
         {
             public const int RightArm = 0;
@@ -119,6 +231,8 @@ namespace GameObject.Items
             this.Adjective = Adjectives[RNG.Next(0, Adjectives.Count - 1)];
             this.Subject = Subjects[RNG.Next(0, Subjects.Count - 1)];
             this.SubType = RNG.Next(7);
+            this.StatValues[2] = 35;
+            this.RefiningLevel = 9;
             if (this.SubType == 1)
                 this.Variant = RNG.Next(2);
             string[] grades = new string[] { "Common","Uncommon","Rare","Epic" };
@@ -149,26 +263,56 @@ namespace GameObject.Items
             name += ItemEquip.EquipType.GetTypeName(this.SubType) + " ";
             if (this.Subject != "")
                 name+= "of " + this.Subject;
+
+            if (this.RefiningLevel > 0)
+                name += " +" + RefiningLevel;
             return name;
         }
+        /// <summary>
+        /// Gets a tooltip describing the item and its properties.
+        /// </summary>
+        /// <returns>Item tooltip as a list of lines.</returns>
         public override List<string> GetTooltip()
         {
+            //get basic tooltip with title, description etc
             List<string> tip = base.GetTooltip();
+            //debug stuff!
             tip.Add("Variant " + this.Variant.ToString());
             tip.Add("Made from:");
+           
             if (PrimaryMaterial != null)
                 tip.Add(PrimaryMaterial.GetName());
             if (SecondaryMaterial != null)
                 tip.Add(SecondaryMaterial.GetName());
+            //--end debug stuff
+
+            //item "main stats" displayed if nonzero
+
+            for(int i=0;i<StatCount;i++)
+            {
+                if (StatValues[i] != 0)
+                    tip.Add(statnames[i] + ": " + StatValues[i]*GetRefinerMultiplier(this.RefiningLevel));
+            }
+
+            //show an enchant if any, coloured with enchant colour
             if (this.Enchant != null)
             {
                 tip.Add(GUI.Renderer.ColourToCode(this.Enchant.LineColour) + this.Enchant.BonusText);
             }
-
+            //show socketed items with bonuses if any
+            if (SocketCount != 0)
+            {
+                for (int i = 0; i < SocketCount; i++)
+                    tip.Add(GUI.Renderer.ColourToCode(Sockets[i].AddedEffect.LineColour) + Sockets[i].AddedEffect.BonusText);
+                
+            }
+            //Show item adds
             foreach (ItemBonus b in this.Bonuses)
             {
                 tip.Add(GUI.Renderer.ColourToCode(b.LineColour)+b.BonusText);
             }
+
+
             return tip ;
         }
 

@@ -225,10 +225,25 @@ namespace GameObject.MapEntities.Actors
         {
             if (!CanEquip(Item))
                 return;
-            if (Item != null && Item.Bonuses!=null)
+            if (Item == null)
+                return;
+            //add mainstats as bonuses 
+            List<Items.ItemBonus> mains = Item.MainStats;
+            if(mains?.Count!=0)
+            {
+                foreach (Items.ItemBonus b in mains)
+                    StatBonuses.Add(b);
+            }
+            //add other bonuses
+            if (Item.Bonuses!=null)
                 foreach (Items.ItemBonus b in Item.Bonuses)
                     StatBonuses.Add(b);
-            
+            //add any socket bonuses
+            if(Item.SocketCount!=0)
+            {
+                for (int i = 0; i < Item.SocketCount; i++)
+                    StatBonuses.Add(Item.Sockets[i].AddedEffect);
+            }
         }
         /// <summary>
         /// Removes item from the corresponding equip slot
@@ -259,9 +274,23 @@ namespace GameObject.MapEntities.Actors
            
             if (Item == null)
                 return;
-            if(Item.Bonuses!=null)
+            //remove mainstats 
+            List<Items.ItemBonus> mains = Item.MainStats;
+            if (mains?.Count != 0)
+            {
+                foreach (Items.ItemBonus b in mains)
+                    StatBonuses.Remove(b);
+            }
+            //remove any item bonuses
+            if (Item.Bonuses!=null)
             foreach (Items.ItemBonus b in Item.Bonuses)
                 StatBonuses.Remove(b);
+            //remove socket bonuses
+            if (Item.SocketCount != 0)
+            {
+                for (int i = 0; i < Item.SocketCount; i++)
+                    StatBonuses.Remove(Item.Sockets[i].AddedEffect);
+            }
         }
         /// <summary>
         /// basic update logic

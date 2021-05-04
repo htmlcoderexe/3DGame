@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GameObject.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +52,7 @@
     <Compile Include="Interactions\NPCCommand.cs" />
     <Compile Include="Interactions\NPCCommands\OpenShop.cs" />
     <Compile Include="Interactions\NPCShop.cs" />
+    <Compile Include="Interfaces\ISocketable.cs" />
     <Compile Include="IO\MagicFileReader.cs" />
     <Compile Include="IO\MagicFileWriter.cs" />
     <Compile Include="AbilityLogic\AbilityLoader.cs" />
@@ -76,8 +78,10 @@
     <Compile Include="Interfaces\IGameScene.cs" />
     <Compile Include="Interfaces\WorldPosition.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemMasterTemplate.cs" />
     <Compile Include="ItemLogic\CraftingRecipe.cs" />
     <Compile Include="ItemLogic\IItemFilter.cs" />
+    <Compile Include="ItemSpecificTemplate.cs" />
     <Compile Include="Items\BonusPool.cs" />
     <Compile Include="Items\BonusTemplate.cs" />
     <Compile Include="Items\Enchantment.cs" />
@@ -106,6 +110,7 @@
     <Compile Include="MapEntities\Particles\Spiral.cs" />
     <Compile Include="MapEntity.cs" />
     <Compile Include="ModularAbility.cs" />
+    <Compile Include="NameGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RNG.cs" />
     <Compile Include="SkillTree.cs" />
@@ -137,6 +142,9 @@
     <Content Include="gamedata\README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="statnames.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

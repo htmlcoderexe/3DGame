@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen", "WorldGen\WorldGen.csproj", "{E5DB570A-1011-4E8E-A105-0D53805DF2B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldInfo", "WorldInfo\WorldInfo.csproj", "{EF163BC5-6C20-4C63-9119-9EE13D129D9F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFA614CA-BFAF-4E43-B3ED-7D23654940CB} = {FFA614CA-BFAF-4E43-B3ED-7D23654940CB}
+		{A3377DE7-8E2E-456D-8120-61C21730EAC5} = {A3377DE7-8E2E-456D-8120-61C21730EAC5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

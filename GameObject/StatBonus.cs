@@ -15,7 +15,7 @@ namespace GameObject
         public StatOrder Order;
         public enum StatOrder
         {
-            Template,Character,Equip,Effect,Count
+            Template,Character,Equip,Socket,Effect,Count
         }
 
         public object Clone()

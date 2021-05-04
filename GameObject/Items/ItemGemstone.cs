@@ -9,12 +9,30 @@ using System.Threading.Tasks;
 
 namespace GameObject.Items
 {
-    public class ItemGemstone :Item
+    public class ItemGemstone :Item, Interfaces.ISocketable
     {
         public int Level { get; set; }
         public string Stat { get; set; }
         public int Boost { get; set; }
         public string BoostString { get { return "^60FFFF " + this.Stat + " +" + this.Boost; } }
+
+        private ItemBonus _effect;
+
+        public ItemBonus AddedEffect
+        { get
+            {
+                if(_effect==null)
+                {
+                    _effect = new ItemBonus();
+                    _effect.Effecttext = this.Stat + " Gem: " + this.Stat + " +" + this.Boost;
+                    _effect.FlatValue = this.Boost;
+                    _effect.LineColour = new Color(96, 255, 255);
+                    _effect.Order = StatBonus.StatOrder.Socket;
+                }
+                return _effect;
+            }
+        }
+
         //#TODO: load this from a file
         public static Dictionary<string, Color> StatGemColours = new Dictionary<string, Color>()
         {

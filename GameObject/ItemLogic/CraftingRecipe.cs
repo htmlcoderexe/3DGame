@@ -9,7 +9,11 @@ namespace GameObject.ItemLogic
     public class CraftingRecipe
     {
         public List<Tuple<Item, int>> Components= new List<Tuple<Item, int>>();
-        public List<Tuple<List<Item>,int>> Outputs= new List<Tuple<List<Item>, int>>();
+        //public List<Tuple<List<Item>,int>> Outputs= new List<Tuple<List<Item>, int>>();
+
+
+
+        public List<Item>[] Outputs = new List<Item>[3];
 
         public void Normalize()
         {
@@ -58,15 +62,59 @@ namespace GameObject.ItemLogic
             return result;
         }
 
-        public bool Craft(Items.Inventory inventory)
+        public bool Craft(Items.Inventory inventory, int overskill = 0)
         {
 
             List<int> Weights = new List<int>();
-            //turn weights into a list
-            foreach (Tuple<List<Item>, int> output in Outputs)
-                Weights.Add(output.Item2);
+            if (overskill < 0)
+                overskill = 0;
+            switch(overskill)
+            {
+                case 0:
+                    {
+                        Weights = new List<int>() { 87, 10, 3 };
+                        break;
+                    }
+                case 1:
+                    {
+                        Weights = new List<int>() { 75, 20, 5 };
+                        break;
+                    }
+                case 2:
+                    {
+                        Weights = new List<int>() { 62, 30, 8 };
+                        break;
+                    }
+                case 3:
+                    {
+                        Weights = new List<int>() { 54, 36, 11 };
+                        break;
+                    }
+                case 4:
+                    {
+                        Weights = new List<int>() { 45, 40, 15 };
+                        break;
+                    }
+                case 5:
+                    {
+                        Weights = new List<int>() { 30, 50, 20 };
+                        break;
+                    }
+                case 6:
+                    {
+                        Weights = new List<int>() { 10, 50, 40 };
+                        break;
+                    }
+                default:
+                    {
+                        Weights = new List<int>() { 0, 40, 60 };
+                        break;
+                    }
+            }
+
+
             //let the RNG pick one of the lists and return
-            List<Item> result= Outputs[RNG.PickWeighted(Weights)].Item1;
+            List<Item> result= Outputs[RNG.PickWeighted(Weights)];
             inventory.Prepare();
 
             //remove crafting components from inventory
