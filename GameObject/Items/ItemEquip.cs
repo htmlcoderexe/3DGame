@@ -55,7 +55,7 @@ namespace GameObject.Items
                 }
             }
         }
-        public const int StatCount= 6;
+        const int StatCount= 6;
         /// <summary>
         /// Item's "main stat" values
         /// </summary>
@@ -125,7 +125,7 @@ namespace GameObject.Items
                             {
                                 //won't ever be displayed anyway
                                 Effecttext = "",
-                                FlatValue = StatValues[i]*GetRefinerMultiplier(this.RefiningLevel), //#TODO make refining affect this
+                                FlatValue = StatValues[i]*GetRefinerMultiplier(this.RefiningLevel), 
                                 Type = statmapping[i]
                             };
                             _MainStats.Add(b);
@@ -230,6 +230,7 @@ namespace GameObject.Items
         {
             this.Type = Types.Equip;
             this.StackSize = 1;
+            this.MaxStackSize = 1;
             this.Bonuses = new List<ItemBonus>();
             this.Name = "Equipment piece";
             this.NameColour= new Color(192, 0, 255);

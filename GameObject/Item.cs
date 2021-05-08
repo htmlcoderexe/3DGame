@@ -99,21 +99,40 @@ namespace GameObject
         public int Type;
         public int SubType;
         public int Variant;
+        /// <summary>
+        /// Amount of this item in this Item stack.
+        /// </summary>
         public int StackSize { get; set; }
 
+        /// <summary>
+        /// Maximum amount a stack of this item can be.
+        /// </summary>
+        public int MaxStackSize { get; set; }
+        /// <summary>
+        /// Current cooldown value.
+        /// </summary>
         public float CoolDown { get; set; }
-
+        /// <summary>
+        /// Cooldown value in seconds when item is used, if applicable.
+        /// </summary>
         public float MaxCoolDown { get; set; }
-
+        /// <summary>
+        /// Item icon.
+        /// </summary>
         public int Icon { get; set; }
-
+        /// <summary>
+        /// Item ID for storage and reference purposes.
+        /// </summary>
         public string ID { get; set; }
-
+        /// <summary>
+        /// Name of the item to be displayed in some contets. I don't actually think this is fucking used...
+        /// </summary>
         string IActionIcon.Name { get; set; }
 
         public Item()
         {
             this.StackSize = 1;
+            this.MaxStackSize = 100;
         }
 
         public virtual object Clone()

@@ -23,7 +23,10 @@ namespace GameObject
 
         public int Type;
         public int SubType;
-
+        /// <summary>
+        /// Creates an ItemEquip based on the template.
+        /// </summary>
+        /// <returns>The created ItemEquip.</returns>
         public Items.ItemEquip CreateResult()
         {
             Items.ItemEquip result = new Items.ItemEquip
@@ -42,6 +45,11 @@ namespace GameObject
 
             return result;
         }
+        /// <summary>
+        /// Creates an ItemEquip based on the template and an existing ItemEquip.
+        /// </summary>
+        /// <param name="BaseItem">The ItemEquip to be upgraded.</param>
+        /// <returns>The new ItemEquip.</returns>
         public Items.ItemEquip CreateResult(Items.ItemEquip BaseItem)
         {
             Items.ItemEquip result = CreateResult();

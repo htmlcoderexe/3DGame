@@ -41,8 +41,14 @@ namespace GameObject.Items
             this.Changed = true;
 
         }
+        /// <summary>
+        /// Adds an item to the intentory.
+        /// </summary>
+        /// <param name="Item">Item to be added.</param>
+        /// <returns></returns>
         public Item AddItem(Item Item)
         {
+            //find first empty slot
             int firstempty = -1;
             for (int i = 0; i < this.Backup.Length; i++)
             {
@@ -53,10 +59,12 @@ namespace GameObject.Items
                 }
 
             }
+            //find first stackable item ifany
             int firstofkind = -1;
             for (int i = 0; i < this.Backup.Length; i++)
             {
-                if (this.Backup[i] != null && this.Backup[i].CanStackWith(Item))
+                //check if not empty, then if it can be stacked with the item, then if the stack is full
+                if (this.Backup[i] != null && this.Backup[i].CanStackWith(Item) && Backup[i].StackSize<Backup[i].MaxStackSize)
                 {
                     firstofkind = i;
                     break;
@@ -64,9 +72,18 @@ namespace GameObject.Items
 
 
             }
+            //if there is a valid item stack to join
             if (firstofkind != -1)
             {
+                //simply increase stack size in inventory
                 this.Backup[firstofkind].StackSize += Item.StackSize;
+                //if resulting stack too big, set to max instead and try adding the difference recursively
+                if(this.Backup[firstofkind].StackSize>this.Backup[firstofkind].MaxStackSize)
+                {
+                    this.Backup[firstofkind].StackSize = this.Backup[firstofkind].MaxStackSize;
+                    Item.StackSize = this.Backup[firstofkind].MaxStackSize;
+                    return AddItem(Item);
+                }
                 return null;
             }
             if (firstempty != -1)
@@ -92,7 +109,12 @@ namespace GameObject.Items
                 if (this.Backup[Position].CanStackWith(Item))
                 {
                     int totalstack = this.Backup[Position].StackSize + Item.StackSize;
-                    // if(totalstack<=Item.
+                    if(totalstack>this.Backup[Position].MaxStackSize)
+                    {
+                        this.Backup[Position].StackSize = this.Backup[Position].MaxStackSize;
+                        Item.StackSize -= this.Backup[Position].MaxStackSize;
+                        return Item;
+                    }
                     this.Backup[Position].StackSize = totalstack;
                     return null;
                 }
