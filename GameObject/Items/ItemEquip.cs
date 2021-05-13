@@ -25,6 +25,54 @@ namespace GameObject.Items
         public string Subject;
         public Enchantment Enchant;
         public int EquipmentSlot;
+        /// <summary>
+        /// Equip categories used in item generation.
+        /// </summary>
+        public enum EquipCategories
+        {
+            /// <summary>
+            /// Melee weapons - physical attack, melee range.
+            /// </summary>
+            WeaponMelee,
+            /// <summary>
+            /// Magic weapons - can also be used as melee weapons albeit less effectively.
+            /// </summary>
+            WeaponMagic,
+            /// <summary>
+            /// Ranged weapons shooting projectiles from a distance.
+            /// </summary>
+            WeaponRanged,
+            /// <summary>
+            /// Heavy armour providing best physical defence at the cost of magical defence.
+            /// </summary>
+            ArmourHeavy,
+            /// <summary>
+            /// Light armour providing worse physical defence yet somewhat improved magical defence.
+            /// </summary>
+            ArmourLight,
+            /// <summary>
+            /// Magical robes providing barely any physical defence and excellent magical defence.
+            /// </summary>
+            ArmourRobe,
+            /// <summary>
+            /// Rings enhancing physical attributes.
+            /// </summary>
+            RingPhysical,
+            /// <summary>
+            /// Rings enhancing magical attributes.
+            /// </summary>
+            RingMagical,
+            /// <summary>
+            /// Various accessories.
+            /// </summary>
+            Accessory,
+            /// <summary>
+            /// Equippable items not fitting into any other category.
+            /// </summary>
+            Other
+
+        }
+
         public int SocketCount;
         public Interfaces.ISocketable[] Sockets;
         public void ResetSockets(int Count)
@@ -55,7 +103,10 @@ namespace GameObject.Items
                 }
             }
         }
-        const int StatCount= 6;
+        /// <summary>
+        /// Number on mainstats.
+        /// </summary>
+        public const int StatCount= 6;
         /// <summary>
         /// Item's "main stat" values
         /// </summary>
@@ -63,16 +114,16 @@ namespace GameObject.Items
         /// <summary>
         /// Maps stat values to actor stats
         /// </summary>
-        public string[] statmapping = new string[] { "HP", "MP", "PAtk", "MAtk", "PDef", "MDef" };
+        public static string[] statmapping = new string[] { "HP", "MP", "PAtk", "MAtk", "PDef", "MDef" };
         /// <summary>
         /// Maps stat names to tooltip names
         /// </summary>
-        public string[] statnames = new string[] { "HP", "MP", "Physical Attack", "Magic Attack", "Physical Defence", "Magic Defence" };
+        public static string[] statnames = new string[] { "HP", "MP", "Physical Attack", "Magic Attack", "Physical Defence", "Magic Defence" };
 
         /// <summary>
         /// Refining multipliers
         /// </summary>
-        float[] multipliers = new float[]
+        static float[] multipliers = new float[]
         {
             1.0f,
             1.01f,1.02f,1.03f,1.05f,
@@ -87,7 +138,7 @@ namespace GameObject.Items
         /// </summary>
         /// <param name="RefiningLevel">Refining level to calculate multiplier for</param>
         /// <returns>Multiplier</returns>
-        public float GetRefinerMultiplier(int RefiningLevel)
+        public static float GetRefinerMultiplier(int RefiningLevel)
         {
             //bounds checking
             if (RefiningLevel >= multipliers.Length)
@@ -97,6 +148,8 @@ namespace GameObject.Items
             //get result from table
             return multipliers[RefiningLevel];
         }
+
+        
 
         /// <summary>
         /// This is the cached version used for (d)equipping
@@ -163,35 +216,90 @@ namespace GameObject.Items
             public const int Blade = 1;
             public const int Dagger = 2;
             public const int Axe = 3;
+
             public const int Hammer = 4;
             public const int Staff = 5;
             public const int Wand = 6;
             public const int SpellRing = 7;
+
             public const int Spear = 8;
             public const int SpellBlade = 9;
             public const int Fists = 10;
             public const int Knuckles = 11;
+
             public const int Claws = 12;
             public const int Saber = 13;
             public const int MagicOrb = 14;
             public const int HeavyHelmet = 15;
+
             public const int LightHelmet = 16;
             public const int Cap = 17;
             public const int ChestPlate = 18;
             public const int LightArmor = 19;
+
             public const int Robe = 20;
             public const int Greaves = 21;
             public const int Cuisses = 22;
             public const int Leggings = 23;
+
             public const int Gauntlets = 24;
             public const int Gloves = 25;
             public const int Mitts = 26;
             public const int Vambraces = 27;
+
             public const int Bracers = 28;
             public const int Sleeves = 29;
             public const int Sabatons = 30;
             public const int Boots = 31;
+
             public const int Shoes = 32;
+
+            public static float[][] MainStatMappings = new float[][]
+            {
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,0.8f,1.0f,0,0 },
+               new float[] {0,0,0.5f,1.0f,0,0 },
+               new float[] {0,0,0.15f,1.0f,0,0 },
+
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,0.6f,1.0f,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,0.5f,1.0f,0,0 },
+               new float[] {1.0f,0,0.0f,0,0,0 },
+
+               new float[] {0.5f,0.2f,0f,0,0,0 },
+               new float[] {0,1.0f,0.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,1.5f,0.6f },
+               new float[] {0,0,1.0f,0,0.9f,0.7f },
+
+               new float[] {0,0,1.0f,0,0.6f,1.5f },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+               new float[] {0,0,1.0f,0,0,0 },
+
+               new float[] {0,0,1.0f,0,0,0 }
+            };
+
+
             public static string GetTypeName(int Type)
             {
                 switch (Type)

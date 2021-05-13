@@ -16,15 +16,37 @@ namespace WorldGen
         public static List<int> UncommonItemRareAddonWeights= new List<int> { 3, 6, 1};
         public const int UncommonLevelBumpProb = 3;
 
-        public static GameObject.ItemSpecificTemplate GenerateCommonItem(int LevelPool, int ItemType)
+        public static float[] SetMainStats(int ItemType, int Level)
+        {
+            float[] MainStats = new float[GameObject.Items.ItemEquip.StatCount];
+            float mainstat1 = GameObject.ItemSpecificTemplate.GetMainStatForLevel(Level);
+            switch (ItemType)
+            {
+                case 0:
+                case 1:
+                    {
+                        MainStats[2] = mainstat1;
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+
+            return MainStats;
+        }
+
+        public static GameObject.ItemSpecificTemplate GenerateCommonItem(int LevelPool, string ItemType)
         {
             GameObject.ItemSpecificTemplate result = new GameObject.ItemSpecificTemplate();
             result.Grade = "Common";
+
             result.Adds.AddRange(GetAdds(LevelPool, ItemType, false, CommonItemAddonWeights, 0));
             return result;
         }
 
-        public static GameObject.ItemSpecificTemplate GenerateUncommonItem(int LevelPool, int ItemType)
+        public static GameObject.ItemSpecificTemplate GenerateUncommonItem(int LevelPool, string ItemType)
         {
             GameObject.ItemSpecificTemplate result = new GameObject.ItemSpecificTemplate();
             result.Grade = "Uncommon";
@@ -41,13 +63,13 @@ namespace WorldGen
         /// <param name="ItemType">Item type to accept the addon.</param>
         /// <param name="Rare">Whether the addon should come from the regular or the rare addon pool.</param>
         /// <returns></returns>
-        public static WorldInfo.ItemAddonEntry GetAddon(int LevelTier, int ItemType, bool Rare)
+        public static WorldInfo.ItemAddonEntry GetAddon(int LevelTier, string ItemType, bool Rare)
         {
             List<WorldInfo.ItemAddonEntry> e = addonpool.Where(a => a.LevelTier == LevelTier && a.ItemTypes.Contains(ItemType) && a.IsRare == Rare).ToList();
             return e[GameObject.RNG.Next(e.Count())];
         }
 
-        public static List<GameObject.Items.ItemBonus> GetAdds(int LevelTier, int ItemType, bool Rare, List<int> Weights, int BumpProbability)
+        public static List<GameObject.Items.ItemBonus> GetAdds(int LevelTier, string ItemType, bool Rare, List<int> Weights, int BumpProbability)
         {
             List<GameObject.Items.ItemBonus> adds = new List<GameObject.Items.ItemBonus>();
 

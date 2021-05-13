@@ -91,6 +91,7 @@
     <Compile Include="Items\ItemEquip.cs" />
     <Compile Include="Items\ItemGemstone.cs" />
     <Compile Include="Items\ItemMaterial.cs" />
+    <Compile Include="ItemTypeDefinition.cs" />
     <Compile Include="MapEntities\Actor.cs" />
     <Compile Include="MapEntities\ActorLogic\StatObject.cs" />
     <Compile Include="MapEntities\Actors\Monster.cs" />
