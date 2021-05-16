@@ -17,11 +17,13 @@ namespace MagicEditor
     {
         public List<ModularAbility> abilities = new List<ModularAbility>();
         public List<CharacterTemplate> classes = new List<CharacterTemplate>();
+        public List<ItemTypeDefinition> itemtypes = new List<ItemTypeDefinition>();
 
         #region Internal state
 
         ModularAbility CurrentAbility;
         CharacterTemplate CurrentClass;
+        ItemTypeDefinition CurrentItemType;
         bool lockform = false;
 
         #endregion
@@ -39,6 +41,7 @@ namespace MagicEditor
 
             MagicFileReader fr = new MagicFileReader();
 
+            //load abilities
             abilities = fr.ReadAbilityFile();
             if(abilities.Count>0)
             {
@@ -57,6 +60,7 @@ namespace MagicEditor
             }
             EditCurrentAbility();
             
+            //load classes
             classes=fr.ReadClassFile();
             if(classes.Count>0)
             {
@@ -75,6 +79,9 @@ namespace MagicEditor
             }
             EditCurrentClass();
 
+            //load item type defs
+
+            //reload panel based editing controls
             panel1.Refresh();
         }
 

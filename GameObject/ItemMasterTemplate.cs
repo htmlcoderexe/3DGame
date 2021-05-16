@@ -111,6 +111,7 @@ namespace GameObject
         /// Possible rare addons with ranges
         /// </summary>
         public List<Tuple<Items.BonusTemplate, int>> RareAddons;
+        ///<summary>
         /// Generates a specific Item template used by the game when generating the 
         /// appropriate item from looting or crafting.
         /// </summary>

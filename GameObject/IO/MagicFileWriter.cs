@@ -57,6 +57,23 @@ namespace GameObject.IO
             stream.Dispose();
         }
 
+        public void WriteItemTypeDefinitionFile(List<ItemTypeDefinition> ItemTypeDefinitions, string FileName="")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\itemtypes.gdf";
+            fileName = FileName;
+            stream = new FileStream(fileName, FileMode.OpenOrCreate);
+            writer = new BinaryWriter(stream);
+            writer.Write(ItemTypeDefinitions.Count);
+            foreach (ItemTypeDefinition def in ItemTypeDefinitions)
+                WriteItemTypeDefinition(def);
+            writer.Close();
+            writer.Dispose();
+            stream.Dispose();
+
+        }
+
         public void WriteItemMasterTemplateFile(List<ItemMasterTemplate> Templates, string FileName = "")
         {
             string fileName;
@@ -72,6 +89,8 @@ namespace GameObject.IO
             writer.Dispose();
             stream.Dispose();
         }
+        
+
 
         public void WriteItemMasterTemplate(ItemMasterTemplate a)
         {
@@ -107,6 +126,30 @@ namespace GameObject.IO
             }
         }
 
+        void WriteAbility(ModularAbility ability)
+        {
+            writer.Write(ability.ID);
+            writer.Write(ability.Name);
+            writer.Write(ability.DescriptionString);
+            writer.Write(ability.Icon);
+            WriteDictionary(ability.BaseValues);
+            WriteDictionary(ability.GrowthValues);
+            writer.Write(ability.GetModules().Count);
+            foreach (ITimedEffect effect in ability.GetModules())
+                WriteEffect(effect);
+        }
+
+        void WriteItemTypeDefinition(ItemTypeDefinition typedef)
+        {
+            writer.Write(typedef.ID);
+            writer.Write(typedef.Name);
+            writer.Write((byte)typedef.SlotID);
+            for (int i = 0; i < 6; i++)
+                writer.Write(typedef.MainStatMultipliers[i]);
+            WriteListOfInt(typedef.Icons);
+            writer.Write((int)typedef.ItemCategory);
+        }
+
         private void WriteSkillTreeEntry(SkillTreeEntry e)
         {
             writer.Write(e.SkillID);
@@ -137,28 +180,7 @@ namespace GameObject.IO
             }
         }
 
-        void WriteAbility(ModularAbility ability)
-        {
-            writer.Write(ability.ID);
-            writer.Write(ability.Name);
-            writer.Write(ability.DescriptionString);
-            writer.Write(ability.Icon);
-            WriteDictionary(ability.BaseValues);
-            WriteDictionary(ability.GrowthValues);
-            writer.Write(ability.GetModules().Count);
-            foreach (ITimedEffect effect in ability.GetModules())
-                WriteEffect(effect);
-        }
 
-        void WriteDictionary(Dictionary<string,float> dictionary)
-        {
-            writer.Write(dictionary.Count);
-            foreach(KeyValuePair<string,float> entry in dictionary)
-            {
-                writer.Write(entry.Key);
-                writer.Write(entry.Value);
-            }
-        }
         
         void WriteEffect(ITimedEffect effect)
         {
@@ -170,6 +192,24 @@ namespace GameObject.IO
             writer.Write(effect.GetParamValues().Length);
             foreach (string s in effect.GetParamValues())
                 writer.Write(s);
+        }
+
+
+        void WriteDictionary(Dictionary<string, float> dictionary)
+        {
+            writer.Write(dictionary.Count);
+            foreach (KeyValuePair<string, float> entry in dictionary)
+            {
+                writer.Write(entry.Key);
+                writer.Write(entry.Value);
+            }
+        }
+
+        void WriteListOfInt(List<int> list)
+        {
+            writer.Write(list.Count);
+            foreach (int i in list)
+                writer.Write(i);
         }
     }
 }

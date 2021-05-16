@@ -13,7 +13,8 @@ namespace GameObject.IO
        
         FileStream stream;
         BinaryReader reader;
-        
+
+        #region Complete gamefiles
 
         public List<ModularAbility> ReadAbilityFile(string FileName = "")
         {
@@ -69,6 +70,76 @@ namespace GameObject.IO
             return classes;
         }
 
+        public List<ItemTypeDefinition> ReadItemTypeDefinitionFile(string FileName = "")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\itemtypes.gdf";
+            fileName = FileName;
+            List<ItemTypeDefinition> itemdefs;
+            itemdefs = new List<ItemTypeDefinition>();
+            try
+            {
+                stream = new FileStream(fileName, FileMode.Open);
+            }
+            catch(FileNotFoundException fnex)
+            {
+                return itemdefs;
+            }
+            reader = new BinaryReader(stream);
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+                itemdefs.Add(ReadItemTypeDefinition());
+            reader.Close();
+            reader.Dispose();
+            stream.Dispose();
+            return itemdefs;
+
+
+        }
+
+        #endregion
+
+        #region gamefile entries
+
+        public ModularAbility ReadAbility()
+        {
+            ModularAbility result = ModularAbility.CreateEmpty(reader.ReadString());
+            result.Name = reader.ReadString();
+            result.DescriptionString = reader.ReadString();
+            result.Icon = reader.ReadInt32();
+            result.BaseValues = ReadDictionary();
+            result.GrowthValues = ReadDictionary();
+            int effcount = reader.ReadInt32();
+            for (int i = 0; i < effcount; i++)
+                result.Effects.Add(ReadEffect());
+            return result;
+        }
+
+        private ItemTypeDefinition ReadItemTypeDefinition()
+        {
+            ItemTypeDefinition result = new ItemTypeDefinition();
+
+            result.ID = reader.ReadString();
+            result.Name = reader.ReadString();
+            result.SlotID = reader.ReadByte();
+            //6 floats for mainstats
+            result.MainStatMultipliers = new float[]
+            {
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle()
+            };
+            result.Icons = ReadListOfInt();
+            result.ItemCategory = (Items.ItemEquip.EquipCategories)reader.ReadInt32();
+
+            return result;
+
+        }
+
         private CharacterTemplate ReadClass()
         {
             CharacterTemplate result = CharacterTemplate.CreateEmpty(reader.ReadString());
@@ -110,6 +181,14 @@ namespace GameObject.IO
             return result;
         }
 
+        #endregion
+        #region subentries
+
+        #region Character class subentries
+        /// <summary>
+        /// Reads a single skilltree entry.
+        /// </summary>
+        /// <returns>The skilltree entry that was read.</returns>
         public SkillTreeEntry ReadSkillTreeEntry()
         {
             SkillTreeEntry result = new SkillTreeEntry();
@@ -143,30 +222,12 @@ namespace GameObject.IO
             }
             return result;
         }
-
-        public ModularAbility ReadAbility()
-        {
-            ModularAbility result = ModularAbility.CreateEmpty(reader.ReadString());
-            result.Name = reader.ReadString();
-            result.DescriptionString = reader.ReadString();
-            result.Icon = reader.ReadInt32();
-            result.BaseValues = ReadDictionary();
-            result.GrowthValues = ReadDictionary();
-            int effcount = reader.ReadInt32();
-            for (int i = 0; i < effcount; i++)
-                result.Effects.Add(ReadEffect());
-            return result;
-        }
-
-        public Dictionary<string,float> ReadDictionary()
-        {
-            Dictionary<string, float> result = new Dictionary<string, float>();
-            int count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-                result.Add(reader.ReadString(), reader.ReadSingle());
-            return result;
-        }
-
+        #endregion
+        #region Ability subentries
+        /// <summary>
+        /// Reads an Ability effect.
+        /// </summary>
+        /// <returns>Effect.</returns>
         public ITimedEffect ReadEffect()
         {
             ITimedEffect result = EffectHelper.CreateEmpty(reader.ReadString());
@@ -182,5 +243,37 @@ namespace GameObject.IO
             return result;
 
         }
+        #endregion
+        #endregion
+
+        #region primitives
+        /// <summary>
+        /// Reads string based dictionary of float values.
+        /// </summary>
+        /// <returns>Dictionary containing float entries parsed off the stream.</returns>
+        public Dictionary<string,float> ReadDictionary()
+        {
+            Dictionary<string, float> result = new Dictionary<string, float>();
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+                result.Add(reader.ReadString(), reader.ReadSingle());
+            return result;
+        }
+        /// <summary>
+        /// Reads a list of integers.
+        /// </summary>
+        /// <returns>List of integers.</returns>
+        public List<int> ReadListOfInt()
+        {
+            List<int> result = new List<int>();
+            int count = reader.ReadInt32();
+            for(int i=0;i<count;i++)
+            {
+                result.Add(reader.ReadInt32());
+            }
+            return result;
+        }
+        #endregion
+
     }
 }

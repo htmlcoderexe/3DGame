@@ -69,26 +69,29 @@
             this.rangebase = new System.Windows.Forms.NumericUpDown();
             this.rangedelta = new System.Windows.Forms.NumericUpDown();
             this.classespage = new System.Windows.Forms.TabPage();
-            this.label11 = new System.Windows.Forms.Label();
-            this.dmgstat = new System.Windows.Forms.ComboBox();
+            this.noclasswarning = new System.Windows.Forms.Label();
+            this.classgroupid = new System.Windows.Forms.GroupBox();
+            this.classname = new System.Windows.Forms.Label();
+            this.classdesc = new System.Windows.Forms.Label();
+            this.classgroupbasics = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dmgstat = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.hplvl = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
+            this.mplvl = new System.Windows.Forms.NumericUpDown();
             this.mpregen = new System.Windows.Forms.NumericUpDown();
+            this.hpvit = new System.Windows.Forms.NumericUpDown();
             this.speed = new System.Windows.Forms.NumericUpDown();
+            this.mpint = new System.Windows.Forms.NumericUpDown();
             this.hpregen = new System.Windows.Forms.NumericUpDown();
             this.basehp = new System.Windows.Forms.NumericUpDown();
-            this.mpint = new System.Windows.Forms.NumericUpDown();
-            this.hpvit = new System.Windows.Forms.NumericUpDown();
-            this.mplvl = new System.Windows.Forms.NumericUpDown();
-            this.hplvl = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.classdesc = new System.Windows.Forms.Label();
-            this.classname = new System.Windows.Forms.Label();
             this.skillentrylist = new System.Windows.Forms.ListBox();
             this.skillentrymenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addAbilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,9 +104,25 @@
             this.comppage = new System.Windows.Forms.TabPage();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.classgroupbasics = new System.Windows.Forms.GroupBox();
-            this.classgroupid = new System.Windows.Forms.GroupBox();
-            this.noclasswarning = new System.Windows.Forms.Label();
+            this.equipdefspage = new System.Windows.Forms.TabPage();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.EquipTypeControls = new System.Windows.Forms.Panel();
+            this.equipcatbox = new System.Windows.Forms.ComboBox();
+            this.equiphpmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.hplabel1111 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.equipmpmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.equipmatkmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
+            this.equippatkmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
+            this.equipmdefmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.equippdefmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.ItemTypeName = new System.Windows.Forms.Label();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
@@ -124,19 +143,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.rangebase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).BeginInit();
             this.classespage.SuspendLayout();
+            this.classgroupid.SuspendLayout();
+            this.classgroupbasics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mpregen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hpregen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.basehp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpint)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).BeginInit();
             this.skillentrymenu.SuspendLayout();
             this.classmenu.SuspendLayout();
             this.mmenu.SuspendLayout();
-            this.classgroupbasics.SuspendLayout();
-            this.classgroupid.SuspendLayout();
+            this.equipdefspage.SuspendLayout();
+            this.EquipTypeControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmpmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmdefmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equippdefmultiplier)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -484,6 +512,7 @@
             this.maintabber.Controls.Add(this.abilitylistpage);
             this.maintabber.Controls.Add(this.classespage);
             this.maintabber.Controls.Add(this.comppage);
+            this.maintabber.Controls.Add(this.equipdefspage);
             this.maintabber.Dock = System.Windows.Forms.DockStyle.Fill;
             this.maintabber.Location = new System.Drawing.Point(0, 24);
             this.maintabber.Name = "maintabber";
@@ -614,6 +643,83 @@
             this.classespage.Text = "Classes";
             this.classespage.UseVisualStyleBackColor = true;
             // 
+            // noclasswarning
+            // 
+            this.noclasswarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noclasswarning.ForeColor = System.Drawing.Color.Red;
+            this.noclasswarning.Location = new System.Drawing.Point(321, 196);
+            this.noclasswarning.Name = "noclasswarning";
+            this.noclasswarning.Size = new System.Drawing.Size(138, 104);
+            this.noclasswarning.TabIndex = 45;
+            this.noclasswarning.Text = "Please create a character class to edit first!";
+            this.noclasswarning.Visible = false;
+            // 
+            // classgroupid
+            // 
+            this.classgroupid.Controls.Add(this.classname);
+            this.classgroupid.Controls.Add(this.classdesc);
+            this.classgroupid.Location = new System.Drawing.Point(242, 6);
+            this.classgroupid.Name = "classgroupid";
+            this.classgroupid.Size = new System.Drawing.Size(286, 253);
+            this.classgroupid.TabIndex = 44;
+            this.classgroupid.TabStop = false;
+            this.classgroupid.Text = "Name && description";
+            // 
+            // classname
+            // 
+            this.classname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.classname.Location = new System.Drawing.Point(6, 16);
+            this.classname.Name = "classname";
+            this.classname.Size = new System.Drawing.Size(164, 46);
+            this.classname.TabIndex = 23;
+            this.classname.Text = "<>";
+            this.classname.DoubleClick += new System.EventHandler(this.classname_DoubleClick);
+            // 
+            // classdesc
+            // 
+            this.classdesc.Location = new System.Drawing.Point(6, 62);
+            this.classdesc.Name = "classdesc";
+            this.classdesc.Size = new System.Drawing.Size(273, 178);
+            this.classdesc.TabIndex = 24;
+            this.classdesc.Text = "<>";
+            this.classdesc.DoubleClick += new System.EventHandler(this.classdesc_DoubleClick);
+            // 
+            // classgroupbasics
+            // 
+            this.classgroupbasics.Controls.Add(this.label15);
+            this.classgroupbasics.Controls.Add(this.label11);
+            this.classgroupbasics.Controls.Add(this.label7);
+            this.classgroupbasics.Controls.Add(this.dmgstat);
+            this.classgroupbasics.Controls.Add(this.label8);
+            this.classgroupbasics.Controls.Add(this.label10);
+            this.classgroupbasics.Controls.Add(this.label14);
+            this.classgroupbasics.Controls.Add(this.label9);
+            this.classgroupbasics.Controls.Add(this.label13);
+            this.classgroupbasics.Controls.Add(this.hplvl);
+            this.classgroupbasics.Controls.Add(this.label12);
+            this.classgroupbasics.Controls.Add(this.mplvl);
+            this.classgroupbasics.Controls.Add(this.mpregen);
+            this.classgroupbasics.Controls.Add(this.hpvit);
+            this.classgroupbasics.Controls.Add(this.speed);
+            this.classgroupbasics.Controls.Add(this.mpint);
+            this.classgroupbasics.Controls.Add(this.hpregen);
+            this.classgroupbasics.Controls.Add(this.basehp);
+            this.classgroupbasics.Location = new System.Drawing.Point(242, 265);
+            this.classgroupbasics.Name = "classgroupbasics";
+            this.classgroupbasics.Size = new System.Drawing.Size(286, 299);
+            this.classgroupbasics.TabIndex = 43;
+            this.classgroupbasics.TabStop = false;
+            this.classgroupbasics.Text = "Basics";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 231);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(82, 13);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Running speed:";
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -622,6 +728,15 @@
             this.label11.Size = new System.Drawing.Size(70, 13);
             this.label11.TabIndex = 42;
             this.label11.Text = "Damage stat:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 24);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 13);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "HP per level:";
             // 
             // dmgstat
             // 
@@ -637,14 +752,23 @@
             this.dmgstat.TabIndex = 41;
             this.dmgstat.SelectedIndexChanged += new System.EventHandler(this.dmgstat_SelectedIndexChanged);
             // 
-            // label15
+            // label8
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 231);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(82, 13);
-            this.label15.TabIndex = 40;
-            this.label15.Text = "Running speed:";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(69, 13);
+            this.label8.TabIndex = 26;
+            this.label8.Text = "MP per level:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 76);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "HP per VIT:";
             // 
             // label14
             // 
@@ -655,6 +779,15 @@
             this.label14.TabIndex = 39;
             this.label14.Text = "MP regen:";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 102);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 13);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "MP per INT:";
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -664,6 +797,14 @@
             this.label13.TabIndex = 38;
             this.label13.Text = "HP regen:";
             // 
+            // hplvl
+            // 
+            this.hplvl.Location = new System.Drawing.Point(97, 22);
+            this.hplvl.Name = "hplvl";
+            this.hplvl.Size = new System.Drawing.Size(120, 20);
+            this.hplvl.TabIndex = 29;
+            this.hplvl.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -672,6 +813,14 @@
             this.label12.Size = new System.Drawing.Size(64, 13);
             this.label12.TabIndex = 37;
             this.label12.Text = "Starting HP:";
+            // 
+            // mplvl
+            // 
+            this.mplvl.Location = new System.Drawing.Point(97, 48);
+            this.mplvl.Name = "mplvl";
+            this.mplvl.Size = new System.Drawing.Size(120, 20);
+            this.mplvl.TabIndex = 29;
+            this.mplvl.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
             // 
             // mpregen
             // 
@@ -686,6 +835,14 @@
             0,
             0});
             this.mpregen.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // hpvit
+            // 
+            this.hpvit.Location = new System.Drawing.Point(97, 74);
+            this.hpvit.Name = "hpvit";
+            this.hpvit.Size = new System.Drawing.Size(120, 20);
+            this.hpvit.TabIndex = 30;
+            this.hpvit.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
             // 
             // speed
             // 
@@ -705,6 +862,14 @@
             0,
             0});
             this.speed.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
+            // 
+            // mpint
+            // 
+            this.mpint.Location = new System.Drawing.Point(97, 100);
+            this.mpint.Name = "mpint";
+            this.mpint.Size = new System.Drawing.Size(120, 20);
+            this.mpint.TabIndex = 31;
+            this.mpint.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
             // 
             // hpregen
             // 
@@ -742,93 +907,6 @@
             0,
             0});
             this.basehp.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
-            // 
-            // mpint
-            // 
-            this.mpint.Location = new System.Drawing.Point(97, 100);
-            this.mpint.Name = "mpint";
-            this.mpint.Size = new System.Drawing.Size(120, 20);
-            this.mpint.TabIndex = 31;
-            this.mpint.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
-            // 
-            // hpvit
-            // 
-            this.hpvit.Location = new System.Drawing.Point(97, 74);
-            this.hpvit.Name = "hpvit";
-            this.hpvit.Size = new System.Drawing.Size(120, 20);
-            this.hpvit.TabIndex = 30;
-            this.hpvit.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
-            // 
-            // mplvl
-            // 
-            this.mplvl.Location = new System.Drawing.Point(97, 48);
-            this.mplvl.Name = "mplvl";
-            this.mplvl.Size = new System.Drawing.Size(120, 20);
-            this.mplvl.TabIndex = 29;
-            this.mplvl.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
-            // 
-            // hplvl
-            // 
-            this.hplvl.Location = new System.Drawing.Point(97, 22);
-            this.hplvl.Name = "hplvl";
-            this.hplvl.Size = new System.Drawing.Size(120, 20);
-            this.hplvl.TabIndex = 29;
-            this.hplvl.ValueChanged += new System.EventHandler(this.hplvl_ValueChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 102);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 13);
-            this.label9.TabIndex = 28;
-            this.label9.Text = "MP per INT:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 76);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 27;
-            this.label10.Text = "HP per VIT:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 50);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(69, 13);
-            this.label8.TabIndex = 26;
-            this.label8.Text = "MP per level:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 24);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 13);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "HP per level:";
-            // 
-            // classdesc
-            // 
-            this.classdesc.Location = new System.Drawing.Point(6, 62);
-            this.classdesc.Name = "classdesc";
-            this.classdesc.Size = new System.Drawing.Size(273, 178);
-            this.classdesc.TabIndex = 24;
-            this.classdesc.Text = "<>";
-            this.classdesc.DoubleClick += new System.EventHandler(this.classdesc_DoubleClick);
-            // 
-            // classname
-            // 
-            this.classname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.classname.Location = new System.Drawing.Point(6, 16);
-            this.classname.Name = "classname";
-            this.classname.Size = new System.Drawing.Size(164, 46);
-            this.classname.TabIndex = 23;
-            this.classname.Text = "<>";
-            this.classname.DoubleClick += new System.EventHandler(this.classname_DoubleClick);
             // 
             // skillentrylist
             // 
@@ -945,54 +1023,266 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // classgroupbasics
+            // equipdefspage
             // 
-            this.classgroupbasics.Controls.Add(this.label15);
-            this.classgroupbasics.Controls.Add(this.label11);
-            this.classgroupbasics.Controls.Add(this.label7);
-            this.classgroupbasics.Controls.Add(this.dmgstat);
-            this.classgroupbasics.Controls.Add(this.label8);
-            this.classgroupbasics.Controls.Add(this.label10);
-            this.classgroupbasics.Controls.Add(this.label14);
-            this.classgroupbasics.Controls.Add(this.label9);
-            this.classgroupbasics.Controls.Add(this.label13);
-            this.classgroupbasics.Controls.Add(this.hplvl);
-            this.classgroupbasics.Controls.Add(this.label12);
-            this.classgroupbasics.Controls.Add(this.mplvl);
-            this.classgroupbasics.Controls.Add(this.mpregen);
-            this.classgroupbasics.Controls.Add(this.hpvit);
-            this.classgroupbasics.Controls.Add(this.speed);
-            this.classgroupbasics.Controls.Add(this.mpint);
-            this.classgroupbasics.Controls.Add(this.hpregen);
-            this.classgroupbasics.Controls.Add(this.basehp);
-            this.classgroupbasics.Location = new System.Drawing.Point(242, 265);
-            this.classgroupbasics.Name = "classgroupbasics";
-            this.classgroupbasics.Size = new System.Drawing.Size(286, 299);
-            this.classgroupbasics.TabIndex = 43;
-            this.classgroupbasics.TabStop = false;
-            this.classgroupbasics.Text = "Basics";
+            this.equipdefspage.Controls.Add(this.EquipTypeControls);
+            this.equipdefspage.Controls.Add(this.listBox1);
+            this.equipdefspage.Location = new System.Drawing.Point(4, 22);
+            this.equipdefspage.Name = "equipdefspage";
+            this.equipdefspage.Padding = new System.Windows.Forms.Padding(3);
+            this.equipdefspage.Size = new System.Drawing.Size(1177, 568);
+            this.equipdefspage.TabIndex = 3;
+            this.equipdefspage.Text = "Equip Types";
+            this.equipdefspage.UseVisualStyleBackColor = true;
             // 
-            // classgroupid
+            // listBox1
             // 
-            this.classgroupid.Controls.Add(this.classname);
-            this.classgroupid.Controls.Add(this.classdesc);
-            this.classgroupid.Location = new System.Drawing.Point(242, 6);
-            this.classgroupid.Name = "classgroupid";
-            this.classgroupid.Size = new System.Drawing.Size(286, 253);
-            this.classgroupid.TabIndex = 44;
-            this.classgroupid.TabStop = false;
-            this.classgroupid.Text = "Name && description";
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(3, 3);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.ScrollAlwaysVisible = true;
+            this.listBox1.Size = new System.Drawing.Size(211, 562);
+            this.listBox1.TabIndex = 0;
             // 
-            // noclasswarning
+            // EquipTypeControls
             // 
-            this.noclasswarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noclasswarning.ForeColor = System.Drawing.Color.Red;
-            this.noclasswarning.Location = new System.Drawing.Point(321, 196);
-            this.noclasswarning.Name = "noclasswarning";
-            this.noclasswarning.Size = new System.Drawing.Size(138, 104);
-            this.noclasswarning.TabIndex = 45;
-            this.noclasswarning.Text = "Please create a character class to edit first!";
-            this.noclasswarning.Visible = false;
+            this.EquipTypeControls.Controls.Add(this.ItemTypeName);
+            this.EquipTypeControls.Controls.Add(this.label20);
+            this.EquipTypeControls.Controls.Add(this.groupBox1);
+            this.EquipTypeControls.Controls.Add(this.equipcatbox);
+            this.EquipTypeControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EquipTypeControls.Location = new System.Drawing.Point(214, 3);
+            this.EquipTypeControls.Name = "EquipTypeControls";
+            this.EquipTypeControls.Size = new System.Drawing.Size(960, 562);
+            this.EquipTypeControls.TabIndex = 1;
+            // 
+            // equipcatbox
+            // 
+            this.equipcatbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.equipcatbox.FormattingEnabled = true;
+            this.equipcatbox.Items.AddRange(new object[] {
+            "Melee weapon",
+            "Magic weapon",
+            "Ranged weapon",
+            "Heavy armour",
+            "Light armour",
+            "Magic armour",
+            "Physical ring",
+            "Magical ring",
+            "Accessory",
+            "Other"});
+            this.equipcatbox.Location = new System.Drawing.Point(97, 64);
+            this.equipcatbox.Name = "equipcatbox";
+            this.equipcatbox.Size = new System.Drawing.Size(195, 21);
+            this.equipcatbox.TabIndex = 0;
+            // 
+            // equiphpmultiplier
+            // 
+            this.equiphpmultiplier.DecimalPlaces = 2;
+            this.equiphpmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equiphpmultiplier.Location = new System.Drawing.Point(36, 23);
+            this.equiphpmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equiphpmultiplier.Name = "equiphpmultiplier";
+            this.equiphpmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equiphpmultiplier.TabIndex = 1;
+            // 
+            // hplabel1111
+            // 
+            this.hplabel1111.AutoSize = true;
+            this.hplabel1111.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hplabel1111.Location = new System.Drawing.Point(6, 25);
+            this.hplabel1111.Name = "hplabel1111";
+            this.hplabel1111.Size = new System.Drawing.Size(24, 13);
+            this.hplabel1111.TabIndex = 0;
+            this.hplabel1111.Text = "HP";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(6, 51);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(25, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "MP";
+            // 
+            // equipmpmultiplier
+            // 
+            this.equipmpmultiplier.DecimalPlaces = 2;
+            this.equipmpmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equipmpmultiplier.Location = new System.Drawing.Point(36, 49);
+            this.equipmpmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equipmpmultiplier.Name = "equipmpmultiplier";
+            this.equipmpmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equipmpmultiplier.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(88, 51);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 13);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "MATK";
+            // 
+            // equipmatkmultiplier
+            // 
+            this.equipmatkmultiplier.DecimalPlaces = 2;
+            this.equipmatkmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equipmatkmultiplier.Location = new System.Drawing.Point(130, 49);
+            this.equipmatkmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equipmatkmultiplier.Name = "equipmatkmultiplier";
+            this.equipmatkmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equipmatkmultiplier.TabIndex = 7;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(88, 25);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "PATK";
+            // 
+            // equippatkmultiplier
+            // 
+            this.equippatkmultiplier.DecimalPlaces = 2;
+            this.equippatkmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equippatkmultiplier.Location = new System.Drawing.Point(130, 23);
+            this.equippatkmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equippatkmultiplier.Name = "equippatkmultiplier";
+            this.equippatkmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equippatkmultiplier.TabIndex = 5;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(182, 51);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(41, 13);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "MDEF";
+            // 
+            // equipmdefmultiplier
+            // 
+            this.equipmdefmultiplier.DecimalPlaces = 2;
+            this.equipmdefmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equipmdefmultiplier.Location = new System.Drawing.Point(227, 49);
+            this.equipmdefmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equipmdefmultiplier.Name = "equipmdefmultiplier";
+            this.equipmdefmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equipmdefmultiplier.TabIndex = 11;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(182, 25);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(39, 13);
+            this.label19.TabIndex = 8;
+            this.label19.Text = "PDEF";
+            // 
+            // equippdefmultiplier
+            // 
+            this.equippdefmultiplier.DecimalPlaces = 2;
+            this.equippdefmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equippdefmultiplier.Location = new System.Drawing.Point(227, 23);
+            this.equippdefmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equippdefmultiplier.Name = "equippdefmultiplier";
+            this.equippdefmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equippdefmultiplier.TabIndex = 9;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.hplabel1111);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Controls.Add(this.equiphpmultiplier);
+            this.groupBox1.Controls.Add(this.equipmdefmultiplier);
+            this.groupBox1.Controls.Add(this.equipmpmultiplier);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.equippdefmultiplier);
+            this.groupBox1.Controls.Add(this.equippatkmultiplier);
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.equipmatkmultiplier);
+            this.groupBox1.Location = new System.Drawing.Point(6, 94);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(286, 91);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Stat multipliers";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 67);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(71, 13);
+            this.label20.TabIndex = 13;
+            this.label20.Text = "Item category";
+            // 
+            // ItemTypeName
+            // 
+            this.ItemTypeName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ItemTypeName.Location = new System.Drawing.Point(6, 9);
+            this.ItemTypeName.Name = "ItemTypeName";
+            this.ItemTypeName.Size = new System.Drawing.Size(273, 40);
+            this.ItemTypeName.TabIndex = 24;
+            this.ItemTypeName.Text = "<>";
             // 
             // MainForm
             // 
@@ -1027,21 +1317,32 @@
             ((System.ComponentModel.ISupportInitialize)(this.rangebase)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).EndInit();
             this.classespage.ResumeLayout(false);
+            this.classgroupid.ResumeLayout(false);
+            this.classgroupbasics.ResumeLayout(false);
+            this.classgroupbasics.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mpregen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hpregen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.basehp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpint)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hpvit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mplvl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
             this.skillentrymenu.ResumeLayout(false);
             this.classmenu.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
-            this.classgroupbasics.ResumeLayout(false);
-            this.classgroupbasics.PerformLayout();
-            this.classgroupid.ResumeLayout(false);
+            this.equipdefspage.ResumeLayout(false);
+            this.EquipTypeControls.ResumeLayout(false);
+            this.EquipTypeControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmpmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmdefmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equippdefmultiplier)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1123,6 +1424,25 @@
         private System.Windows.Forms.GroupBox classgroupid;
         private System.Windows.Forms.GroupBox classgroupbasics;
         private System.Windows.Forms.Label noclasswarning;
+        private System.Windows.Forms.TabPage equipdefspage;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Panel EquipTypeControls;
+        private System.Windows.Forms.ComboBox equipcatbox;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown equipmdefmultiplier;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.NumericUpDown equippdefmultiplier;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown equipmatkmultiplier;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown equippatkmultiplier;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown equipmpmultiplier;
+        private System.Windows.Forms.Label hplabel1111;
+        private System.Windows.Forms.NumericUpDown equiphpmultiplier;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label ItemTypeName;
     }
 }
 
