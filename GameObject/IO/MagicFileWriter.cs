@@ -71,7 +71,7 @@ namespace GameObject.IO
             writer.Close();
             writer.Dispose();
             stream.Dispose();
-
+             
         }
 
         public void WriteItemMasterTemplateFile(List<ItemMasterTemplate> Templates, string FileName = "")

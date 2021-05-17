@@ -19,6 +19,27 @@ namespace MagicEditor
         public List<CharacterTemplate> classes = new List<CharacterTemplate>();
         public List<ItemTypeDefinition> itemtypes = new List<ItemTypeDefinition>();
 
+        public Point[] slots = new Point[]
+            {
+                new Point(314,83),
+                new Point(50,83),
+                new Point(175,129),
+                new Point(175,244),
+                new Point(104,105),
+                new Point(180,346),
+                new Point(89,35),
+                new Point(180,10),
+                new Point(270,35),
+                new Point(180,74),
+                new Point(314,126),
+                new Point(135,74),
+                new Point(230,74),
+                new Point(72,190),
+                new Point(288,190),
+
+            };
+        public Rectangle[] slothitboxes;
+
         #region Internal state
 
         ModularAbility CurrentAbility;
@@ -33,6 +54,13 @@ namespace MagicEditor
         public MainForm()
         {
             InitializeComponent();
+
+            slothitboxes = new Rectangle[slots.Length];
+            for(int i=0;i<slots.Length;i++)
+            {
+                slothitboxes[i] = new Rectangle(slots[i], new Size(40, 40));
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -80,6 +108,21 @@ namespace MagicEditor
             EditCurrentClass();
 
             //load item type defs
+            itemtypes = fr.ReadItemTypeDefinitionFile();
+            if(itemtypes.Count>0)
+            {
+                foreach(ItemTypeDefinition def in itemtypes)
+                {
+                    itemtypelist.Items.Add(def);
+                }
+                CurrentItemType = itemtypes[0];
+                itemtypelist.SelectedIndex = 0;
+            }
+            else
+            {
+                CurrentItemType = null;
+            }
+            
 
             //reload panel based editing controls
             panel1.Refresh();
@@ -237,8 +280,6 @@ namespace MagicEditor
             descprev.Text = string.Join("\r\n", CurrentAbility.GetTooltip());
         }
 
-       
-
         #endregion
 
         #region functions used by Classes tab
@@ -374,6 +415,51 @@ namespace MagicEditor
 
         #endregion
 
+        #region functions used by Equip Types tab
+
+        private void EditCurrentItemType()
+        {
+            if(CurrentItemType==null)
+            {
+                itemtypegroupbasics.Hide();
+                itemtypegroupmultipliers.Hide();
+                noitemdefwarning.Show();
+                slotselector.Hide();
+                return;
+            }
+            itemtypegroupbasics.Show();
+            itemtypegroupmultipliers.Show();
+            noitemdefwarning.Hide();
+            slotselector.Show();
+            ItemTypeName.Text = CurrentItemType.Name;
+
+
+            lockform = true;
+            equipcatbox.SelectedIndex = (int)CurrentItemType.ItemCategory;
+
+            equiphpmultiplier.Value     = (decimal)CurrentItemType.MainStatMultipliers[0];
+            equipmpmultiplier.Value     = (decimal)CurrentItemType.MainStatMultipliers[1];
+            equippatkmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[2];
+            equipmatkmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[3];
+            equippdefmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[4];
+            equipmdefmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[5];
+
+            lockform = false;
+            slotselector.Refresh();
+            //#todo: icon selection
+        }
+
+        private void UpdateStatMultipliers()
+        {
+            CurrentItemType.MainStatMultipliers[0]  = (float)equiphpmultiplier.Value;
+            CurrentItemType.MainStatMultipliers[1]  = (float)equipmpmultiplier.Value   ;
+            CurrentItemType.MainStatMultipliers[2]  = (float)equippatkmultiplier.Value ;
+            CurrentItemType.MainStatMultipliers[3]  = (float)equipmatkmultiplier.Value ;
+            CurrentItemType.MainStatMultipliers[4]  = (float)equippdefmultiplier.Value ;
+            CurrentItemType.MainStatMultipliers[5]  = (float)equipmdefmultiplier.Value ;
+        }
+
+        #endregion
 
         #region GUI wireups for Abilities tab
 
@@ -760,10 +846,138 @@ namespace MagicEditor
 
         #endregion
 
+        #region GUI wireups for Equip Types tab
+
+        private void equiphpmultiplier_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (lockform)
+                return;
+            UpdateStatMultipliers();
+        }
+
+        private void ItemTypeName_DoubleClick(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            prompt.Input = CurrentItemType.Name;
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                CurrentItemType.Name = prompt.Input;
+                ItemTypeName.Text = CurrentItemType.Name;
+                //this refreshes the relevant string on the listbox
+                itemtypelist.Items[itemtypelist.Items.IndexOf(CurrentItemType)] = CurrentItemType;
+            }
+        }
+        private void equipcatbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            CurrentItemType.ItemCategory = (GameObject.Items.ItemEquip.EquipCategories)equipcatbox.SelectedIndex;
+        }
+
+        #region slot selector
+        private void slotselector_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            g.DrawImage(vitruvian.Image, 0, 0);
+            Pen highlight = new Pen(Color.Red, 4);
+            foreach (Rectangle R in slothitboxes)
+                g.FillRectangle(Brushes.Black, R);
+            int slot = CurrentItemType.SlotID;
+
+            g.DrawRectangle(highlight, slothitboxes[slot]);
+
+            //draw both right and left hand slots if right hand is selected
+            if(slot==0)
+            {
+                g.DrawRectangle(highlight, slothitboxes[1]);
+            }
+            //draw second and third ring slot if first is selected
+            if(slot==6)
+            {
+                g.DrawRectangle(highlight, slothitboxes[7]);
+                g.DrawRectangle(highlight, slothitboxes[8]);
+            }
+                
+        }
+
+        private void slotselector_MouseClick(object sender, MouseEventArgs e)
+        {
+            Point hit = new Point(e.X, e.Y);
+            int slot = -1;
+            for(int i=0;i<slothitboxes.Length;i++)
+            {
+                if(slothitboxes[i].Contains(hit))
+                {
+                    slot = i;
+                    break;
+                }
+            }
+
+            if (slot == -1)
+                return;
+            //clicking left hand internally uses right hand anyway
+            if (slot == 1)
+                slot = 0;
+            //clicking any of 3 ring slots uses first slot
+            if (slot == 7 || slot == 8)
+                slot = 6;
+            CurrentItemType.SlotID = slot;
+            slotselector.Refresh();
+        }
+        #endregion
+        #region context menu
+
+
+        private void createItemTypeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                ItemTypeDefinition def = new ItemTypeDefinition();
+                List<GameObject.Interfaces.IGameID> abs = itemtypes.ConvertAll(b => (GameObject.Interfaces.IGameID)b);
+                //this will modify the Name if autoname is needed
+                AddWithAutoname(def, abs, true);
+                itemtypes.Add(def);
+                itemtypelist.Items.Add(def);
+                itemtypelist.SelectedItem = def;
+                CurrentItemType = def;
+                EditCurrentItemType();
+            }
+        }
+
+        private void deleteItemTypeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemTypeDefinition removeme = (ItemTypeDefinition)itemtypelist.SelectedItem;
+            itemtypes.Remove(removeme);
+            itemtypelist.Items.Remove(removeme);
+            if (itemtypes.Count > 0)
+                itemtypelist.SelectedIndex = 0;
+            else
+                CurrentItemType = null;
+            EditCurrentItemType();
+        }
+
+        private void equiptypemenu_Opening(object sender, CancelEventArgs e)
+        {
+            equiptypemenu.Items[1].Enabled = itemtypelist.SelectedItems.Count == 1;
+        }
+        #endregion
+
+
+        #endregion
+
         private void maintabber_SelectedIndexChanged(object sender, EventArgs e)
         {
             EditCurrentAbility();
             EditCurrentClass();
+            EditCurrentItemType();
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

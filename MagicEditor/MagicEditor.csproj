@@ -111,6 +111,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SkillSelector.resx">
       <DependentUpon>SkillSelector.cs</DependentUpon>
@@ -158,6 +159,9 @@
   <ItemGroup>
     <Content Include="images\icon_damage.bmp" />
     <Content Include="images\icon_vfx.bmp" />
+    <None Include="Resources\vitruvianNoDPI1.png" />
+    <None Include="Resources\vitruvianNoDPI.png" />
+    <None Include="Resources\vitruvian.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

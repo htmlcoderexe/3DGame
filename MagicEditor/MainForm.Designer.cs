@@ -40,7 +40,6 @@
             this.icons = new System.Windows.Forms.ImageList(this.components);
             this.descprev = new System.Windows.Forms.Label();
             this.lvlprev = new System.Windows.Forms.NumericUpDown();
-            this.iconimage = new System.Windows.Forms.PictureBox();
             this.iconcontainer = new System.Windows.Forms.Panel();
             this.spellname = new System.Windows.Forms.Label();
             this.castbase = new System.Windows.Forms.NumericUpDown();
@@ -102,30 +101,37 @@
             this.createClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comppage = new System.Windows.Forms.TabPage();
+            this.equipdefspage = new System.Windows.Forms.TabPage();
+            this.EquipTypeControls = new System.Windows.Forms.Panel();
+            this.ItemTypeName = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.itemtypegroupmultipliers = new System.Windows.Forms.GroupBox();
+            this.hplabel1111 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.equiphpmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.equipmdefmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.equipmpmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.equippdefmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.equippatkmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.equipmatkmultiplier = new System.Windows.Forms.NumericUpDown();
+            this.equipcatbox = new System.Windows.Forms.ComboBox();
+            this.itemtypelist = new System.Windows.Forms.ListBox();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.equipdefspage = new System.Windows.Forms.TabPage();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.EquipTypeControls = new System.Windows.Forms.Panel();
-            this.equipcatbox = new System.Windows.Forms.ComboBox();
-            this.equiphpmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.hplabel1111 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.equipmpmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.label16 = new System.Windows.Forms.Label();
-            this.equipmatkmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.label17 = new System.Windows.Forms.Label();
-            this.equippatkmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
-            this.equipmdefmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
-            this.equippdefmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.ItemTypeName = new System.Windows.Forms.Label();
+            this.noitemdefwarning = new System.Windows.Forms.Label();
+            this.itemtypegroupbasics = new System.Windows.Forms.GroupBox();
+            this.slotselector = new System.Windows.Forms.Panel();
+            this.equiptypemenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iconimage = new System.Windows.Forms.PictureBox();
+            this.vitruvian = new System.Windows.Forms.PictureBox();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
             this.iconcontainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.castbase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelbase)).BeginInit();
@@ -155,16 +161,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.basehp)).BeginInit();
             this.skillentrymenu.SuspendLayout();
             this.classmenu.SuspendLayout();
-            this.mmenu.SuspendLayout();
             this.equipdefspage.SuspendLayout();
             this.EquipTypeControls.SuspendLayout();
+            this.itemtypegroupmultipliers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.equipmpmultiplier)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmdefmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmpmultiplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.equippdefmultiplier)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).BeginInit();
+            this.mmenu.SuspendLayout();
+            this.itemtypegroupbasics.SuspendLayout();
+            this.equiptypemenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).BeginInit();
             this.SuspendLayout();
             // 
             // EffectList
@@ -261,17 +271,6 @@
             0,
             0});
             this.lvlprev.ValueChanged += new System.EventHandler(this.lvlprev_ValueChanged);
-            // 
-            // iconimage
-            // 
-            this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
-            this.iconimage.Location = new System.Drawing.Point(0, 0);
-            this.iconimage.Margin = new System.Windows.Forms.Padding(0);
-            this.iconimage.Name = "iconimage";
-            this.iconimage.Size = new System.Drawing.Size(2048, 2048);
-            this.iconimage.TabIndex = 3;
-            this.iconimage.TabStop = false;
-            this.iconimage.DoubleClick += new System.EventHandler(this.iconimage_DoubleClick);
             // 
             // iconcontainer
             // 
@@ -1006,27 +1005,10 @@
             this.comppage.Text = "Components";
             this.comppage.UseVisualStyleBackColor = true;
             // 
-            // mmenu
-            // 
-            this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
-            this.mmenu.Location = new System.Drawing.Point(0, 0);
-            this.mmenu.Name = "mmenu";
-            this.mmenu.Size = new System.Drawing.Size(1185, 24);
-            this.mmenu.TabIndex = 25;
-            this.mmenu.Text = "menuStrip1";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
             // equipdefspage
             // 
             this.equipdefspage.Controls.Add(this.EquipTypeControls);
-            this.equipdefspage.Controls.Add(this.listBox1);
+            this.equipdefspage.Controls.Add(this.itemtypelist);
             this.equipdefspage.Location = new System.Drawing.Point(4, 22);
             this.equipdefspage.Name = "equipdefspage";
             this.equipdefspage.Padding = new System.Windows.Forms.Padding(3);
@@ -1035,47 +1017,78 @@
             this.equipdefspage.Text = "Equip Types";
             this.equipdefspage.UseVisualStyleBackColor = true;
             // 
-            // listBox1
-            // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 3);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.ScrollAlwaysVisible = true;
-            this.listBox1.Size = new System.Drawing.Size(211, 562);
-            this.listBox1.TabIndex = 0;
-            // 
             // EquipTypeControls
             // 
-            this.EquipTypeControls.Controls.Add(this.ItemTypeName);
-            this.EquipTypeControls.Controls.Add(this.label20);
-            this.EquipTypeControls.Controls.Add(this.groupBox1);
-            this.EquipTypeControls.Controls.Add(this.equipcatbox);
+            this.EquipTypeControls.Controls.Add(this.slotselector);
+            this.EquipTypeControls.Controls.Add(this.vitruvian);
+            this.EquipTypeControls.Controls.Add(this.noitemdefwarning);
+            this.EquipTypeControls.Controls.Add(this.itemtypegroupbasics);
+            this.EquipTypeControls.Controls.Add(this.itemtypegroupmultipliers);
             this.EquipTypeControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EquipTypeControls.Location = new System.Drawing.Point(214, 3);
             this.EquipTypeControls.Name = "EquipTypeControls";
             this.EquipTypeControls.Size = new System.Drawing.Size(960, 562);
             this.EquipTypeControls.TabIndex = 1;
             // 
-            // equipcatbox
+            // ItemTypeName
             // 
-            this.equipcatbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.equipcatbox.FormattingEnabled = true;
-            this.equipcatbox.Items.AddRange(new object[] {
-            "Melee weapon",
-            "Magic weapon",
-            "Ranged weapon",
-            "Heavy armour",
-            "Light armour",
-            "Magic armour",
-            "Physical ring",
-            "Magical ring",
-            "Accessory",
-            "Other"});
-            this.equipcatbox.Location = new System.Drawing.Point(97, 64);
-            this.equipcatbox.Name = "equipcatbox";
-            this.equipcatbox.Size = new System.Drawing.Size(195, 21);
-            this.equipcatbox.TabIndex = 0;
+            this.ItemTypeName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ItemTypeName.Location = new System.Drawing.Point(6, 16);
+            this.ItemTypeName.Name = "ItemTypeName";
+            this.ItemTypeName.Size = new System.Drawing.Size(273, 40);
+            this.ItemTypeName.TabIndex = 24;
+            this.ItemTypeName.Text = "<>";
+            this.ItemTypeName.DoubleClick += new System.EventHandler(this.ItemTypeName_DoubleClick);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 74);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(71, 13);
+            this.label20.TabIndex = 13;
+            this.label20.Text = "Item category";
+            // 
+            // itemtypegroupmultipliers
+            // 
+            this.itemtypegroupmultipliers.Controls.Add(this.hplabel1111);
+            this.itemtypegroupmultipliers.Controls.Add(this.label18);
+            this.itemtypegroupmultipliers.Controls.Add(this.equiphpmultiplier);
+            this.itemtypegroupmultipliers.Controls.Add(this.equipmdefmultiplier);
+            this.itemtypegroupmultipliers.Controls.Add(this.equipmpmultiplier);
+            this.itemtypegroupmultipliers.Controls.Add(this.label19);
+            this.itemtypegroupmultipliers.Controls.Add(this.label6);
+            this.itemtypegroupmultipliers.Controls.Add(this.equippdefmultiplier);
+            this.itemtypegroupmultipliers.Controls.Add(this.equippatkmultiplier);
+            this.itemtypegroupmultipliers.Controls.Add(this.label16);
+            this.itemtypegroupmultipliers.Controls.Add(this.label17);
+            this.itemtypegroupmultipliers.Controls.Add(this.equipmatkmultiplier);
+            this.itemtypegroupmultipliers.Location = new System.Drawing.Point(6, 112);
+            this.itemtypegroupmultipliers.Name = "itemtypegroupmultipliers";
+            this.itemtypegroupmultipliers.Size = new System.Drawing.Size(286, 91);
+            this.itemtypegroupmultipliers.TabIndex = 12;
+            this.itemtypegroupmultipliers.TabStop = false;
+            this.itemtypegroupmultipliers.Text = "Stat multipliers";
+            // 
+            // hplabel1111
+            // 
+            this.hplabel1111.AutoSize = true;
+            this.hplabel1111.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hplabel1111.Location = new System.Drawing.Point(6, 25);
+            this.hplabel1111.Name = "hplabel1111";
+            this.hplabel1111.Size = new System.Drawing.Size(24, 13);
+            this.hplabel1111.TabIndex = 0;
+            this.hplabel1111.Text = "HP";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(182, 51);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(41, 13);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "MDEF";
             // 
             // equiphpmultiplier
             // 
@@ -1094,110 +1107,7 @@
             this.equiphpmultiplier.Name = "equiphpmultiplier";
             this.equiphpmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equiphpmultiplier.TabIndex = 1;
-            // 
-            // hplabel1111
-            // 
-            this.hplabel1111.AutoSize = true;
-            this.hplabel1111.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.hplabel1111.Location = new System.Drawing.Point(6, 25);
-            this.hplabel1111.Name = "hplabel1111";
-            this.hplabel1111.Size = new System.Drawing.Size(24, 13);
-            this.hplabel1111.TabIndex = 0;
-            this.hplabel1111.Text = "HP";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(6, 51);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(25, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "MP";
-            // 
-            // equipmpmultiplier
-            // 
-            this.equipmpmultiplier.DecimalPlaces = 2;
-            this.equipmpmultiplier.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.equipmpmultiplier.Location = new System.Drawing.Point(36, 49);
-            this.equipmpmultiplier.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.equipmpmultiplier.Name = "equipmpmultiplier";
-            this.equipmpmultiplier.Size = new System.Drawing.Size(46, 20);
-            this.equipmpmultiplier.TabIndex = 3;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(88, 51);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(41, 13);
-            this.label16.TabIndex = 6;
-            this.label16.Text = "MATK";
-            // 
-            // equipmatkmultiplier
-            // 
-            this.equipmatkmultiplier.DecimalPlaces = 2;
-            this.equipmatkmultiplier.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.equipmatkmultiplier.Location = new System.Drawing.Point(130, 49);
-            this.equipmatkmultiplier.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.equipmatkmultiplier.Name = "equipmatkmultiplier";
-            this.equipmatkmultiplier.Size = new System.Drawing.Size(46, 20);
-            this.equipmatkmultiplier.TabIndex = 7;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(88, 25);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(39, 13);
-            this.label17.TabIndex = 4;
-            this.label17.Text = "PATK";
-            // 
-            // equippatkmultiplier
-            // 
-            this.equippatkmultiplier.DecimalPlaces = 2;
-            this.equippatkmultiplier.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.equippatkmultiplier.Location = new System.Drawing.Point(130, 23);
-            this.equippatkmultiplier.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.equippatkmultiplier.Name = "equippatkmultiplier";
-            this.equippatkmultiplier.Size = new System.Drawing.Size(46, 20);
-            this.equippatkmultiplier.TabIndex = 5;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(182, 51);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(41, 13);
-            this.label18.TabIndex = 10;
-            this.label18.Text = "MDEF";
+            this.equiphpmultiplier.ValueChanged += new System.EventHandler(this.equiphpmultiplier_ValueChanged);
             // 
             // equipmdefmultiplier
             // 
@@ -1217,6 +1127,24 @@
             this.equipmdefmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equipmdefmultiplier.TabIndex = 11;
             // 
+            // equipmpmultiplier
+            // 
+            this.equipmpmultiplier.DecimalPlaces = 2;
+            this.equipmpmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equipmpmultiplier.Location = new System.Drawing.Point(36, 49);
+            this.equipmpmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equipmpmultiplier.Name = "equipmpmultiplier";
+            this.equipmpmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equipmpmultiplier.TabIndex = 3;
+            // 
             // label19
             // 
             this.label19.AutoSize = true;
@@ -1226,6 +1154,16 @@
             this.label19.Size = new System.Drawing.Size(39, 13);
             this.label19.TabIndex = 8;
             this.label19.Text = "PDEF";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(6, 51);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(25, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "MP";
             // 
             // equippdefmultiplier
             // 
@@ -1245,49 +1183,193 @@
             this.equippdefmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equippdefmultiplier.TabIndex = 9;
             // 
-            // groupBox1
+            // equippatkmultiplier
             // 
-            this.groupBox1.Controls.Add(this.hplabel1111);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.equiphpmultiplier);
-            this.groupBox1.Controls.Add(this.equipmdefmultiplier);
-            this.groupBox1.Controls.Add(this.equipmpmultiplier);
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.equippdefmultiplier);
-            this.groupBox1.Controls.Add(this.equippatkmultiplier);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.equipmatkmultiplier);
-            this.groupBox1.Location = new System.Drawing.Point(6, 94);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(286, 91);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Stat multipliers";
+            this.equippatkmultiplier.DecimalPlaces = 2;
+            this.equippatkmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equippatkmultiplier.Location = new System.Drawing.Point(130, 23);
+            this.equippatkmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equippatkmultiplier.Name = "equippatkmultiplier";
+            this.equippatkmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equippatkmultiplier.TabIndex = 5;
             // 
-            // label20
+            // label16
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 67);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(71, 13);
-            this.label20.TabIndex = 13;
-            this.label20.Text = "Item category";
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(88, 51);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 13);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "MATK";
             // 
-            // ItemTypeName
+            // label17
             // 
-            this.ItemTypeName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ItemTypeName.Location = new System.Drawing.Point(6, 9);
-            this.ItemTypeName.Name = "ItemTypeName";
-            this.ItemTypeName.Size = new System.Drawing.Size(273, 40);
-            this.ItemTypeName.TabIndex = 24;
-            this.ItemTypeName.Text = "<>";
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(88, 25);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "PATK";
+            // 
+            // equipmatkmultiplier
+            // 
+            this.equipmatkmultiplier.DecimalPlaces = 2;
+            this.equipmatkmultiplier.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.equipmatkmultiplier.Location = new System.Drawing.Point(130, 49);
+            this.equipmatkmultiplier.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.equipmatkmultiplier.Name = "equipmatkmultiplier";
+            this.equipmatkmultiplier.Size = new System.Drawing.Size(46, 20);
+            this.equipmatkmultiplier.TabIndex = 7;
+            // 
+            // equipcatbox
+            // 
+            this.equipcatbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.equipcatbox.FormattingEnabled = true;
+            this.equipcatbox.Items.AddRange(new object[] {
+            "Melee weapon",
+            "Magic weapon",
+            "Ranged weapon",
+            "Heavy armour",
+            "Light armour",
+            "Magic armour",
+            "Physical ring",
+            "Magical ring",
+            "Accessory",
+            "Other"});
+            this.equipcatbox.Location = new System.Drawing.Point(97, 71);
+            this.equipcatbox.Name = "equipcatbox";
+            this.equipcatbox.Size = new System.Drawing.Size(176, 21);
+            this.equipcatbox.TabIndex = 0;
+            this.equipcatbox.SelectedIndexChanged += new System.EventHandler(this.equipcatbox_SelectedIndexChanged);
+            // 
+            // itemtypelist
+            // 
+            this.itemtypelist.ContextMenuStrip = this.equiptypemenu;
+            this.itemtypelist.DisplayMember = "Name";
+            this.itemtypelist.Dock = System.Windows.Forms.DockStyle.Left;
+            this.itemtypelist.FormattingEnabled = true;
+            this.itemtypelist.Location = new System.Drawing.Point(3, 3);
+            this.itemtypelist.Name = "itemtypelist";
+            this.itemtypelist.ScrollAlwaysVisible = true;
+            this.itemtypelist.Size = new System.Drawing.Size(211, 562);
+            this.itemtypelist.TabIndex = 0;
+            // 
+            // mmenu
+            // 
+            this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
+            this.mmenu.Location = new System.Drawing.Point(0, 0);
+            this.mmenu.Name = "mmenu";
+            this.mmenu.Size = new System.Drawing.Size(1185, 24);
+            this.mmenu.TabIndex = 25;
+            this.mmenu.Text = "menuStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // noitemdefwarning
+            // 
+            this.noitemdefwarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noitemdefwarning.ForeColor = System.Drawing.Color.Red;
+            this.noitemdefwarning.Location = new System.Drawing.Point(89, 59);
+            this.noitemdefwarning.Name = "noitemdefwarning";
+            this.noitemdefwarning.Size = new System.Drawing.Size(138, 104);
+            this.noitemdefwarning.TabIndex = 46;
+            this.noitemdefwarning.Text = "Please create an equipment type to edit first!";
+            this.noitemdefwarning.Visible = false;
+            // 
+            // itemtypegroupbasics
+            // 
+            this.itemtypegroupbasics.Controls.Add(this.ItemTypeName);
+            this.itemtypegroupbasics.Controls.Add(this.equipcatbox);
+            this.itemtypegroupbasics.Controls.Add(this.label20);
+            this.itemtypegroupbasics.Location = new System.Drawing.Point(6, 3);
+            this.itemtypegroupbasics.Name = "itemtypegroupbasics";
+            this.itemtypegroupbasics.Size = new System.Drawing.Size(286, 103);
+            this.itemtypegroupbasics.TabIndex = 47;
+            this.itemtypegroupbasics.TabStop = false;
+            this.itemtypegroupbasics.Text = "Basic options";
+            // 
+            // slotselector
+            // 
+            this.slotselector.Location = new System.Drawing.Point(299, 8);
+            this.slotselector.Name = "slotselector";
+            this.slotselector.Size = new System.Drawing.Size(400, 400);
+            this.slotselector.TabIndex = 49;
+            this.slotselector.Paint += new System.Windows.Forms.PaintEventHandler(this.slotselector_Paint);
+            this.slotselector.MouseClick += new System.Windows.Forms.MouseEventHandler(this.slotselector_MouseClick);
+            // 
+            // equiptypemenu
+            // 
+            this.equiptypemenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createItemTypeToolStripMenuItem,
+            this.deleteItemTypeToolStripMenuItem});
+            this.equiptypemenu.Name = "equiptypemenu";
+            this.equiptypemenu.Size = new System.Drawing.Size(162, 48);
+            this.equiptypemenu.Opening += new System.ComponentModel.CancelEventHandler(this.equiptypemenu_Opening);
+            // 
+            // createItemTypeToolStripMenuItem
+            // 
+            this.createItemTypeToolStripMenuItem.Name = "createItemTypeToolStripMenuItem";
+            this.createItemTypeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.createItemTypeToolStripMenuItem.Text = "Create item type";
+            this.createItemTypeToolStripMenuItem.Click += new System.EventHandler(this.createItemTypeToolStripMenuItem_Click);
+            // 
+            // deleteItemTypeToolStripMenuItem
+            // 
+            this.deleteItemTypeToolStripMenuItem.Name = "deleteItemTypeToolStripMenuItem";
+            this.deleteItemTypeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.deleteItemTypeToolStripMenuItem.Text = "Delete item type";
+            this.deleteItemTypeToolStripMenuItem.Click += new System.EventHandler(this.deleteItemTypeToolStripMenuItem_Click);
+            // 
+            // iconimage
+            // 
+            this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
+            this.iconimage.Location = new System.Drawing.Point(0, 0);
+            this.iconimage.Margin = new System.Windows.Forms.Padding(0);
+            this.iconimage.Name = "iconimage";
+            this.iconimage.Size = new System.Drawing.Size(2048, 2048);
+            this.iconimage.TabIndex = 3;
+            this.iconimage.TabStop = false;
+            this.iconimage.DoubleClick += new System.EventHandler(this.iconimage_DoubleClick);
+            // 
+            // vitruvian
+            // 
+            this.vitruvian.Image = global::MagicEditor.Properties.Resources.vitruvianNoDPI1;
+            this.vitruvian.Location = new System.Drawing.Point(801, 322);
+            this.vitruvian.Name = "vitruvian";
+            this.vitruvian.Size = new System.Drawing.Size(400, 400);
+            this.vitruvian.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.vitruvian.TabIndex = 48;
+            this.vitruvian.TabStop = false;
+            this.vitruvian.Visible = false;
+            this.vitruvian.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1185, 618);
             this.Controls.Add(this.maintabber);
             this.Controls.Add(this.mmenu);
@@ -1297,7 +1379,6 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.effectmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
             this.iconcontainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.castbase)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelbase)).EndInit();
@@ -1330,19 +1411,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.basehp)).EndInit();
             this.skillentrymenu.ResumeLayout(false);
             this.classmenu.ResumeLayout(false);
-            this.mmenu.ResumeLayout(false);
-            this.mmenu.PerformLayout();
             this.equipdefspage.ResumeLayout(false);
             this.EquipTypeControls.ResumeLayout(false);
-            this.EquipTypeControls.PerformLayout();
+            this.itemtypegroupmultipliers.ResumeLayout(false);
+            this.itemtypegroupmultipliers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.equipmpmultiplier)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmdefmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmpmultiplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.equippdefmultiplier)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).EndInit();
+            this.mmenu.ResumeLayout(false);
+            this.mmenu.PerformLayout();
+            this.itemtypegroupbasics.ResumeLayout(false);
+            this.itemtypegroupbasics.PerformLayout();
+            this.equiptypemenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1425,7 +1510,7 @@
         private System.Windows.Forms.GroupBox classgroupbasics;
         private System.Windows.Forms.Label noclasswarning;
         private System.Windows.Forms.TabPage equipdefspage;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox itemtypelist;
         private System.Windows.Forms.Panel EquipTypeControls;
         private System.Windows.Forms.ComboBox equipcatbox;
         private System.Windows.Forms.Label label18;
@@ -1441,8 +1526,15 @@
         private System.Windows.Forms.Label hplabel1111;
         private System.Windows.Forms.NumericUpDown equiphpmultiplier;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox itemtypegroupmultipliers;
         private System.Windows.Forms.Label ItemTypeName;
+        private System.Windows.Forms.GroupBox itemtypegroupbasics;
+        private System.Windows.Forms.Label noitemdefwarning;
+        private System.Windows.Forms.PictureBox vitruvian;
+        private System.Windows.Forms.Panel slotselector;
+        private System.Windows.Forms.ContextMenuStrip equiptypemenu;
+        private System.Windows.Forms.ToolStripMenuItem createItemTypeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteItemTypeToolStripMenuItem;
     }
 }
 
