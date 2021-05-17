@@ -24,7 +24,7 @@ namespace GameObject
         /// <summary>
         /// Item type name.
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
 
         /// <summary>
         /// List of icon IDs that this item type can use.
