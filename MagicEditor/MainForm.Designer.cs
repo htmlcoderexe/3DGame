@@ -1390,6 +1390,7 @@
             this.itemicons.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.itemicons.TabIndex = 51;
             this.itemicons.TabStop = false;
+            this.itemicons.Visible = false;
             // 
             // addiconbutton
             // 

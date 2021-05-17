@@ -445,6 +445,26 @@ namespace MagicEditor
             equippdefmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[4];
             equipmdefmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[5];
 
+            iconlayout.Controls.Clear();
+            iconlayout.Controls.Add(addiconbutton);
+
+            foreach(int icon in CurrentItemType.Icons)
+            {
+                SelectedIcon holder = new SelectedIcon();
+                holder.Size = new Size(2048, 2048);
+                Panel pp = new Panel();
+                pp.Left = 10; pp.Top = 10;
+                pp.Height = 32; pp.Width = 32;
+                pp.Controls.Add(holder);
+                holder.DoubleClick += new EventHandler(removeicon);
+                holder.Image = itemicons.Image;
+                //holder.Width = 32;holder.Height = 32;
+                SetIcon(icon, holder);
+                holder.IconValue = icon;
+                iconlayout.Controls.Add(pp);
+            }
+
+
             lockform = false;
             slotselector.Refresh();
             //#todo: icon selection
@@ -1013,12 +1033,12 @@ namespace MagicEditor
                 SetIcon(chooseform.Icon, holder);
                 CurrentItemType.Icons.Add(chooseform.Icon);
                 holder.IconValue = chooseform.Icon;
+                iconlayout.Controls.Add(pp);
                 foreach (Control k in equiptypeicongroup.Controls)
                 {
                     //Reposition(k);
                 }
 
-                iconlayout.Controls.Add(pp);
             }
         }
 
