@@ -519,6 +519,7 @@
             this.maintabber.Size = new System.Drawing.Size(1185, 594);
             this.maintabber.TabIndex = 22;
             this.maintabber.SelectedIndexChanged += new System.EventHandler(this.maintabber_SelectedIndexChanged);
+            this.maintabber.DoubleClick += new System.EventHandler(this.maintabber_DoubleClick);
             // 
             // abilitylistpage
             // 
@@ -1266,11 +1267,13 @@
             this.itemtypelist.DisplayMember = "Name";
             this.itemtypelist.Dock = System.Windows.Forms.DockStyle.Left;
             this.itemtypelist.FormattingEnabled = true;
+            this.itemtypelist.HorizontalScrollbar = true;
             this.itemtypelist.Location = new System.Drawing.Point(3, 3);
             this.itemtypelist.Name = "itemtypelist";
             this.itemtypelist.ScrollAlwaysVisible = true;
             this.itemtypelist.Size = new System.Drawing.Size(211, 562);
             this.itemtypelist.TabIndex = 0;
+            this.itemtypelist.DoubleClick += new System.EventHandler(this.itemtypelist_DoubleClick);
             // 
             // mmenu
             // 

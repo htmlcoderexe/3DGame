@@ -848,6 +848,16 @@ namespace MagicEditor
 
         #region GUI wireups for Equip Types tab
 
+
+        private void itemtypelist_DoubleClick(object sender, EventArgs e)
+        {
+            if (itemtypelist.SelectedItems.Count != 1)
+                return;
+            CurrentItemType = (ItemTypeDefinition)itemtypelist.SelectedItem;
+            EditCurrentItemType();
+            slotselector.Refresh();
+        }
+
         private void equiphpmultiplier_ValueChanged(object sender, EventArgs e)
         {
 
@@ -935,7 +945,7 @@ namespace MagicEditor
             TextPrompt prompt = new TextPrompt();
             if (prompt.ShowDialog() == DialogResult.OK)
             {
-                ItemTypeDefinition def = new ItemTypeDefinition();
+                ItemTypeDefinition def = ItemTypeDefinition.CreateEmpty(prompt.Input);
                 List<GameObject.Interfaces.IGameID> abs = itemtypes.ConvertAll(b => (GameObject.Interfaces.IGameID)b);
                 //this will modify the Name if autoname is needed
                 AddWithAutoname(def, abs, true);
@@ -979,5 +989,11 @@ namespace MagicEditor
         {
 
         }
+
+        private void maintabber_DoubleClick(object sender, EventArgs e)
+        {
+            
+        }
+
     }
 }

@@ -40,5 +40,16 @@ namespace GameObject
         /// Broad category this item type falls into, used for generation.
         /// </summary>
         public Items.ItemEquip.EquipCategories ItemCategory;
+
+        public static ItemTypeDefinition CreateEmpty(string ID)
+        {
+            ItemTypeDefinition def = new ItemTypeDefinition();
+
+            def.ID = ID;
+            def.Name = "<Untitled item type>";
+
+            def.MainStatMultipliers = new float[6];
+            return def;
+        }
     }
 }
