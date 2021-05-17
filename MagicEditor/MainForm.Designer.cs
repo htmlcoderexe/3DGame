@@ -119,7 +119,6 @@
             this.label17 = new System.Windows.Forms.Label();
             this.equipmatkmultiplier = new System.Windows.Forms.NumericUpDown();
             this.equipcatbox = new System.Windows.Forms.ComboBox();
-            this.itemtypelist = new System.Windows.Forms.ListBox();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noitemdefwarning = new System.Windows.Forms.Label();
@@ -130,6 +129,7 @@
             this.deleteItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconimage = new System.Windows.Forms.PictureBox();
             this.vitruvian = new System.Windows.Forms.PictureBox();
+            this.itemtypelist = new System.Windows.Forms.ListBox();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -1009,7 +1009,6 @@
             // equipdefspage
             // 
             this.equipdefspage.Controls.Add(this.EquipTypeControls);
-            this.equipdefspage.Controls.Add(this.itemtypelist);
             this.equipdefspage.Location = new System.Drawing.Point(4, 22);
             this.equipdefspage.Name = "equipdefspage";
             this.equipdefspage.Padding = new System.Windows.Forms.Padding(3);
@@ -1025,10 +1024,11 @@
             this.EquipTypeControls.Controls.Add(this.noitemdefwarning);
             this.EquipTypeControls.Controls.Add(this.itemtypegroupbasics);
             this.EquipTypeControls.Controls.Add(this.itemtypegroupmultipliers);
+            this.EquipTypeControls.Controls.Add(this.itemtypelist);
             this.EquipTypeControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EquipTypeControls.Location = new System.Drawing.Point(214, 3);
+            this.EquipTypeControls.Location = new System.Drawing.Point(3, 3);
             this.EquipTypeControls.Name = "EquipTypeControls";
-            this.EquipTypeControls.Size = new System.Drawing.Size(960, 562);
+            this.EquipTypeControls.Size = new System.Drawing.Size(1171, 562);
             this.EquipTypeControls.TabIndex = 1;
             // 
             // ItemTypeName
@@ -1064,7 +1064,7 @@
             this.itemtypegroupmultipliers.Controls.Add(this.label16);
             this.itemtypegroupmultipliers.Controls.Add(this.label17);
             this.itemtypegroupmultipliers.Controls.Add(this.equipmatkmultiplier);
-            this.itemtypegroupmultipliers.Location = new System.Drawing.Point(6, 112);
+            this.itemtypegroupmultipliers.Location = new System.Drawing.Point(239, 112);
             this.itemtypegroupmultipliers.Name = "itemtypegroupmultipliers";
             this.itemtypegroupmultipliers.Size = new System.Drawing.Size(286, 91);
             this.itemtypegroupmultipliers.TabIndex = 12;
@@ -1261,20 +1261,6 @@
             this.equipcatbox.TabIndex = 0;
             this.equipcatbox.SelectedIndexChanged += new System.EventHandler(this.equipcatbox_SelectedIndexChanged);
             // 
-            // itemtypelist
-            // 
-            this.itemtypelist.ContextMenuStrip = this.equiptypemenu;
-            this.itemtypelist.DisplayMember = "Name";
-            this.itemtypelist.Dock = System.Windows.Forms.DockStyle.Left;
-            this.itemtypelist.FormattingEnabled = true;
-            this.itemtypelist.HorizontalScrollbar = true;
-            this.itemtypelist.Location = new System.Drawing.Point(3, 3);
-            this.itemtypelist.Name = "itemtypelist";
-            this.itemtypelist.ScrollAlwaysVisible = true;
-            this.itemtypelist.Size = new System.Drawing.Size(211, 562);
-            this.itemtypelist.TabIndex = 0;
-            this.itemtypelist.DoubleClick += new System.EventHandler(this.itemtypelist_DoubleClick);
-            // 
             // mmenu
             // 
             this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1296,7 +1282,7 @@
             // 
             this.noitemdefwarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.noitemdefwarning.ForeColor = System.Drawing.Color.Red;
-            this.noitemdefwarning.Location = new System.Drawing.Point(89, 59);
+            this.noitemdefwarning.Location = new System.Drawing.Point(322, 59);
             this.noitemdefwarning.Name = "noitemdefwarning";
             this.noitemdefwarning.Size = new System.Drawing.Size(138, 104);
             this.noitemdefwarning.TabIndex = 46;
@@ -1308,7 +1294,7 @@
             this.itemtypegroupbasics.Controls.Add(this.ItemTypeName);
             this.itemtypegroupbasics.Controls.Add(this.equipcatbox);
             this.itemtypegroupbasics.Controls.Add(this.label20);
-            this.itemtypegroupbasics.Location = new System.Drawing.Point(6, 3);
+            this.itemtypegroupbasics.Location = new System.Drawing.Point(239, 3);
             this.itemtypegroupbasics.Name = "itemtypegroupbasics";
             this.itemtypegroupbasics.Size = new System.Drawing.Size(286, 103);
             this.itemtypegroupbasics.TabIndex = 47;
@@ -1317,7 +1303,7 @@
             // 
             // slotselector
             // 
-            this.slotselector.Location = new System.Drawing.Point(299, 8);
+            this.slotselector.Location = new System.Drawing.Point(577, 3);
             this.slotselector.Name = "slotselector";
             this.slotselector.Size = new System.Drawing.Size(400, 400);
             this.slotselector.TabIndex = 49;
@@ -1369,6 +1355,20 @@
             this.vitruvian.TabStop = false;
             this.vitruvian.Visible = false;
             this.vitruvian.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            // 
+            // itemtypelist
+            // 
+            this.itemtypelist.ContextMenuStrip = this.equiptypemenu;
+            this.itemtypelist.DisplayMember = "Name";
+            this.itemtypelist.Dock = System.Windows.Forms.DockStyle.Left;
+            this.itemtypelist.FormattingEnabled = true;
+            this.itemtypelist.HorizontalScrollbar = true;
+            this.itemtypelist.Location = new System.Drawing.Point(0, 0);
+            this.itemtypelist.Name = "itemtypelist";
+            this.itemtypelist.ScrollAlwaysVisible = true;
+            this.itemtypelist.Size = new System.Drawing.Size(233, 562);
+            this.itemtypelist.TabIndex = 50;
+            this.itemtypelist.DoubleClick += new System.EventHandler(this.itemtypelist_DoubleClick);
             // 
             // MainForm
             // 
@@ -1513,7 +1513,6 @@
         private System.Windows.Forms.GroupBox classgroupbasics;
         private System.Windows.Forms.Label noclasswarning;
         private System.Windows.Forms.TabPage equipdefspage;
-        private System.Windows.Forms.ListBox itemtypelist;
         private System.Windows.Forms.Panel EquipTypeControls;
         private System.Windows.Forms.ComboBox equipcatbox;
         private System.Windows.Forms.Label label18;
@@ -1538,6 +1537,7 @@
         private System.Windows.Forms.ContextMenuStrip equiptypemenu;
         private System.Windows.Forms.ToolStripMenuItem createItemTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemTypeToolStripMenuItem;
+        private System.Windows.Forms.ListBox itemtypelist;
     }
 }
 
