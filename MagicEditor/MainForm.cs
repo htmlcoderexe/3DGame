@@ -56,7 +56,7 @@ namespace MagicEditor
             InitializeComponent();
 
             slothitboxes = new Rectangle[slots.Length];
-            for(int i=0;i<slots.Length;i++)
+            for (int i = 0; i < slots.Length; i++)
             {
                 slothitboxes[i] = new Rectangle(slots[i], new Size(40, 40));
             }
@@ -71,7 +71,7 @@ namespace MagicEditor
 
             //load abilities
             abilities = fr.ReadAbilityFile();
-            if(abilities.Count>0)
+            if (abilities.Count > 0)
             {
 
                 foreach (ModularAbility ability in abilities)
@@ -87,10 +87,10 @@ namespace MagicEditor
                 CurrentAbility = null;
             }
             EditCurrentAbility();
-            
+
             //load classes
-            classes=fr.ReadClassFile();
-            if(classes.Count>0)
+            classes = fr.ReadClassFile();
+            if (classes.Count > 0)
             {
 
                 foreach (CharacterTemplate t in classes)
@@ -109,9 +109,9 @@ namespace MagicEditor
 
             //load item type defs
             itemtypes = fr.ReadItemTypeDefinitionFile();
-            if(itemtypes.Count>0)
+            if (itemtypes.Count > 0)
             {
-                foreach(ItemTypeDefinition def in itemtypes)
+                foreach (ItemTypeDefinition def in itemtypes)
                 {
                     itemtypelist.Items.Add(def);
                 }
@@ -122,7 +122,7 @@ namespace MagicEditor
             {
                 CurrentItemType = null;
             }
-            
+
 
             //reload panel based editing controls
             panel1.Refresh();
@@ -196,6 +196,7 @@ namespace MagicEditor
             MagicFileWriter fw = new MagicFileWriter();
             fw.WriteAbilityFile(abilities);
             fw.WriteClassFile(classes);
+            fw.WriteItemTypeDefinitionFile(itemtypes);
         }
 
         #endregion
@@ -205,7 +206,7 @@ namespace MagicEditor
 
         private void EditCurrentAbility()
         {
-            if(CurrentAbility==null)
+            if (CurrentAbility == null)
             {
                 abilitygroupbasics.Hide();
                 abilitygroupid.Hide();
@@ -219,7 +220,7 @@ namespace MagicEditor
             noabilitywarning.Hide();
             EffectList.Enabled = true;
             ReloadEffectList();
-            SetIcon(CurrentAbility.Icon);
+            SetIcon(CurrentAbility.Icon, iconimage);
 
             this.spellname.Text = CurrentAbility.Name;
             lockform = true;
@@ -252,9 +253,9 @@ namespace MagicEditor
             CurrentAbility.GrowthValues["range"] = (float)rangebase.Value;
         }
 
-        private void SetIcon(int IconId)
+        private void SetIcon(int IconId, PictureBox image)
         {
-            iconimage.Location = new Point((IconId % 64) * -32, ((int)(IconId / 64f)) * -32);
+            image.Location = new Point((IconId % 64) * -32, ((int)(IconId / 64f)) * -32);
         }
 
         private void ReloadEffectList()
@@ -309,10 +310,10 @@ namespace MagicEditor
             mplvl.Value = CurrentClass.MPperLVL;
             hpvit.Value = CurrentClass.HPperVIT;
             mpint.Value = CurrentClass.MPperINT;
-            basehp.Value =  (decimal)CurrentClass.BaseStats["HP"];
+            basehp.Value = (decimal)CurrentClass.BaseStats["HP"];
             hpregen.Value = (decimal)CurrentClass.BaseStats["hpregen"];
             mpregen.Value = (decimal)CurrentClass.BaseStats["mpregen"];
-            speed.Value =   (decimal)CurrentClass.BaseStats["movement_speed"];
+            speed.Value = (decimal)CurrentClass.BaseStats["movement_speed"];
 
             int stat = (int)CurrentClass.DamageStat;
             dmgstat.SelectedIndex = stat;
@@ -332,7 +333,7 @@ namespace MagicEditor
             CurrentClass.BaseStats["movement_speed"] = (float)speed.Value;
 
             CharacterTemplate.MainStats setstat;
-            switch(dmgstat.SelectedIndex)
+            switch (dmgstat.SelectedIndex)
             {
                 case 0:
                     {
@@ -366,7 +367,7 @@ namespace MagicEditor
         {
             skillentrylist.Items.Clear();
             List<SkillTreeEntry> invalids = new List<SkillTreeEntry>();
-            foreach(SkillTreeEntry e in CurrentClass.SkillTree.Entries)
+            foreach (SkillTreeEntry e in CurrentClass.SkillTree.Entries)
             {
                 ModularAbility a = FindAbility(e.SkillID);
 
@@ -374,19 +375,19 @@ namespace MagicEditor
                 {
                     invalids.Add(e);
                     MessageBox.Show("The AbilityID \"" + e.SkillID + "\" was not found in the database.", "Invalid AbilityID", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    continue ;
+                    continue;
                 }
                 e.Name = a.Name;
                 skillentrylist.Items.Add(e);
             }
-            foreach(SkillTreeEntry e in invalids)
+            foreach (SkillTreeEntry e in invalids)
                 CurrentClass.SkillTree.Entries.Remove(e);
         }
 
         private void EditSkillEntry(SkillTreeEntry entry)
         {
             SkillTreeEntryEditor editor = new SkillTreeEntryEditor(this, entry);
-            if(editor.ShowDialog()==DialogResult.OK)
+            if (editor.ShowDialog() == DialogResult.OK)
             {
                 if (skillentrylist.SelectedItems.Count != 1)
                     return;
@@ -398,9 +399,9 @@ namespace MagicEditor
         private void AddSkillTree(string id, int level)
         {
             ModularAbility a = FindAbility(id);
-            if(a==null)
+            if (a == null)
             {
-                MessageBox.Show("The AbilityID \""+id+"\" was not found in the database.", "Invalid AbilityID", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show("The AbilityID \"" + id + "\" was not found in the database.", "Invalid AbilityID", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
             SkillTreeEntry e = new SkillTreeEntry()
@@ -419,7 +420,7 @@ namespace MagicEditor
 
         private void EditCurrentItemType()
         {
-            if(CurrentItemType==null)
+            if (CurrentItemType == null)
             {
                 itemtypegroupbasics.Hide();
                 itemtypegroupmultipliers.Hide();
@@ -437,12 +438,12 @@ namespace MagicEditor
             lockform = true;
             equipcatbox.SelectedIndex = (int)CurrentItemType.ItemCategory;
 
-            equiphpmultiplier.Value     = (decimal)CurrentItemType.MainStatMultipliers[0];
-            equipmpmultiplier.Value     = (decimal)CurrentItemType.MainStatMultipliers[1];
-            equippatkmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[2];
-            equipmatkmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[3];
-            equippdefmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[4];
-            equipmdefmultiplier.Value   = (decimal)CurrentItemType.MainStatMultipliers[5];
+            equiphpmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[0];
+            equipmpmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[1];
+            equippatkmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[2];
+            equipmatkmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[3];
+            equippdefmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[4];
+            equipmdefmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[5];
 
             lockform = false;
             slotselector.Refresh();
@@ -451,12 +452,12 @@ namespace MagicEditor
 
         private void UpdateStatMultipliers()
         {
-            CurrentItemType.MainStatMultipliers[0]  = (float)equiphpmultiplier.Value;
-            CurrentItemType.MainStatMultipliers[1]  = (float)equipmpmultiplier.Value   ;
-            CurrentItemType.MainStatMultipliers[2]  = (float)equippatkmultiplier.Value ;
-            CurrentItemType.MainStatMultipliers[3]  = (float)equipmatkmultiplier.Value ;
-            CurrentItemType.MainStatMultipliers[4]  = (float)equippdefmultiplier.Value ;
-            CurrentItemType.MainStatMultipliers[5]  = (float)equipmdefmultiplier.Value ;
+            CurrentItemType.MainStatMultipliers[0] = (float)equiphpmultiplier.Value;
+            CurrentItemType.MainStatMultipliers[1] = (float)equipmpmultiplier.Value;
+            CurrentItemType.MainStatMultipliers[2] = (float)equippatkmultiplier.Value;
+            CurrentItemType.MainStatMultipliers[3] = (float)equipmatkmultiplier.Value;
+            CurrentItemType.MainStatMultipliers[4] = (float)equippdefmultiplier.Value;
+            CurrentItemType.MainStatMultipliers[5] = (float)equipmdefmultiplier.Value;
         }
 
         #endregion
@@ -474,10 +475,10 @@ namespace MagicEditor
 
         private void iconimage_DoubleClick(object sender, EventArgs e)
         {
-            ChooseIcon chooseform = new ChooseIcon();
-            if(chooseform.ShowDialog()==DialogResult.OK)
+            ChooseIcon chooseform = new ChooseIcon(iconimage);
+            if (chooseform.ShowDialog() == DialogResult.OK)
             {
-                SetIcon(chooseform.Icon);
+                SetIcon(chooseform.Icon, iconimage);
                 CurrentAbility.Icon = chooseform.Icon;
             }
         }
@@ -486,7 +487,7 @@ namespace MagicEditor
         {
             TextPrompt prompt = new TextPrompt();
             prompt.Input = CurrentAbility.DescriptionString;
-            if(prompt.ShowDialog()==DialogResult.OK)
+            if (prompt.ShowDialog() == DialogResult.OK)
             {
                 CurrentAbility.DescriptionString = prompt.Input;
 
@@ -538,8 +539,8 @@ namespace MagicEditor
         }
         private void effectmenu_Opening(object sender, CancelEventArgs e)
         {
-            
-                effectmenu.Items[1].Enabled = EffectList.SelectedItems.Count == 1;
+
+            effectmenu.Items[1].Enabled = EffectList.SelectedItems.Count == 1;
         }
 
         private void removeEffectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -556,11 +557,11 @@ namespace MagicEditor
         private void addEffectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PickEffectSimple box = new PickEffectSimple();
-            if(box.ShowDialog()== DialogResult.OK)
+            if (box.ShowDialog() == DialogResult.OK)
             {
                 string result = box.Effect;
-                
-                
+
+
                 CurrentAbility.Effects.Add(EffectHelper.CreateEmpty(result));
                 ReloadEffectList();
             }
@@ -586,12 +587,12 @@ namespace MagicEditor
         private void createAbilityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TextPrompt prompt = new TextPrompt();
-            if(prompt.ShowDialog()==DialogResult.OK)
+            if (prompt.ShowDialog() == DialogResult.OK)
             {
                 ModularAbility a = ModularAbility.CreateEmpty(prompt.Input);
-                List<GameObject.Interfaces.IGameID> abs = abilities.ConvertAll(b => (GameObject.Interfaces.IGameID)b );
+                List<GameObject.Interfaces.IGameID> abs = abilities.ConvertAll(b => (GameObject.Interfaces.IGameID)b);
                 //this will modify the Name if autoname is needed
-                AddWithAutoname(a,abs, true);
+                AddWithAutoname(a, abs, true);
                 abilities.Add(a);
                 abilityselector.Items.Add(a);
                 CurrentAbility = a;
@@ -615,7 +616,7 @@ namespace MagicEditor
             else
                 CurrentAbility = null;
             EditCurrentAbility();
-            
+
         }
 
         #endregion
@@ -623,7 +624,7 @@ namespace MagicEditor
         private void saveabilities_Click(object sender, EventArgs e)
         {
 
-            
+
         }
 
         #endregion
@@ -640,22 +641,22 @@ namespace MagicEditor
             {
                 Microsoft.Xna.Framework.Point corner = entry.GetLocation();
                 corner += new Microsoft.Xna.Framework.Point(SkillTree.ICON_WIDTH / 2, SkillTree.ICON_WIDTH / 2);
-                if(entry.PreRequisiteSkills!=null)
-                foreach(Tuple<string,int> prereq in entry.PreRequisiteSkills)
-                {
-                    foreach(SkillTreeEntry preentry in array)
+                if (entry.PreRequisiteSkills != null)
+                    foreach (Tuple<string, int> prereq in entry.PreRequisiteSkills)
                     {
-                        if(preentry.SkillID==prereq.Item1)
+                        foreach (SkillTreeEntry preentry in array)
                         {
+                            if (preentry.SkillID == prereq.Item1)
+                            {
 
-                            Microsoft.Xna.Framework.Point corner2 = preentry.GetLocation();
-                            corner2 += new Microsoft.Xna.Framework.Point(SkillTree.ICON_WIDTH / 2, SkillTree.ICON_WIDTH / 2);
-                            g.DrawLine(new Pen(Color.Red, 7), corner.X,corner.Y, corner2.X,corner2.Y);
+                                Microsoft.Xna.Framework.Point corner2 = preentry.GetLocation();
+                                corner2 += new Microsoft.Xna.Framework.Point(SkillTree.ICON_WIDTH / 2, SkillTree.ICON_WIDTH / 2);
+                                g.DrawLine(new Pen(Color.Red, 7), corner.X, corner.Y, corner2.X, corner2.Y);
+                            }
                         }
+
                     }
 
-                }
-                
             }
             //foreach (SkillTreeEntry entry in currentclass.SkillTree.Entries)
             foreach (SkillTreeEntry entry in array)
@@ -671,11 +672,11 @@ namespace MagicEditor
                 Rectangle src = new Rectangle(iconsource, new Size(32, 32));
                 if (entry == skillentrylist.SelectedItem)
                     g.DrawRectangle(new Pen(Color.Red, 4), corner.X, corner.Y, 40, 40);
-                g.DrawImage(iconimage.Image, corner.X+4, corner.Y+4, src, GraphicsUnit.Pixel);
+                g.DrawImage(iconimage.Image, corner.X + 4, corner.Y + 4, src, GraphicsUnit.Pixel);
             }
 
         }
-        
+
 
         #region Basic editing
 
@@ -703,7 +704,7 @@ namespace MagicEditor
                 CurrentClass.Name = prompt.Input;
                 classname.Text = CurrentClass.Name;
                 //this refreshes the relevant string on the listbox
-               classlist.Items[classlist.Items.IndexOf(CurrentClass)] = CurrentClass;
+                classlist.Items[classlist.Items.IndexOf(CurrentClass)] = CurrentClass;
             }
         }
 
@@ -729,7 +730,7 @@ namespace MagicEditor
             {
                 Microsoft.Xna.Framework.Point p = icon.GetLocation();
                 Rectangle XX = new Rectangle(p.X, p.Y, 40, 40);
-                if(XX.Contains(new Point(e.X,e.Y)))
+                if (XX.Contains(new Point(e.X, e.Y)))
                 {
                     skillentrylist.SelectedIndex = (skillentrylist.Items.IndexOf(icon));
                 }
@@ -824,7 +825,7 @@ namespace MagicEditor
                 //this will modify the Name if autoname is needed
                 AddWithAutoname(a, abs, true);
                 classes.Add(a);
-               classlist.Items.Add(a);
+                classlist.Items.Add(a);
                 classlist.SelectedItem = a;
                 CurrentClass = a;
                 EditCurrentClass();
@@ -899,26 +900,26 @@ namespace MagicEditor
             g.DrawRectangle(highlight, slothitboxes[slot]);
 
             //draw both right and left hand slots if right hand is selected
-            if(slot==0)
+            if (slot == 0)
             {
                 g.DrawRectangle(highlight, slothitboxes[1]);
             }
             //draw second and third ring slot if first is selected
-            if(slot==6)
+            if (slot == 6)
             {
                 g.DrawRectangle(highlight, slothitboxes[7]);
                 g.DrawRectangle(highlight, slothitboxes[8]);
             }
-                
+
         }
 
         private void slotselector_MouseClick(object sender, MouseEventArgs e)
         {
             Point hit = new Point(e.X, e.Y);
             int slot = -1;
-            for(int i=0;i<slothitboxes.Length;i++)
+            for (int i = 0; i < slothitboxes.Length; i++)
             {
-                if(slothitboxes[i].Contains(hit))
+                if (slothitboxes[i].Contains(hit))
                 {
                     slot = i;
                     break;
@@ -992,8 +993,84 @@ namespace MagicEditor
 
         private void maintabber_DoubleClick(object sender, EventArgs e)
         {
-            
+
         }
 
+        private void addiconbutton_Click(object sender, EventArgs e)
+        {
+            ChooseIcon chooseform = new ChooseIcon(itemicons);
+            if (chooseform.ShowDialog() == DialogResult.OK)
+            {
+                SelectedIcon holder = new SelectedIcon();
+                holder.Size = new Size(2048, 2048);
+                Panel pp = new Panel();
+                pp.Left = 10; pp.Top = 10;
+                pp.Height = 32; pp.Width = 32;
+                pp.Controls.Add(holder);
+                holder.DoubleClick += new EventHandler(removeicon);
+                holder.Image = itemicons.Image;
+                //holder.Width = 32;holder.Height = 32;
+                SetIcon(chooseform.Icon, holder);
+                CurrentItemType.Icons.Add(chooseform.Icon);
+                holder.IconValue = chooseform.Icon;
+                foreach (Control k in equiptypeicongroup.Controls)
+                {
+                    //Reposition(k);
+                }
+
+                iconlayout.Controls.Add(pp);
+            }
+        }
+
+        private void Reposition(Control input)
+        {
+            int maxx = 200;
+
+            Point p = input.Location;
+
+            p.X += 40;
+            if (p.X > maxx)
+            {
+                p.X = 10;
+                p.Y += 40;
+            }
+            input.Location = p;
+        }
+
+        private void removeicon(object sender, EventArgs e)
+        {
+            int icon = (sender as SelectedIcon).IconValue;
+            CurrentItemType.Icons.Remove(icon);
+
+            bool flagset = false;
+            Control removeme = null;
+            foreach (Control k in iconlayout.Controls)
+            {
+                Panel p = k as Panel;
+                if (p != null)
+                {
+                    Control iconcontrol = p.Controls[0];
+                    SelectedIcon si = iconcontrol as SelectedIcon;
+                    if (si != null)
+                    {
+                        //move container one slot back AFTER the removed item
+
+                        if (si.IconValue == icon)
+                        {
+                            flagset = true;
+                            removeme = p;
+                        }
+                    }
+                }
+            }
+
+            iconlayout.Controls.Remove(removeme);
+
+        }
+
+        private void ItemTypeName_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -49,6 +49,8 @@ namespace GameObject
             def.Name = "<Untitled item type>";
 
             def.MainStatMultipliers = new float[6];
+
+            def.Icons = new List<int>();
             return def;
         }
     }

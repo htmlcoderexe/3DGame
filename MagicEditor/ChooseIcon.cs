@@ -13,9 +13,12 @@ namespace MagicEditor
     public partial class ChooseIcon : Form
     {
         public int Icon;
-        public ChooseIcon()
+        public ChooseIcon(PictureBox imagesource)
         {
+            
             InitializeComponent();
+
+            iconimage.Image = imagesource.Image;
         }
 
         private void iconimage_DoubleClick(object sender, EventArgs e)
@@ -31,6 +34,11 @@ namespace MagicEditor
             this.Icon = X + Y * 64;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void ChooseIcon_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

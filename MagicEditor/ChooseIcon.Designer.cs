@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseIcon));
             this.iconcontainer = new System.Windows.Forms.Panel();
             this.iconimage = new System.Windows.Forms.PictureBox();
             this.iconcontainer.SuspendLayout();
@@ -48,7 +47,6 @@
             // 
             // iconimage
             // 
-            this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
             this.iconimage.Location = new System.Drawing.Point(0, 0);
             this.iconimage.Margin = new System.Windows.Forms.Padding(0);
             this.iconimage.Name = "iconimage";
@@ -68,6 +66,7 @@
             this.MinimizeBox = false;
             this.Name = "ChooseIcon";
             this.Text = "ChooseIcon";
+            this.Load += new System.EventHandler(this.ChooseIcon_Load);
             this.iconcontainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
             this.ResumeLayout(false);

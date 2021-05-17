@@ -73,6 +73,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectedIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SelectedIcon.Designer.cs">
+      <DependentUpon>SelectedIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="SkillSelector.cs">
       <SubType>Form</SubType>
     </Compile>

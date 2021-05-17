@@ -130,6 +130,10 @@
             this.iconimage = new System.Windows.Forms.PictureBox();
             this.vitruvian = new System.Windows.Forms.PictureBox();
             this.itemtypelist = new System.Windows.Forms.ListBox();
+            this.itemicons = new System.Windows.Forms.PictureBox();
+            this.addiconbutton = new System.Windows.Forms.Button();
+            this.equiptypeicongroup = new System.Windows.Forms.GroupBox();
+            this.iconlayout = new System.Windows.Forms.FlowLayoutPanel();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -175,6 +179,9 @@
             this.equiptypemenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemicons)).BeginInit();
+            this.equiptypeicongroup.SuspendLayout();
+            this.iconlayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -1019,8 +1026,10 @@
             // 
             // EquipTypeControls
             // 
-            this.EquipTypeControls.Controls.Add(this.slotselector);
+            this.EquipTypeControls.Controls.Add(this.equiptypeicongroup);
             this.EquipTypeControls.Controls.Add(this.vitruvian);
+            this.EquipTypeControls.Controls.Add(this.itemicons);
+            this.EquipTypeControls.Controls.Add(this.slotselector);
             this.EquipTypeControls.Controls.Add(this.noitemdefwarning);
             this.EquipTypeControls.Controls.Add(this.itemtypegroupbasics);
             this.EquipTypeControls.Controls.Add(this.itemtypegroupmultipliers);
@@ -1039,6 +1048,7 @@
             this.ItemTypeName.Size = new System.Drawing.Size(273, 40);
             this.ItemTypeName.TabIndex = 24;
             this.ItemTypeName.Text = "<>";
+            this.ItemTypeName.Click += new System.EventHandler(this.ItemTypeName_Click);
             this.ItemTypeName.DoubleClick += new System.EventHandler(this.ItemTypeName_DoubleClick);
             // 
             // label20
@@ -1347,9 +1357,9 @@
             // vitruvian
             // 
             this.vitruvian.Image = global::MagicEditor.Properties.Resources.vitruvianNoDPI1;
-            this.vitruvian.Location = new System.Drawing.Point(801, 322);
+            this.vitruvian.Location = new System.Drawing.Point(1028, 131);
             this.vitruvian.Name = "vitruvian";
-            this.vitruvian.Size = new System.Drawing.Size(400, 400);
+            this.vitruvian.Size = new System.Drawing.Size(54, 45);
             this.vitruvian.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.vitruvian.TabIndex = 48;
             this.vitruvian.TabStop = false;
@@ -1369,6 +1379,45 @@
             this.itemtypelist.Size = new System.Drawing.Size(233, 562);
             this.itemtypelist.TabIndex = 50;
             this.itemtypelist.DoubleClick += new System.EventHandler(this.itemtypelist_DoubleClick);
+            // 
+            // itemicons
+            // 
+            this.itemicons.ErrorImage = ((System.Drawing.Image)(resources.GetObject("itemicons.ErrorImage")));
+            this.itemicons.Image = ((System.Drawing.Image)(resources.GetObject("itemicons.Image")));
+            this.itemicons.Location = new System.Drawing.Point(992, 54);
+            this.itemicons.Name = "itemicons";
+            this.itemicons.Size = new System.Drawing.Size(2048, 2048);
+            this.itemicons.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.itemicons.TabIndex = 51;
+            this.itemicons.TabStop = false;
+            // 
+            // addiconbutton
+            // 
+            this.addiconbutton.Location = new System.Drawing.Point(3, 3);
+            this.addiconbutton.Name = "addiconbutton";
+            this.addiconbutton.Size = new System.Drawing.Size(38, 34);
+            this.addiconbutton.TabIndex = 52;
+            this.addiconbutton.Text = "Add";
+            this.addiconbutton.UseVisualStyleBackColor = true;
+            this.addiconbutton.Click += new System.EventHandler(this.addiconbutton_Click);
+            // 
+            // equiptypeicongroup
+            // 
+            this.equiptypeicongroup.Controls.Add(this.iconlayout);
+            this.equiptypeicongroup.Location = new System.Drawing.Point(247, 218);
+            this.equiptypeicongroup.Name = "equiptypeicongroup";
+            this.equiptypeicongroup.Size = new System.Drawing.Size(277, 223);
+            this.equiptypeicongroup.TabIndex = 53;
+            this.equiptypeicongroup.TabStop = false;
+            this.equiptypeicongroup.Text = "Icons";
+            // 
+            // iconlayout
+            // 
+            this.iconlayout.Controls.Add(this.addiconbutton);
+            this.iconlayout.Location = new System.Drawing.Point(6, 19);
+            this.iconlayout.Name = "iconlayout";
+            this.iconlayout.Size = new System.Drawing.Size(265, 198);
+            this.iconlayout.TabIndex = 53;
             // 
             // MainForm
             // 
@@ -1416,6 +1465,7 @@
             this.classmenu.ResumeLayout(false);
             this.equipdefspage.ResumeLayout(false);
             this.EquipTypeControls.ResumeLayout(false);
+            this.EquipTypeControls.PerformLayout();
             this.itemtypegroupmultipliers.ResumeLayout(false);
             this.itemtypegroupmultipliers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).EndInit();
@@ -1431,6 +1481,9 @@
             this.equiptypemenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemicons)).EndInit();
+            this.equiptypeicongroup.ResumeLayout(false);
+            this.iconlayout.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1538,6 +1591,10 @@
         private System.Windows.Forms.ToolStripMenuItem createItemTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemTypeToolStripMenuItem;
         private System.Windows.Forms.ListBox itemtypelist;
+        private System.Windows.Forms.PictureBox itemicons;
+        private System.Windows.Forms.GroupBox equiptypeicongroup;
+        private System.Windows.Forms.Button addiconbutton;
+        private System.Windows.Forms.FlowLayoutPanel iconlayout;
     }
 }
 
