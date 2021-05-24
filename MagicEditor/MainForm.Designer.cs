@@ -70,6 +70,7 @@
             this.classespage = new System.Windows.Forms.TabPage();
             this.noclasswarning = new System.Windows.Forms.Label();
             this.classgroupid = new System.Windows.Forms.GroupBox();
+            this.armouroption = new System.Windows.Forms.ComboBox();
             this.classname = new System.Windows.Forms.Label();
             this.classdesc = new System.Windows.Forms.Label();
             this.classgroupbasics = new System.Windows.Forms.GroupBox();
@@ -103,7 +104,14 @@
             this.comppage = new System.Windows.Forms.TabPage();
             this.equipdefspage = new System.Windows.Forms.TabPage();
             this.EquipTypeControls = new System.Windows.Forms.Panel();
+            this.equiptypeicongroup = new System.Windows.Forms.GroupBox();
+            this.iconlayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.addiconbutton = new System.Windows.Forms.Button();
+            this.slotselector = new System.Windows.Forms.Panel();
+            this.noitemdefwarning = new System.Windows.Forms.Label();
+            this.itemtypegroupbasics = new System.Windows.Forms.GroupBox();
             this.ItemTypeName = new System.Windows.Forms.Label();
+            this.equipcatbox = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
             this.itemtypegroupmultipliers = new System.Windows.Forms.GroupBox();
             this.hplabel1111 = new System.Windows.Forms.Label();
@@ -118,22 +126,17 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.equipmatkmultiplier = new System.Windows.Forms.NumericUpDown();
-            this.equipcatbox = new System.Windows.Forms.ComboBox();
-            this.mmenu = new System.Windows.Forms.MenuStrip();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.noitemdefwarning = new System.Windows.Forms.Label();
-            this.itemtypegroupbasics = new System.Windows.Forms.GroupBox();
-            this.slotselector = new System.Windows.Forms.Panel();
+            this.itemtypelist = new System.Windows.Forms.ListBox();
             this.equiptypemenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mmenu = new System.Windows.Forms.MenuStrip();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconimage = new System.Windows.Forms.PictureBox();
             this.vitruvian = new System.Windows.Forms.PictureBox();
-            this.itemtypelist = new System.Windows.Forms.ListBox();
             this.itemicons = new System.Windows.Forms.PictureBox();
-            this.addiconbutton = new System.Windows.Forms.Button();
-            this.equiptypeicongroup = new System.Windows.Forms.GroupBox();
-            this.iconlayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.selweaponbutt = new System.Windows.Forms.Button();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -167,6 +170,9 @@
             this.classmenu.SuspendLayout();
             this.equipdefspage.SuspendLayout();
             this.EquipTypeControls.SuspendLayout();
+            this.equiptypeicongroup.SuspendLayout();
+            this.iconlayout.SuspendLayout();
+            this.itemtypegroupbasics.SuspendLayout();
             this.itemtypegroupmultipliers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmdefmultiplier)).BeginInit();
@@ -174,14 +180,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.equippdefmultiplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).BeginInit();
-            this.mmenu.SuspendLayout();
-            this.itemtypegroupbasics.SuspendLayout();
             this.equiptypemenu.SuspendLayout();
+            this.mmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemicons)).BeginInit();
-            this.equiptypeicongroup.SuspendLayout();
-            this.iconlayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -663,6 +666,9 @@
             // 
             // classgroupid
             // 
+            this.classgroupid.Controls.Add(this.selweaponbutt);
+            this.classgroupid.Controls.Add(this.label21);
+            this.classgroupid.Controls.Add(this.armouroption);
             this.classgroupid.Controls.Add(this.classname);
             this.classgroupid.Controls.Add(this.classdesc);
             this.classgroupid.Location = new System.Drawing.Point(242, 6);
@@ -671,6 +677,20 @@
             this.classgroupid.TabIndex = 44;
             this.classgroupid.TabStop = false;
             this.classgroupid.Text = "Name && description";
+            // 
+            // armouroption
+            // 
+            this.armouroption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.armouroption.FormattingEnabled = true;
+            this.armouroption.Items.AddRange(new object[] {
+            "Heavy",
+            "Light",
+            "Magic"});
+            this.armouroption.Location = new System.Drawing.Point(159, 125);
+            this.armouroption.Name = "armouroption";
+            this.armouroption.Size = new System.Drawing.Size(121, 21);
+            this.armouroption.TabIndex = 25;
+            this.armouroption.SelectedIndexChanged += new System.EventHandler(this.armouroption_SelectedIndexChanged);
             // 
             // classname
             // 
@@ -686,7 +706,7 @@
             // 
             this.classdesc.Location = new System.Drawing.Point(6, 62);
             this.classdesc.Name = "classdesc";
-            this.classdesc.Size = new System.Drawing.Size(273, 178);
+            this.classdesc.Size = new System.Drawing.Size(274, 60);
             this.classdesc.TabIndex = 24;
             this.classdesc.Text = "<>";
             this.classdesc.DoubleClick += new System.EventHandler(this.classdesc_DoubleClick);
@@ -1040,6 +1060,66 @@
             this.EquipTypeControls.Size = new System.Drawing.Size(1171, 562);
             this.EquipTypeControls.TabIndex = 1;
             // 
+            // equiptypeicongroup
+            // 
+            this.equiptypeicongroup.Controls.Add(this.iconlayout);
+            this.equiptypeicongroup.Location = new System.Drawing.Point(247, 218);
+            this.equiptypeicongroup.Name = "equiptypeicongroup";
+            this.equiptypeicongroup.Size = new System.Drawing.Size(277, 223);
+            this.equiptypeicongroup.TabIndex = 53;
+            this.equiptypeicongroup.TabStop = false;
+            this.equiptypeicongroup.Text = "Icons";
+            // 
+            // iconlayout
+            // 
+            this.iconlayout.Controls.Add(this.addiconbutton);
+            this.iconlayout.Location = new System.Drawing.Point(6, 19);
+            this.iconlayout.Name = "iconlayout";
+            this.iconlayout.Size = new System.Drawing.Size(265, 198);
+            this.iconlayout.TabIndex = 53;
+            // 
+            // addiconbutton
+            // 
+            this.addiconbutton.Location = new System.Drawing.Point(3, 3);
+            this.addiconbutton.Name = "addiconbutton";
+            this.addiconbutton.Size = new System.Drawing.Size(38, 34);
+            this.addiconbutton.TabIndex = 52;
+            this.addiconbutton.Text = "Add";
+            this.addiconbutton.UseVisualStyleBackColor = true;
+            this.addiconbutton.Click += new System.EventHandler(this.addiconbutton_Click);
+            // 
+            // slotselector
+            // 
+            this.slotselector.Location = new System.Drawing.Point(577, 3);
+            this.slotselector.Name = "slotselector";
+            this.slotselector.Size = new System.Drawing.Size(400, 400);
+            this.slotselector.TabIndex = 49;
+            this.slotselector.Paint += new System.Windows.Forms.PaintEventHandler(this.slotselector_Paint);
+            this.slotselector.MouseClick += new System.Windows.Forms.MouseEventHandler(this.slotselector_MouseClick);
+            // 
+            // noitemdefwarning
+            // 
+            this.noitemdefwarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noitemdefwarning.ForeColor = System.Drawing.Color.Red;
+            this.noitemdefwarning.Location = new System.Drawing.Point(322, 59);
+            this.noitemdefwarning.Name = "noitemdefwarning";
+            this.noitemdefwarning.Size = new System.Drawing.Size(138, 104);
+            this.noitemdefwarning.TabIndex = 46;
+            this.noitemdefwarning.Text = "Please create an equipment type to edit first!";
+            this.noitemdefwarning.Visible = false;
+            // 
+            // itemtypegroupbasics
+            // 
+            this.itemtypegroupbasics.Controls.Add(this.ItemTypeName);
+            this.itemtypegroupbasics.Controls.Add(this.equipcatbox);
+            this.itemtypegroupbasics.Controls.Add(this.label20);
+            this.itemtypegroupbasics.Location = new System.Drawing.Point(239, 3);
+            this.itemtypegroupbasics.Name = "itemtypegroupbasics";
+            this.itemtypegroupbasics.Size = new System.Drawing.Size(286, 103);
+            this.itemtypegroupbasics.TabIndex = 47;
+            this.itemtypegroupbasics.TabStop = false;
+            this.itemtypegroupbasics.Text = "Basic options";
+            // 
             // ItemTypeName
             // 
             this.ItemTypeName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1050,6 +1130,27 @@
             this.ItemTypeName.Text = "<>";
             this.ItemTypeName.Click += new System.EventHandler(this.ItemTypeName_Click);
             this.ItemTypeName.DoubleClick += new System.EventHandler(this.ItemTypeName_DoubleClick);
+            // 
+            // equipcatbox
+            // 
+            this.equipcatbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.equipcatbox.FormattingEnabled = true;
+            this.equipcatbox.Items.AddRange(new object[] {
+            "Melee weapon",
+            "Magic weapon",
+            "Ranged weapon",
+            "Heavy armour",
+            "Light armour",
+            "Magic armour",
+            "Physical ring",
+            "Magical ring",
+            "Accessory",
+            "Other"});
+            this.equipcatbox.Location = new System.Drawing.Point(97, 71);
+            this.equipcatbox.Name = "equipcatbox";
+            this.equipcatbox.Size = new System.Drawing.Size(176, 21);
+            this.equipcatbox.TabIndex = 0;
+            this.equipcatbox.SelectedIndexChanged += new System.EventHandler(this.equipcatbox_SelectedIndexChanged);
             // 
             // label20
             // 
@@ -1250,75 +1351,19 @@
             this.equipmatkmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equipmatkmultiplier.TabIndex = 7;
             // 
-            // equipcatbox
+            // itemtypelist
             // 
-            this.equipcatbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.equipcatbox.FormattingEnabled = true;
-            this.equipcatbox.Items.AddRange(new object[] {
-            "Melee weapon",
-            "Magic weapon",
-            "Ranged weapon",
-            "Heavy armour",
-            "Light armour",
-            "Magic armour",
-            "Physical ring",
-            "Magical ring",
-            "Accessory",
-            "Other"});
-            this.equipcatbox.Location = new System.Drawing.Point(97, 71);
-            this.equipcatbox.Name = "equipcatbox";
-            this.equipcatbox.Size = new System.Drawing.Size(176, 21);
-            this.equipcatbox.TabIndex = 0;
-            this.equipcatbox.SelectedIndexChanged += new System.EventHandler(this.equipcatbox_SelectedIndexChanged);
-            // 
-            // mmenu
-            // 
-            this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
-            this.mmenu.Location = new System.Drawing.Point(0, 0);
-            this.mmenu.Name = "mmenu";
-            this.mmenu.Size = new System.Drawing.Size(1185, 24);
-            this.mmenu.TabIndex = 25;
-            this.mmenu.Text = "menuStrip1";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
-            // noitemdefwarning
-            // 
-            this.noitemdefwarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noitemdefwarning.ForeColor = System.Drawing.Color.Red;
-            this.noitemdefwarning.Location = new System.Drawing.Point(322, 59);
-            this.noitemdefwarning.Name = "noitemdefwarning";
-            this.noitemdefwarning.Size = new System.Drawing.Size(138, 104);
-            this.noitemdefwarning.TabIndex = 46;
-            this.noitemdefwarning.Text = "Please create an equipment type to edit first!";
-            this.noitemdefwarning.Visible = false;
-            // 
-            // itemtypegroupbasics
-            // 
-            this.itemtypegroupbasics.Controls.Add(this.ItemTypeName);
-            this.itemtypegroupbasics.Controls.Add(this.equipcatbox);
-            this.itemtypegroupbasics.Controls.Add(this.label20);
-            this.itemtypegroupbasics.Location = new System.Drawing.Point(239, 3);
-            this.itemtypegroupbasics.Name = "itemtypegroupbasics";
-            this.itemtypegroupbasics.Size = new System.Drawing.Size(286, 103);
-            this.itemtypegroupbasics.TabIndex = 47;
-            this.itemtypegroupbasics.TabStop = false;
-            this.itemtypegroupbasics.Text = "Basic options";
-            // 
-            // slotselector
-            // 
-            this.slotselector.Location = new System.Drawing.Point(577, 3);
-            this.slotselector.Name = "slotselector";
-            this.slotselector.Size = new System.Drawing.Size(400, 400);
-            this.slotselector.TabIndex = 49;
-            this.slotselector.Paint += new System.Windows.Forms.PaintEventHandler(this.slotselector_Paint);
-            this.slotselector.MouseClick += new System.Windows.Forms.MouseEventHandler(this.slotselector_MouseClick);
+            this.itemtypelist.ContextMenuStrip = this.equiptypemenu;
+            this.itemtypelist.DisplayMember = "Name";
+            this.itemtypelist.Dock = System.Windows.Forms.DockStyle.Left;
+            this.itemtypelist.FormattingEnabled = true;
+            this.itemtypelist.HorizontalScrollbar = true;
+            this.itemtypelist.Location = new System.Drawing.Point(0, 0);
+            this.itemtypelist.Name = "itemtypelist";
+            this.itemtypelist.ScrollAlwaysVisible = true;
+            this.itemtypelist.Size = new System.Drawing.Size(233, 562);
+            this.itemtypelist.TabIndex = 50;
+            this.itemtypelist.DoubleClick += new System.EventHandler(this.itemtypelist_DoubleClick);
             // 
             // equiptypemenu
             // 
@@ -1343,6 +1388,23 @@
             this.deleteItemTypeToolStripMenuItem.Text = "Delete item type";
             this.deleteItemTypeToolStripMenuItem.Click += new System.EventHandler(this.deleteItemTypeToolStripMenuItem_Click);
             // 
+            // mmenu
+            // 
+            this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
+            this.mmenu.Location = new System.Drawing.Point(0, 0);
+            this.mmenu.Name = "mmenu";
+            this.mmenu.Size = new System.Drawing.Size(1185, 24);
+            this.mmenu.TabIndex = 25;
+            this.mmenu.Text = "menuStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
             // iconimage
             // 
             this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
@@ -1366,20 +1428,6 @@
             this.vitruvian.Visible = false;
             this.vitruvian.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
-            // itemtypelist
-            // 
-            this.itemtypelist.ContextMenuStrip = this.equiptypemenu;
-            this.itemtypelist.DisplayMember = "Name";
-            this.itemtypelist.Dock = System.Windows.Forms.DockStyle.Left;
-            this.itemtypelist.FormattingEnabled = true;
-            this.itemtypelist.HorizontalScrollbar = true;
-            this.itemtypelist.Location = new System.Drawing.Point(0, 0);
-            this.itemtypelist.Name = "itemtypelist";
-            this.itemtypelist.ScrollAlwaysVisible = true;
-            this.itemtypelist.Size = new System.Drawing.Size(233, 562);
-            this.itemtypelist.TabIndex = 50;
-            this.itemtypelist.DoubleClick += new System.EventHandler(this.itemtypelist_DoubleClick);
-            // 
             // itemicons
             // 
             this.itemicons.ErrorImage = ((System.Drawing.Image)(resources.GetObject("itemicons.ErrorImage")));
@@ -1392,33 +1440,24 @@
             this.itemicons.TabStop = false;
             this.itemicons.Visible = false;
             // 
-            // addiconbutton
+            // label21
             // 
-            this.addiconbutton.Location = new System.Drawing.Point(3, 3);
-            this.addiconbutton.Name = "addiconbutton";
-            this.addiconbutton.Size = new System.Drawing.Size(38, 34);
-            this.addiconbutton.TabIndex = 52;
-            this.addiconbutton.Text = "Add";
-            this.addiconbutton.UseVisualStyleBackColor = true;
-            this.addiconbutton.Click += new System.EventHandler(this.addiconbutton_Click);
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 128);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(97, 13);
+            this.label21.TabIndex = 26;
+            this.label21.Text = "Armour preference:";
             // 
-            // equiptypeicongroup
+            // selweaponbutt
             // 
-            this.equiptypeicongroup.Controls.Add(this.iconlayout);
-            this.equiptypeicongroup.Location = new System.Drawing.Point(247, 218);
-            this.equiptypeicongroup.Name = "equiptypeicongroup";
-            this.equiptypeicongroup.Size = new System.Drawing.Size(277, 223);
-            this.equiptypeicongroup.TabIndex = 53;
-            this.equiptypeicongroup.TabStop = false;
-            this.equiptypeicongroup.Text = "Icons";
-            // 
-            // iconlayout
-            // 
-            this.iconlayout.Controls.Add(this.addiconbutton);
-            this.iconlayout.Location = new System.Drawing.Point(6, 19);
-            this.iconlayout.Name = "iconlayout";
-            this.iconlayout.Size = new System.Drawing.Size(265, 198);
-            this.iconlayout.TabIndex = 53;
+            this.selweaponbutt.Location = new System.Drawing.Point(9, 152);
+            this.selweaponbutt.Name = "selweaponbutt";
+            this.selweaponbutt.Size = new System.Drawing.Size(271, 23);
+            this.selweaponbutt.TabIndex = 27;
+            this.selweaponbutt.Text = "Select Preferred Class Weapons";
+            this.selweaponbutt.UseVisualStyleBackColor = true;
+            this.selweaponbutt.Click += new System.EventHandler(this.selweaponbutt_Click);
             // 
             // MainForm
             // 
@@ -1452,6 +1491,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.rangedelta)).EndInit();
             this.classespage.ResumeLayout(false);
             this.classgroupid.ResumeLayout(false);
+            this.classgroupid.PerformLayout();
             this.classgroupbasics.ResumeLayout(false);
             this.classgroupbasics.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hplvl)).EndInit();
@@ -1467,6 +1507,10 @@
             this.equipdefspage.ResumeLayout(false);
             this.EquipTypeControls.ResumeLayout(false);
             this.EquipTypeControls.PerformLayout();
+            this.equiptypeicongroup.ResumeLayout(false);
+            this.iconlayout.ResumeLayout(false);
+            this.itemtypegroupbasics.ResumeLayout(false);
+            this.itemtypegroupbasics.PerformLayout();
             this.itemtypegroupmultipliers.ResumeLayout(false);
             this.itemtypegroupmultipliers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).EndInit();
@@ -1475,16 +1519,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.equippdefmultiplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).EndInit();
+            this.equiptypemenu.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
-            this.itemtypegroupbasics.ResumeLayout(false);
-            this.itemtypegroupbasics.PerformLayout();
-            this.equiptypemenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemicons)).EndInit();
-            this.equiptypeicongroup.ResumeLayout(false);
-            this.iconlayout.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1596,6 +1636,9 @@
         private System.Windows.Forms.GroupBox equiptypeicongroup;
         private System.Windows.Forms.Button addiconbutton;
         private System.Windows.Forms.FlowLayoutPanel iconlayout;
+        private System.Windows.Forms.ComboBox armouroption;
+        private System.Windows.Forms.Button selweaponbutt;
+        private System.Windows.Forms.Label label21;
     }
 }
 

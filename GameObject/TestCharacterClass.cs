@@ -14,7 +14,7 @@ namespace GameObject
             this.ID = "mage";
             this.SkillTree = new SkillTree();
             this.Description = "Magic class. Really likes fireballs and sausages.";
-            this.DamageStat = MainStats.INT;
+            this.DamageStat = Attrubutes.INT;
             this.HPperLVL = 10;
             this.HPperVIT = 5;
             this.MPperINT = 22;

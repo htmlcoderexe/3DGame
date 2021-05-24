@@ -59,6 +59,12 @@
     <Compile Include="EditAbilityComponent.Designer.cs">
       <DependentUpon>EditAbilityComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemTypeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemTypeSelector.Designer.cs">
+      <DependentUpon>ItemTypeSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditAbilityComponent.resx">
       <DependentUpon>EditAbilityComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemTypeSelector.resx">
+      <DependentUpon>ItemTypeSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

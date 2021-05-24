@@ -43,6 +43,11 @@ namespace GameObject.IO
 
         public void WriteClassFile(List<CharacterTemplate> Classes, string FileName = "")
         {
+            WriteClassFileVersion1(Classes, FileName);
+        }
+
+        public void WriteClassFileVersion0(List<CharacterTemplate> Classes, string FileName = "")
+        {
             string fileName;
             if (FileName == "")
                 FileName = "gamedata\\classes.gdf";
@@ -51,7 +56,25 @@ namespace GameObject.IO
             writer = new BinaryWriter(stream);
             writer.Write(Classes.Count);
             foreach (CharacterTemplate a in Classes)
-                WriteClass(a);
+                WriteClass0(a);
+            writer.Close();
+            writer.Dispose();
+            stream.Dispose();
+        }
+        public void WriteClassFileVersion1(List<CharacterTemplate> Classes, string FileName = "")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\classes.gdf";
+            fileName = FileName;
+            stream = new FileStream(fileName, FileMode.OpenOrCreate);
+            writer = new BinaryWriter(stream);
+            writer.Write("MAGICFILE");
+            writer.Write(1);
+            writer.Write("classdata");
+            writer.Write(Classes.Count);
+            foreach (CharacterTemplate a in Classes)
+                WriteClass1(a);
             writer.Close();
             writer.Dispose();
             stream.Dispose();
@@ -98,7 +121,7 @@ namespace GameObject.IO
         }
 
 
-        private void WriteClass(CharacterTemplate a)
+        private void WriteClass0(CharacterTemplate a)
         {
             writer.Write(a.ID);
             writer.Write(a.Name);
@@ -113,9 +136,38 @@ namespace GameObject.IO
             foreach (SkillTreeEntry e in a.SkillTree.Entries)
                 WriteSkillTreeEntry(e);
             writer.Write(a.StarterEquipment.Length);
-            for(int i=0;i<a.StarterEquipment.Length;i++)
+            for (int i = 0; i < a.StarterEquipment.Length; i++)
             {
-                if(a.StarterEquipment[i]==null)
+                if (a.StarterEquipment[i] == null)
+                {
+                    writer.Write("null");
+                }
+                else
+                {
+                    writer.Write(a.StarterEquipment[i].ID);
+                }
+            }
+        }
+        private void WriteClass1(CharacterTemplate a)
+        {
+            writer.Write(a.ID);
+            writer.Write(a.Name);
+            writer.Write(a.Description);
+            writer.Write(a.HPperVIT);
+            writer.Write(a.MPperINT);
+            writer.Write(a.HPperLVL);
+            writer.Write(a.MPperLVL);
+            writer.Write((int)a.DamageStat);
+            writer.Write((int)a.ArmourPreference);
+            WriteListOfString(a.WeaponPreferenceIDs);
+            WriteDictionary(a.BaseStats);
+            writer.Write(a.SkillTree.Entries.Count);
+            foreach (SkillTreeEntry e in a.SkillTree.Entries)
+                WriteSkillTreeEntry(e);
+            writer.Write(a.StarterEquipment.Length);
+            for (int i = 0; i < a.StarterEquipment.Length; i++)
+            {
+                if (a.StarterEquipment[i] == null)
                 {
                     writer.Write("null");
                 }
@@ -209,6 +261,12 @@ namespace GameObject.IO
         {
             writer.Write(list.Count);
             foreach (int i in list)
+                writer.Write(i);
+        }
+        void WriteListOfString(List<string> list)
+        {
+            writer.Write(list.Count);
+            foreach (string i in list)
                 writer.Write(i);
         }
     }

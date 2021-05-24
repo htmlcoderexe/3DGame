@@ -317,6 +317,8 @@ namespace MagicEditor
 
             int stat = (int)CurrentClass.DamageStat;
             dmgstat.SelectedIndex = stat;
+
+            armouroption.SelectedIndex = (int)CurrentClass.ArmourPreference;
             lockform = false;
         }
 
@@ -332,23 +334,23 @@ namespace MagicEditor
             CurrentClass.BaseStats["mpregen"] = (float)mpregen.Value;
             CurrentClass.BaseStats["movement_speed"] = (float)speed.Value;
 
-            CharacterTemplate.MainStats setstat;
+            CharacterTemplate.Attrubutes setstat;
             switch (dmgstat.SelectedIndex)
             {
                 case 0:
                     {
-                        setstat = CharacterTemplate.MainStats.STR;
+                        setstat = CharacterTemplate.Attrubutes.STR;
                         break;
                     }
                 case 1:
                     {
-                        setstat = CharacterTemplate.MainStats.DEX;
+                        setstat = CharacterTemplate.Attrubutes.DEX;
                         break;
                     }
                 case 2:
                 default:
                     {
-                        setstat = CharacterTemplate.MainStats.INT;
+                        setstat = CharacterTemplate.Attrubutes.INT;
                         break;
                     }
             }
@@ -739,6 +741,40 @@ namespace MagicEditor
             }
         }
 
+
+
+        private void armouroption_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (armouroption.SelectedIndex)
+            {
+                case 0:
+                    CurrentClass.ArmourPreference = CharacterTemplate.ArmourTypes.Heavy;
+                    break;
+                case 1:
+                    CurrentClass.ArmourPreference = CharacterTemplate.ArmourTypes.Light;
+                    break;
+                case 2:
+                    CurrentClass.ArmourPreference = CharacterTemplate.ArmourTypes.Magic;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void selweaponbutt_Click(object sender, EventArgs e)
+        {
+            ItemTypeSelector selector = new ItemTypeSelector(this)
+            {
+                SelectWeaponsOnly = true,
+                SelectedValues = CurrentClass.WeaponPreferenceIDs.ToList()
+            };
+            DialogResult result = selector.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                CurrentClass.WeaponPreferenceIDs = selector.SelectedValues.ToList();
+            }
+        }
+
         #endregion
 
         #region Skill tree editing
@@ -905,6 +941,9 @@ namespace MagicEditor
                 return;
             CurrentItemType.ItemCategory = (GameObject.Items.ItemEquip.EquipCategories)equipcatbox.SelectedIndex;
         }
+
+
+
 
         #region slot selector
         private void slotselector_Paint(object sender, PaintEventArgs e)
@@ -1092,5 +1131,6 @@ namespace MagicEditor
         {
 
         }
+
     }
 }

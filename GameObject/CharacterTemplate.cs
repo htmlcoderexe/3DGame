@@ -8,9 +8,14 @@ namespace GameObject
 {
     public class CharacterTemplate : Interfaces.IGameID
     {
-        public enum MainStats
+        public enum Attrubutes
         {
             STR, DEX, INT, VIT
+        }
+
+        public enum ArmourTypes
+        {
+            Heavy, Light, Magic
         }
 
         public string Name { get; set; }
@@ -18,11 +23,16 @@ namespace GameObject
         public string Description { get; set; }
         public SkillTree SkillTree { get; set; }
         public Dictionary<string, float> BaseStats { get; set; }
-        public MainStats DamageStat { get; set; }
+        public Attrubutes DamageStat { get; set; }
         public int HPperVIT { get; set; }
         public int MPperINT { get; set; }
         public int HPperLVL { get; set; }
         public int MPperLVL { get; set; }
+
+        public ArmourTypes ArmourPreference { get; set; }
+
+        public List<string> WeaponPreferenceIDs { get; set; }
+
         public Items.ItemEquip[] StarterEquipment { get; set; }
 
         public static  CharacterTemplate CreateEmpty(string id)
@@ -40,12 +50,13 @@ namespace GameObject
                     ["mpregen"] = 10f,
                     ["movement_speed"] = 5f
                 },
-                DamageStat = MainStats.STR,
+                DamageStat = Attrubutes.STR,
                 HPperVIT = 10,
                 MPperINT = 10,
                 HPperLVL = 10,
                 MPperLVL = 10,
                 StarterEquipment = new Items.ItemEquip[Items.ItemEquip.EquipSlot.Max],
+                WeaponPreferenceIDs = new List<string>()
             };
             
         }
