@@ -138,16 +138,72 @@ namespace GameObject.IO
                 return itemdefs;
             }
             reader = new BinaryReader(stream);
+
+            string signature = reader.ReadString();
+            if (signature != "MAGICFILE") //legacy files i guess
+            {
+                reader.Close();
+                reader.Dispose();
+
+                try
+                {
+                    stream = new FileStream(fileName, FileMode.Open);
+                }
+                catch (FileNotFoundException fnex) //return an empty list if no file
+                {
+                    return itemdefs;
+                }
+                return ReadItemTypeDefinitionFile0(FileName);
+            }
+            int version = reader.ReadInt32();
+            string datatype = reader.ReadString();
+            switch (version)
+            {
+                case 1:
+                    {
+                        return ReadItemTypeDefinitionFile1();
+                    }
+            }
+            return itemdefs;
+
+
+
+
+        }
+
+
+        public List<ItemTypeDefinition> ReadItemTypeDefinitionFile0(string FileName = "")
+        {
+
+            List<ItemTypeDefinition> itemdefs;
+            itemdefs = new List<ItemTypeDefinition>();
+            reader = new BinaryReader(stream);
+
             int count = reader.ReadInt32();
             for (int i = 0; i < count; i++)
-                itemdefs.Add(ReadItemTypeDefinition());
+                itemdefs.Add(ReadItemTypeDefinition0());
             reader.Close();
             reader.Dispose();
             stream.Dispose();
             return itemdefs;
-
-
         }
+        public List<ItemTypeDefinition> ReadItemTypeDefinitionFile1(string FileName = "")
+        {
+
+            List<ItemTypeDefinition> itemdefs;
+            itemdefs = new List<ItemTypeDefinition>();
+            reader = new BinaryReader(stream);
+
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+                itemdefs.Add(ReadItemTypeDefinition1());
+            reader.Close();
+            reader.Dispose();
+            stream.Dispose();
+            return itemdefs;
+        }
+
+
 
         #endregion
 
@@ -167,7 +223,7 @@ namespace GameObject.IO
             return result;
         }
 
-        private ItemTypeDefinition ReadItemTypeDefinition()
+        private ItemTypeDefinition ReadItemTypeDefinition0()
         {
             ItemTypeDefinition result = new ItemTypeDefinition();
 
@@ -184,6 +240,36 @@ namespace GameObject.IO
                 reader.ReadSingle(),
                 reader.ReadSingle()
             };
+            result.Icons = ReadListOfInt();
+            result.ItemCategory = (Items.ItemEquip.EquipCategories)reader.ReadInt32();
+
+            return result;
+
+        }
+
+        private ItemTypeDefinition ReadItemTypeDefinition1()
+        {
+            ItemTypeDefinition result = new ItemTypeDefinition();
+
+            result.ID = reader.ReadString();
+            result.Name = reader.ReadString();
+            result.SlotID = reader.ReadByte();
+            //6 floats for mainstats
+            result.MainStatMultipliers = new float[]
+            {
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle(),
+                reader.ReadSingle()
+            };
+
+            result.AttributeRequirements = new int[4];
+            result.AttributeRequirements[0] = reader.ReadInt32();
+            result.AttributeRequirements[1] = reader.ReadInt32();
+            result.AttributeRequirements[2] = reader.ReadInt32();
+            result.AttributeRequirements[3] = reader.ReadInt32();
             result.Icons = ReadListOfInt();
             result.ItemCategory = (Items.ItemEquip.EquipCategories)reader.ReadInt32();
 

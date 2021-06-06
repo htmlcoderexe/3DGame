@@ -210,7 +210,7 @@ namespace GameObject.Items
             public const int Max = 15;
         }
 
-        public class EquipType
+        public class xxDeprecatedEquipType
         {
             public const int Sword = 0;
             public const int Blade = 1;
@@ -254,7 +254,7 @@ namespace GameObject.Items
 
             public const int Shoes = 32;
 
-            public static float[][] MainStatMappings = new float[][]
+            public static float[][] xxDeprecatedMainStatMappings = new float[][]
             {
                new float[] {0,0,1.0f,0,0,0 },
                new float[] {0,0,1.0f,0,0,0 },
@@ -374,7 +374,7 @@ namespace GameObject.Items
             string name = "";
             if (this.Adjective != "")
                 name+= this.Adjective + " ";
-            name += ItemEquip.EquipType.GetTypeName(this.SubType) + " ";
+          //  name += ItemEquip.EquipType.GetTypeName(this.SubType) + " ";
             if (this.Subject != "")
                 name+= "of " + this.Subject;
 

@@ -46,6 +46,11 @@ namespace GameObject.IO
             WriteClassFileVersion1(Classes, FileName);
         }
 
+        public void WriteItemTypeDefinitionFile(List<ItemTypeDefinition> ItemTypeDefinitions, string FileName = "")
+        {
+            WriteItemTypeDefinitionFile1(ItemTypeDefinitions, FileName);
+        }
+
         public void WriteClassFileVersion0(List<CharacterTemplate> Classes, string FileName = "")
         {
             string fileName;
@@ -80,7 +85,8 @@ namespace GameObject.IO
             stream.Dispose();
         }
 
-        public void WriteItemTypeDefinitionFile(List<ItemTypeDefinition> ItemTypeDefinitions, string FileName="")
+
+        public void WriteItemTypeDefinitionFile0(List<ItemTypeDefinition> ItemTypeDefinitions, string FileName = "")
         {
             string fileName;
             if (FileName == "")
@@ -90,11 +96,30 @@ namespace GameObject.IO
             writer = new BinaryWriter(stream);
             writer.Write(ItemTypeDefinitions.Count);
             foreach (ItemTypeDefinition def in ItemTypeDefinitions)
-                WriteItemTypeDefinition(def);
+                WriteItemTypeDefinition0(def);
             writer.Close();
             writer.Dispose();
             stream.Dispose();
-             
+
+        }
+        public void WriteItemTypeDefinitionFile1(List<ItemTypeDefinition> ItemTypeDefinitions, string FileName = "")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\itemtypes.gdf";
+            fileName = FileName;
+            stream = new FileStream(fileName, FileMode.OpenOrCreate);
+            writer = new BinaryWriter(stream);
+            writer.Write("MAGICFILE");
+            writer.Write(1);
+            writer.Write("itemdefdata");
+            writer.Write(ItemTypeDefinitions.Count);
+            foreach (ItemTypeDefinition def in ItemTypeDefinitions)
+                WriteItemTypeDefinition1(def);
+            writer.Close();
+            writer.Dispose();
+            stream.Dispose();
+
         }
 
         public void WriteItemMasterTemplateFile(List<ItemMasterTemplate> Templates, string FileName = "")
@@ -191,13 +216,27 @@ namespace GameObject.IO
                 WriteEffect(effect);
         }
 
-        void WriteItemTypeDefinition(ItemTypeDefinition typedef)
+        void WriteItemTypeDefinition0(ItemTypeDefinition typedef)
         {
             writer.Write(typedef.ID);
             writer.Write(typedef.Name);
             writer.Write((byte)typedef.SlotID);
             for (int i = 0; i < 6; i++)
                 writer.Write(typedef.MainStatMultipliers[i]);
+            WriteListOfInt(typedef.Icons);
+            writer.Write((int)typedef.ItemCategory);
+        }
+        void WriteItemTypeDefinition1(ItemTypeDefinition typedef)
+        {
+            writer.Write(typedef.ID);
+            writer.Write(typedef.Name);
+            writer.Write((byte)typedef.SlotID);
+            for (int i = 0; i < 6; i++)
+                writer.Write(typedef.MainStatMultipliers[i]);
+            writer.Write(typedef.AttributeRequirements[0]);
+            writer.Write(typedef.AttributeRequirements[1]);
+            writer.Write(typedef.AttributeRequirements[2]);
+            writer.Write(typedef.AttributeRequirements[3]);
             WriteListOfInt(typedef.Icons);
             writer.Write((int)typedef.ItemCategory);
         }

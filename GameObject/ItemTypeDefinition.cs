@@ -41,6 +41,11 @@ namespace GameObject
         /// </summary>
         public Items.ItemEquip.EquipCategories ItemCategory;
 
+        /// <summary>
+        /// Amount of each attribute needed per 10 levels.
+        /// </summary>
+        public int[] AttributeRequirements = new int[4];
+
         public static ItemTypeDefinition CreateEmpty(string ID)
         {
             ItemTypeDefinition def = new ItemTypeDefinition();

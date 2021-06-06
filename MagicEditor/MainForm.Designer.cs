@@ -41,6 +41,7 @@
             this.descprev = new System.Windows.Forms.Label();
             this.lvlprev = new System.Windows.Forms.NumericUpDown();
             this.iconcontainer = new System.Windows.Forms.Panel();
+            this.iconimage = new System.Windows.Forms.PictureBox();
             this.spellname = new System.Windows.Forms.Label();
             this.castbase = new System.Windows.Forms.NumericUpDown();
             this.channelbase = new System.Windows.Forms.NumericUpDown();
@@ -70,6 +71,8 @@
             this.classespage = new System.Windows.Forms.TabPage();
             this.noclasswarning = new System.Windows.Forms.Label();
             this.classgroupid = new System.Windows.Forms.GroupBox();
+            this.selweaponbutt = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
             this.armouroption = new System.Windows.Forms.ComboBox();
             this.classname = new System.Windows.Forms.Label();
             this.classdesc = new System.Windows.Forms.Label();
@@ -104,9 +107,20 @@
             this.comppage = new System.Windows.Forms.TabPage();
             this.equipdefspage = new System.Windows.Forms.TabPage();
             this.EquipTypeControls = new System.Windows.Forms.Panel();
+            this.eqattribgb = new System.Windows.Forms.GroupBox();
+            this.eqattrINT = new System.Windows.Forms.NumericUpDown();
+            this.eqattrAGI = new System.Windows.Forms.NumericUpDown();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.eqattrVIT = new System.Windows.Forms.NumericUpDown();
+            this.eqattrSTR = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.equiptypeicongroup = new System.Windows.Forms.GroupBox();
             this.iconlayout = new System.Windows.Forms.FlowLayoutPanel();
             this.addiconbutton = new System.Windows.Forms.Button();
+            this.vitruvian = new System.Windows.Forms.PictureBox();
+            this.itemicons = new System.Windows.Forms.PictureBox();
             this.slotselector = new System.Windows.Forms.Panel();
             this.noitemdefwarning = new System.Windows.Forms.Label();
             this.itemtypegroupbasics = new System.Windows.Forms.GroupBox();
@@ -132,14 +146,10 @@
             this.deleteItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.iconimage = new System.Windows.Forms.PictureBox();
-            this.vitruvian = new System.Windows.Forms.PictureBox();
-            this.itemicons = new System.Windows.Forms.PictureBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.selweaponbutt = new System.Windows.Forms.Button();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.castbase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelbase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mpbase)).BeginInit();
@@ -170,8 +180,15 @@
             this.classmenu.SuspendLayout();
             this.equipdefspage.SuspendLayout();
             this.EquipTypeControls.SuspendLayout();
+            this.eqattribgb.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrINT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrAGI)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrVIT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrSTR)).BeginInit();
             this.equiptypeicongroup.SuspendLayout();
             this.iconlayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemicons)).BeginInit();
             this.itemtypegroupbasics.SuspendLayout();
             this.itemtypegroupmultipliers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equiphpmultiplier)).BeginInit();
@@ -182,9 +199,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).BeginInit();
             this.equiptypemenu.SuspendLayout();
             this.mmenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.itemicons)).BeginInit();
             this.SuspendLayout();
             // 
             // EffectList
@@ -290,6 +304,17 @@
             this.iconcontainer.Name = "iconcontainer";
             this.iconcontainer.Size = new System.Drawing.Size(32, 32);
             this.iconcontainer.TabIndex = 4;
+            // 
+            // iconimage
+            // 
+            this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
+            this.iconimage.Location = new System.Drawing.Point(0, 0);
+            this.iconimage.Margin = new System.Windows.Forms.Padding(0);
+            this.iconimage.Name = "iconimage";
+            this.iconimage.Size = new System.Drawing.Size(2048, 2048);
+            this.iconimage.TabIndex = 3;
+            this.iconimage.TabStop = false;
+            this.iconimage.DoubleClick += new System.EventHandler(this.iconimage_DoubleClick);
             // 
             // spellname
             // 
@@ -678,6 +703,25 @@
             this.classgroupid.TabStop = false;
             this.classgroupid.Text = "Name && description";
             // 
+            // selweaponbutt
+            // 
+            this.selweaponbutt.Location = new System.Drawing.Point(9, 152);
+            this.selweaponbutt.Name = "selweaponbutt";
+            this.selweaponbutt.Size = new System.Drawing.Size(271, 23);
+            this.selweaponbutt.TabIndex = 27;
+            this.selweaponbutt.Text = "Select Preferred Class Weapons";
+            this.selweaponbutt.UseVisualStyleBackColor = true;
+            this.selweaponbutt.Click += new System.EventHandler(this.selweaponbutt_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 128);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(97, 13);
+            this.label21.TabIndex = 26;
+            this.label21.Text = "Armour preference:";
+            // 
             // armouroption
             // 
             this.armouroption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1046,6 +1090,7 @@
             // 
             // EquipTypeControls
             // 
+            this.EquipTypeControls.Controls.Add(this.eqattribgb);
             this.EquipTypeControls.Controls.Add(this.equiptypeicongroup);
             this.EquipTypeControls.Controls.Add(this.vitruvian);
             this.EquipTypeControls.Controls.Add(this.itemicons);
@@ -1060,12 +1105,121 @@
             this.EquipTypeControls.Size = new System.Drawing.Size(1171, 562);
             this.EquipTypeControls.TabIndex = 1;
             // 
+            // eqattribgb
+            // 
+            this.eqattribgb.Controls.Add(this.eqattrINT);
+            this.eqattribgb.Controls.Add(this.eqattrAGI);
+            this.eqattribgb.Controls.Add(this.label25);
+            this.eqattribgb.Controls.Add(this.label23);
+            this.eqattribgb.Controls.Add(this.eqattrVIT);
+            this.eqattribgb.Controls.Add(this.eqattrSTR);
+            this.eqattribgb.Controls.Add(this.label24);
+            this.eqattribgb.Controls.Add(this.label22);
+            this.eqattribgb.Location = new System.Drawing.Point(239, 219);
+            this.eqattribgb.Name = "eqattribgb";
+            this.eqattribgb.Size = new System.Drawing.Size(285, 95);
+            this.eqattribgb.TabIndex = 54;
+            this.eqattribgb.TabStop = false;
+            this.eqattribgb.Text = "Attributes needed per 10 levels";
+            // 
+            // eqattrINT
+            // 
+            this.eqattrINT.Location = new System.Drawing.Point(182, 58);
+            this.eqattrINT.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.eqattrINT.Name = "eqattrINT";
+            this.eqattrINT.Size = new System.Drawing.Size(83, 20);
+            this.eqattrINT.TabIndex = 4;
+            this.eqattrINT.ValueChanged += new System.EventHandler(this.eqattrSTR_ValueChanged);
+            // 
+            // eqattrAGI
+            // 
+            this.eqattrAGI.Location = new System.Drawing.Point(182, 26);
+            this.eqattrAGI.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.eqattrAGI.Name = "eqattrAGI";
+            this.eqattrAGI.Size = new System.Drawing.Size(83, 20);
+            this.eqattrAGI.TabIndex = 4;
+            this.eqattrAGI.ValueChanged += new System.EventHandler(this.eqattrSTR_ValueChanged);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(144, 60);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(28, 13);
+            this.label25.TabIndex = 3;
+            this.label25.Text = "INT";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(144, 28);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(28, 13);
+            this.label23.TabIndex = 3;
+            this.label23.Text = "AGI";
+            // 
+            // eqattrVIT
+            // 
+            this.eqattrVIT.Location = new System.Drawing.Point(44, 58);
+            this.eqattrVIT.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.eqattrVIT.Name = "eqattrVIT";
+            this.eqattrVIT.Size = new System.Drawing.Size(83, 20);
+            this.eqattrVIT.TabIndex = 2;
+            this.eqattrVIT.ValueChanged += new System.EventHandler(this.eqattrSTR_ValueChanged);
+            // 
+            // eqattrSTR
+            // 
+            this.eqattrSTR.Location = new System.Drawing.Point(44, 26);
+            this.eqattrSTR.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.eqattrSTR.Name = "eqattrSTR";
+            this.eqattrSTR.Size = new System.Drawing.Size(83, 20);
+            this.eqattrSTR.TabIndex = 2;
+            this.eqattrSTR.ValueChanged += new System.EventHandler(this.eqattrSTR_ValueChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(6, 60);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(27, 13);
+            this.label24.TabIndex = 1;
+            this.label24.Text = "VIT";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(6, 28);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(32, 13);
+            this.label22.TabIndex = 1;
+            this.label22.Text = "STR";
+            // 
             // equiptypeicongroup
             // 
             this.equiptypeicongroup.Controls.Add(this.iconlayout);
-            this.equiptypeicongroup.Location = new System.Drawing.Point(247, 218);
+            this.equiptypeicongroup.Location = new System.Drawing.Point(239, 320);
             this.equiptypeicongroup.Name = "equiptypeicongroup";
-            this.equiptypeicongroup.Size = new System.Drawing.Size(277, 223);
+            this.equiptypeicongroup.Size = new System.Drawing.Size(285, 223);
             this.equiptypeicongroup.TabIndex = 53;
             this.equiptypeicongroup.TabStop = false;
             this.equiptypeicongroup.Text = "Icons";
@@ -1075,7 +1229,7 @@
             this.iconlayout.Controls.Add(this.addiconbutton);
             this.iconlayout.Location = new System.Drawing.Point(6, 19);
             this.iconlayout.Name = "iconlayout";
-            this.iconlayout.Size = new System.Drawing.Size(265, 198);
+            this.iconlayout.Size = new System.Drawing.Size(273, 198);
             this.iconlayout.TabIndex = 53;
             // 
             // addiconbutton
@@ -1087,6 +1241,30 @@
             this.addiconbutton.Text = "Add";
             this.addiconbutton.UseVisualStyleBackColor = true;
             this.addiconbutton.Click += new System.EventHandler(this.addiconbutton_Click);
+            // 
+            // vitruvian
+            // 
+            this.vitruvian.Image = global::MagicEditor.Properties.Resources.vitruvianNoDPI1;
+            this.vitruvian.Location = new System.Drawing.Point(1028, 131);
+            this.vitruvian.Name = "vitruvian";
+            this.vitruvian.Size = new System.Drawing.Size(54, 45);
+            this.vitruvian.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.vitruvian.TabIndex = 48;
+            this.vitruvian.TabStop = false;
+            this.vitruvian.Visible = false;
+            this.vitruvian.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            // 
+            // itemicons
+            // 
+            this.itemicons.ErrorImage = ((System.Drawing.Image)(resources.GetObject("itemicons.ErrorImage")));
+            this.itemicons.Image = ((System.Drawing.Image)(resources.GetObject("itemicons.Image")));
+            this.itemicons.Location = new System.Drawing.Point(992, 54);
+            this.itemicons.Name = "itemicons";
+            this.itemicons.Size = new System.Drawing.Size(2048, 2048);
+            this.itemicons.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.itemicons.TabIndex = 51;
+            this.itemicons.TabStop = false;
+            this.itemicons.Visible = false;
             // 
             // slotselector
             // 
@@ -1238,6 +1416,7 @@
             this.equipmdefmultiplier.Name = "equipmdefmultiplier";
             this.equipmdefmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equipmdefmultiplier.TabIndex = 11;
+            this.equipmdefmultiplier.Validating += new System.ComponentModel.CancelEventHandler(this.equiphpmultiplier_ValueChanged);
             // 
             // equipmpmultiplier
             // 
@@ -1256,6 +1435,7 @@
             this.equipmpmultiplier.Name = "equipmpmultiplier";
             this.equipmpmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equipmpmultiplier.TabIndex = 3;
+            this.equipmpmultiplier.ValueChanged += new System.EventHandler(this.equiphpmultiplier_ValueChanged);
             // 
             // label19
             // 
@@ -1294,6 +1474,7 @@
             this.equippdefmultiplier.Name = "equippdefmultiplier";
             this.equippdefmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equippdefmultiplier.TabIndex = 9;
+            this.equippdefmultiplier.ValueChanged += new System.EventHandler(this.equiphpmultiplier_ValueChanged);
             // 
             // equippatkmultiplier
             // 
@@ -1312,6 +1493,7 @@
             this.equippatkmultiplier.Name = "equippatkmultiplier";
             this.equippatkmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equippatkmultiplier.TabIndex = 5;
+            this.equippatkmultiplier.ValueChanged += new System.EventHandler(this.equiphpmultiplier_ValueChanged);
             // 
             // label16
             // 
@@ -1350,6 +1532,7 @@
             this.equipmatkmultiplier.Name = "equipmatkmultiplier";
             this.equipmatkmultiplier.Size = new System.Drawing.Size(46, 20);
             this.equipmatkmultiplier.TabIndex = 7;
+            this.equipmatkmultiplier.ValueChanged += new System.EventHandler(this.equiphpmultiplier_ValueChanged);
             // 
             // itemtypelist
             // 
@@ -1405,60 +1588,6 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // iconimage
-            // 
-            this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
-            this.iconimage.Location = new System.Drawing.Point(0, 0);
-            this.iconimage.Margin = new System.Windows.Forms.Padding(0);
-            this.iconimage.Name = "iconimage";
-            this.iconimage.Size = new System.Drawing.Size(2048, 2048);
-            this.iconimage.TabIndex = 3;
-            this.iconimage.TabStop = false;
-            this.iconimage.DoubleClick += new System.EventHandler(this.iconimage_DoubleClick);
-            // 
-            // vitruvian
-            // 
-            this.vitruvian.Image = global::MagicEditor.Properties.Resources.vitruvianNoDPI1;
-            this.vitruvian.Location = new System.Drawing.Point(1028, 131);
-            this.vitruvian.Name = "vitruvian";
-            this.vitruvian.Size = new System.Drawing.Size(54, 45);
-            this.vitruvian.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.vitruvian.TabIndex = 48;
-            this.vitruvian.TabStop = false;
-            this.vitruvian.Visible = false;
-            this.vitruvian.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            // 
-            // itemicons
-            // 
-            this.itemicons.ErrorImage = ((System.Drawing.Image)(resources.GetObject("itemicons.ErrorImage")));
-            this.itemicons.Image = ((System.Drawing.Image)(resources.GetObject("itemicons.Image")));
-            this.itemicons.Location = new System.Drawing.Point(992, 54);
-            this.itemicons.Name = "itemicons";
-            this.itemicons.Size = new System.Drawing.Size(2048, 2048);
-            this.itemicons.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.itemicons.TabIndex = 51;
-            this.itemicons.TabStop = false;
-            this.itemicons.Visible = false;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 128);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(97, 13);
-            this.label21.TabIndex = 26;
-            this.label21.Text = "Armour preference:";
-            // 
-            // selweaponbutt
-            // 
-            this.selweaponbutt.Location = new System.Drawing.Point(9, 152);
-            this.selweaponbutt.Name = "selweaponbutt";
-            this.selweaponbutt.Size = new System.Drawing.Size(271, 23);
-            this.selweaponbutt.TabIndex = 27;
-            this.selweaponbutt.Text = "Select Preferred Class Weapons";
-            this.selweaponbutt.UseVisualStyleBackColor = true;
-            this.selweaponbutt.Click += new System.EventHandler(this.selweaponbutt_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1472,6 +1601,7 @@
             this.effectmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).EndInit();
             this.iconcontainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.castbase)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelbase)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mpbase)).EndInit();
@@ -1507,8 +1637,16 @@
             this.equipdefspage.ResumeLayout(false);
             this.EquipTypeControls.ResumeLayout(false);
             this.EquipTypeControls.PerformLayout();
+            this.eqattribgb.ResumeLayout(false);
+            this.eqattribgb.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrINT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrAGI)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrVIT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eqattrSTR)).EndInit();
             this.equiptypeicongroup.ResumeLayout(false);
             this.iconlayout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemicons)).EndInit();
             this.itemtypegroupbasics.ResumeLayout(false);
             this.itemtypegroupbasics.PerformLayout();
             this.itemtypegroupmultipliers.ResumeLayout(false);
@@ -1522,9 +1660,6 @@
             this.equiptypemenu.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconimage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vitruvian)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.itemicons)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1639,6 +1774,15 @@
         private System.Windows.Forms.ComboBox armouroption;
         private System.Windows.Forms.Button selweaponbutt;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.GroupBox eqattribgb;
+        private System.Windows.Forms.NumericUpDown eqattrINT;
+        private System.Windows.Forms.NumericUpDown eqattrAGI;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown eqattrVIT;
+        private System.Windows.Forms.NumericUpDown eqattrSTR;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label22;
     }
 }
 

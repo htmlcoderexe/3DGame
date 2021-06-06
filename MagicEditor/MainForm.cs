@@ -447,6 +447,14 @@ namespace MagicEditor
             equippdefmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[4];
             equipmdefmultiplier.Value = (decimal)CurrentItemType.MainStatMultipliers[5];
 
+
+
+            eqattrSTR.Value = CurrentItemType.AttributeRequirements[0];
+            eqattrAGI.Value = CurrentItemType.AttributeRequirements[1];
+            eqattrVIT.Value = CurrentItemType.AttributeRequirements[2];
+            eqattrINT.Value = CurrentItemType.AttributeRequirements[3];
+
+
             iconlayout.Controls.Clear();
             iconlayout.Controls.Add(addiconbutton);
 
@@ -943,6 +951,16 @@ namespace MagicEditor
         }
 
 
+        private void eqattrSTR_ValueChanged(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            CurrentItemType.AttributeRequirements[0] = (int)eqattrSTR.Value;
+            CurrentItemType.AttributeRequirements[1] = (int)eqattrAGI.Value;
+            CurrentItemType.AttributeRequirements[2] = (int)eqattrVIT.Value;
+            CurrentItemType.AttributeRequirements[3] = (int)eqattrINT.Value;
+        }
+
 
 
         #region slot selector
@@ -1131,6 +1149,6 @@ namespace MagicEditor
         {
 
         }
-
+        
     }
 }
