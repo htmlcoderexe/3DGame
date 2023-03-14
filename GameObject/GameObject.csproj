@@ -78,9 +78,12 @@
     <Compile Include="Interfaces\IGameScene.cs" />
     <Compile Include="Interfaces\WorldPosition.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemAddonEntry.cs" />
     <Compile Include="ItemMasterTemplate.cs" />
     <Compile Include="ItemLogic\CraftingRecipe.cs" />
     <Compile Include="ItemLogic\IItemFilter.cs" />
+    <Compile Include="ItemSet.cs" />
+    <Compile Include="ItemSetTemplate.cs" />
     <Compile Include="ItemSpecificTemplate.cs" />
     <Compile Include="Items\BonusPool.cs" />
     <Compile Include="Items\BonusTemplate.cs" />

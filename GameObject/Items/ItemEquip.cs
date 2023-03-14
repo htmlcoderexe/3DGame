@@ -189,6 +189,30 @@ namespace GameObject.Items
             }
         }
 
+
+        /// <summary>
+        /// Increasing main value for specific item level.
+        /// </summary>
+        /// <param name="Level">Item level to generate value for.</param>
+        /// <returns></returns>
+        public static float GetMainStatForLevel(int Level)
+        {
+            float result = 0;
+            float a, b, c;
+            a = 5; //base value
+            b = 3; //gain per level
+            c = 12; //level squared divided by this
+            //special thanks to GeoGebra for making it easy to plot these out
+            //at lvl 1: 8
+            //at lvl 10: 43
+            //at lvl 50: 363
+            //at lvl 100: 1138
+            result = a + Level * b + ((float)Level * (float)Level / c);
+            //no need for those pesky decimals
+            result = (float)Math.Round(result);
+            return result;
+        }
+
         public class EquipSlot
         {
             public const int RightArm = 0;
@@ -323,7 +347,7 @@ namespace GameObject.Items
                     case ChestPlate:
                         return "Chestplate";
                     case Vambraces:
-                        return "Vambraces";
+                        return "Vambraces";     
                     default:
                         return "Weapon";
                 }
@@ -359,7 +383,9 @@ namespace GameObject.Items
             Color GlowColour=this.Enchant==null?PrimaryColour:this.Enchant.LineColour;
             int subsubtype = this.SubType * 4 + this.Variant;
             int iconindex = (subsubtype%64) + (192 * (int)((float)subsubtype /64f));
+            //Use the tintable item part texture
             Renderer.SetTexture(Renderer.InventoryPartsMap);
+            //each equip item has 3 parts, underneath each other (64 and 128 indexes apart respectively)
             Renderer.SetColour(PrimaryColour);
             Renderer.RenderIconEx(device, X, Y, 0 + iconindex);
             Renderer.SetColour(SecondaryColour);

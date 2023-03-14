@@ -18,6 +18,8 @@ namespace MagicEditor
         public List<ModularAbility> abilities = new List<ModularAbility>();
         public List<CharacterTemplate> classes = new List<CharacterTemplate>();
         public List<ItemTypeDefinition> itemtypes = new List<ItemTypeDefinition>();
+        public List<ItemAddonEntry> addons = new List<ItemAddonEntry>();
+        public List<ItemSetTemplate> itemsets = new List<ItemSetTemplate>();
 
         public Point[] slots = new Point[]
             {
@@ -45,6 +47,8 @@ namespace MagicEditor
         ModularAbility CurrentAbility;
         CharacterTemplate CurrentClass;
         ItemTypeDefinition CurrentItemType;
+        ItemAddonEntry CurrentAddon;
+        ItemSetTemplate CurrentSet;
         bool lockform = false;
 
         #endregion
@@ -124,6 +128,20 @@ namespace MagicEditor
             }
 
 
+            //load addons
+            //addons;
+            addons = fr.ReadItemAddonDefinitionFile();
+            if(addons.Count>0)
+            {
+                foreach(ItemAddonEntry add in addons)
+                {
+                    addonlist.Items.Add(add);
+                }
+                CurrentAddon = addons[0];
+                addonlist.SelectedIndex = 0;
+            }
+
+
             //reload panel based editing controls
             panel1.Refresh();
         }
@@ -197,6 +215,8 @@ namespace MagicEditor
             fw.WriteAbilityFile(abilities);
             fw.WriteClassFile(classes);
             fw.WriteItemTypeDefinitionFile(itemtypes);
+            fw.WriteItemAddonDefinitionFile(addons);
+            
         }
 
         #endregion
@@ -492,6 +512,46 @@ namespace MagicEditor
 
         #endregion
 
+        #region functions used by Item Addons tab
+        private void EditCurrentItemAddon()
+        {
+            if (CurrentAddon == null)
+            {
+                itemaddonbasics.Hide();
+                noaddonswarning.Show();
+                return;
+            }
+            itemaddonbasics.Show();
+            noaddonswarning.Hide();
+
+            lockform = true;
+
+            AddonStatType.Text = CurrentAddon.StatType;
+            AddonBase.Value = (decimal)CurrentAddon.BaseValue;
+            AddonGrowth.Value = (decimal)CurrentAddon.GrowthValue;
+            AddonMinLevel.Value = (decimal)CurrentAddon.MinLevelTier;
+            addonRareness.Value = CurrentAddon.Rareness;
+            AddonRarenessDisplay.Text = CurrentAddon.Rareness.ToString();
+            AddonTextFormat.Text = CurrentAddon.EffectString;
+            addonLoreKeyword.Text = CurrentAddon.LoreKeyword;
+
+            lockform = false;
+        }
+
+        private void UpdateCurrentItemAddon()
+        {
+            CurrentAddon.BaseValue = (float)AddonBase.Value;
+            CurrentAddon.GrowthValue = (float)AddonGrowth.Value;
+            CurrentAddon.MinLevelTier = (int)AddonMinLevel.Value;
+            CurrentAddon.Rareness = addonRareness.Value;
+            CurrentAddon.EffectString = AddonTextFormat.Text;
+            CurrentAddon.LoreKeyword = addonLoreKeyword.Text;
+
+        }
+        #endregion
+
+
+
         #region GUI wireups for Abilities tab
 
         #region Basic ability editing
@@ -708,7 +768,7 @@ namespace MagicEditor
         }
 
 
-        #region Basic editing
+            #region Basic editing
 
 
         private void hplvl_ValueChanged(object sender, EventArgs e)
@@ -785,7 +845,7 @@ namespace MagicEditor
 
         #endregion
 
-        #region Skill tree editing
+            #region Skill tree editing
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             SkillTreeEntry[] array = new SkillTreeEntry[skillentrylist.Items.Count];
@@ -837,7 +897,7 @@ namespace MagicEditor
         }
         #endregion
 
-        #region Skill list context menu
+            #region Skill list context menu
 
         private void skillentrymenu_Opening(object sender, CancelEventArgs e)
         {
@@ -862,7 +922,7 @@ namespace MagicEditor
         }
         #endregion
 
-        #region Class list+context menu
+            #region Class list+context menu
 
 
         private void classlist_DoubleClick(object sender, EventArgs e)
@@ -1056,11 +1116,123 @@ namespace MagicEditor
 
         #endregion
 
+        #region GUI wireups for Item Addons tab
+
+
+
+        private void addonlist_DoubleClick(object sender, EventArgs e)
+        {
+            if (addonlist.SelectedItems.Count != 1)
+                return;
+            CurrentAddon = (ItemAddonEntry)addonlist.SelectedItem;
+            EditCurrentItemAddon();
+        }
+
+
+        private void addonRareness_Scroll(object sender, EventArgs e)
+        {
+            if (lockform)
+                return;
+            UpdateCurrentItemAddon();
+            AddonRarenessDisplay.Text = addonRareness.Value.ToString();
+        }
+
+        private void addontypelisttrigger_Click(object sender, EventArgs e)
+        {
+            ItemAndSetTypeSelector sf = new ItemAndSetTypeSelector(CurrentAddon, itemtypes, itemsets);
+            sf.ShowDialog();
+            //show a checkboxed list for item types this applies to!!
+        }
+        private void AddonBase_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (lockform)
+                return;
+            UpdateCurrentItemAddon();
+        }
+
+        private void AddonGrowth_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (lockform)
+                return;
+            UpdateCurrentItemAddon();
+        }
+
+
+        private void AddonTextFormat_TextChanged(object sender, EventArgs e)
+        {
+
+            if (lockform)
+                return;
+            UpdateCurrentItemAddon();
+        }
+
+        private void addonLoreKeyword_TextChanged(object sender, EventArgs e)
+        {
+
+            if (lockform)
+                return;
+            UpdateCurrentItemAddon();
+        }
+
+
+        #region context menu
+
+        private void createItemAddonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextPrompt prompt = new TextPrompt();
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                ItemAddonEntry def = ItemAddonEntry.CreateEmpty(prompt.Input);
+                addons.Add(def);
+                addonlist.Items.Add(def);
+                addonlist.SelectedItem = def;
+                CurrentAddon = def;
+                EditCurrentItemAddon();
+            }
+        }
+
+        private void deleteItemAddonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ItemAddonEntry removeme = (ItemAddonEntry)addonlist.SelectedItem;
+            addons.Remove(removeme);
+            addonlist.Items.Remove(removeme);
+            if (addons.Count > 0)
+                addonlist.SelectedIndex = 0;
+            else
+                CurrentAddon = null;
+            EditCurrentItemAddon();
+        }
+
+
+        private void addonmenu_Opening(object sender, CancelEventArgs e)
+        {
+            addonmenu.Items[1].Enabled = addonlist.SelectedItems.Count == 1;
+        }
+        #endregion
+
+
+        #endregion
+
+        #region GUI wireups for Item Sets tab
+
+
+        private void itemsetname_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region random garbage
         private void maintabber_SelectedIndexChanged(object sender, EventArgs e)
         {
             EditCurrentAbility();
             EditCurrentClass();
             EditCurrentItemType();
+            EditCurrentItemAddon();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -1091,28 +1263,10 @@ namespace MagicEditor
                 CurrentItemType.Icons.Add(chooseform.Icon);
                 holder.IconValue = chooseform.Icon;
                 iconlayout.Controls.Add(pp);
-                foreach (Control k in equiptypeicongroup.Controls)
-                {
-                    //Reposition(k);
-                }
 
             }
         }
-
-        private void Reposition(Control input)
-        {
-            int maxx = 200;
-
-            Point p = input.Location;
-
-            p.X += 40;
-            if (p.X > maxx)
-            {
-                p.X = 10;
-                p.Y += 40;
-            }
-            input.Location = p;
-        }
+        
 
         private void removeicon(object sender, EventArgs e)
         {
@@ -1149,6 +1303,11 @@ namespace MagicEditor
         {
 
         }
-        
+
+
+
+
+        #endregion
+
     }
 }

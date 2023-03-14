@@ -35,32 +35,16 @@ namespace GameObject
         /// </summary>
         public int Type;
         /// <summary>
-        /// One of possible 4 variants per item type, visual only
+        /// Icon to be used by this specific item (must have 2 more icons underneath)
         /// </summary>
-        public int Variant;
-        /// <summary>
-        /// Increasing main value for specific item level.
-        /// </summary>
-        /// <param name="Level">Item level to generate value for.</param>
-        /// <returns></returns>
-        public static float GetMainStatForLevel(int Level)
+        public int Icon;
+
+        public static ItemSpecificTemplate CreateEmpty()
         {
-            float result = 0;
-            float a, b, c;
-            a = 5; //base value
-            b = 3; //gain per level
-            c = 12; //level squared divided by this
-            //special thanks to GeoGebra for making it easy to plot these out
-            //at lvl 1: 8
-            //at lvl 10: 43
-            //at lvl 50: 363
-            //at lvl 100: 1138
-            result =a + Level * b + ((float)Level * (float)Level / c);
-            //no need for those pesky decimals
-            result = (float)Math.Round(result);
+            ItemSpecificTemplate result = new ItemSpecificTemplate();
+
             return result;
         }
-
 
         /// <summary>
         /// Creates an ItemEquip based on the template.
@@ -84,7 +68,7 @@ namespace GameObject
                 result.Bonuses.Add(bonus);
             }
             result.SubType = Type;
-            result.Variant = Variant;
+            result.Icon = Icon;
 
 
             return result;

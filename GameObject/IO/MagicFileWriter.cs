@@ -51,6 +51,11 @@ namespace GameObject.IO
             WriteItemTypeDefinitionFile1(ItemTypeDefinitions, FileName);
         }
 
+        public void WriteItemAddonDefinitionFile(List<ItemAddonEntry> Addons, string FileName ="")
+        {
+            WriteItemAddonDefinitionFile1(Addons, FileName);
+        }
+
         public void WriteClassFileVersion0(List<CharacterTemplate> Classes, string FileName = "")
         {
             string fileName;
@@ -116,6 +121,25 @@ namespace GameObject.IO
             writer.Write(ItemTypeDefinitions.Count);
             foreach (ItemTypeDefinition def in ItemTypeDefinitions)
                 WriteItemTypeDefinition1(def);
+            writer.Close();
+            writer.Dispose();
+            stream.Dispose();
+
+        }
+        public void WriteItemAddonDefinitionFile1(List<ItemAddonEntry> ItemAddons, string FileName = "")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\itemaddons.gdf";
+            fileName = FileName;
+            stream = new FileStream(fileName, FileMode.OpenOrCreate);
+            writer = new BinaryWriter(stream);
+            writer.Write("MAGICFILE");
+            writer.Write(1);
+            writer.Write("itemaddondata");
+            writer.Write(ItemAddons.Count);
+            foreach (ItemAddonEntry def in ItemAddons)
+                WriteAddonDefinition1(def);
             writer.Close();
             writer.Dispose();
             stream.Dispose();
@@ -240,6 +264,23 @@ namespace GameObject.IO
             WriteListOfInt(typedef.Icons);
             writer.Write((int)typedef.ItemCategory);
         }
+
+
+        private void WriteAddonDefinition1(ItemAddonEntry entry)
+        {
+            writer.Write(entry.StatType);
+            writer.Write(entry.BaseValue);
+            writer.Write(entry.GrowthValue);
+            writer.Write(entry.IsPercentage);
+            writer.Write(entry.EffectString);
+            writer.Write(entry.Rareness);
+            writer.Write(entry.MinLevelTier);
+            writer.Write(entry.LoreKeyword);
+            WriteListOfString(entry.ItemTypes);
+            WriteListOfString(entry.SetTypes);
+        }
+
+
 
         private void WriteSkillTreeEntry(SkillTreeEntry e)
         {

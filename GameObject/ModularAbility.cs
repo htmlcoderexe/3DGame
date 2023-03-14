@@ -77,12 +77,6 @@ namespace GameObject
             combedvalue /= 10f;
             return combedvalue;
         }
-        /*
-        public SortedList<float, AbilityLogic.AbilityEffect> GameEffects= new SortedList<float, AbilityLogic.AbilityEffect>();
-        public SortedList<float, AbilityLogic.AbilityVFX> VisualEffects = new SortedList<float, AbilityLogic.AbilityVFX>();
-        public SortedList<float, AbilityLogic.AbilitySelector> Selectors = new SortedList<float, AbilityLogic.AbilitySelector>();
-
-        //*/
         /// <summary>
         /// Effect timeline
         /// </summary>

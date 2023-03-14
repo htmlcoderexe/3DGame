@@ -144,8 +144,38 @@
             this.equiptypemenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Itemaddontab = new System.Windows.Forms.TabPage();
+            this.itemaddonbasics = new System.Windows.Forms.GroupBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.AddonIsPercent = new System.Windows.Forms.CheckBox();
+            this.addonLoreKeyword = new System.Windows.Forms.TextBox();
+            this.AddonMinLevel = new System.Windows.Forms.NumericUpDown();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.AddonRarenessDisplay = new System.Windows.Forms.Label();
+            this.AddonStatType = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.statchanger = new System.Windows.Forms.LinkLabel();
+            this.addonRareness = new System.Windows.Forms.TrackBar();
+            this.AddonBase = new System.Windows.Forms.NumericUpDown();
+            this.label30 = new System.Windows.Forms.Label();
+            this.AddonGrowth = new System.Windows.Forms.NumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
+            this.AddonTextFormat = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.addontypelisttrigger = new System.Windows.Forms.Button();
+            this.addonlist = new System.Windows.Forms.ListBox();
+            this.addonmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createItemAddonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemAddonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetPage = new System.Windows.Forms.TabPage();
+            this.itemsetgroupbasic = new System.Windows.Forms.GroupBox();
+            this.itemsetname = new System.Windows.Forms.Label();
+            this.weaponoption = new System.Windows.Forms.ComboBox();
+            this.sets = new System.Windows.Forms.ListBox();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noaddonswarning = new System.Windows.Forms.Label();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -198,6 +228,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).BeginInit();
             this.equiptypemenu.SuspendLayout();
+            this.Itemaddontab.SuspendLayout();
+            this.itemaddonbasics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AddonMinLevel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addonRareness)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AddonBase)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AddonGrowth)).BeginInit();
+            this.addonmenu.SuspendLayout();
+            this.SetPage.SuspendLayout();
+            this.itemsetgroupbasic.SuspendLayout();
             this.mmenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -547,6 +586,8 @@
             this.maintabber.Controls.Add(this.classespage);
             this.maintabber.Controls.Add(this.comppage);
             this.maintabber.Controls.Add(this.equipdefspage);
+            this.maintabber.Controls.Add(this.Itemaddontab);
+            this.maintabber.Controls.Add(this.SetPage);
             this.maintabber.Dock = System.Windows.Forms.DockStyle.Fill;
             this.maintabber.Location = new System.Drawing.Point(0, 24);
             this.maintabber.Name = "maintabber";
@@ -1571,6 +1612,314 @@
             this.deleteItemTypeToolStripMenuItem.Text = "Delete item type";
             this.deleteItemTypeToolStripMenuItem.Click += new System.EventHandler(this.deleteItemTypeToolStripMenuItem_Click);
             // 
+            // Itemaddontab
+            // 
+            this.Itemaddontab.Controls.Add(this.noaddonswarning);
+            this.Itemaddontab.Controls.Add(this.itemaddonbasics);
+            this.Itemaddontab.Controls.Add(this.addonlist);
+            this.Itemaddontab.Location = new System.Drawing.Point(4, 22);
+            this.Itemaddontab.Name = "Itemaddontab";
+            this.Itemaddontab.Padding = new System.Windows.Forms.Padding(3);
+            this.Itemaddontab.Size = new System.Drawing.Size(1177, 568);
+            this.Itemaddontab.TabIndex = 4;
+            this.Itemaddontab.Text = " Item Addons";
+            this.Itemaddontab.UseVisualStyleBackColor = true;
+            // 
+            // itemaddonbasics
+            // 
+            this.itemaddonbasics.Controls.Add(this.label27);
+            this.itemaddonbasics.Controls.Add(this.AddonIsPercent);
+            this.itemaddonbasics.Controls.Add(this.addonLoreKeyword);
+            this.itemaddonbasics.Controls.Add(this.AddonMinLevel);
+            this.itemaddonbasics.Controls.Add(this.label32);
+            this.itemaddonbasics.Controls.Add(this.label26);
+            this.itemaddonbasics.Controls.Add(this.AddonRarenessDisplay);
+            this.itemaddonbasics.Controls.Add(this.AddonStatType);
+            this.itemaddonbasics.Controls.Add(this.label31);
+            this.itemaddonbasics.Controls.Add(this.statchanger);
+            this.itemaddonbasics.Controls.Add(this.addonRareness);
+            this.itemaddonbasics.Controls.Add(this.AddonBase);
+            this.itemaddonbasics.Controls.Add(this.label30);
+            this.itemaddonbasics.Controls.Add(this.AddonGrowth);
+            this.itemaddonbasics.Controls.Add(this.label29);
+            this.itemaddonbasics.Controls.Add(this.AddonTextFormat);
+            this.itemaddonbasics.Controls.Add(this.label28);
+            this.itemaddonbasics.Controls.Add(this.addontypelisttrigger);
+            this.itemaddonbasics.Location = new System.Drawing.Point(233, 17);
+            this.itemaddonbasics.Name = "itemaddonbasics";
+            this.itemaddonbasics.Size = new System.Drawing.Size(647, 243);
+            this.itemaddonbasics.TabIndex = 20;
+            this.itemaddonbasics.TabStop = false;
+            this.itemaddonbasics.Text = "Addon parametres";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(6, 16);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(32, 13);
+            this.label27.TabIndex = 4;
+            this.label27.Text = "Stat: ";
+            // 
+            // AddonIsPercent
+            // 
+            this.AddonIsPercent.AutoSize = true;
+            this.AddonIsPercent.Location = new System.Drawing.Point(181, 97);
+            this.AddonIsPercent.Name = "AddonIsPercent";
+            this.AddonIsPercent.Size = new System.Drawing.Size(34, 17);
+            this.AddonIsPercent.TabIndex = 1;
+            this.AddonIsPercent.Text = "%";
+            this.AddonIsPercent.UseVisualStyleBackColor = true;
+            // 
+            // addonLoreKeyword
+            // 
+            this.addonLoreKeyword.Location = new System.Drawing.Point(181, 184);
+            this.addonLoreKeyword.Name = "addonLoreKeyword";
+            this.addonLoreKeyword.Size = new System.Drawing.Size(120, 20);
+            this.addonLoreKeyword.TabIndex = 18;
+            this.addonLoreKeyword.TextChanged += new System.EventHandler(this.addonLoreKeyword_TextChanged);
+            // 
+            // AddonMinLevel
+            // 
+            this.AddonMinLevel.Location = new System.Drawing.Point(107, 93);
+            this.AddonMinLevel.Name = "AddonMinLevel";
+            this.AddonMinLevel.Size = new System.Drawing.Size(49, 20);
+            this.AddonMinLevel.TabIndex = 2;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(6, 187);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(71, 13);
+            this.label32.TabIndex = 17;
+            this.label32.Text = "Lore keyword";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 95);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(97, 13);
+            this.label26.TabIndex = 3;
+            this.label26.Text = "Minimum Level /10";
+            // 
+            // AddonRarenessDisplay
+            // 
+            this.AddonRarenessDisplay.AutoSize = true;
+            this.AddonRarenessDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddonRarenessDisplay.Location = new System.Drawing.Point(111, 126);
+            this.AddonRarenessDisplay.Name = "AddonRarenessDisplay";
+            this.AddonRarenessDisplay.Size = new System.Drawing.Size(27, 29);
+            this.AddonRarenessDisplay.TabIndex = 16;
+            this.AddonRarenessDisplay.Text = "0";
+            // 
+            // AddonStatType
+            // 
+            this.AddonStatType.AutoSize = true;
+            this.AddonStatType.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddonStatType.Location = new System.Drawing.Point(74, 16);
+            this.AddonStatType.Name = "AddonStatType";
+            this.AddonStatType.Size = new System.Drawing.Size(29, 13);
+            this.AddonStatType.TabIndex = 5;
+            this.AddonStatType.Text = "--/--";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(6, 138);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(52, 13);
+            this.label31.TabIndex = 15;
+            this.label31.Text = "Rareness";
+            // 
+            // statchanger
+            // 
+            this.statchanger.AutoSize = true;
+            this.statchanger.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.statchanger.Location = new System.Drawing.Point(178, 16);
+            this.statchanger.Name = "statchanger";
+            this.statchanger.Size = new System.Drawing.Size(53, 13);
+            this.statchanger.TabIndex = 6;
+            this.statchanger.TabStop = true;
+            this.statchanger.Text = "Change...";
+            // 
+            // addonRareness
+            // 
+            this.addonRareness.Location = new System.Drawing.Point(181, 120);
+            this.addonRareness.Maximum = 7;
+            this.addonRareness.Name = "addonRareness";
+            this.addonRareness.Size = new System.Drawing.Size(104, 45);
+            this.addonRareness.TabIndex = 14;
+            this.addonRareness.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.addonRareness.Scroll += new System.EventHandler(this.addonRareness_Scroll);
+            // 
+            // AddonBase
+            // 
+            this.AddonBase.DecimalPlaces = 1;
+            this.AddonBase.Location = new System.Drawing.Point(181, 45);
+            this.AddonBase.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.AddonBase.Name = "AddonBase";
+            this.AddonBase.Size = new System.Drawing.Size(120, 20);
+            this.AddonBase.TabIndex = 7;
+            this.AddonBase.ValueChanged += new System.EventHandler(this.AddonBase_ValueChanged);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(317, 16);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(155, 13);
+            this.label30.TabIndex = 13;
+            this.label30.Text = "Description string in item tooltip:";
+            // 
+            // AddonGrowth
+            // 
+            this.AddonGrowth.DecimalPlaces = 1;
+            this.AddonGrowth.Location = new System.Drawing.Point(181, 71);
+            this.AddonGrowth.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.AddonGrowth.Name = "AddonGrowth";
+            this.AddonGrowth.Size = new System.Drawing.Size(120, 20);
+            this.AddonGrowth.TabIndex = 8;
+            this.AddonGrowth.ValueChanged += new System.EventHandler(this.AddonGrowth_ValueChanged);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 73);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(140, 13);
+            this.label29.TabIndex = 12;
+            this.label29.Text = "Value increase per 10 levels";
+            // 
+            // AddonTextFormat
+            // 
+            this.AddonTextFormat.Location = new System.Drawing.Point(320, 32);
+            this.AddonTextFormat.Multiline = true;
+            this.AddonTextFormat.Name = "AddonTextFormat";
+            this.AddonTextFormat.Size = new System.Drawing.Size(292, 91);
+            this.AddonTextFormat.TabIndex = 9;
+            this.AddonTextFormat.TextChanged += new System.EventHandler(this.AddonTextFormat_TextChanged);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 47);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(72, 13);
+            this.label28.TabIndex = 11;
+            this.label28.Text = "Starting value";
+            // 
+            // addontypelisttrigger
+            // 
+            this.addontypelisttrigger.Location = new System.Drawing.Point(320, 139);
+            this.addontypelisttrigger.Name = "addontypelisttrigger";
+            this.addontypelisttrigger.Size = new System.Drawing.Size(292, 23);
+            this.addontypelisttrigger.TabIndex = 10;
+            this.addontypelisttrigger.Text = "Change Item Types";
+            this.addontypelisttrigger.UseVisualStyleBackColor = true;
+            this.addontypelisttrigger.Click += new System.EventHandler(this.addontypelisttrigger_Click);
+            // 
+            // addonlist
+            // 
+            this.addonlist.ContextMenuStrip = this.addonmenu;
+            this.addonlist.DisplayMember = "DisplayName";
+            this.addonlist.Dock = System.Windows.Forms.DockStyle.Left;
+            this.addonlist.FormattingEnabled = true;
+            this.addonlist.Location = new System.Drawing.Point(3, 3);
+            this.addonlist.Name = "addonlist";
+            this.addonlist.Size = new System.Drawing.Size(224, 562);
+            this.addonlist.TabIndex = 19;
+            this.addonlist.DoubleClick += new System.EventHandler(this.addonlist_DoubleClick);
+            // 
+            // addonmenu
+            // 
+            this.addonmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createItemAddonToolStripMenuItem,
+            this.deleteItemAddonToolStripMenuItem});
+            this.addonmenu.Name = "addonmenu";
+            this.addonmenu.Size = new System.Drawing.Size(173, 48);
+            this.addonmenu.Opening += new System.ComponentModel.CancelEventHandler(this.addonmenu_Opening);
+            // 
+            // createItemAddonToolStripMenuItem
+            // 
+            this.createItemAddonToolStripMenuItem.Name = "createItemAddonToolStripMenuItem";
+            this.createItemAddonToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.createItemAddonToolStripMenuItem.Text = "Create item addon";
+            this.createItemAddonToolStripMenuItem.Click += new System.EventHandler(this.createItemAddonToolStripMenuItem_Click);
+            // 
+            // deleteItemAddonToolStripMenuItem
+            // 
+            this.deleteItemAddonToolStripMenuItem.Name = "deleteItemAddonToolStripMenuItem";
+            this.deleteItemAddonToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.deleteItemAddonToolStripMenuItem.Text = "Delete item addon";
+            this.deleteItemAddonToolStripMenuItem.Click += new System.EventHandler(this.deleteItemAddonToolStripMenuItem_Click);
+            // 
+            // SetPage
+            // 
+            this.SetPage.Controls.Add(this.itemsetgroupbasic);
+            this.SetPage.Controls.Add(this.sets);
+            this.SetPage.Location = new System.Drawing.Point(4, 22);
+            this.SetPage.Name = "SetPage";
+            this.SetPage.Padding = new System.Windows.Forms.Padding(3);
+            this.SetPage.Size = new System.Drawing.Size(1177, 568);
+            this.SetPage.TabIndex = 5;
+            this.SetPage.Text = "Item Sets";
+            this.SetPage.UseVisualStyleBackColor = true;
+            // 
+            // itemsetgroupbasic
+            // 
+            this.itemsetgroupbasic.Controls.Add(this.itemsetname);
+            this.itemsetgroupbasic.Controls.Add(this.weaponoption);
+            this.itemsetgroupbasic.Location = new System.Drawing.Point(201, 11);
+            this.itemsetgroupbasic.Name = "itemsetgroupbasic";
+            this.itemsetgroupbasic.Size = new System.Drawing.Size(250, 363);
+            this.itemsetgroupbasic.TabIndex = 1;
+            this.itemsetgroupbasic.TabStop = false;
+            this.itemsetgroupbasic.Text = "Set Properties";
+            // 
+            // itemsetname
+            // 
+            this.itemsetname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.itemsetname.Location = new System.Drawing.Point(15, 16);
+            this.itemsetname.Name = "itemsetname";
+            this.itemsetname.Size = new System.Drawing.Size(164, 46);
+            this.itemsetname.TabIndex = 27;
+            this.itemsetname.Text = "<>";
+            this.itemsetname.DoubleClick += new System.EventHandler(this.itemsetname_DoubleClick);
+            // 
+            // weaponoption
+            // 
+            this.weaponoption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.weaponoption.FormattingEnabled = true;
+            this.weaponoption.Items.AddRange(new object[] {
+            "Heavy",
+            "Light",
+            "Magic"});
+            this.weaponoption.Location = new System.Drawing.Point(58, 169);
+            this.weaponoption.Name = "weaponoption";
+            this.weaponoption.Size = new System.Drawing.Size(121, 21);
+            this.weaponoption.TabIndex = 26;
+            // 
+            // sets
+            // 
+            this.sets.Dock = System.Windows.Forms.DockStyle.Left;
+            this.sets.FormattingEnabled = true;
+            this.sets.Location = new System.Drawing.Point(3, 3);
+            this.sets.Name = "sets";
+            this.sets.Size = new System.Drawing.Size(175, 562);
+            this.sets.TabIndex = 0;
+            // 
             // mmenu
             // 
             this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1587,6 +1936,16 @@
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // noaddonswarning
+            // 
+            this.noaddonswarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noaddonswarning.ForeColor = System.Drawing.Color.Red;
+            this.noaddonswarning.Location = new System.Drawing.Point(326, 78);
+            this.noaddonswarning.Name = "noaddonswarning";
+            this.noaddonswarning.Size = new System.Drawing.Size(138, 104);
+            this.noaddonswarning.TabIndex = 48;
+            this.noaddonswarning.Text = "Please create an addon to edit first!";
             // 
             // MainForm
             // 
@@ -1658,6 +2017,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.equippatkmultiplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.equipmatkmultiplier)).EndInit();
             this.equiptypemenu.ResumeLayout(false);
+            this.Itemaddontab.ResumeLayout(false);
+            this.itemaddonbasics.ResumeLayout(false);
+            this.itemaddonbasics.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AddonMinLevel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addonRareness)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AddonBase)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AddonGrowth)).EndInit();
+            this.addonmenu.ResumeLayout(false);
+            this.SetPage.ResumeLayout(false);
+            this.itemsetgroupbasic.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
             this.ResumeLayout(false);
@@ -1783,6 +2152,36 @@
         private System.Windows.Forms.NumericUpDown eqattrSTR;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TabPage Itemaddontab;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Button addontypelisttrigger;
+        private System.Windows.Forms.TextBox AddonTextFormat;
+        private System.Windows.Forms.NumericUpDown AddonGrowth;
+        private System.Windows.Forms.NumericUpDown AddonBase;
+        private System.Windows.Forms.LinkLabel statchanger;
+        private System.Windows.Forms.Label AddonStatType;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.NumericUpDown AddonMinLevel;
+        private System.Windows.Forms.CheckBox AddonIsPercent;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TrackBar addonRareness;
+        private System.Windows.Forms.Label AddonRarenessDisplay;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox addonLoreKeyword;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.ListBox addonlist;
+        private System.Windows.Forms.GroupBox itemaddonbasics;
+        private System.Windows.Forms.ContextMenuStrip addonmenu;
+        private System.Windows.Forms.ToolStripMenuItem createItemAddonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteItemAddonToolStripMenuItem;
+        private System.Windows.Forms.TabPage SetPage;
+        private System.Windows.Forms.ListBox sets;
+        private System.Windows.Forms.GroupBox itemsetgroupbasic;
+        private System.Windows.Forms.ComboBox weaponoption;
+        private System.Windows.Forms.Label itemsetname;
+        private System.Windows.Forms.Label noaddonswarning;
     }
 }
 

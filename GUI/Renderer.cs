@@ -294,8 +294,8 @@ namespace GUI
 
         #region Colours
 
-        public static Color ColourBlue = new Color(0, 189, 255);
         // publstatic ic Color ColourGreen = new Color(0, 255, 100);
+        public static Color ColourBlue = new Color(0, 189, 255);
         public static Color ColourGreen = new Color(0, 206, 0);
         public static Color ColourGold = new Color(255, 200, 12);
         public static Color ColourViolet = new Color(255, 12, 200);

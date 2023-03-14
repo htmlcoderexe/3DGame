@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemAddonEntry.cs" />
     <Compile Include="ItemPool.cs" />
     <Compile Include="ItemPoolEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

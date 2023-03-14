@@ -27,6 +27,10 @@ namespace GameObject
                     {
                         return new Color(120, 100, 255);
                     }
+                case "ItemAddon":
+                    {
+                        return new Color(120, 100, 255);
+                    }
                 case "Common":
                     {
                         return Color.White;

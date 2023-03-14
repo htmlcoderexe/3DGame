@@ -2,10 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GameObject.IO
 {
     public class MagicFileReader
@@ -90,6 +86,8 @@ namespace GameObject.IO
 
         }
 
+        #region class files
+
         public List<CharacterTemplate> ReadClassFile0(string FileName = "")
         {
 
@@ -120,6 +118,8 @@ namespace GameObject.IO
             stream.Dispose();
             return classes;
         }
+
+        #endregion class files
 
         public List<ItemTypeDefinition> ReadItemTypeDefinitionFile(string FileName = "")
         {
@@ -171,7 +171,7 @@ namespace GameObject.IO
 
         }
 
-
+        #region item type defs
         public List<ItemTypeDefinition> ReadItemTypeDefinitionFile0(string FileName = "")
         {
 
@@ -203,6 +203,72 @@ namespace GameObject.IO
             return itemdefs;
         }
 
+        #endregion
+
+
+        public List<ItemAddonEntry> ReadItemAddonDefinitionFile(string FileName = "")
+        {
+            string fileName;
+            if (FileName == "")
+                FileName = "gamedata\\itemaddons.gdf";
+            fileName = FileName;
+            List<ItemAddonEntry> itemdefs;
+            itemdefs = new List<ItemAddonEntry>();
+            try
+            {
+                stream = new FileStream(fileName, FileMode.Open);
+            }
+            catch (FileNotFoundException fnex)
+            {
+                return itemdefs;
+            }
+            reader = new BinaryReader(stream);
+
+            string signature = reader.ReadString();
+            if (signature != "MAGICFILE") //legacy files i guess
+            {
+                reader.Close();
+                reader.Dispose();
+
+                
+                    return itemdefs;
+                
+            }
+            int version = reader.ReadInt32();
+            string datatype = reader.ReadString();
+            switch (version)
+            {
+                case 1:
+                    {
+                        return ReadItemAddonDefinitionFile1();
+                    }
+            }
+            return itemdefs;
+
+
+
+
+        }
+
+        #region addon defs
+        public List<ItemAddonEntry> ReadItemAddonDefinitionFile1(string FileName = "")
+        {
+
+            List<ItemAddonEntry> itemdefs;
+            itemdefs = new List<ItemAddonEntry>();
+            reader = new BinaryReader(stream);
+
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+                itemdefs.Add(ReadAddonDefinition1());
+            reader.Close();
+            reader.Dispose();
+            stream.Dispose();
+            return itemdefs;
+        }
+
+        #endregion
+
 
 
         #endregion
@@ -222,6 +288,8 @@ namespace GameObject.IO
                 result.Effects.Add(ReadEffect());
             return result;
         }
+
+        #region item types
 
         private ItemTypeDefinition ReadItemTypeDefinition0()
         {
@@ -276,7 +344,9 @@ namespace GameObject.IO
             return result;
 
         }
+        #endregion
 
+        #region classes
         private CharacterTemplate ReadClass0()
         {
             CharacterTemplate result = CharacterTemplate.CreateEmpty(reader.ReadString());
@@ -364,6 +434,30 @@ namespace GameObject.IO
             return result;
         }
 
+        #endregion
+
+        #region addons
+
+        private ItemAddonEntry ReadAddonDefinition1()
+        {
+            ItemAddonEntry result = new ItemAddonEntry();
+
+            result.StatType = reader.ReadString();
+            result.BaseValue = reader.ReadSingle();
+            result.GrowthValue = reader.ReadSingle();
+            result.IsPercentage = reader.ReadBoolean();
+            result.EffectString = reader.ReadString();
+            result.Rareness = reader.ReadInt32();
+            result.MinLevelTier = reader.ReadInt32();
+            result.LoreKeyword = reader.ReadString();
+            result.ItemTypes = ReadListOfString();
+            result.SetTypes = ReadListOfString();
+
+            return result;
+        }
+
+
+        #endregion
 
         #endregion
         #region subentries
@@ -476,3 +570,5 @@ namespace GameObject.IO
 
     }
 }
+
+
