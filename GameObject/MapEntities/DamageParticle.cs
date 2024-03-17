@@ -18,8 +18,9 @@ namespace GameObject.MapEntities
         {
           //don't
         }
-        public DamageParticle(Interfaces.WorldPosition Position,string Text,Color Colour,float TTL)
+        public DamageParticle(MapEntity Parent, Interfaces.WorldPosition Position,string Text,Color Colour,float TTL)
         {
+            this.WorldSpawn = Parent.WorldSpawn;
             this.Position = Position;
             this.Text = Text;
             this.Colour = Colour;

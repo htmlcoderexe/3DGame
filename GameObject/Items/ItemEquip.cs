@@ -25,6 +25,8 @@ namespace GameObject.Items
         public string Subject;
         public Enchantment Enchant;
         public int EquipmentSlot;
+
+        public ItemSet Set;
         /// <summary>
         /// Equip categories used in item generation.
         /// </summary>
@@ -232,6 +234,16 @@ namespace GameObject.Items
             public const int Bonus = 14;
 
             public const int Max = 15;
+
+            public static bool IsRing(int Slot)
+            {
+                return Slot == Ring0 || Slot == Ring1 || Slot == Ring2;
+            }
+
+            public static bool IsWeapon(int Slot)
+            {
+                return Slot == RightArm || Slot == LeftArm;
+            }
         }
 
         public class xxDeprecatedEquipType

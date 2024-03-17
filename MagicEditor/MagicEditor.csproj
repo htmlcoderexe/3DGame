@@ -181,8 +181,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\icons.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="images\icon_damage.bmp" />
     <Content Include="images\icon_vfx.bmp" />
+    <Content Include="images\itemparts_nt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\vitruvianNoDPI1.png" />
     <None Include="Resources\vitruvianNoDPI.png" />
     <None Include="Resources\vitruvian.png" />

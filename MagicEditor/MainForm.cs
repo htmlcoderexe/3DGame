@@ -72,7 +72,9 @@ namespace MagicEditor
             AbilityEffectDefinition.LoadDefinitions();
 
             MagicFileReader fr = new MagicFileReader();
-
+            //load updated icons
+            iconimage.Image = Image.FromFile("images\\icons.png");
+            itemicons.Image = Image.FromFile("images\\itemparts_nt.png");
             //load abilities
             abilities = fr.ReadAbilityFile();
             if (abilities.Count > 0)

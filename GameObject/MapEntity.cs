@@ -128,6 +128,8 @@ namespace GameObject
 
         public virtual void Update(float dT)
         {
+            if (IsDead)
+                return;
             // this.Heading += dT*10;
             float dH = 0.1f;
             Vector3 Movevector = new Vector3(dT, 0, 0);

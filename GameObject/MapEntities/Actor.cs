@@ -172,7 +172,7 @@ namespace GameObject.MapEntities
                 return;
             this.CurrentHPBuffer -= amount;
             amount = (int)Math.Round(amount);
-            this.WorldSpawn.Entities.Add(new DamageParticle(this.Position, amount.ToString(), Color.Red, 0.5f));
+            this.WorldSpawn.Entities.Add(new DamageParticle(this, this.Position, amount.ToString(), Color.Red, 0.5f));
         }
 
         public static Item PickItemFromTable(List<Tuple<int, Item>> table, Random RNG)

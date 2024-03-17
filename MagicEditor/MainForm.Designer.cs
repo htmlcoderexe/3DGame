@@ -145,6 +145,7 @@
             this.createItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Itemaddontab = new System.Windows.Forms.TabPage();
+            this.noaddonswarning = new System.Windows.Forms.Label();
             this.itemaddonbasics = new System.Windows.Forms.GroupBox();
             this.label27 = new System.Windows.Forms.Label();
             this.AddonIsPercent = new System.Windows.Forms.CheckBox();
@@ -170,12 +171,16 @@
             this.deleteItemAddonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SetPage = new System.Windows.Forms.TabPage();
             this.itemsetgroupbasic = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.itemsetname = new System.Windows.Forms.Label();
             this.weaponoption = new System.Windows.Forms.ComboBox();
             this.sets = new System.Windows.Forms.ListBox();
             this.mmenu = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.noaddonswarning = new System.Windows.Forms.Label();
+            this.setmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createItemSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -238,6 +243,7 @@
             this.SetPage.SuspendLayout();
             this.itemsetgroupbasic.SuspendLayout();
             this.mmenu.SuspendLayout();
+            this.setmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -346,7 +352,6 @@
             // 
             // iconimage
             // 
-            this.iconimage.Image = ((System.Drawing.Image)(resources.GetObject("iconimage.Image")));
             this.iconimage.Location = new System.Drawing.Point(0, 0);
             this.iconimage.Margin = new System.Windows.Forms.Padding(0);
             this.iconimage.Name = "iconimage";
@@ -1298,7 +1303,6 @@
             // itemicons
             // 
             this.itemicons.ErrorImage = ((System.Drawing.Image)(resources.GetObject("itemicons.ErrorImage")));
-            this.itemicons.Image = ((System.Drawing.Image)(resources.GetObject("itemicons.Image")));
             this.itemicons.Location = new System.Drawing.Point(992, 54);
             this.itemicons.Name = "itemicons";
             this.itemicons.Size = new System.Drawing.Size(2048, 2048);
@@ -1625,6 +1629,16 @@
             this.Itemaddontab.Text = " Item Addons";
             this.Itemaddontab.UseVisualStyleBackColor = true;
             // 
+            // noaddonswarning
+            // 
+            this.noaddonswarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noaddonswarning.ForeColor = System.Drawing.Color.Red;
+            this.noaddonswarning.Location = new System.Drawing.Point(326, 78);
+            this.noaddonswarning.Name = "noaddonswarning";
+            this.noaddonswarning.Size = new System.Drawing.Size(138, 104);
+            this.noaddonswarning.TabIndex = 48;
+            this.noaddonswarning.Text = "Please create an addon to edit first!";
+            // 
             // itemaddonbasics
             // 
             this.itemaddonbasics.Controls.Add(this.label27);
@@ -1879,6 +1893,8 @@
             // 
             // itemsetgroupbasic
             // 
+            this.itemsetgroupbasic.Controls.Add(this.comboBox2);
+            this.itemsetgroupbasic.Controls.Add(this.comboBox1);
             this.itemsetgroupbasic.Controls.Add(this.itemsetname);
             this.itemsetgroupbasic.Controls.Add(this.weaponoption);
             this.itemsetgroupbasic.Location = new System.Drawing.Point(201, 11);
@@ -1888,12 +1904,38 @@
             this.itemsetgroupbasic.TabStop = false;
             this.itemsetgroupbasic.Text = "Set Properties";
             // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Heavy",
+            "Light",
+            "Magic"});
+            this.comboBox2.Location = new System.Drawing.Point(123, 178);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.comboBox2.TabIndex = 29;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Heavy",
+            "Light",
+            "Magic"});
+            this.comboBox1.Location = new System.Drawing.Point(123, 137);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 28;
+            // 
             // itemsetname
             // 
             this.itemsetname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.itemsetname.Location = new System.Drawing.Point(15, 16);
             this.itemsetname.Name = "itemsetname";
-            this.itemsetname.Size = new System.Drawing.Size(164, 46);
+            this.itemsetname.Size = new System.Drawing.Size(165, 29);
             this.itemsetname.TabIndex = 27;
             this.itemsetname.Text = "<>";
             this.itemsetname.DoubleClick += new System.EventHandler(this.itemsetname_DoubleClick);
@@ -1906,13 +1948,14 @@
             "Heavy",
             "Light",
             "Magic"});
-            this.weaponoption.Location = new System.Drawing.Point(58, 169);
+            this.weaponoption.Location = new System.Drawing.Point(123, 99);
             this.weaponoption.Name = "weaponoption";
             this.weaponoption.Size = new System.Drawing.Size(121, 21);
             this.weaponoption.TabIndex = 26;
             // 
             // sets
             // 
+            this.sets.ContextMenuStrip = this.setmenu;
             this.sets.Dock = System.Windows.Forms.DockStyle.Left;
             this.sets.FormattingEnabled = true;
             this.sets.Location = new System.Drawing.Point(3, 3);
@@ -1937,15 +1980,25 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // noaddonswarning
+            // setmenu
             // 
-            this.noaddonswarning.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noaddonswarning.ForeColor = System.Drawing.Color.Red;
-            this.noaddonswarning.Location = new System.Drawing.Point(326, 78);
-            this.noaddonswarning.Name = "noaddonswarning";
-            this.noaddonswarning.Size = new System.Drawing.Size(138, 104);
-            this.noaddonswarning.TabIndex = 48;
-            this.noaddonswarning.Text = "Please create an addon to edit first!";
+            this.setmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createItemSetToolStripMenuItem,
+            this.deleteItemSetToolStripMenuItem});
+            this.setmenu.Name = "setmenu";
+            this.setmenu.Size = new System.Drawing.Size(154, 48);
+            // 
+            // createItemSetToolStripMenuItem
+            // 
+            this.createItemSetToolStripMenuItem.Name = "createItemSetToolStripMenuItem";
+            this.createItemSetToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.createItemSetToolStripMenuItem.Text = "Create item set";
+            // 
+            // deleteItemSetToolStripMenuItem
+            // 
+            this.deleteItemSetToolStripMenuItem.Name = "deleteItemSetToolStripMenuItem";
+            this.deleteItemSetToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.deleteItemSetToolStripMenuItem.Text = "Delete item set";
             // 
             // MainForm
             // 
@@ -2029,6 +2082,7 @@
             this.itemsetgroupbasic.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
+            this.setmenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2182,6 +2236,11 @@
         private System.Windows.Forms.ComboBox weaponoption;
         private System.Windows.Forms.Label itemsetname;
         private System.Windows.Forms.Label noaddonswarning;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ContextMenuStrip setmenu;
+        private System.Windows.Forms.ToolStripMenuItem createItemSetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteItemSetToolStripMenuItem;
     }
 }
 

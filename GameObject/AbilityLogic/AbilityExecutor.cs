@@ -72,6 +72,7 @@ namespace GameObject.AbilityLogic
                     }
                     else
                     {
+                        
                         effect.Apply(Source, Target, ability.Level);
                     }
                 }
