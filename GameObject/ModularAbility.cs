@@ -55,11 +55,11 @@ namespace GameObject
         /// <summary>
         /// All base values of this ability
         /// </summary>
-        public Dictionary<string, float> BaseValues = new Dictionary<string, float>();
+        public Dictionary<string, float> BaseValues { get; set; } = new Dictionary<string, float>();
         /// <summary>
         /// Value deltas
         /// </summary>
-        public Dictionary<string, float> GrowthValues = new Dictionary<string, float>();
+        public Dictionary<string, float> GrowthValues { get; set; } = new Dictionary<string, float>();
         //the below probably unused - stored in individual effects instead
         public Dictionary<string, int> ValueUnits = new Dictionary<string, int>(); //0 is raw, 1 is %, 2 is 1/10ths
         /// <summary>
@@ -80,7 +80,7 @@ namespace GameObject
         /// <summary>
         /// Effect timeline
         /// </summary>
-        public List<ITimedEffect> Effects = new List<ITimedEffect>();
+        public List<ITimedEffect> Effects { get; set; } = new List<ITimedEffect>();
         /// <summary>
         /// Description of the ability appearing in game interfaces, with formatting codes
         /// to display level-specific numbers.
@@ -180,10 +180,10 @@ namespace GameObject
 
             if (this.Effects.Count <= Effect)
                 return "";
-            if (this.Effects[Effect].GetParamValues().Length <= Param)
+            if (this.Effects[Effect].ParamValues.Length <= Param)
                 return "";
-            string pbase= (this.Effects[Effect].GetParamValues())[Param].Split(new char[] { ',' })[0];
-            string pdelta= (this.Effects[Effect].GetParamValues())[Param].Split(new char[] { ',' }).Length==2? (this.Effects[Effect].GetParamValues())[Param].Split(new char[] { ',' })[1]:"0";
+            string pbase= (this.Effects[Effect].ParamValues)[Param].Split(new char[] { ',' })[0];
+            string pdelta= (this.Effects[Effect].ParamValues)[Param].Split(new char[] { ',' }).Length==2? (this.Effects[Effect].ParamValues)[Param].Split(new char[] { ',' })[1]:"0";
             float.TryParse(pbase, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float floatbase);
             float.TryParse(pdelta, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float floatdelta);
             NumberFormatInfo dotdecimal = new NumberFormatInfo();

@@ -1226,6 +1226,14 @@ namespace MagicEditor
 
         }
 
+        #region context menu
+
+        private void createItemSetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
         #endregion
 
         #region random garbage

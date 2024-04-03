@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace GameObject.IO
 {
@@ -15,6 +16,7 @@ namespace GameObject.IO
     {
         FileStream stream;
         BinaryWriter writer;
+        StreamWriter jsonwriter;
         public MagicFileWriter()
         {
 
@@ -39,21 +41,61 @@ namespace GameObject.IO
             writer.Close();
             writer.Dispose();
             stream.Dispose();
+
+            string json = JsonSerializer.Serialize(Abilities, new JsonSerializerOptions { WriteIndented = true });
+            stream = new FileStream("gamedata\\abilities.json", FileMode.OpenOrCreate);
+
+            jsonwriter = new StreamWriter(stream);
+            jsonwriter.Write(json);
+            jsonwriter.Close();
+            jsonwriter.Dispose();
+            stream.Close();
+
+
+
         }
 
         public void WriteClassFile(List<CharacterTemplate> Classes, string FileName = "")
         {
             WriteClassFileVersion1(Classes, FileName);
+
+            string json = JsonSerializer.Serialize(Classes, new JsonSerializerOptions { WriteIndented = true });
+            stream = new FileStream("gamedata\\classes.json", FileMode.OpenOrCreate);
+
+            jsonwriter = new StreamWriter(stream);
+            jsonwriter.Write(json);
+            jsonwriter.Close();
+            jsonwriter.Dispose();
+            stream.Close();
+
         }
 
         public void WriteItemTypeDefinitionFile(List<ItemTypeDefinition> ItemTypeDefinitions, string FileName = "")
         {
             WriteItemTypeDefinitionFile1(ItemTypeDefinitions, FileName);
+
+            string json = JsonSerializer.Serialize(ItemTypeDefinitions, new JsonSerializerOptions { WriteIndented = true });
+            stream = new FileStream("gamedata\\itemtypes.json", FileMode.OpenOrCreate);
+
+            jsonwriter = new StreamWriter(stream);
+            jsonwriter.Write(json);
+            jsonwriter.Close();
+            jsonwriter.Dispose();
+            stream.Close();
         }
 
         public void WriteItemAddonDefinitionFile(List<ItemAddonEntry> Addons, string FileName ="")
         {
             WriteItemAddonDefinitionFile1(Addons, FileName);
+
+            string json = JsonSerializer.Serialize(Addons, new JsonSerializerOptions { WriteIndented = true });
+            stream = new FileStream("gamedata\\itemaddons.json", FileMode.OpenOrCreate);
+
+            jsonwriter = new StreamWriter(stream);
+            jsonwriter.Write(json);
+            jsonwriter.Close();
+            jsonwriter.Dispose();
+            stream.Close();
         }
 
         public void WriteClassFileVersion0(List<CharacterTemplate> Classes, string FileName = "")
@@ -321,8 +363,8 @@ namespace GameObject.IO
             writer.Write(effect.DeltaTime);
             writer.Write(effect.BaseDuration);
             writer.Write(effect.DeltaDuration);
-            writer.Write(effect.GetParamValues().Length);
-            foreach (string s in effect.GetParamValues())
+            writer.Write(effect.ParamValues.Length);
+            foreach (string s in effect.ParamValues)
                 writer.Write(s);
         }
 

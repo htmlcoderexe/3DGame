@@ -14,35 +14,28 @@ namespace GameObject.AbilityLogic.GameEffects
         {
             List<string> p = new List<string>
             {
-                Utility.GetGrowth(_rawparams[0], Level).ToString(),
+                Utility.GetGrowth(ParamValues[0], Level).ToString(),
 
-                Utility.GetGrowth(_rawparams[1], Level).ToString(),
-                Utility.GetGrowth(_rawparams[2], Level).ToString()
+                Utility.GetGrowth(ParamValues[1], Level).ToString(),
+                Utility.GetGrowth(ParamValues[2], Level).ToString()
             };
             return p;
         }
         public Effect_damage_bmd_full(string[] parameters)
         {
-            SetParamValues(parameters);
+            this.ParamValues = parameters;
         }
-        public override void SetParamValues(string[] parameters)
-        {
-            this._rawparams = parameters;
-        }
-        public override void Apply(Actor Source, Actor Target,int Level)
+        public override void Apply(Actor Source, Actor Target, int Level)
         {
             float dmg = 0;
             List<string> Params = GetParams(Level);
             //thisis all a test; normally it shoudl calculate m_atk*int * param /100f(for %), (simplify with a GetBMD call), then just m_atk, then the fixie at the end 
             dmg += Source.CalculateStat("p_atk") * ((float)(int.Parse(Params[0]))) / 100f; //because %
             dmg += int.Parse(Params[2]); //because %
-            Target.Hit(Source,dmg, true, 0); //#TODO: extra magic type param
-            base.Apply(Source, Target,Level);
+            Target.Hit(Source, dmg, true, 0); //#TODO: extra magic type param
+            base.Apply(Source, Target, Level);
         }
 
-        public override string[] GetParamValues()
-        {
-            return _rawparams;
-        }
+        
     }
 }

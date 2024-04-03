@@ -517,7 +517,7 @@ namespace GameObject.IO
             string[] eparams = new string[paramcount];
             for (int i = 0; i < paramcount; i++)
                 eparams[i] = reader.ReadString();
-            result.SetParamValues(eparams);
+            result.ParamValues=eparams;
             return result;
 
         }

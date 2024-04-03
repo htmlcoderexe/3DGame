@@ -16,7 +16,7 @@ namespace GameObject.AbilityLogic
         float BaseTime { get; set; }
         float DeltaTime { get; set; }
         string EffectType { get; }
-        string[] GetParamValues();
-        void SetParamValues(string[] Values);
+        string[] ParamValues { get; set; }
+        //void SetParamValues(string[] Values,bool DeleteThis);
     }
 }

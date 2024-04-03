@@ -176,11 +176,11 @@
             this.itemsetname = new System.Windows.Forms.Label();
             this.weaponoption = new System.Windows.Forms.ComboBox();
             this.sets = new System.Windows.Forms.ListBox();
-            this.mmenu = new System.Windows.Forms.MenuStrip();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createItemSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mmenu = new System.Windows.Forms.MenuStrip();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lvlprev)).BeginInit();
             this.iconcontainer.SuspendLayout();
@@ -242,8 +242,8 @@
             this.addonmenu.SuspendLayout();
             this.SetPage.SuspendLayout();
             this.itemsetgroupbasic.SuspendLayout();
-            this.mmenu.SuspendLayout();
             this.setmenu.SuspendLayout();
+            this.mmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // EffectList
@@ -1963,6 +1963,27 @@
             this.sets.Size = new System.Drawing.Size(175, 562);
             this.sets.TabIndex = 0;
             // 
+            // setmenu
+            // 
+            this.setmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createItemSetToolStripMenuItem,
+            this.deleteItemSetToolStripMenuItem});
+            this.setmenu.Name = "setmenu";
+            this.setmenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // createItemSetToolStripMenuItem
+            // 
+            this.createItemSetToolStripMenuItem.Name = "createItemSetToolStripMenuItem";
+            this.createItemSetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createItemSetToolStripMenuItem.Text = "Create item set";
+            this.createItemSetToolStripMenuItem.Click += new System.EventHandler(this.createItemSetToolStripMenuItem_Click);
+            // 
+            // deleteItemSetToolStripMenuItem
+            // 
+            this.deleteItemSetToolStripMenuItem.Name = "deleteItemSetToolStripMenuItem";
+            this.deleteItemSetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteItemSetToolStripMenuItem.Text = "Delete item set";
+            // 
             // mmenu
             // 
             this.mmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1979,26 +2000,6 @@
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
-            // setmenu
-            // 
-            this.setmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createItemSetToolStripMenuItem,
-            this.deleteItemSetToolStripMenuItem});
-            this.setmenu.Name = "setmenu";
-            this.setmenu.Size = new System.Drawing.Size(154, 48);
-            // 
-            // createItemSetToolStripMenuItem
-            // 
-            this.createItemSetToolStripMenuItem.Name = "createItemSetToolStripMenuItem";
-            this.createItemSetToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.createItemSetToolStripMenuItem.Text = "Create item set";
-            // 
-            // deleteItemSetToolStripMenuItem
-            // 
-            this.deleteItemSetToolStripMenuItem.Name = "deleteItemSetToolStripMenuItem";
-            this.deleteItemSetToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.deleteItemSetToolStripMenuItem.Text = "Delete item set";
             // 
             // MainForm
             // 
@@ -2080,9 +2081,9 @@
             this.addonmenu.ResumeLayout(false);
             this.SetPage.ResumeLayout(false);
             this.itemsetgroupbasic.ResumeLayout(false);
+            this.setmenu.ResumeLayout(false);
             this.mmenu.ResumeLayout(false);
             this.mmenu.PerformLayout();
-            this.setmenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

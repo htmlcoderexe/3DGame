@@ -12,11 +12,7 @@ namespace GameObject.AbilityLogic.GameEffects
         public override string EffectType { get { return "Effect_dot_mwp"; } }
         public Effect_dot_mwp(string[] parameters)
         {
-            SetParamValues(parameters);
-        }
-        public override void SetParamValues(string[] parameters)
-        {
-            this._rawparams = parameters;
+            this.ParamValues = parameters;
         }
         public override void Apply(Actor Source, Actor Target, int Level)
         {
@@ -26,16 +22,13 @@ namespace GameObject.AbilityLogic.GameEffects
         {
             List<string> p = new List<string>
             {
-                Utility.GetGrowth(_rawparams[0], Level).ToString(),
+                Utility.GetGrowth(ParamValues[0], Level).ToString(),
 
-                Utility.GetGrowth(_rawparams[1], Level).ToString(),
-                ((float)Utility.GetGrowth(_rawparams[2], Level) / 10f).ToString()
+                Utility.GetGrowth(ParamValues[1], Level).ToString(),
+                ((float)Utility.GetGrowth(ParamValues[2], Level) / 10f).ToString()
             };
             return p;
         }
-        public override string[] GetParamValues()
-        {
-            return _rawparams;
-        }
+        
     }
 }

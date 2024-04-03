@@ -27,7 +27,7 @@ namespace GameObject.AbilityLogic
         public AbilityAnimation Animation;
         public EffectTarget Target;
 
-        internal string[] _rawparams;
+       // internal string[] _rawparams;
 
         public enum EffectTarget
         {
@@ -62,7 +62,7 @@ namespace GameObject.AbilityLogic
 
             return ef;
         }
-        public abstract string[] GetParamValues();
-        public abstract void SetParamValues(string[] Values);
+        public virtual string[] ParamValues { get; set; }
+        //public abstract void SetParamValues(string[] Values);
     }
 }

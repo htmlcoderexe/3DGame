@@ -21,19 +21,22 @@ namespace GameObject.AbilityLogic.VisualEffects
         }
         public VFX_animate(string[] parameters)
         {
-            SetParamValues(parameters);
+            this.ParamValues = parameters;
         }
-        public override void SetParamValues(string[] parameters)
+        public override string[] ParamValues
         {
-            this._rawparams = parameters;
-            parameters[0] = parameters[0].Split(',')[0];
-            parameters[1] = parameters[1].Split(',')[0];
-            this.AnimationName = parameters[0];
-            this.Target = Utility.GetInt(parameters[1]);
-        }
-        public override string[] GetParamValues()
-        {
-            return _rawparams;
+            set
+            {
+                this._rawparams = value;
+                _rawparams[0] = value[0].Split(',')[0];
+                _rawparams[1] = value[1].Split(',')[0];
+                this.AnimationName = _rawparams[0];
+                this.Target = Utility.GetInt(_rawparams[1]);
+            }
+            get
+            {
+                return _rawparams;
+            }
         }
     }
 }

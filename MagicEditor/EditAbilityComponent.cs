@@ -27,7 +27,7 @@ namespace MagicEditor
             deltatimevalue.Value = (decimal)CurrentEffect.DeltaTime;
             deltadurationvalue.Value = (decimal)CurrentEffect.DeltaDuration;
             desclabel.Text = aed.Description;   
-            string[] values = effect.GetParamValues();
+            string[] values = effect.ParamValues;
 
             for(int i=0;i<aed.parameters.Count;i++)
             {
@@ -160,7 +160,8 @@ namespace MagicEditor
                 values[i] = GetValue(Inputs[i * 2]) + "," + GetValue(Inputs[i * 2 + 1]);
 
             }
-            CurrentEffect.SetParamValues(values);
+            //this should call the appropriate setters in case of special handling like ignoring the growth param
+            CurrentEffect.ParamValues = values;
 
             CurrentEffect.BaseTime = (float)basetimevalue.Value;
             CurrentEffect.DeltaTime = (float)deltatimevalue.Value;
