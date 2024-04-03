@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ability.cs" />
+    <Compile Include="AbilityEffectJsonTypeResolver.cs" />
     <Compile Include="AbilityLogic\AbilityAnimation.cs" />
     <Compile Include="AbilityLogic\AbilityEffect.cs" />
     <Compile Include="AbilityLogic\AbilityExecutor.cs" />

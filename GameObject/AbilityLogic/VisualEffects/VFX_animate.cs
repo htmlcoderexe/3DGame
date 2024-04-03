@@ -10,8 +10,8 @@ namespace GameObject.AbilityLogic.VisualEffects
     public class VFX_animate : AbilityVFX
     {
         public override string EffectType { get { return "VFX_animate"; } }
-        public string AnimationName;
-        public int Target;
+        public string AnimationName { get; set; }
+        public int Target { get; set; }
         public const int ANIMATE_USER = 0;
         public const int ANIMATE_TARGET = 1;
         string[] _rawparams;
@@ -23,6 +23,7 @@ namespace GameObject.AbilityLogic.VisualEffects
         {
             this.ParamValues = parameters;
         }
+        public VFX_animate() { }
         public override string[] ParamValues
         {
             set

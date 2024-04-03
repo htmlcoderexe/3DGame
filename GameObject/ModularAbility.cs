@@ -85,7 +85,7 @@ namespace GameObject
         /// Description of the ability appearing in game interfaces, with formatting codes
         /// to display level-specific numbers.
         /// </summary>
-        public string DescriptionString;
+        public string DescriptionString { get; set; }
         /// <summary>
         /// Inserts values into the formatted DescriptionString.
         /// </summary>

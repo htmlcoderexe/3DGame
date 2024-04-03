@@ -25,6 +25,9 @@ namespace GameObject.AbilityLogic.GameEffects
         {
             this.ParamValues = parameters;
         }
+        public Effect_damage_bmd_full()
+        {
+        }
         public override void Apply(Actor Source, Actor Target, int Level)
         {
             float dmg = 0;

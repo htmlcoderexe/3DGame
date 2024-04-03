@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+
 namespace GameObject.IO
 {
     public class MagicFileReader
@@ -9,7 +11,7 @@ namespace GameObject.IO
        
         FileStream stream;
         BinaryReader reader;
-
+        StreamReader jsonreader;
         #region Complete gamefiles
 
         public List<ModularAbility> ReadAbilityFile(string FileName = "")
@@ -36,7 +38,16 @@ namespace GameObject.IO
             reader.Close();
             reader.Dispose();
             stream.Dispose();
-            return abilities;
+            stream = new FileStream("gamedata\\abilities.json", FileMode.Open);
+            jsonreader = new StreamReader(stream);
+            string json = jsonreader.ReadToEnd();
+            JsonSerializerOptions jsoptions = new JsonSerializerOptions { WriteIndented = true, TypeInfoResolver = new AbilityEffectJsonTypeResolver() };
+
+            List< ModularAbility > testabilities = System.Text.Json.JsonSerializer.Deserialize(json, typeof(List<ModularAbility>),jsoptions) as List<ModularAbility>;
+            reader.Close();
+            reader.Dispose();
+            stream.Dispose();
+            return testabilities;
         }
 
         public List<CharacterTemplate> ReadClassFile(string FileName="")

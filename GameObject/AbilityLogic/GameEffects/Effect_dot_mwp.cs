@@ -14,6 +14,7 @@ namespace GameObject.AbilityLogic.GameEffects
         {
             this.ParamValues = parameters;
         }
+        public Effect_dot_mwp() { }
         public override void Apply(Actor Source, Actor Target, int Level)
         {
             base.Apply(Source, Target,Level);

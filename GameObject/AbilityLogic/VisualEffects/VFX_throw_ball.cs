@@ -11,8 +11,8 @@ namespace GameObject.AbilityLogic.VisualEffects
     class VFX_throw_ball : AbilityVFX
     {
         public override string EffectType { get { return "VFX_throw_ball"; } }
-        public Color Colour;
-        public float Size;
+        public Color Colour { get; set; }
+        public float Size { get; set; }
         string[] _rawparams;
         public override void Apply(Actor Source, Actor Target, int Level)
         {
@@ -35,6 +35,7 @@ namespace GameObject.AbilityLogic.VisualEffects
 
             Source.WorldSpawn.Entities.Add(g);
         }
+        public VFX_throw_ball() { }
         public VFX_throw_ball(string[] parameters)
         {
             this.ParamValues = parameters;
