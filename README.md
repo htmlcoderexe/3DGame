@@ -3,7 +3,7 @@
 
 Doing this mostly from scratch, for my own entertainment, to better understand all the different processes that go on in complex games.
 
-To be completed when I'm 70 and have a beard.
+To be completed when I'm 70 and have a cane and a lawn to chase kids away from.
 
 Outdated even before I started (yes, it used XNA when first created, a few years after XNA was declared dead).
 
